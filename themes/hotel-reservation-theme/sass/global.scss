@@ -3688,3 +3688,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding: 5px 0;
 }
 
+
+/* DEBUG: BLACK FOOTER & FIX FONTS */
+.footer-container { background-color: #000000 !important; }
+.footer-section-heading p { font-family: 'Playfair Display', serif !important; color: #C0A062 !important; font-size: 1.2em; text-transform: uppercase; border-bottom: 1px solid #C0A062; padding-bottom: 10px; display: inline-block; }
