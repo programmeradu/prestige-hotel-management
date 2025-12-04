@@ -96,6 +96,7 @@
 							</div>
 						</div>
 					</div>
+					{*
 					{block name='header_nav'}
 						<div id="nav-main">
 							<div class="container">
@@ -107,6 +108,7 @@
 							</div>
 						</div>
 					{/block}
+					*}
 					{block name='header_top'}
 						<div class="header-top">
 							<div class="container">
