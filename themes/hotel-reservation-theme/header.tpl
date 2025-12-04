@@ -30,7 +30,7 @@
 <html{if isset($language_code) && $language_code} lang="{$language_code|escape:'html':'UTF-8'}"{/if} {if isset($language_is_rtl) && $language_is_rtl}dir="rtl"{/if} style="{if $page_name == 'index'}height: 100%;{/if}">
 	<head>
 		<meta charset="utf-8" />
-		<title>{$meta_title|escape:'html':'UTF-8'}</title>
+		<title>Prestige Hotel</title>
 		{if isset($meta_description) AND $meta_description}
 			<meta name="description" content="{$meta_description|escape:'html':'UTF-8'}" />
 		{/if}
