@@ -1,0 +1,33 @@
+=================================================
+GhanaPayments Module Manual Installation Guide
+=================================================
+
+If you're having trouble with the automatic installation scripts,
+follow these manual steps:
+
+1. Locate your PrestaShop installation directory
+   (typically C:\xampp\htdocs\prestashop)
+
+2. Create a new folder called "ghanapayments" in the modules directory:
+   C:\xampp\htdocs\prestashop\modules\ghanapayments
+
+3. Copy all files and folders from this directory to the new folder you created
+
+4. Log into your PrestaShop admin panel
+
+5. Navigate to Modules > Module Manager
+
+6. Find "Ghana Payments" in the module list and click Install
+
+7. Configure the module settings according to your needs
+
+=================================================
+Troubleshooting
+=================================================
+
+- Make sure your web server (Apache) is running
+- Verify you have admin permissions on your computer
+- Check that PrestaShop has write permissions in the modules directory
+- If problems persist, try installing the module through the PrestaShop
+  admin panel's "Upload a module" feature
+=================================================

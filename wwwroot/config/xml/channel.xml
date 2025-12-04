@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qloapps>
+	<channel name="stable" available="1" >
+		<branch name="1.6" available="1" >
+			<name>1.6.1.0 stable</name>
+			<num>1.6.1.0</num>
+			<download>
+				<link>https://api.qloapps.com/download/qloapps-1.6.1.0.zip</link>
+				<md5>00eb3f8d39ad48eb66375d6a89bb60d2</md5>
+			</download>
+			<changelog>https://api.qloapps.com/download/changelog/changelog-1.6.1.0.txt</changelog>
+			<todolist>
+			</todolist>
+		</branch>
+		<branch name="1.5" available="1" >
+			<name>1.5.2.0 stable</name>
+			<num>1.5.2.0</num>
+			<download>
+				<link>https://api.qloapps.com/download/hotelcommerce-1.5.2.0.zip</link>
+				<md5>cc492c7663c5bc9c0e616bcbe014d47f</md5>
+			</download>
+			<changelog>https://api.qloapps.com/download/changelog/changelog-1.5.2.0.txt</changelog>
+		</branch>
+		<branch name="1.4" available="1" >
+			<name>1.4.1 stable</name>
+			<num>1.4.1</num>
+			<download>
+				<link>https://api.qloapps.com/download/hotelcommerce-1.4.1.zip</link>
+				<md5>cb62cd98207d11ba7a837ddeba553716</md5>
+			</download>
+			<changelog>https://api.qloapps.com/download/changelog/changelog-1.4.1.txt</changelog>
+		</branch>
+	</channel>
+    <autoupgrade>
+		<last_version>1.0.4</last_version>
+		<download>
+			<!-- <link>https://www.prestashop.com/download/autoupgrade.zip</link> -->
+			<md5>8b72f65b8de3f372212e60cec0c1897d</md5>
+		</download>
+		<changelog></changelog>
+	</autoupgrade>
+</qloapps>

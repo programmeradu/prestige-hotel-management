@@ -1,0 +1,18 @@
+
+[{shop_url}] 
+
+Sales from {date}
+
+STORE
+
+TOTAL
+
+{sales_txt}
+
+TOTAL
+
+{total_sales}
+
+{shop_name} [{shop_url}] creado por
+POS TPV PrestaShop [http://www.www.pos-tpv.com/]
+

@@ -1,0 +1,41 @@
+.mtnmomo-payment-waiting {
+    text-align: center;
+    padding: 20px;
+}
+
+.waiting-animation {
+    margin: 30px 0;
+}
+
+.waiting-animation .icon {
+    font-size: 3em;
+    color: #f39c12;
+}
+
+.payment-status {
+    margin: 20px 0;
+}
+
+.payment-actions {
+    margin: 30px 0;
+}
+
+.mtnmomo-phone-entry {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.mtnmomo-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.mtnmomo-info img {
+    margin-right: 15px;
+}
+
+.mtnmomo-info p {
+    margin: 10px 0 0;
+}

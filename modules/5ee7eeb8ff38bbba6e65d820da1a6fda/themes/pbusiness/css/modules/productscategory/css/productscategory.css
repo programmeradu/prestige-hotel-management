@@ -1,0 +1,30 @@
+#productscategory_list .product-name {
+  margin-bottom: 5px; }
+  #productscategory_list .product-name a {
+    line-height: 18px;
+ }
+  #productscategory_list .exclusive span:focus, #productscategory_list .exclusive span:active {
+    text-decoration: none; }
+#productscategory_list .bx-controls{
+    position: absolute;
+    right: 15px;
+    top: -51px;
+}
+@media (max-width: 479px){
+    #productscategory_list .bx-controls {
+      float: left;
+      height: 40px;
+      margin-bottom: 10px;
+      position: relative;
+      right: 0;
+      top: 0;
+      width: 100%;
+    }
+    #productscategory_list .bx-controls-direction {
+      float: none;
+      margin: 0 auto;
+      position: relative;
+      width: 50px;
+    }
+}
+/*# sourceMappingURL=productscategory.css.map */

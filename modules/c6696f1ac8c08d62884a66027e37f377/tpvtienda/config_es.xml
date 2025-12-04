@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>tpvtienda</name>
+    <displayName><![CDATA[TPV Tienda]]></displayName>
+    <version><![CDATA[6.0]]></version>
+    <description><![CDATA[TPV tienda fisica]]></description>
+    <author><![CDATA[Alejandro Lozano]]></author>
+    <tab><![CDATA[administration]]></tab>
+	<confirmUninstall><![CDATA[Esta seguro de que quiere desinstalar el modulo de TPV / POS prestashop?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>1</need_instance>
+</module>

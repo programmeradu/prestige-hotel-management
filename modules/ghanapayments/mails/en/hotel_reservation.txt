@@ -1,0 +1,22 @@
+Hello {firstname} {lastname},
+
+Thank you for your reservation at {shop_name}. Your booking has been confirmed!
+
+RESERVATION DETAILS:
+Reference: {order_reference}
+Total to pay at check-in: {total_paid} {currency}
+You have chosen to pay when you arrive at our property.
+
+IMPORTANT INFORMATION:
+- Please bring the total amount with you when you arrive
+- We accept cash, mobile money, and card payments at the property
+- Please keep your order reference handy for check-in
+- If you need to change your reservation, please contact us as soon as possible
+
+You can check your reservation details by following this link:
+{order_link}
+
+We look forward to welcoming you!
+
+Best regards,
+The {shop_name} Team

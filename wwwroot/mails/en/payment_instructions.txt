@@ -1,0 +1,15 @@
+{firstname} {lastname},
+
+Thank you for your order at {shop_name}.
+
+Here are your payment instructions:
+
+For Mobile Money Payment:
+- Send {total_paid} {currency} to our Mobile Money number: 0551234567
+- Use your order reference {order_reference} as payment description
+- Submit your transaction ID on the order confirmation page
+
+Your order will be confirmed once we verify your payment.
+
+Best regards,
+{shop_name}

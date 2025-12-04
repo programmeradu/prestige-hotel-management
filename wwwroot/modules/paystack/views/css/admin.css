@@ -1,0 +1,97 @@
+/**
+ * Paystack admin styles
+ * For PrestaShop 1.7+ and QloApps
+ */
+
+.paystack-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    border-left: 4px solid #00c3f7;
+}
+
+.paystack-header img {
+    max-width: 120px;
+    margin-right: 20px;
+}
+
+.paystack-header-content h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.paystack-header-content p {
+    margin-bottom: 0;
+    color: #666;
+}
+
+.paystack-info {
+    background: #e8f5e9;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.paystack-info h3 {
+    margin-top: 0;
+    color: #2e7d32;
+    font-size: 16px;
+}
+
+.paystack-info ul {
+    padding-left: 20px;
+}
+
+.paystack-info li {
+    margin-bottom: 5px;
+}
+
+.paystack-currencies {
+    background: #e3f2fd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.paystack-currencies h3 {
+    margin-top: 0;
+    color: #1565c0;
+    font-size: 16px;
+}
+
+.paystack-currencies ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+}
+
+.paystack-currencies li {
+    background: #fff;
+    border: 1px solid #bbdefb;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 0 10px 10px 0;
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .paystack-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .paystack-header img {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .paystack-currencies ul {
+        justify-content: center;
+    }
+}

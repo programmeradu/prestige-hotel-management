@@ -1,0 +1,102 @@
+/**
+ * Paystack front-end styles
+ * For PrestaShop 1.7+ and QloApps
+ */
+
+.paystack-payment-intro {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.payment-description {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.payment-methods {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.payment-method {
+    flex: 1;
+    padding: 15px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.payment-method:hover {
+    border-color: #00c3f7;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.payment-method i {
+    font-size: 24px;
+    color: #00c3f7;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.payment-method span {
+    display: block;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+.payment-method small {
+    display: block;
+    color: #666;
+    font-size: 13px;
+}
+
+.security-info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #e8f5e9;
+    border-radius: 6px;
+}
+
+.security-info i {
+    color: #4caf50;
+    margin-right: 10px;
+}
+
+.security-info span {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.security-info small {
+    color: #666;
+}
+
+/* QloApps specific styles */
+.qloapps .paystack-payment-intro {
+    border: 1px solid #ddd;
+}
+
+.qloapps .payment-method {
+    border-color: #ddd;
+}
+
+.qloapps .payment-method:hover {
+    border-color: #00c3f7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .payment-methods {
+        flex-direction: column;
+    }
+    
+    .payment-method {
+        margin-bottom: 10px;
+    }
+}

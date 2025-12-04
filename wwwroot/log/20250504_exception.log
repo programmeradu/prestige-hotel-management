@@ -1,0 +1,4 @@
+*ERROR* 	2025/05/04 - 01:18:26: Table 'hotel.qlooo_epson_receipt_history' doesn't exist<br /><br /><pre>INSERT INTO `qlooo_epson_receipt_history` (`id_order`, `id_employee`, `date_add`, `employee_name`) VALUES ('96', '1', '2025-05-04 01:18:26', 'Manager Admin')</pre> at line 797 in file classes/db/Db.php
+*ERROR* 	2025/05/04 - 01:23:32: Table 'hotel.qlooo_epson_receipt_history' doesn't exist<br /><br /><pre>INSERT INTO `qlooo_epson_receipt_history` (`id_order`, `id_employee`, `date_add`, `employee_name`) VALUES ('96', '1', '2025-05-04 01:23:32', 'Manager Admin')</pre> at line 797 in file classes/db/Db.php
+*ERROR* 	2025/05/04 - 23:01:35: Link to database cannot be established:SQLSTATE[HY000] [2002] No such file or directory at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/05/04 - 23:01:36: Link to database cannot be established:SQLSTATE[HY000] [2002] No such file or directory at line 102 in file classes/db/DbPDO.php

@@ -1,0 +1,68 @@
+/*@media not print {  esto lo puse para arreglar la visión en pedidos al imprimir que salia todo descuadrado*/
+    html,body{width:100%;height:auto;min-height:40px;min-width:200px !important} /* mucho cuidado con esto, si pones 100% el min-height y el height los tickets ocupan dos paginas*/
+    .container{padding-left:20px;padding-right:20px}
+    #container{margin:0;overflow:hidden}
+/*}*/
+
+::-webkit-scrollbar {width:1em}
+::-webkit-scrollbar-track {-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,0.2)}
+::-webkit-scrollbar-thumb {background-color:#87CEEB;border-radius:20px;  border-left:1px solid #81C7E5}
+/* tabletools de datatables */
+.ui-page-theme-a .ui-state-active a,.ui-page-theme-a .ui-btn.ui-btn-active{background-color:#fff;text-shadow:none;color:#000;bottom:-4px;border:0 none;}
+.ui-page-theme-a .ui-btn:focus{outline:none;box-shadow:none}
+table td{max-width:300px;}
+#TPVEstadisticas div.dt-buttons{display:inline-block;}
+ body.admintpvstatistics.page-sidebar #main{overflow:hidden !important;padding:36px 0 0 !important;margin:4px 0 -50px}
+#detalles h5{margin:0;font-size:0.8em}
+#detalles h2{margin:4px 0px}
+
+#TPVTienda {position:relative;background:#FFF;overflow:hidden}
+#TPVTienda,#TPVTienda input,#TPVTienda select,#TPVTienda textarea, #TPVTienda button{margin:0;}
+#TPVTienda .ui-radio .ui-btn.ui-radio-on:after{  width:8px;height:8px;}
+.contTicket{display:none}
+.table td{text-align:center}
+.ui-content{overflow:hidden}
+
+/* estadisticas */
+table td .attr{font-weight:bold}
+#TPVEstadisticas .fullscreenProduct img{width:30px;height:30px}
+.DataTables_sort_icon.ui-icon{display:none}
+.dataTables_length select{width:77px;font-size:1em !important;display:inline-block;}
+#ventas table th{text-align:center}
+.estados th{text-align:center}
+.totalTotalizacion,.totalTotalizacionCostes,.totalTotalizacionClientes,.pedidoMedio,.totalTotalizacionBeneficios{display:inline-block}
+.totalTotalizacion td:nth-child(1), .totalTotalizacion td:nth-child(3){text-align:right}
+.totalTotalizacion td:nth-child(2), .totalTotalizacion td:nth-child(4){text-align:left}
+.bootstrap .table .detalleTax td{background:#f1f1f1}
+#contEmps .emps{padding-left:45px}
+#contEmps .emps.ui-btn-icon-left:after{left:1.37em}
+.fechaVentas{align-items: center;display:flex;align-content:center;justify-content:center}
+.fechaVentas label{padding:6px}
+.fechaVentas input[type=date]{max-width:111px}
+.contExport{display:flex}
+.contExport .ui-select{width: 100%}
+.contExport a.ui-btn{padding: 17px}
+.ticketestadisticas .devsTable th:nth-child(2),.ticketestadisticas .devsTable th:nth-child(4),.ticketestadisticas .devsTable th:nth-child(5),.ticketestadisticas .devsTable th:nth-child(6),.ticketestadisticas .devsTable th:nth-child(7),.ticketestadisticas .devsTable th:nth-child(9),
+    .ticketestadisticas .devsTable th:nth-child(10),.ticketestadisticas .devsTable th:nth-child(11),.ticketestadisticas .devsTable th:nth-child(12){
+    display:none
+}
+.ticketestadisticas .devsTable tr td:nth-child(2),.ticketestadisticas .devsTable tr td:nth-child(4),.ticketestadisticas .devsTable tr td:nth-child(5),.ticketestadisticas .devsTable tr td:nth-child(6),.ticketestadisticas .devsTable tr td:nth-child(7),.ticketestadisticas .devsTable tr td:nth-child(9),
+    .ticketestadisticas .devsTable tr td:nth-child(10),.ticketestadisticas .devsTable tr td:nth-child(11),.ticketestadisticas .devsTable tr td:nth-child(12){
+    display:none
+}
+@media print {
+   #ticketPedidos{display:none}
+   #main {width:100% !important}
+   .noPrint{display:none}
+   .ui-navbar{display:none}
+   #ventas .table td{text-align:center}
+   .ui-content {padding:0}
+   .ui-widget-content{border:0 none !important;}
+   table.estados{margin:0 !important}
+   .totalTotalizacion{border-collapse:collapse}
+   #totalizacion{width:100% !important}
+   #content{padding:0px !important;margin:0px !important}
+   /* caja */
+   .bootstrap #TPVTienda #caja .table tbody>tr>td{font-size:12px}
+   .onecol,.twocol,.threecol,.fourcol,.sixcol,.eightcol,.ninecol,.tencol{width:100%}
+}

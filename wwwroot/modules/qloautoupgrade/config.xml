@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>qloautoupgrade</name>
+	<displayName><![CDATA[QloApps 1-Click Upgrade]]></displayName>
+	<version><![CDATA[1.0.4]]></version>
+	<description><![CDATA[Update your QloApps version to latest version of QloApps.]]></description>
+	<author><![CDATA[Webkul]]></author>
+	<tab><![CDATA[administration]]></tab>
+	<confirmUninstall><![CDATA[Are you sure to uninstall this module?]]></confirmUninstall>
+	<is_configurable>1</is_configurable>
+	<need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>

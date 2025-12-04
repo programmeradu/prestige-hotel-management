@@ -1,0 +1,203 @@
+.ybc-theme-panel {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 1px solid #C6C6C6;
+  font-family: Open Sans, Arial, "Times New Roman";
+  left: -302px;
+  position: fixed;
+  top: 50px;
+  width: 300px;
+  z-index: 999999;
+}
+.ybc-theme-panel-bg{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #eee;
+    display: inline-block;
+    cursor: pointer;
+}
+.ybc-theme-panel-bg-list li{
+    list-style: none;
+    display: inline-block;
+    margin-right: 5px;
+}
+.ybc-theme-panel-wrapper{
+    width: 100%;
+    height: 100%;
+}
+.ybc-theme-panel-loading{
+    position: absolute;
+    z-index: 999;
+    /*background: url('../img/blinder.png');*/
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+}
+.ie8 .ybc-theme-panel-loading{
+    background-color: #FFFFFF;
+}
+.ybc-theme-panel-loading-setting {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+.ybc-theme-panel-box.tc-reset > span:hover:before {
+  color: #018BBA;
+  transition: color 0.5s ease 0s;
+}
+.ybc-theme-panel-loading-setting {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+.ybc-theme-panel-loading-setting > h2 {
+  display: table-cell;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.ybc-theme-panel-loading-logo {
+  border-radius: 50px 50px 50px 50px;
+  height: 65px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 65px;
+}
+.ybc-theme-panel-medium {
+  float: left;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+.ybc-theme-panel-bg.active{
+    border: 1px solid #0160BF!important;
+}
+.ybc-theme-panel-bg:hover{
+    border: 1px solid #ccc;
+}
+.ybc-theme-panel-btn {
+  background: none repeat scroll 0 0 #018BBA;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  left: 270px;
+  line-height: 21px;
+  padding: 10px;
+  position: absolute;
+  text-transform: uppercase;
+  top: 140px;
+  transform: rotate(90deg);
+  -ms-transform: rotate(90deg); 
+  -webkit-transform: rotate(90deg);
+  width: 100px;
+}
+.ie8 .ybc-theme-panel-btn{
+    left: 100%;
+    width: 115px;
+}
+.ybc-theme-panel-box {
+  float: left;
+  margin: 3px 0;
+  width: 100%;
+}
+.ybc-theme-panel-box label {
+  float: left;
+  font-size: 13px;
+  width: 115px;
+}
+.ybc-theme-panel-box select {
+  float: left;
+  font-size: 12px;
+  min-width: 100px;
+}
+.ybc-theme-panel-inner {
+  float: left;
+  padding: 10px 10px;
+  width: 100%;
+}
+.ybc-theme-panel-wrapper > h2 {
+  background-color: #EFEFEF;
+  border-bottom: 1px solid #C6C6C6;
+  color: #333333;
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+}
+.ybc-theme-panel-box.tc-separator h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+.ybc-theme-panel-box.tc-separator {
+  border-top: 1px solid #dedede;
+  float: left;
+  width: 100%;
+}
+.ybc-theme-panel-btn:before {
+  content: "\f013";
+  font-family: FontAwesome;
+  margin-right: 10px;
+}
+.ybc-theme-panel-box.tc-reset > span:before {
+  color: #888888;
+  content: "\f01e";
+  font-family: FontAwesome;
+  font-size: 12px;
+  font-weight: normal;
+  margin-right: 7px;
+}
+.ybc-theme-panel-box.tc-reset > span {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+.ybc-theme-panel-box.tc-reset > span:hover {
+  color: #018BBA;
+  transition: color 0.5s ease 0s;
+}
+.ybc-theme-panel-btn:hover:after {
+  background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2);
+  transition: background-color 0.5s ease 0s;
+}
+.ybc-theme-panel-btn:after {
+  background: none repeat scroll 0 0 rgba(255, 255, 255, 0);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  content: "";
+  height: 100%;
+  left: 0;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  width: 100px;
+}
+.ybc-theme-panel-box.tc-reset {
+  border-top: 1px solid #DEDEDE;
+  margin-bottom: 0;
+  padding-top: 10px;
+}
+.footer_bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  float: left;
+  font-size: 11px;
+  padding-bottom: 10px;
+  position: relative;
+  width: 100%;
+}
+@media (max-width: 767px){
+}
+
+
+

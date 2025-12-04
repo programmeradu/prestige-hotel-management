@@ -1,0 +1,18 @@
+Hello {firstname} {lastname},
+
+This is a friendly reminder about your recent order #{order_reference} at {shop_name}.
+
+YOUR PAYMENT IS STILL PENDING. To keep your order active, please complete your mobile money payment within the next {hours_left} hours, or it will be automatically canceled.
+
+PAYMENT INSTRUCTIONS:
+1. Send {total_paid} {currency} to our Mobile Money number: {momo_number}
+2. Use your order reference {order_reference} as payment description
+3. After payment, go to your order confirmation page and enter the transaction ID
+
+You can check the status of your order and complete payment by following this link:
+{order_link}
+
+Thank you for your prompt attention to this matter.
+
+Best regards,
+The {shop_name} Team

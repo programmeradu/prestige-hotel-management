@@ -1,0 +1,7 @@
+*ERROR* 	2025/03/08 - 18:44:38: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/08 - 18:44:40: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/08 - 19:03:12: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/08 - 19:17:56: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/08 - 19:18:30: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/08 - 19:24:35: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/08 - 19:24:37: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php

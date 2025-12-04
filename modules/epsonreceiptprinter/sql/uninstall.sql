@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `PREFIX_epson_receipt_history`;

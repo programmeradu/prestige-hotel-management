@@ -1,0 +1,733 @@
+/*
+ * jQuery Nivo Slider v3.2
+ * http://nivo.dev7studios.com
+ *
+ * Copyright 2012, Dev7studios
+ * Free to use and abuse under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+ 
+/* The Nivo Slider styles */
+.nivoSlider {
+	position:relative;
+	width:100%;
+	height:auto;
+	overflow: hidden;
+}
+.nivoSlider img {
+	position:absolute;
+	top:0px;
+	left:0px;
+	max-width: none;
+}
+.nivo-main-image {
+	display: block !important;
+	position: relative !important; 
+	width: 100% !important;
+}
+
+/* If an image is wrapped in a link */
+.nivoSlider a.nivo-imageLink {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	border:0;
+	padding:0;
+	margin:0;
+	z-index:6;
+	display:none;
+	background:white; 
+	filter:alpha(opacity=0); 
+	opacity:0;
+}
+/* The slices and boxes in the Slider */
+.nivo-slice {
+	display:block;
+	position:absolute;
+	z-index:5;
+	height:100%;
+	top:0;
+}
+.nivo-box {
+	display:block;
+	position:absolute;
+	z-index:5;
+	overflow:hidden;
+}
+.nivo-box img { display:block; }
+
+/* Caption styles */
+.nivo-caption {
+	position:absolute;
+	left:0px;
+	bottom:0px;
+	background:#000;
+	color:#fff;
+	width:100%;
+	z-index:8;
+	padding: 5px 10px;
+	opacity: 0.8;
+	overflow: hidden;
+	display: none;
+	-moz-opacity: 0.8;
+	filter:alpha(opacity=8);
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+.nivo-caption p {
+	padding:5px;
+	margin:0;
+}
+.nivo-caption a {
+	display:inline !important;
+}
+.nivo-html-caption {
+    display:none;
+}
+/* Direction nav styles (e.g. Next & Prev) */
+.nivo-directionNav a {
+	position:absolute;
+	top:45%;
+	z-index:9;
+	cursor:pointer;
+}
+.nivo-prevNav {
+	left:0px;
+}
+.nivo-nextNav {
+	right:0px;
+}
+/* Control nav styles (e.g. 1,2,3...) */
+.nivo-controlNav {
+	text-align:center;
+	padding: 15px 0;
+}
+.nivo-controlNav a {
+	cursor:pointer;
+}
+.theme-default .nivo-controlNav a:before{
+      height: 16px;
+      line-height: 15px;
+      width: 16px;
+      font-size: 14px;
+      float: left;
+      margin-right: 200px;
+      content: "\f192";
+      font-family: FontAwesome;
+      text-align: center;
+      line-height: 14px;
+      color: #fff;
+}
+.theme-default {
+  float: left;
+  margin-bottom: 40px;
+  position: relative;
+  width: 100%;
+}
+/**
+ * YourBesCode caption 
+ */
+ 
+.ybc-caption-wrapper {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 9;
+}
+.ybc-caption-frame{
+    height: 100%;
+}
+.ybc-caption-position-right{
+    float: right;
+}
+.ybc-caption-position-left{
+    float: left;
+}
+.caption1, .caption2, .caption3 {
+  float: left;
+  margin-bottom: 4%;
+}
+
+.ybc-caption-position-center{
+    margin: 0 auto!important;
+}
+.caption-span{
+    display:  inline-block;
+    color: #333;
+    float: left;
+    line-height: 14px;
+    font-size: 1.8vw;
+}
+
+.caption-skin-regular .ybc-caption > .caption1 .caption-span {
+  padding: 2% 4%;
+  line-height: 30px;
+  line-height: 2.2vw;
+}
+.ybc-caption > .caption1 .caption-span {
+  line-height: 30px;
+  line-height: 2.2vw;
+}
+.caption4 .caption1 .caption-span {
+  padding: 2% 0;
+}
+.ybc-caption-text-left{
+    text-align: left;
+}
+.ybc-caption-text-right{
+    text-align: right;
+}
+.ybc-caption-text-center{
+    text-align: center;
+}
+.ybc-caption-type {
+  clear: left;
+  opacity: 0;
+  position: relative;
+}
+.caption4 {
+  padding-top: 0px;
+}
+.caption1{
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.caption-skin-light .caption-span {
+  padding: 0;
+}
+.caption2 {
+  color: #E45F56;
+  font-weight: bold;
+}
+body .caption-skin-regular .button:hover:after{
+    color: white;
+}
+.caption3{
+    font-size: 14px;
+    background: transparent;
+    color: #DEDEDE;
+    padding: 5px 0px;
+}
+.caption-skin-light .caption3{
+    padding: 5px 0px 0;
+}
+.caption3 .caption-span {
+  color: #666666;
+}
+.ybc-nivo-description{
+    display: none;
+}
+.ybc-nivo-slider-wrapper{
+    width: 100%;
+    min-height: 200px;
+}
+.caption-span > p {
+  clear: left;
+  float: left;
+}
+.caption-span span {
+  float: left;
+}
+#ybc-nivo-slider-wrapper h2 {
+  font-size: 1.5vw;
+  margin: 0;
+}
+.ybc-caption-wrapper .ybc-caption-position-center.ybc-caption-text-center .caption1,
+.ybc-caption-wrapper .ybc-caption-position-right.ybc-caption-text-center .caption1,
+.ybc-caption-position-right.ybc-caption-text-right .caption1,
+.ybc-caption-text-center .ybc-caption-type{
+  text-align: center;
+  width: 100%;
+}
+.ybc-caption-text-right .ybc-caption-type .caption-span{
+    float: right;
+    text-align: right;
+}
+.ybc-caption-wrapper .ybc-caption-text-center .caption-span {
+  float: none;
+}
+.ybc-caption-wrapper .ybc-caption-text-center .caption4 .caption-span {
+  float: left;
+  text-align: center;
+  width: 100%;
+  line-height: 22px;
+  line-height: 1.8vw;
+}
+.caption-skin-regular .caption3 .caption-span {
+  background: rgba(255, 255, 255, 0.8) none repeat scroll 0 0;
+  padding: 2px 10px;
+}
+.ybc-caption-text-right .ybc-caption-type {
+  float: left;
+  width: 100%;
+}
+.caption-skin-regular .caption-span .button.btn.ybc-nivo-button:hover, 
+.caption-skin-default .caption-span .button.btn.ybc-nivo-button:hover,
+.caption-skin-default .caption-span .button.btn.ybc-nivo-button:hover:after,
+.button.btn.ybc-nivo-button {
+  color: white;
+}
+.caption-span .button.btn.ybc-nivo-button:before{
+    display:none;
+}
+.button.fa-arrow-circle-o-right::after {
+  content: "\f18e";  
+  font-family: FontAwesome;
+  font-weight: normal;
+  line-height: 21px;
+  margin-left: 5px;
+}
+
+.caption-span p{
+    font-size: 1.1vw;
+}
+.ie8 .caption2 .caption-span {
+  background: none repeat scroll 0 0 rgb(228, 224, 205);
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  font-size: 15px;
+}
+
+.caption3 .caption-span {
+  font-size: 1vw;
+}
+#ybc-nivo-slider{
+    opacity: 0;
+}
+#ybc-nivo-slider .ybc-nivo-link{
+    display: none;
+}
+#ybc-nivo-slider .ybc-nivo-link:first-child{
+    display: block;
+}
+#ybc-nivo-slider-loader img{
+    width: 50px;
+}
+#ybc-nivo-slider-wrapper > #ybc-nivo-slider-loader {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.ybc-nivo-slider-loader {
+  background: none repeat scroll 0 0 #F5F5F5;
+  display: table;
+  float: left;
+  height: 100%;
+  width: 100%;
+}
+.ybc-nivo-slider-loader #ybc-nivo-slider-loader-img {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+/* The Nivo Slider styles */
+.nivoSlider {
+	position:relative;
+	width:100%;
+	height:auto;
+	overflow: hidden;
+}
+.nivoSlider img {
+	position:absolute;
+	top:0px;
+	left:0px;
+	max-width: none;
+    height: auto;
+}
+.nivo-main-image {
+	display: block !important;
+	position: relative !important; 
+	width: 100% !important;
+}
+
+/* If an image is wrapped in a link */
+.nivoSlider a.nivo-imageLink {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	border:0;
+	padding:0;
+	margin:0;
+	z-index:6;
+	display:none;
+	background:white; 
+	filter:alpha(opacity=0); 
+	opacity:0;
+}
+/* The slices and boxes in the Slider */
+.nivo-slice {
+	display:block;
+	position:absolute;
+	z-index:5;
+	height:100%;
+	top:0;
+}
+.nivo-box {
+	display:block;
+	position:absolute;
+	z-index:5;
+	overflow:hidden;
+}
+.nivo-box img { display:block; }
+
+/**
+ * YourBesCode caption 
+ */
+
+
+.ybc-caption-text-center, .ybc-caption-text-center *{
+    text-align: center;
+}
+.ybc-nivo-description{
+    display: none;
+}
+
+.caption-span span {
+  float: left;
+}
+#ybc-nivo-slider-wrapper h2 {
+  font-size: 1.5vw;
+  margin: 0;
+}
+.caption-span > p {
+  clear: left;
+  float: left;
+  line-height: 20px;
+  line-height: 1.4vw;
+}
+.ybc-caption-text-center .caption-span {
+  float: left;
+  text-align: center;
+  width: 100%;
+}
+.ybc-caption-text-center .button.ybc-nivo-button {
+  display: inline;
+  float: none;
+  padding: 5px 10px;
+}
+.ybc_button_slider{
+    margin-bottom: 0;
+}
+.ybc-caption-text-right .caption-span > p {
+  text-align: right;
+  width: 100%;
+}
+.ybc-caption-text-right .button.ybc-nivo-button {
+  float: right;
+  padding: 5px 10px;
+}
+.button.ybc-nivo-button {
+  float: left;
+  padding:4% 6%;
+  display: inline;
+  min-width: 110px;
+  text-align: center;
+}
+.caption-skin-default .button.ybc-nivo-button {
+  margin-top: 5px;
+}
+.caption3 .caption-span {
+  font-size: 1vw;
+}
+#ybc-nivo-slider{
+    opacity: 0;
+}
+#ybc-nivo-slider .ybc-nivo-link{
+    display: none;
+}
+#ybc-nivo-slider .ybc-nivo-link:first-child{
+    display: block;
+}
+#ybc-nivo-slider-loader img{
+    width: 50px;
+}
+#ybc-nivo-slider-wrapper > #ybc-nivo-slider-loader {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.ybc-nivo-slider-loader {
+  background: none repeat scroll 0 0 #F5F5F5;
+  display: table;
+  float: left;
+  height: 100%;
+  width: 100%;
+}
+.ybc-nivo-slider-loader #ybc-nivo-slider-loader-img {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.caption-span img {
+  max-width: 100%;
+}
+body .caption-skin-light .caption-span, body .caption-skin-light .caption2 .caption-span {
+  background-color: transparent;
+  color: white;
+  padding-left: 0;
+  padding-right: 0;
+}
+body .caption-skin-light .caption-span .button.ybc-nivo-button {
+  background-color: transparent;
+  border-color: #fff;
+}
+body .caption-skin-light .button{
+    border: 2px solid #fff;
+}
+body .caption-skin-light .button:hover {
+  border-color: #FF314E;
+  color: #FF314E;
+  transition: all 0.5s ease 0s;
+  -moz-transition: all 0.5s ease 0s;
+  -webkit-transition: all 0.5s ease 0s;
+  -o-transition: all 0.5s ease 0s;
+}
+.caption-span p{
+    font-size: 1.1vw;
+}
+.ybc-caption-wrapper h1, .ybc-caption-wrapper h3, .ybc-caption-wrapper h2, .ybc-caption-wrapper h4 {
+  margin-top: 0;
+  margin-bottom: 2%;
+}
+.ybc-caption-wrapper .caption4 h1, .ybc-caption-wrapper .caption4 h3, .ybc-caption-wrapper .caption4 h2, .ybc-caption-wrapper .caption4 h4 {
+  margin-bottom: 3%;
+  margin-top: 0;
+  width: 100%;
+}
+.caption-skin-regular .caption4 > .caption-span,
+.caption-skin-regular .caption1 > .caption-span,
+.caption-skin-regular .caption2 > .caption-span,
+.caption-skin-regular .caption3 > .caption-span {
+  background: url("bg-07.png");
+  background-color: transparent;
+  background-repeat: repeat;
+  background-position: top left;
+  padding: 2% 4%;
+}
+.caption-skin-regular .caption4 > .caption-span {
+  padding: 15px;
+}
+.caption-skin-regular .caption4 .caption1 > .caption-span,
+.caption-skin-regular .caption4 .caption2 > .caption-span,
+.caption-skin-regular .caption4 .caption3 > .caption-span{
+    background: transparent;
+    padding: 0;
+}
+.ybc-caption-text-center .button.ybc-nivo-button {
+  display: inline;
+  float: none;
+  margin: 0 auto;
+  padding: 6px 11px;
+  width: auto;
+}
+.ybc-caption-text-center .caption-span > p {
+  float: left;
+  width: 100%;
+}
+.ybc-caption-text-center .caption-span span {
+  float: left;
+  text-align: center;
+  width: 100%;
+}
+.ybc-caption-text-center .caption1, .ybc-caption-text-center .caption2, .ybc-caption-text-center .caption3,
+.ybc-caption-text-center h1, .ybc-caption-text-center h2, .ybc-caption-text-center h3, .ybc-caption-text-center h4 {
+  float: left;
+  margin-bottom: 4%;
+  width: 100%;
+}
+.ybc-caption-text-center .caption4 .caption1, .ybc-caption-text-center .caption4 .caption2, 
+.ybc-caption-text-center .caption4 .caption3,
+.ybc-caption-text-center .caption4 h1, .ybc-caption-text-center .caption4 h2, 
+.ybc-caption-text-center .caption4 h3, .ybc-caption-text-center .caption4 h4 {
+  margin-bottom: 2%;
+}
+.caption2 .caption-span {
+  color: #ff4c65;
+  font-size: 1.4vw;
+}
+.caption4 .caption-span img {
+  display: block;
+  float: none;
+  margin: 0 auto;
+  position: static;
+  text-align: center;
+}
+.ybc-caption-text-left, .ybc-caption-text-left *{
+    text-align: left;
+}
+.ybc-caption-text-right, .ybc-caption-text-right *{
+    text-align: right
+}
+.ybc-caption-text-center, .ybc-caption-text-center *{
+    text-align: center
+}
+@media (min-width: 992px) and (max-width: 1199px){
+    .button.ybc-nivo-button {
+      min-width: 100px;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px){
+    .caption-span > p {
+      line-height: 16px;
+      line-height: 1.4vw;
+    }
+    .button.ybc-nivo-button {
+      min-width: 90px;
+    }
+    .ybc-caption-text-center .button.ybc-nivo-button {
+      padding: 3px 11px;
+    }
+}
+@media (min-width: 768px){
+    .caption-skin-default .button.ybc-nivo-button {
+      min-width: 110px;
+    }
+}
+@media (max-width: 767px){
+    .caption3 .caption-span {
+      font-size: 9px;
+    }
+    .ybc-caption-wrapper .ybc-caption-text-center .caption4 .caption-span {
+      line-height: 12px;
+      line-height: 1.6vw;
+    }
+    .caption-skin-regular .caption4 > .caption-span{
+        padding: 2% 4%;
+    }
+}
+@media (min-width: 480px) and (max-width: 767px){
+    .caption-span{
+        font-size: 14px;
+    }
+    .caption-span p{
+        font-size: 9px;
+    }
+}
+@media (min-width: 480px) and (max-width: 767px){
+    .caption-span{
+        font-size: 13px;
+    }
+    .caption-span p{
+        font-size: 9px;
+    }
+    .caption1 .caption-span {
+        line-height: 18px;
+      line-height: 2.2vw;
+    }
+    .caption-span > p {
+      line-height: 14px;
+      line-height: 1.4vw;
+    }
+    .ybc-caption-text-center .button.ybc-nivo-button,
+    .ybc-caption-text-right .button.ybc-nivo-button {
+      padding: 3px 7px;
+    }
+    .ybc-caption-text-center .caption-span > p {
+      padding-bottom: 5px;
+    }
+}
+
+@media (max-width: 767px){
+    .caption3 .caption-span {
+      font-size: 9px;
+    }
+}
+
+@media (max-width: 767px){
+    .ybc-caption .caption2 .caption-span {
+        font-size: 10px;
+      font-size: 1.6vw;
+      line-height: 4vw;
+    }
+    .caption4 {
+      padding-top: 0px;
+    }
+    .ybc-caption .caption2 .caption-span {
+      line-height: 12px;
+    }
+    .button.ybc-nivo-button {
+      min-width: 65px;
+      text-align: center;
+    }
+}
+@media (max-width: 479px){  
+    .ybc-caption .caption4 {
+      float: left;
+      padding-top: 0px;
+    }
+    .ybc-caption .caption2 .caption-span {
+        font-size: 5px;
+      font-size: 1.6vw;
+      line-height: 4vw;
+    }
+    .button.fa-arrow-circle-o-right:after {
+      line-height: 10px;
+    }
+    .ybc-caption .caption-span {
+      font-size: 7px;
+    }
+    .caption3 .caption-span {
+      font-size: 7px;
+      line-height: 9px;
+    }
+    .caption-span p{
+        font-size: 3px;
+        line-height: 5px;
+        font-size: 1.1vw;
+        margin-bottom: 7px;
+      line-height: 6px;
+    }
+    .ybc-caption .caption1 .caption-span {
+      line-height:10px;  
+      line-height: 2.4vw;
+      padding: 0;
+    }
+    .caption-span .button.btn {
+      font-size: 7px;
+      padding: 0;
+    }
+    .ybc-caption .caption2 .caption-span {
+      line-height: 6px;
+    }
+    .button.fa-arrow-circle-o-right:before {
+      line-height: 12px;
+    }
+    .caption-span .button.fa-arrow-circle-o-right {
+      font-weight: bold;
+      height: 12px;
+      line-height: 12px;
+    }
+    .caption-span .button.btn {
+      line-height: 10px;
+      padding: 2px 3px;
+    }
+    .theme-default a.nivo-nextNav {
+      right: 4%;
+    }
+    .theme-default a.nivo-prevNav {
+      left: 4%;
+    }
+    body .caption-skin-light .button {
+      border: 1px solid #FFFFFF;
+    }
+    .ybc-caption-text-center .button.ybc-nivo-button,
+    .ybc-caption-text-right .button.ybc-nivo-button {
+      padding: 2px 5px;
+    }
+    .ybc-caption-text-center .caption-span > p {
+      padding-bottom: 5px;
+    }
+    .button.ybc-nivo-button {
+      min-width: 55px;
+      text-align: center;
+    }
+}

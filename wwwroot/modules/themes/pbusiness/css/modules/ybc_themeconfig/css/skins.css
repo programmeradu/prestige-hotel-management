@@ -1,0 +1,1592 @@
+
+body.ybc-fontsize-small{
+    font-size: 12px;
+}
+body.ybc-fontsize-medium{
+    font-size: 14px;
+}
+body.ybc-fontsize-large{
+    font-size: 15px;
+}
+
+/*setting general font*/
+body.ybc-gf-arial{
+    font-family: Arial;
+}
+body.ybc-gf-default{
+    font-family: Open Sans;
+}
+body.ybc-gf-verdana{
+    font-family: verdana;
+}
+body.ybc-gf-tahoma{
+    font-family: tahoma;
+}
+body.ybc-gf-times{
+    font-family: Times New Roman;
+}
+body.ybc-gf-impact{
+    font-family: impact;
+}
+body.ybc-gf-courier{
+    font-family: Courier New;
+}
+/*end general font*/
+
+/*setting background image*/
+
+body.ybc-bg-img-default{
+    background: #fff;
+}
+body.ybc-layout-boxed.ybc-bg-img-default{
+    background: url("../bgs/default.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg1{
+    background: url("../bgs/bg1.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg2{
+    background: url("../bgs/bg2.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg3{
+    background: url("../bgs/bg3.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg4{
+    background: url("../bgs/bg4.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg5{
+    background: url("../bgs/bg5.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg6{
+    background: url("../bgs/bg6.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg7{
+    background: url("../bgs/bg7.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg8{
+    background: url("../bgs/bg8.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg9{
+    background: url("../bgs/bg9.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg10{
+    background: url("../bgs/bg10.png") repeat;
+}
+body.ybc-layout-boxed.ybc-bg-img-bg11{
+    background: url("../bgs/bg11.png") repeat;
+}
+/*end setting background image*/
+
+/*setting font-family heading font*/
+
+
+body.ybc-hf-arial .title_cat, body.ybc-hf-arial .pb-center-column h1, 
+body.ybc-hf-arial .ybc_htmltitle > span, body.ybc-hf-arial .page-heading{
+    font-family: Arial;
+}
+
+body.ybc-hf-default .title_cat, body.ybc-hf-default .pb-center-column h1, 
+body.ybc-hf-default .ybc_htmltitle > span, body.ybc-hf-default .page-heading{
+    font-family: Open Sans;
+}
+body.ybc-hf-verdana .title_cat, body.ybc-hf-verdana .pb-center-column h1, 
+body.ybc-hf-verdana .ybc_htmltitle > span, body.ybc-hf-verdana .page-heading{
+    font-family: verdana;
+}
+body.ybc-hf-tahoma .title_cat, body.ybc-hf-tahoma .pb-center-column h1, 
+body.ybc-hf-tahoma .ybc_htmltitle > span, body.ybc-hf-tahoma .page-heading{
+    font-family: tahoma;
+}
+body.ybc-hf-times .title_cat, body.ybc-hf-times .pb-center-column h1, 
+body.ybc-hf-times .ybc_htmltitle > span, body.ybc-hf-times .page-heading{
+    font-family: Times New Roman;
+}
+body.ybc-hf-impact .title_cat, body.ybc-hf-impact .pb-center-column h1, 
+body.ybc-hf-impact .ybc_htmltitle > span, body.ybc-hf-impact .page-heading{
+    font-family: impact;
+}
+body.ybc-hf-courier .title_cat, body.ybc-hf-courier .pb-center-column h1, 
+body.ybc-hf-courier .ybc_htmltitle > span, body.ybc-hf-courier .page-heading{
+    font-family: Courier New;
+}
+
+/*end setting heading font*/
+
+
+/* setting custom font*/
+
+body.ybc-cf-arial .content_price, body.ybc-cf-arial .new-label, body.ybc-cf-arial .sale-label{
+    font-family: Arial;
+}
+body.ybc-cf-default .content_price, body.ybc-cf-default .new-label, body.ybc-cf-default .sale-label{
+    font-family: Open Sans;
+}
+body.ybc-cf-verdana .content_price, body.ybc-cf-verdana .new-label, body.ybc-cf-verdana .sale-label{
+    font-family: verdana;
+}
+body.ybc-cf-times .content_price, body.ybc-cf-times .new-label, body.ybc-cf-times .sale-label{
+    font-family: Times New Roman;
+}
+body.ybc-cf-impact .content_price, body.ybc-cf-impact .new-label, body.ybc-cf-impact .sale-label{
+    font-family: impact;
+}
+body.ybc-cf-courier .content_price, body.ybc-cf-courier .new-label, body.ybc-cf-courier .sale-label{
+    font-family: Courier New;
+}
+/*end custom font*/
+.caption-skin-regular .ybc-caption > .caption1 .caption-span {
+  background: none repeat scroll 0 0 rgba(60, 171, 219, 0.6);
+  color: #FFFFFF;
+}
+/*ybc layout Box*/
+body.ybc-layout-boxed #page {
+  background: none repeat scroll 0 0 #FFFFFF;
+  float: none;
+  margin: 0 auto;
+  overflow: inherit;
+  max-width: 1170px;
+}
+@media (min-width: 992px) and (max-width: 1199px){
+    body.ybc-layout-boxed #page {
+      max-width: 970px;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px){
+    body.ybc-layout-boxed #page {
+      max-width: 750px;
+    }
+}
+body.ybc-layout-boxed .nav {
+  background: none repeat scroll 0 0 white;
+}
+body.ybc-layout-boxed .header-container {
+  box-shadow: 0 0 4px 2px #CECECE;
+}
+body.ybc-layout-boxed .columns-container {
+  background: none repeat scroll 0 0 #FFFFFF;
+  box-shadow: 0 4px 4px 2px #CECECE;
+}
+@media (min-width: 768px) and (max-width: 1199px){
+    body.ybc-layout-boxed .ybc-menu-item-link > span {
+      font-size: 12px;
+    }
+}
+body.ybc-layout-boxed .theme-default a.nivo-nextNav {
+	right:5%;
+}
+body.ybc-layout-boxed .theme-default a.nivo-prevNav {
+	left:5%;
+}
+body.ybc-layout-boxed .columns-container {
+  background: none repeat scroll 0 0 #FFFFFF;
+}
+body.ybc-layout-boxed .header-container {
+  background-color: #fff;
+  float: left;
+  width: 100%;
+}
+/*end layout Box*/
+
+/*font-size body(font-size: 14px) 100%=14px, 92%=13px*/
+
+/*end font size*/
+
+/**************************************************************************************************************/
+
+
+/* ybc-skin-defauth button=#E61A57 */
+.header-bottom, 
+#social_block ul li a, 
+.block .title_block, 
+.block h4, 
+.title_cat:before, 
+.new-label, 
+#index .bx-controls .bx-next:before, 
+#product #productscategory_list .bx-controls .bx-next:before, 
+#product .accessories-block .bx-controls .bx-next:before, 
+.footer-container,
+.step_current .number-steps, 
+.owl-theme .owl-controls .owl-buttons div {
+  background-color: #3CABDB;
+}
+
+#header, 
+.primary_block .ybc-product-html .fa,
+.ybc-product-html .ybc_htmltitle > span {
+  border-color: #3CABDB;
+}
+.content_sortPagiBar .display li.selected i, 
+.content_sortPagiBar .display_m li.selected i,
+.primary_block .ybc-product-html .fa,
+.box-cart-bottom #wishlist_button:before, 
+.box-cart-bottom #wishlist_button_nopop:before,
+#home-page-tabs li a:before{
+    color: #3CABDB;
+}
+
+/*hover button*/
+#submitWishlist:hover, 
+#submitAddress:hover, 
+.button_color:hover, 
+#SubmitLogin:hover,
+.box-info-product .exclusive:hover span, 
+#footer #newsletter_block_left .form-group .button-small:hover span,
+.button.button-medium.exclusive:hover span, 
+.cart_navigation .button-medium,
+.button.button-medium.exclusive:hover, 
+ul.product_list.list .button.ajax_add_to_cart_button:hover,
+ul.product_list.list .button.ajax_add_to_cart_button:hover span,
+.button.button-medium:hover, 
+#submitMessage:hover,
+.ybc-blog-search .block_content .button:hover,
+#ybc-advancedcats-wrapper:hover > h6,
+body .caption-skin-default .button:hover,
+body .caption-skin-regular .button:hover,
+.cart_block .cart-buttons a#button_order_cart:hover, 
+.cart_block .cart-buttons a#button_order_cart span:hover,
+.button:hover{
+  background-color: #E61A57;
+  transition: background-color 0.4s;
+  -moz-transition: background-color 0.4s;
+  -o-transition: background-color 0.4s;
+  -webkit-transition: background-color 0.4s;
+}
+#my-account ul.myaccount-link-list li a i:hover, 
+#search_block_top .btn.button-search:hover,
+a:hover, a:hover:after, a:hover:before, 
+#contact-link > a:hover:before,
+#currencies-block-top:hover div.current strong, 
+nav #currencies-block-top:hover div.current::after,
+#languages-block-top:hover div.current span,
+#languages-block-top:hover div.current::after,
+.footer-container #footer a:hover,
+.buttons_bottom_block #wishlist_button:hover:before, 
+.buttons_bottom_block #wishlist_button_nopop:hover:before,
+body .caption-skin-light .button:hover,
+.breadcrumb a.home:hover i {
+      color: #E61A57;
+}
+/*button color*/            
+#submitWishlist, 
+#submitAddress, 
+#SubmitLogin,
+#submitMessage, 
+#add_to_cart .exclusive,
+#social_block ul li a:hover,
+#ybc-advancedcats-wrapper > h6,
+#footer #newsletter_block_left .form-group .button-small span,
+.button_color,
+.button,
+.sale-label,
+.price-percent-reduction, 
+.cart_navigation .button-medium,
+.button.button-medium.exclusive,
+.box-info-product .exclusive span, 
+.button.button-medium.exclusive span, 
+.ybc-blog-search .block_content .button,
+.blockcart .shopping_cart > a b.icon-cart, 
+.button.ajax_add_to_cart_button:hover span,
+.cart_block .cart-buttons a#button_order_cart, 
+ul.product_list .functional-buttons div a:hover, 
+ul.product_list .functional-buttons div label:hover,
+ul.product_list .product-image-container a.quick-view:hover,
+.button.ybc-nivo-button,
+.ybc-mm-price-row .ybc-mm-discount-percent,
+#ybc-advancedcats-wrapper,
+.ybc-menu-toggle.change_background{
+  background-color: #E94C6F;
+  transition: background-color 0.4s;
+  -moz-transition: background-color 0.4s;
+  -o-transition: background-color 0.4s;
+  -webkit-transition: background-color 0.4s;
+}
+.footer-container, .button.button-medium span, 
+.block .title_block, .block h4,.price-percent-reduction,
+ul.product_list .product-image-container a.quick-view:hover,
+ul.product_list .functional-buttons div a:hover, 
+ul.product_list .functional-buttons div label:hover ,
+.product_list.grid .button.ajax_add_to_cart_button:hover, 
+#productscategory_list .button-container .ajax_add_to_cart_button:hover, 
+.accessories-block .button-container .ajax_add_to_cart_button:hover,
+.title_tab_product li a.selected:after,
+body .caption-skin-light .button:hover,
+body.ybc-skin-default .caption-skin-light .caption-span .button.ybc-nivo-button:hover{
+  border-color: #E94C6F;
+  transition: border-color 0.4s;
+  -moz-transition: border-color 0.4s;
+  -o-transition: border-color 0.4s;
+  -webkit-transition: border-color 0.4s;
+}
+#header .cart_block .cart_block_list .remove_link a, 
+#header .cart_block .cart_block_list .ajax_cart_block_remove_link,
+.nivo-controlNav a.active.nivo-control:before,
+.theme-default a.nivo-nextNav:before,
+.theme-default a.nivo-prevNav:before,
+#home-page-tabs li:hover a:before, 
+#home-page-tabs li.active a:before,
+#my-account ul.myaccount-link-list li a i,
+.ybc-caption-frame .caption2 .caption-span,
+.pb-center-column .content_prices .our_price_display,
+#home-page-tabs li a:hover:before,
+#home-page-tabs li.active a:before,
+.ybc-mm-price {
+  color: #E94C6F;
+  transition: color 0.4s;
+  -moz-transition: color 0.4s;
+  -o-transition: color 0.4s;
+  -webkit-transition: color 0.4s;
+}
+
+.ybc-copyright, .footer_bottom {
+  background-color: #008cc7;
+}
+
+
+/*end skin defaulth*/
+
+/******************************************************************************************************************/
+
+.ie8 .htmlcontent-top #htmlcontent-item-link-wrap,
+.ie8 .data-hover:before{
+    background: none repeat scroll 0 0 rgb(74, 170, 165);
+      -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+}
+.ie8 .htmlcontent-itemcontent:hover .data-hover:before{
+    display: none;
+}
+.ie8 .caption1 .caption-span{
+    background: none repeat scroll 0 0 rgb(74, 170, 165);
+      -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+      font-size: 18px;
+}
+/* ybc-skin-pink #ea4c6f, button:#00c8f9 */
+body.ybc-skin-pink .header-bottom, 
+body.ybc-skin-pink #social_block ul li a, 
+body.ybc-skin-pink .block .title_block, 
+body.ybc-skin-pink .block h4, 
+body.ybc-skin-pink .title_cat:before, 
+body.ybc-skin-pink .new-label, 
+body.ybc-skin-pink#index .bx-controls .bx-next:before, 
+body.ybc-skin-pink#product #productscategory_list .bx-controls .bx-next:before, 
+body.ybc-skin-pink#product .accessories-block .bx-controls .bx-next:before, 
+body.ybc-skin-pink .footer-container,
+body.ybc-skin-pink .step_current .number-steps, 
+body.ybc-skin-pink .owl-theme .owl-controls .owl-buttons div,
+body.ybc-skin-pink .step_current .number-steps::before {
+  background-color: #ea4c6f;
+}
+
+body.ybc-skin-pink #header, 
+body.ybc-skin-pink .primary_block .ybc-product-html .fa,
+body.ybc-skin-pink .ybc-product-html .ybc_htmltitle > span {
+  border-color: #ea4c6f;
+}
+body.ybc-skin-pink .content_sortPagiBar .display li.selected i, 
+body.ybc-skin-pink .content_sortPagiBar .display_m li.selected i,
+body.ybc-skin-pink .primary_block .ybc-product-html .fa,
+body.ybc-skin-pink .box-cart-bottom #wishlist_button:before, 
+body.ybc-skin-pink .box-cart-bottom #wishlist_button_nopop:before,
+body.ybc-skin-pink #home-page-tabs li a:before,
+body.ybc-skin-pink #layer_cart .layer_cart_product h2{
+    color: #ea4c6f;
+}
+
+/*hover button*/
+body.ybc-skin-pink #submitWishlist:hover, 
+body.ybc-skin-pink #submitAddress:hover, 
+body.ybc-skin-pink .button_color:hover, 
+body.ybc-skin-pink #SubmitLogin:hover,
+body.ybc-skin-pink .box-info-product .exclusive:hover span, 
+body.ybc-skin-pink #footer #newsletter_block_left .form-group .button-small:hover span,
+body.ybc-skin-pink .button.button-medium.exclusive:hover span, 
+body.ybc-skin-pink .cart_navigation .button-medium,
+body.ybc-skin-pink .button.button-medium.exclusive:hover, 
+body.ybc-skin-pink ul.product_list.list .button.ajax_add_to_cart_button:hover,
+body.ybc-skin-pink ul.product_list.list .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-pink .button.button-medium:hover, 
+body.ybc-skin-pink #submitMessage:hover,
+body.ybc-skin-pink .ybc-blog-search .block_content .button:hover,
+body.ybc-skin-pink #ybc-advancedcats-wrapper:hover > h6,
+body.ybc-skin-pink .caption-skin-default .button:hover,
+body.ybc-skin-pink .caption-skin-regular .button:hover,
+body.ybc-skin-pink .cart_block .cart-buttons a#button_order_cart:hover, 
+body.ybc-skin-pink .cart_block .cart-buttons a#button_order_cart span:hover,
+body.ybc-skin-pink input.button_mini:hover,
+body.ybc-skin-pink input.button_small:hover,
+body.ybc-skin-pink input.button:hover,
+body.ybc-skin-pink input.button_large:hover,
+body.ybc-skin-pink input.exclusive_mini:hover,
+body.ybc-skin-pink input.exclusive_small:hover,
+body.ybc-skin-pink input.exclusive:hover,
+body.ybc-skin-pink input.exclusive_large:hover,
+body.ybc-skin-pink a.button_mini:hover,
+body.ybc-skin-pink a.button_small:hover,
+body.ybc-skin-pink a.button:hover,
+body.ybc-skin-pink a.button_large:hover,
+body.ybc-skin-pink a.exclusive_mini:hover,
+body.ybc-skin-pink a.exclusive_small:hover,
+body.ybc-skin-pink a.exclusive:hover,
+body.ybc-skin-pink a.exclusive_large:hover{
+  background-color: #00e4ff;
+}
+body.ybc-skin-pink #my-account ul.myaccount-link-list li a i:hover, 
+body.ybc-skin-pink #search_block_top .btn.button-search:hover,
+body.ybc-skin-pink a:hover, 
+body.ybc-skin-pink a:hover:after, 
+body.ybc-skin-pink a:hover:before, 
+body.ybc-skin-pink #contact-link > a:hover:before,
+body.ybc-skin-pink #currencies-block-top:hover div.current strong, 
+body.ybc-skin-pink nav #currencies-block-top:hover div.current::after,
+body.ybc-skin-pink #languages-block-top:hover div.current span,
+body.ybc-skin-pink #languages-block-top:hover div.current::after,
+body.ybc-skin-pink .footer-container #footer a:hover,
+body.ybc-skin-pink .buttons_bottom_block #wishlist_button:hover:before, 
+body.ybc-skin-pink .buttons_bottom_block #wishlist_button_nopop:hover:before,
+body.ybc-skin-pink .caption-skin-light .button:hover,
+body.ybc-skin-pink .content_sortPagiBar .display li a:hover i, 
+body.ybc-skin-pink .content_sortPagiBar .display_m li a:hover i {
+      color: #00e4ff;
+}
+/*button color*/            
+body.ybc-skin-pink #submitWishlist, 
+body.ybc-skin-pink #submitAddress, 
+body.ybc-skin-pink #SubmitLogin,
+body.ybc-skin-pink #submitMessage, 
+body.ybc-skin-pink #add_to_cart .exclusive,
+body.ybc-skin-pink #social_block ul li a:hover,
+body.ybc-skin-pink #ybc-advancedcats-wrapper > h6,
+body.ybc-skin-pink #footer #newsletter_block_left .form-group .button-small span,
+body.ybc-skin-pink .button_color, 
+body.ybc-skin-pink .sale-label,
+body.ybc-skin-pink .price-percent-reduction, 
+body.ybc-skin-pink .cart_navigation .button-medium,
+body.ybc-skin-pink .body.ybc-skin-red button.button-medium.exclusive,
+body.ybc-skin-pink .box-info-product .exclusive span, 
+body.ybc-skin-pink .button.button-medium.exclusive span, 
+body.ybc-skin-pink .ybc-blog-search .block_content .button,
+body.ybc-skin-pink .blockcart .shopping_cart > a b.icon-cart, 
+body.ybc-skin-pink .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-pink .cart_block .cart-buttons a#button_order_cart, 
+body.ybc-skin-pink .product_list .functional-buttons div a:hover, 
+body.ybc-skin-pink ul.product_list .functional-buttons div label:hover,
+body.ybc-skin-pink ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-pink .button.ybc-nivo-button,
+body.ybc-skin-pink #ybc-advancedcats-wrapper,
+body.ybc-skin-pink .button.button-medium,
+body.ybc-skin-pink input.button_mini,
+body.ybc-skin-pink input.button_small,
+body.ybc-skin-pink input.button,
+body.ybc-skin-pink input.button_large,
+body.ybc-skin-pink input.button_mini_disabled,
+body.ybc-skin-pink input.button_small_disabled,
+body.ybc-skin-pink input.button_disabled,
+body.ybc-skin-pink input.button_large_disabled,
+body.ybc-skin-pink input.exclusive_mini,
+body.ybc-skin-pink input.exclusive_small,
+body.ybc-skin-pink input.exclusive,
+body.ybc-skin-pink input.exclusive_large,
+body.ybc-skin-pink input.exclusive_mini_disabled,
+body.ybc-skin-pink input.exclusive_small_disabled,
+body.ybc-skin-pink input.exclusive_disabled,
+body.ybc-skin-pink input.exclusive_large_disabled,
+body.ybc-skin-pink a.button_mini,
+body.ybc-skin-pink a.button_small,
+body.ybc-skin-pink a.button,
+body.ybc-skin-pink a.button_large,
+body.ybc-skin-pink a.exclusive_mini,
+body.ybc-skin-pink a.exclusive_small,
+body.ybc-skin-pink a.exclusive,
+body.ybc-skin-pink a.exclusive_large,
+body.ybc-skin-pink span.button_mini,
+body.ybc-skin-pink span.button_small,
+body.ybc-skin-pink span.button,
+body.ybc-skin-pink span.button_large,
+body.ybc-skin-pink span.exclusive_mini,
+body.ybc-skin-pink span.exclusive_small,
+body.ybc-skin-pink span.exclusive,
+body.ybc-skin-pink span.exclusive_large,
+body.ybc-skin-pink span.exclusive_large_disabled,
+body.ybc-skin-pink .ybc-menu-toggle.change_background{
+  background-color: #00c8f9;
+}
+body.ybc-skin-pink .footer-container, 
+body.ybc-skin-pink .button.button-medium span, 
+body.ybc-skin-pink .block .title_block, 
+body.ybc-skin-pink .block h4,
+body.ybc-skin-pink .price-percent-reduction,
+body.ybc-skin-pink ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-pink ul.product_list .functional-buttons div a:hover, 
+body.ybc-skin-pink ul.product_list .functional-buttons div label:hover ,
+body.ybc-skin-pink .product_list.grid .button.ajax_add_to_cart_button:hover, 
+body.ybc-skin-pink #productscategory_list .button-container .ajax_add_to_cart_button:hover, 
+body.ybc-skin-pink .accessories-block .button-container .ajax_add_to_cart_button:hover,
+body.ybc-skin-pink .title_tab_product li a.selected:after,
+body.ybc-skin-pink .caption-skin-light .button:hover,
+body.ybc-skin-pink .ybc-blog-search .block_content .button,
+body.ybc-skin-pink input.button_mini,
+body.ybc-skin-pink input.button_small,
+body.ybc-skin-pink input.button,
+body.ybc-skin-pink input.button_large,
+body.ybc-skin-pink input.button_mini_disabled,
+body.ybc-skin-pink input.button_small_disabled,
+body.ybc-skin-pink input.button_disabled,
+body.ybc-skin-pink input.button_large_disabled,
+body.ybc-skin-pink input.exclusive_mini,
+body.ybc-skin-pink input.exclusive_small,
+body.ybc-skin-pink input.exclusive,
+body.ybc-skin-pink input.exclusive_large,
+body.ybc-skin-pink input.exclusive_mini_disabled,
+body.ybc-skin-pink input.exclusive_small_disabled,
+body.ybc-skin-pink input.exclusive_disabled,
+body.ybc-skin-pink input.exclusive_large_disabled,
+body.ybc-skin-pink a.button_mini,
+body.ybc-skin-pink a.button_small,
+body.ybc-skin-pink a.button,
+body.ybc-skin-pink a.button_large,
+body.ybc-skin-pink a.exclusive_mini,
+body.ybc-skin-pink a.exclusive_small,
+body.ybc-skin-pink a.exclusive,
+body.ybc-skin-pink a.exclusive_large,
+body.ybc-skin-pink span.button_mini,
+body.ybc-skin-pink span.button_small,
+body.ybc-skin-pink span.button,
+body.ybc-skin-pink span.button_large,
+body.ybc-skin-pink span.exclusive_mini,
+body.ybc-skin-pink span.exclusive_small,
+body.ybc-skin-pink span.exclusive,
+body.ybc-skin-pink span.exclusive_large,
+body.ybc-skin-pink span.exclusive_large_disabled,
+body.ybc-skin-pink .button.ajax_add_to_cart_button:hover{
+  border-color: #00c8f9;
+}
+body.ybc-skin-pink #header .cart_block .cart_block_list .remove_link a, 
+body.ybc-skin-pink #header .cart_block .cart_block_list .ajax_cart_block_remove_link,
+body.ybc-skin-pink .nivo-controlNav a.active.nivo-control:before,
+body.ybc-skin-pink .theme-default a.nivo-nextNav:before,
+body.ybc-skin-pink .theme-default a.nivo-prevNav:before,
+body.ybc-skin-pink #home-page-tabs li:hover a:before, 
+body.ybc-skin-pink #home-page-tabs li.active a:before,
+body.ybc-skin-pink#my-account ul.myaccount-link-list li a i,
+body.ybc-skin-pink .ybc-caption-frame .caption2 .caption-span,
+body.ybc-skin-pink .pb-center-column .content_prices .our_price_display,
+body.ybc-skin-pink #home-page-tabs li a:hover:before,
+body.ybc-skin-pink #home-page-tabs li.active a:before {
+  color: #00c8f9;
+}
+
+body.ybc-skin-pink .ybc-copyright, body.ybc-skin-pink .footer_bottom {
+  background-color: #cf3154;
+}
+/* end ybc-skin-pink */
+
+/*****************************************************************************************************************/
+
+/* ybc-skin-red */
+body.ybc-skin-red .header-bottom, 
+body.ybc-skin-red #social_block ul li a, 
+body.ybc-skin-red .block .title_block, 
+body.ybc-skin-red .block h4, 
+body.ybc-skin-red .title_cat:before, 
+body.ybc-skin-red .new-label, 
+body.ybc-skin-red#index .bx-controls .bx-next:before, 
+body.ybc-skin-red#product #productscategory_list .bx-controls .bx-next:before, 
+body.ybc-skin-red#product .accessories-block .bx-controls .bx-next:before, 
+body.ybc-skin-red .footer-container,
+body.ybc-skin-red .step_current .number-steps, 
+body.ybc-skin-red .owl-theme .owl-controls .owl-buttons div,
+body.ybc-skin-red .step_current .number-steps::before {
+  background-color: #ff2321;
+}
+
+body.ybc-skin-red #header, 
+body.ybc-skin-red .primary_block .ybc-product-html .fa,
+body.ybc-skin-red .ybc-product-html .ybc_htmltitle > span {
+  border-color: #ff2321;
+}
+body.ybc-skin-red .content_sortPagiBar .display li.selected i, 
+body.ybc-skin-red .content_sortPagiBar .display_m li.selected i,
+body.ybc-skin-red .primary_block .ybc-product-html .fa,
+body.ybc-skin-red .box-cart-bottom #wishlist_button:before, 
+body.ybc-skin-red .box-cart-bottom #wishlist_button_nopop:before,
+body.ybc-skin-red #home-page-tabs li a:before,
+body.ybc-skin-red #layer_cart .layer_cart_product h2{
+    color: #ff2321;
+}
+
+/*hover button*/
+body.ybc-skin-red #submitWishlist:hover, 
+body.ybc-skin-red #submitAddress:hover, 
+body.ybc-skin-red .button_color:hover, 
+body.ybc-skin-red #SubmitLogin:hover,
+body.ybc-skin-red .box-info-product .exclusive:hover span, 
+body.ybc-skin-red #footer #newsletter_block_left .form-group .button-small:hover span,
+body.ybc-skin-red .button.button-medium.exclusive:hover span, 
+body.ybc-skin-red .cart_navigation .button-medium,
+body.ybc-skin-red .button.button-medium.exclusive:hover, 
+body.ybc-skin-red ul.product_list.list .button.ajax_add_to_cart_button:hover,
+body.ybc-skin-red ul.product_list.list .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-red .button.button-medium:hover, 
+body.ybc-skin-red #submitMessage:hover,
+body.ybc-skin-red .ybc-blog-search .block_content .button:hover,
+body.ybc-skin-red #ybc-advancedcats-wrapper:hover > h6,
+body.ybc-skin-red .caption-skin-default .button:hover,
+body.ybc-skin-red .caption-skin-regular .button:hover,
+body.ybc-skin-red .cart_block .cart-buttons a#button_order_cart:hover, 
+body.ybc-skin-red .cart_block .cart-buttons a#button_order_cart span:hover,
+body.ybc-skin-red input.button_mini:hover,
+body.ybc-skin-red input.button_small:hover,
+body.ybc-skin-red input.button:hover,
+body.ybc-skin-red input.button_large:hover,
+body.ybc-skin-red input.exclusive_mini:hover,
+body.ybc-skin-red input.exclusive_small:hover,
+body.ybc-skin-red input.exclusive:hover,
+body.ybc-skin-red input.exclusive_large:hover,
+body.ybc-skin-red a.button_mini:hover,
+body.ybc-skin-red a.button_small:hover,
+body.ybc-skin-red a.button:hover,
+body.ybc-skin-red a.button_large:hover,
+body.ybc-skin-red a.exclusive_mini:hover,
+body.ybc-skin-red a.exclusive_small:hover,
+body.ybc-skin-red a.exclusive:hover,
+body.ybc-skin-red a.exclusive_large:hover{
+  background-color: #00e4ff;
+}
+body.ybc-skin-red #my-account ul.myaccount-link-list li a i:hover, 
+body.ybc-skin-red #search_block_top .btn.button-search:hover,
+body.ybc-skin-red a:hover, 
+body.ybc-skin-red a:hover:after, 
+body.ybc-skin-red a:hover:before, 
+body.ybc-skin-red #contact-link > a:hover:before,
+body.ybc-skin-red #currencies-block-top:hover div.current strong, 
+body.ybc-skin-red nav #currencies-block-top:hover div.current::after,
+body.ybc-skin-red #languages-block-top:hover div.current span,
+body.ybc-skin-red #languages-block-top:hover div.current::after,
+body.ybc-skin-red .footer-container #footer a:hover,
+body.ybc-skin-red .buttons_bottom_block #wishlist_button:hover:before, 
+body.ybc-skin-red .buttons_bottom_block #wishlist_button_nopop:hover:before,
+body.ybc-skin-red .caption-skin-light .button:hover,
+body.ybc-skin-red .content_sortPagiBar .display li a:hover i, 
+body.ybc-skin-red .content_sortPagiBar .display_m li a:hover i {
+      color: #00e4ff;
+}
+/*button color*/            
+body.ybc-skin-red #submitWishlist, 
+body.ybc-skin-red #submitAddress, 
+body.ybc-skin-red #SubmitLogin,
+body.ybc-skin-red #submitMessage, 
+body.ybc-skin-red #add_to_cart .exclusive,
+body.ybc-skin-red #social_block ul li a:hover,
+body.ybc-skin-red #ybc-advancedcats-wrapper > h6,
+body.ybc-skin-red #footer #newsletter_block_left .form-group .button-small span,
+body.ybc-skin-red .button_color, 
+body.ybc-skin-red .sale-label,
+body.ybc-skin-red .price-percent-reduction, 
+body.ybc-skin-red .cart_navigation .button-medium,
+body.ybc-skin-red .body.ybc-skin-red button.button-medium.exclusive,
+body.ybc-skin-red .box-info-product .exclusive span, 
+body.ybc-skin-red .button.button-medium.exclusive span, 
+body.ybc-skin-red .ybc-blog-search .block_content .button,
+body.ybc-skin-red .blockcart .shopping_cart > a b.icon-cart, 
+body.ybc-skin-red .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-red .cart_block .cart-buttons a#button_order_cart, 
+body.ybc-skin-red .product_list .functional-buttons div a:hover, 
+body.ybc-skin-red ul.product_list .functional-buttons div label:hover,
+body.ybc-skin-red ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-red .button.ybc-nivo-button,
+body.ybc-skin-red #ybc-advancedcats-wrapper,
+body.ybc-skin-red .button.button-medium,
+body.ybc-skin-red input.button_mini,
+body.ybc-skin-red input.button_small,
+body.ybc-skin-red input.button,
+body.ybc-skin-red input.button_large,
+body.ybc-skin-red input.button_mini_disabled,
+body.ybc-skin-red input.button_small_disabled,
+body.ybc-skin-red input.button_disabled,
+body.ybc-skin-red input.button_large_disabled,
+body.ybc-skin-red input.exclusive_mini,
+body.ybc-skin-red input.exclusive_small,
+body.ybc-skin-red input.exclusive,
+body.ybc-skin-red input.exclusive_large,
+body.ybc-skin-red input.exclusive_mini_disabled,
+body.ybc-skin-red input.exclusive_small_disabled,
+body.ybc-skin-red input.exclusive_disabled,
+body.ybc-skin-red input.exclusive_large_disabled,
+body.ybc-skin-red a.button_mini,
+body.ybc-skin-red a.button_small,
+body.ybc-skin-red a.button,
+body.ybc-skin-red a.button_large,
+body.ybc-skin-red a.exclusive_mini,
+body.ybc-skin-red a.exclusive_small,
+body.ybc-skin-red a.exclusive,
+body.ybc-skin-red a.exclusive_large,
+body.ybc-skin-red span.button_mini,
+body.ybc-skin-red span.button_small,
+body.ybc-skin-red span.button,
+body.ybc-skin-red span.button_large,
+body.ybc-skin-red span.exclusive_mini,
+body.ybc-skin-red span.exclusive_small,
+body.ybc-skin-red span.exclusive,
+body.ybc-skin-red span.exclusive_large,
+body.ybc-skin-red span.exclusive_large_disabled,
+body.ybc-skin-red .ybc-menu-toggle.change_background{
+  background-color: #00c8f9;
+}
+body.ybc-skin-red .footer-container, 
+body.ybc-skin-red .button.button-medium span, 
+body.ybc-skin-red .block .title_block, 
+body.ybc-skin-red .block h4,
+body.ybc-skin-red .price-percent-reduction,
+body.ybc-skin-red ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-red ul.product_list .functional-buttons div a:hover, 
+body.ybc-skin-red ul.product_list .functional-buttons div label:hover ,
+body.ybc-skin-red .product_list.grid .button.ajax_add_to_cart_button:hover, 
+body.ybc-skin-red #productscategory_list .button-container .ajax_add_to_cart_button:hover, 
+body.ybc-skin-red .accessories-block .button-container .ajax_add_to_cart_button:hover,
+body.ybc-skin-red .title_tab_product li a.selected:after,
+body.ybc-skin-red .caption-skin-light .button:hover,
+body.ybc-skin-red .ybc-blog-search .block_content .button,
+body.ybc-skin-red input.button_mini,
+body.ybc-skin-red input.button_small,
+body.ybc-skin-red input.button,
+body.ybc-skin-red input.button_large,
+body.ybc-skin-red input.button_mini_disabled,
+body.ybc-skin-red input.button_small_disabled,
+body.ybc-skin-red input.button_disabled,
+body.ybc-skin-red input.button_large_disabled,
+body.ybc-skin-red input.exclusive_mini,
+body.ybc-skin-red input.exclusive_small,
+body.ybc-skin-red input.exclusive,
+body.ybc-skin-red input.exclusive_large,
+body.ybc-skin-red input.exclusive_mini_disabled,
+body.ybc-skin-red input.exclusive_small_disabled,
+body.ybc-skin-red input.exclusive_disabled,
+body.ybc-skin-red input.exclusive_large_disabled,
+body.ybc-skin-red a.button_mini,
+body.ybc-skin-red a.button_small,
+body.ybc-skin-red a.button,
+body.ybc-skin-red a.button_large,
+body.ybc-skin-red a.exclusive_mini,
+body.ybc-skin-red a.exclusive_small,
+body.ybc-skin-red a.exclusive,
+body.ybc-skin-red a.exclusive_large,
+body.ybc-skin-red span.button_mini,
+body.ybc-skin-red span.button_small,
+body.ybc-skin-red span.button,
+body.ybc-skin-red span.button_large,
+body.ybc-skin-red span.exclusive_mini,
+body.ybc-skin-red span.exclusive_small,
+body.ybc-skin-red span.exclusive,
+body.ybc-skin-red span.exclusive_large,
+body.ybc-skin-red span.exclusive_large_disabled,
+body.ybc-skin-red .button.ajax_add_to_cart_button:hover{
+  border-color: #00c8f9;
+}
+body.ybc-skin-red #header .cart_block .cart_block_list .remove_link a, 
+body.ybc-skin-red #header .cart_block .cart_block_list .ajax_cart_block_remove_link,
+body.ybc-skin-red .nivo-controlNav a.active.nivo-control:before,
+body.ybc-skin-red .theme-default a.nivo-nextNav:before,
+body.ybc-skin-red .theme-default a.nivo-prevNav:before,
+body.ybc-skin-red #home-page-tabs li:hover a:before, 
+body.ybc-skin-red #home-page-tabs li.active a:before,
+body.ybc-skin-red#my-account ul.myaccount-link-list li a i,
+body.ybc-skin-red .ybc-caption-frame .caption2 .caption-span,
+body.ybc-skin-red .pb-center-column .content_prices .our_price_display,
+body.ybc-skin-red #home-page-tabs li a:hover:before,
+body.ybc-skin-red #home-page-tabs li.active a:before {
+  color: #00c8f9;
+}
+
+body.ybc-skin-red .ybc-copyright, body.ybc-skin-red .footer_bottom {
+  background-color: #ea0e0c;
+}
+/* end ybc-skin-red */
+
+
+/**************************************************************************************************************/
+
+/* ybc-skin-blue */
+body.ybc-skin-blue .header-bottom, 
+body.ybc-skin-blue #social_block ul li a, 
+body.ybc-skin-blue .block .title_block, 
+body.ybc-skin-blue .block h4, 
+body.ybc-skin-blue .title_cat:before, 
+body.ybc-skin-blue .new-label, 
+body.ybc-skin-blue#index .bx-controls .bx-next:before, 
+body.ybc-skin-blue#product #productscategory_list .bx-controls .bx-next:before, 
+body.ybc-skin-blue#product .accessories-block .bx-controls .bx-next:before, 
+body.ybc-skin-blue .footer-container,
+body.ybc-skin-blue .step_current .number-steps, 
+body.ybc-skin-blue .owl-theme .owl-controls .owl-buttons div,
+body.ybc-skin-blue .step_current .number-steps::before {
+  background-color: #018bba;
+}
+
+body.ybc-skin-blue #header, 
+body.ybc-skin-blue .primary_block .ybc-product-html .fa,
+body.ybc-skin-blue .ybc-product-html .ybc_htmltitle > span {
+  border-color: #018bba;
+}
+body.ybc-skin-blue .content_sortPagiBar .display li.selected i, 
+body.ybc-skin-blue .content_sortPagiBar .display_m li.selected i,
+body.ybc-skin-blue .primary_block .ybc-product-html .fa,
+body.ybc-skin-blue .box-cart-bottom #wishlist_button:before, 
+body.ybc-skin-blue .box-cart-bottom #wishlist_button_nopop:before,
+body.ybc-skin-blue #home-page-tabs li a:before,
+body.ybc-skin-blue #layer_cart .layer_cart_product h2{
+    color: #018bba;
+}
+
+/*hover button*/
+body.ybc-skin-blue #submitWishlist:hover, 
+body.ybc-skin-blue #submitAddress:hover, 
+body.ybc-skin-blue .button_color:hover, 
+body.ybc-skin-blue #SubmitLogin:hover,
+body.ybc-skin-blue .box-info-product .exclusive:hover span, 
+body.ybc-skin-blue #footer #newsletter_block_left .form-group .button-small:hover span,
+body.ybc-skin-blue .button.button-medium.exclusive:hover span, 
+body.ybc-skin-blue .cart_navigation .button-medium,
+body.ybc-skin-blue .button.button-medium.exclusive:hover, 
+body.ybc-skin-blue ul.product_list.list .button.ajax_add_to_cart_button:hover,
+body.ybc-skin-blue ul.product_list.list .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-blue .button.button-medium:hover, 
+body.ybc-skin-blue #submitMessage:hover,
+body.ybc-skin-blue .ybc-blog-search .block_content .button:hover,
+body.ybc-skin-blue #ybc-advancedcats-wrapper:hover > h6,
+body.ybc-skin-blue .caption-skin-default .button:hover,
+body.ybc-skin-blue .caption-skin-regular .button:hover,
+body.ybc-skin-blue .cart_block .cart-buttons a#button_order_cart:hover, 
+body.ybc-skin-blue .cart_block .cart-buttons a#button_order_cart span:hover,
+body.ybc-skin-blue input.button_mini:hover,
+body.ybc-skin-blue input.button_small:hover,
+body.ybc-skin-blue input.button:hover,
+body.ybc-skin-blue input.button_large:hover,
+body.ybc-skin-blue input.exclusive_mini:hover,
+body.ybc-skin-blue input.exclusive_small:hover,
+body.ybc-skin-blue input.exclusive:hover,
+body.ybc-skin-blue input.exclusive_large:hover,
+body.ybc-skin-blue a.button_mini:hover,
+body.ybc-skin-blue a.button_small:hover,
+body.ybc-skin-blue a.button:hover,
+body.ybc-skin-blue a.button_large:hover,
+body.ybc-skin-blue a.exclusive_mini:hover,
+body.ybc-skin-blue a.exclusive_small:hover,
+body.ybc-skin-blue a.exclusive:hover,
+body.ybc-skin-blue a.exclusive_large:hover{
+  background-color: #e0180b;
+}
+body.ybc-skin-blue #my-account ul.myaccount-link-list li a i:hover, 
+body.ybc-skin-blue #search_block_top .btn.button-search:hover,
+body.ybc-skin-blue a:hover, 
+body.ybc-skin-blue a:hover:after, 
+body.ybc-skin-blue a:hover:before, 
+body.ybc-skin-blue #contact-link > a:hover:before,
+body.ybc-skin-blue #currencies-block-top:hover div.current strong, 
+body.ybc-skin-blue nav #currencies-block-top:hover div.current::after,
+body.ybc-skin-blue #languages-block-top:hover div.current span,
+body.ybc-skin-blue #languages-block-top:hover div.current::after,
+body.ybc-skin-blue .footer-container #footer a:hover,
+body.ybc-skin-blue .buttons_bottom_block #wishlist_button:hover:before, 
+body.ybc-skin-blue .buttons_bottom_block #wishlist_button_nopop:hover:before,
+body.ybc-skin-blue .caption-skin-light .button:hover,
+body.ybc-skin-blue .content_sortPagiBar .display li a:hover i, 
+body.ybc-skin-blue .content_sortPagiBar .display_m li a:hover i {
+      color: #e0180b;
+}
+/*button color*/            
+body.ybc-skin-blue #submitWishlist, 
+body.ybc-skin-blue #submitAddress, 
+body.ybc-skin-blue #SubmitLogin,
+body.ybc-skin-blue #submitMessage, 
+body.ybc-skin-blue #add_to_cart .exclusive,
+body.ybc-skin-blue #social_block ul li a:hover,
+body.ybc-skin-blue #ybc-advancedcats-wrapper > h6,
+body.ybc-skin-blue #footer #newsletter_block_left .form-group .button-small span,
+body.ybc-skin-blue .button_color, 
+body.ybc-skin-blue .sale-label,
+body.ybc-skin-blue .price-percent-reduction, 
+body.ybc-skin-blue .cart_navigation .button-medium,
+body.ybc-skin-blue .body.ybc-skin-red button.button-medium.exclusive,
+body.ybc-skin-blue .box-info-product .exclusive span, 
+body.ybc-skin-blue .button.button-medium.exclusive span, 
+body.ybc-skin-blue .ybc-blog-search .block_content .button,
+body.ybc-skin-blue .blockcart .shopping_cart > a b.icon-cart, 
+body.ybc-skin-blue .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-blue .cart_block .cart-buttons a#button_order_cart, 
+body.ybc-skin-blue .product_list .functional-buttons div a:hover, 
+body.ybc-skin-blue ul.product_list .functional-buttons div label:hover,
+body.ybc-skin-blue ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-blue .button.ybc-nivo-button,
+body.ybc-skin-blue #ybc-advancedcats-wrapper,
+body.ybc-skin-blue .button.button-medium,
+body.ybc-skin-blue input.button_mini,
+body.ybc-skin-blue input.button_small,
+body.ybc-skin-blue input.button,
+body.ybc-skin-blue input.button_large,
+body.ybc-skin-blue input.button_mini_disabled,
+body.ybc-skin-blue input.button_small_disabled,
+body.ybc-skin-blue input.button_disabled,
+body.ybc-skin-blue input.button_large_disabled,
+body.ybc-skin-blue input.exclusive_mini,
+body.ybc-skin-blue input.exclusive_small,
+body.ybc-skin-blue input.exclusive,
+body.ybc-skin-blue input.exclusive_large,
+body.ybc-skin-blue input.exclusive_mini_disabled,
+body.ybc-skin-blue input.exclusive_small_disabled,
+body.ybc-skin-blue input.exclusive_disabled,
+body.ybc-skin-blue input.exclusive_large_disabled,
+body.ybc-skin-blue a.button_mini,
+body.ybc-skin-blue a.button_small,
+body.ybc-skin-blue a.button,
+body.ybc-skin-blue a.button_large,
+body.ybc-skin-blue a.exclusive_mini,
+body.ybc-skin-blue a.exclusive_small,
+body.ybc-skin-blue a.exclusive,
+body.ybc-skin-blue a.exclusive_large,
+body.ybc-skin-blue span.button_mini,
+body.ybc-skin-blue span.button_small,
+body.ybc-skin-blue span.button,
+body.ybc-skin-blue span.button_large,
+body.ybc-skin-blue span.exclusive_mini,
+body.ybc-skin-blue span.exclusive_small,
+body.ybc-skin-blue span.exclusive,
+body.ybc-skin-blue span.exclusive_large,
+body.ybc-skin-blue span.exclusive_large_disabled,
+body.ybc-skin-blue .ybc-menu-toggle.change_background{
+  background-color: #e35f56;
+}
+body.ybc-skin-blue .footer-container, 
+body.ybc-skin-blue .button.button-medium span, 
+body.ybc-skin-blue .block .title_block, 
+body.ybc-skin-blue .block h4,
+body.ybc-skin-blue .price-percent-reduction,
+body.ybc-skin-blue ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-blue ul.product_list .functional-buttons div a:hover, 
+body.ybc-skin-blue ul.product_list .functional-buttons div label:hover ,
+body.ybc-skin-blue .product_list.grid .button.ajax_add_to_cart_button:hover, 
+body.ybc-skin-blue #productscategory_list .button-container .ajax_add_to_cart_button:hover, 
+body.ybc-skin-blue .accessories-block .button-container .ajax_add_to_cart_button:hover,
+body.ybc-skin-blue .title_tab_product li a.selected:after,
+body.ybc-skin-blue .caption-skin-light .button:hover,
+body.ybc-skin-blue .ybc-blog-search .block_content .button,
+body.ybc-skin-blue input.button_mini,
+body.ybc-skin-blue input.button_small,
+body.ybc-skin-blue input.button,
+body.ybc-skin-blue input.button_large,
+body.ybc-skin-blue input.button_mini_disabled,
+body.ybc-skin-blue input.button_small_disabled,
+body.ybc-skin-blue input.button_disabled,
+body.ybc-skin-blue input.button_large_disabled,
+body.ybc-skin-blue input.exclusive_mini,
+body.ybc-skin-blue input.exclusive_small,
+body.ybc-skin-blue input.exclusive,
+body.ybc-skin-blue input.exclusive_large,
+body.ybc-skin-blue input.exclusive_mini_disabled,
+body.ybc-skin-blue input.exclusive_small_disabled,
+body.ybc-skin-blue input.exclusive_disabled,
+body.ybc-skin-blue input.exclusive_large_disabled,
+body.ybc-skin-blue a.button_mini,
+body.ybc-skin-blue a.button_small,
+body.ybc-skin-blue a.button,
+body.ybc-skin-blue a.button_large,
+body.ybc-skin-blue a.exclusive_mini,
+body.ybc-skin-blue a.exclusive_small,
+body.ybc-skin-blue a.exclusive,
+body.ybc-skin-blue a.exclusive_large,
+body.ybc-skin-blue span.button_mini,
+body.ybc-skin-blue span.button_small,
+body.ybc-skin-blue span.button,
+body.ybc-skin-blue span.button_large,
+body.ybc-skin-blue span.exclusive_mini,
+body.ybc-skin-blue span.exclusive_small,
+body.ybc-skin-blue span.exclusive,
+body.ybc-skin-blue span.exclusive_large,
+body.ybc-skin-blue span.exclusive_large_disabled,
+body.ybc-skin-blue .button.ajax_add_to_cart_button:hover{
+  border-color: #e35f56;
+}
+body.ybc-skin-blue #header .cart_block .cart_block_list .remove_link a, 
+body.ybc-skin-blue #header .cart_block .cart_block_list .ajax_cart_block_remove_link,
+body.ybc-skin-blue .nivo-controlNav a.active.nivo-control:before,
+body.ybc-skin-blue .theme-default a.nivo-nextNav:before,
+body.ybc-skin-blue .theme-default a.nivo-prevNav:before,
+body.ybc-skin-blue #home-page-tabs li:hover a:before, 
+body.ybc-skin-blue #home-page-tabs li.active a:before,
+body.ybc-skin-blue#my-account ul.myaccount-link-list li a i,
+body.ybc-skin-blue .ybc-caption-frame .caption2 .caption-span,
+body.ybc-skin-blue .pb-center-column .content_prices .our_price_display,
+body.ybc-skin-blue #home-page-tabs li a:hover:before,
+body.ybc-skin-blue #home-page-tabs li.active a:before {
+  color: #e35f56;
+}
+
+body.ybc-skin-blue .ybc-copyright, body.ybc-skin-blue .footer_bottom {
+  background-color: #0077a6;
+}
+
+/* end ybc-skin-blue */
+
+/*************************************************************************************************************/
+
+/* ybc-skin-orange */
+body.ybc-skin-orange .header-bottom, 
+body.ybc-skin-orange #social_block ul li a, 
+body.ybc-skin-orange .block .title_block, 
+body.ybc-skin-orange .block h4, 
+body.ybc-skin-orange .title_cat:before, 
+body.ybc-skin-orange .new-label, 
+body.ybc-skin-orange#index .bx-controls .bx-next:before, 
+body.ybc-skin-orange#product #productscategory_list .bx-controls .bx-next:before, 
+body.ybc-skin-orange#product .accessories-block .bx-controls .bx-next:before, 
+body.ybc-skin-orange .footer-container,
+body.ybc-skin-orange .step_current .number-steps, 
+body.ybc-skin-orange .owl-theme .owl-controls .owl-buttons div,
+body.ybc-skin-orange .step_current .number-steps::before {
+  background-color: #fa6900;
+}
+
+body.ybc-skin-orange #header, 
+body.ybc-skin-orange .primary_block .ybc-product-html .fa,
+body.ybc-skin-orange .ybc-product-html .ybc_htmltitle > span {
+  border-color: #fa6900;
+}
+body.ybc-skin-orange .content_sortPagiBar .display li.selected i, 
+body.ybc-skin-orange .content_sortPagiBar .display_m li.selected i,
+body.ybc-skin-orange .primary_block .ybc-product-html .fa,
+body.ybc-skin-orange .box-cart-bottom #wishlist_button:before, 
+body.ybc-skin-orange .box-cart-bottom #wishlist_button_nopop:before,
+body.ybc-skin-orange #home-page-tabs li a:before,
+body.ybc-skin-orange #layer_cart .layer_cart_product h2{
+    color: #fa6900;
+}
+
+/*hover button*/
+body.ybc-skin-orange #submitWishlist:hover, 
+body.ybc-skin-orange #submitAddress:hover, 
+body.ybc-skin-orange .button_color:hover, 
+body.ybc-skin-orange #SubmitLogin:hover,
+body.ybc-skin-orange .box-info-product .exclusive:hover span, 
+body.ybc-skin-orange #footer #newsletter_block_left .form-group .button-small:hover span,
+body.ybc-skin-orange .button.button-medium.exclusive:hover span, 
+body.ybc-skin-orange .cart_navigation .button-medium,
+body.ybc-skin-orange .button.button-medium.exclusive:hover, 
+body.ybc-skin-orange ul.product_list.list .button.ajax_add_to_cart_button:hover,
+body.ybc-skin-orange ul.product_list.list .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-orange .button.button-medium:hover, 
+body.ybc-skin-orange #submitMessage:hover,
+body.ybc-skin-orange .ybc-blog-search .block_content .button:hover,
+body.ybc-skin-orange #ybc-advancedcats-wrapper:hover > h6,
+body.ybc-skin-orange .caption-skin-default .button:hover,
+body.ybc-skin-orange .caption-skin-regular .button:hover,
+body.ybc-skin-orange .cart_block .cart-buttons a#button_order_cart:hover, 
+body.ybc-skin-orange .cart_block .cart-buttons a#button_order_cart span:hover,
+body.ybc-skin-orange input.button_mini:hover,
+body.ybc-skin-orange input.button_small:hover,
+body.ybc-skin-orange input.button:hover,
+body.ybc-skin-orange input.button_large:hover,
+body.ybc-skin-orange input.exclusive_mini:hover,
+body.ybc-skin-orange input.exclusive_small:hover,
+body.ybc-skin-orange input.exclusive:hover,
+body.ybc-skin-orange input.exclusive_large:hover,
+body.ybc-skin-orange a.button_mini:hover,
+body.ybc-skin-orange a.button_small:hover,
+body.ybc-skin-orange a.button:hover,
+body.ybc-skin-orange a.button_large:hover,
+body.ybc-skin-orange a.exclusive_mini:hover,
+body.ybc-skin-orange a.exclusive_small:hover,
+body.ybc-skin-orange a.exclusive:hover,
+body.ybc-skin-orange a.exclusive_large:hover{
+  background-color: #00e4ff;
+}
+body.ybc-skin-orange #my-account ul.myaccount-link-list li a i:hover, 
+body.ybc-skin-orange #search_block_top .btn.button-search:hover,
+body.ybc-skin-orange a:hover, 
+body.ybc-skin-orange a:hover:after, 
+body.ybc-skin-orange a:hover:before, 
+body.ybc-skin-orange #contact-link > a:hover:before,
+body.ybc-skin-orange #currencies-block-top:hover div.current strong, 
+body.ybc-skin-orange nav #currencies-block-top:hover div.current::after,
+body.ybc-skin-orange #languages-block-top:hover div.current span,
+body.ybc-skin-orange #languages-block-top:hover div.current::after,
+body.ybc-skin-orange .footer-container #footer a:hover,
+body.ybc-skin-orange .buttons_bottom_block #wishlist_button:hover:before, 
+body.ybc-skin-orange .buttons_bottom_block #wishlist_button_nopop:hover:before,
+body.ybc-skin-orange .caption-skin-light .button:hover,
+body.ybc-skin-orange .content_sortPagiBar .display li a:hover i, 
+body.ybc-skin-orange .content_sortPagiBar .display_m li a:hover i {
+      color: #00e4ff;
+}
+/*button color*/            
+body.ybc-skin-orange #submitWishlist, 
+body.ybc-skin-orange #submitAddress, 
+body.ybc-skin-orange #SubmitLogin,
+body.ybc-skin-orange #submitMessage, 
+body.ybc-skin-orange #add_to_cart .exclusive,
+body.ybc-skin-orange #social_block ul li a:hover,
+body.ybc-skin-orange #ybc-advancedcats-wrapper > h6,
+body.ybc-skin-orange #footer #newsletter_block_left .form-group .button-small span,
+body.ybc-skin-orange .button_color, 
+body.ybc-skin-orange .sale-label,
+body.ybc-skin-orange .price-percent-reduction, 
+body.ybc-skin-orange .cart_navigation .button-medium,
+body.ybc-skin-orange .body.ybc-skin-red button.button-medium.exclusive,
+body.ybc-skin-orange .box-info-product .exclusive span, 
+body.ybc-skin-orange .button.button-medium.exclusive span, 
+body.ybc-skin-orange .ybc-blog-search .block_content .button,
+body.ybc-skin-orange .blockcart .shopping_cart > a b.icon-cart, 
+body.ybc-skin-orange .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-orange .cart_block .cart-buttons a#button_order_cart, 
+body.ybc-skin-orange .product_list .functional-buttons div a:hover, 
+body.ybc-skin-orange ul.product_list .functional-buttons div label:hover,
+body.ybc-skin-orange ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-orange .button.ybc-nivo-button,
+body.ybc-skin-orange #ybc-advancedcats-wrapper,
+body.ybc-skin-orange .button.button-medium,
+body.ybc-skin-orange input.button_mini,
+body.ybc-skin-orange input.button_small,
+body.ybc-skin-orange input.button,
+body.ybc-skin-orange input.button_large,
+body.ybc-skin-orange input.button_mini_disabled,
+body.ybc-skin-orange input.button_small_disabled,
+body.ybc-skin-orange input.button_disabled,
+body.ybc-skin-orange input.button_large_disabled,
+body.ybc-skin-orange input.exclusive_mini,
+body.ybc-skin-orange input.exclusive_small,
+body.ybc-skin-orange input.exclusive,
+body.ybc-skin-orange input.exclusive_large,
+body.ybc-skin-orange input.exclusive_mini_disabled,
+body.ybc-skin-orange input.exclusive_small_disabled,
+body.ybc-skin-orange input.exclusive_disabled,
+body.ybc-skin-orange input.exclusive_large_disabled,
+body.ybc-skin-orange a.button_mini,
+body.ybc-skin-orange a.button_small,
+body.ybc-skin-orange a.button,
+body.ybc-skin-orange a.button_large,
+body.ybc-skin-orange a.exclusive_mini,
+body.ybc-skin-orange a.exclusive_small,
+body.ybc-skin-orange a.exclusive,
+body.ybc-skin-orange a.exclusive_large,
+body.ybc-skin-orange span.button_mini,
+body.ybc-skin-orange span.button_small,
+body.ybc-skin-orange span.button,
+body.ybc-skin-orange span.button_large,
+body.ybc-skin-orange span.exclusive_mini,
+body.ybc-skin-orange span.exclusive_small,
+body.ybc-skin-orange span.exclusive,
+body.ybc-skin-orange span.exclusive_large,
+body.ybc-skin-orange span.exclusive_large_disabled,
+body.ybc-skin-orange .ybc-menu-toggle.change_background{
+  background-color: #00c8f9;
+}
+body.ybc-skin-orange .footer-container, 
+body.ybc-skin-orange .button.button-medium span, 
+body.ybc-skin-orange .block .title_block, 
+body.ybc-skin-orange .block h4,
+body.ybc-skin-orange .price-percent-reduction,
+body.ybc-skin-orange ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-orange ul.product_list .functional-buttons div a:hover, 
+body.ybc-skin-orange ul.product_list .functional-buttons div label:hover ,
+body.ybc-skin-orange .product_list.grid .button.ajax_add_to_cart_button:hover, 
+body.ybc-skin-orange #productscategory_list .button-container .ajax_add_to_cart_button:hover, 
+body.ybc-skin-orange .accessories-block .button-container .ajax_add_to_cart_button:hover,
+body.ybc-skin-orange .title_tab_product li a.selected:after,
+body.ybc-skin-orange .caption-skin-light .button:hover,
+body.ybc-skin-orange .ybc-blog-search .block_content .button,
+body.ybc-skin-orange input.button_mini,
+body.ybc-skin-orange input.button_small,
+body.ybc-skin-orange input.button,
+body.ybc-skin-orange input.button_large,
+body.ybc-skin-orange input.button_mini_disabled,
+body.ybc-skin-orange input.button_small_disabled,
+body.ybc-skin-orange input.button_disabled,
+body.ybc-skin-orange input.button_large_disabled,
+body.ybc-skin-orange input.exclusive_mini,
+body.ybc-skin-orange input.exclusive_small,
+body.ybc-skin-orange input.exclusive,
+body.ybc-skin-orange input.exclusive_large,
+body.ybc-skin-orange input.exclusive_mini_disabled,
+body.ybc-skin-orange input.exclusive_small_disabled,
+body.ybc-skin-orange input.exclusive_disabled,
+body.ybc-skin-orange input.exclusive_large_disabled,
+body.ybc-skin-orange a.button_mini,
+body.ybc-skin-orange a.button_small,
+body.ybc-skin-orange a.button,
+body.ybc-skin-orange a.button_large,
+body.ybc-skin-orange a.exclusive_mini,
+body.ybc-skin-orange a.exclusive_small,
+body.ybc-skin-orange a.exclusive,
+body.ybc-skin-orange a.exclusive_large,
+body.ybc-skin-orange span.button_mini,
+body.ybc-skin-orange span.button_small,
+body.ybc-skin-orange span.button,
+body.ybc-skin-orange span.button_large,
+body.ybc-skin-orange span.exclusive_mini,
+body.ybc-skin-orange span.exclusive_small,
+body.ybc-skin-orange span.exclusive,
+body.ybc-skin-orange span.exclusive_large,
+body.ybc-skin-orange span.exclusive_large_disabled,
+body.ybc-skin-orange .button.ajax_add_to_cart_button:hover{
+  border-color: #00c8f9;
+}
+body.ybc-skin-orange #header .cart_block .cart_block_list .remove_link a, 
+body.ybc-skin-orange #header .cart_block .cart_block_list .ajax_cart_block_remove_link,
+body.ybc-skin-orange .nivo-controlNav a.active.nivo-control:before,
+body.ybc-skin-orange .theme-default a.nivo-nextNav:before,
+body.ybc-skin-orange .theme-default a.nivo-prevNav:before,
+body.ybc-skin-orange #home-page-tabs li:hover a:before, 
+body.ybc-skin-orange #home-page-tabs li.active a:before,
+body.ybc-skin-orange#my-account ul.myaccount-link-list li a i,
+body.ybc-skin-orange .ybc-caption-frame .caption2 .caption-span,
+body.ybc-skin-orange .pb-center-column .content_prices .our_price_display,
+body.ybc-skin-orange #home-page-tabs li a:hover:before,
+body.ybc-skin-orange #home-page-tabs li.active a:before {
+  color: #00c8f9;
+}
+
+body.ybc-skin-orange .ybc-copyright, body.ybc-skin-orange .footer_bottom {
+  background-color: #e95800;
+}
+/* end ybc-skin-orange */
+
+/**********************************************************************************************************/
+
+/* ybc-skin-green */
+body.ybc-skin-green .header-bottom, 
+body.ybc-skin-green #social_block ul li a, 
+body.ybc-skin-green .block .title_block, 
+body.ybc-skin-green .block h4, 
+body.ybc-skin-green .title_cat:before, 
+body.ybc-skin-green .new-label, 
+body.ybc-skin-green#index .bx-controls .bx-next:before, 
+body.ybc-skin-green#product #productscategory_list .bx-controls .bx-next:before, 
+body.ybc-skin-green#product .accessories-block .bx-controls .bx-next:before, 
+body.ybc-skin-green .footer-container,
+body.ybc-skin-green .step_current .number-steps, 
+body.ybc-skin-green .owl-theme .owl-controls .owl-buttons div,
+body.ybc-skin-green .step_current .number-steps::before {
+  background-color: #4db42f;
+}
+
+body.ybc-skin-green #header, 
+body.ybc-skin-green .primary_block .ybc-product-html .fa,
+body.ybc-skin-green .ybc-product-html .ybc_htmltitle > span {
+  border-color: #4db42f;
+}
+body.ybc-skin-green .content_sortPagiBar .display li.selected i, 
+body.ybc-skin-green .content_sortPagiBar .display_m li.selected i,
+body.ybc-skin-green .primary_block .ybc-product-html .fa,
+body.ybc-skin-green .box-cart-bottom #wishlist_button:before, 
+body.ybc-skin-green .box-cart-bottom #wishlist_button_nopop:before,
+body.ybc-skin-green #home-page-tabs li a:before,
+body.ybc-skin-green #layer_cart .layer_cart_product h2{
+    color: #4db42f;
+}
+
+/*hover button*/
+body.ybc-skin-green #submitWishlist:hover, 
+body.ybc-skin-green #submitAddress:hover, 
+body.ybc-skin-green .button_color:hover, 
+body.ybc-skin-green #SubmitLogin:hover,
+body.ybc-skin-green .box-info-product .exclusive:hover span, 
+body.ybc-skin-green #footer #newsletter_block_left .form-group .button-small:hover span,
+body.ybc-skin-green .button.button-medium.exclusive:hover span, 
+body.ybc-skin-green .cart_navigation .button-medium,
+body.ybc-skin-green .button.button-medium.exclusive:hover, 
+body.ybc-skin-green ul.product_list.list .button.ajax_add_to_cart_button:hover,
+body.ybc-skin-green ul.product_list.list .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-green .button.button-medium:hover, 
+body.ybc-skin-green #submitMessage:hover,
+body.ybc-skin-green .ybc-blog-search .block_content .button:hover,
+body.ybc-skin-green #ybc-advancedcats-wrapper:hover > h6,
+body.ybc-skin-green .caption-skin-default .button:hover,
+body.ybc-skin-green .caption-skin-regular .button:hover,
+body.ybc-skin-green .cart_block .cart-buttons a#button_order_cart:hover, 
+body.ybc-skin-green .cart_block .cart-buttons a#button_order_cart span:hover,
+body.ybc-skin-green input.button_mini:hover,
+body.ybc-skin-green input.button_small:hover,
+body.ybc-skin-green input.button:hover,
+body.ybc-skin-green input.button_large:hover,
+body.ybc-skin-green input.exclusive_mini:hover,
+body.ybc-skin-green input.exclusive_small:hover,
+body.ybc-skin-green input.exclusive:hover,
+body.ybc-skin-green input.exclusive_large:hover,
+body.ybc-skin-green a.button_mini:hover,
+body.ybc-skin-green a.button_small:hover,
+body.ybc-skin-green a.button:hover,
+body.ybc-skin-green a.button_large:hover,
+body.ybc-skin-green a.exclusive_mini:hover,
+body.ybc-skin-green a.exclusive_small:hover,
+body.ybc-skin-green a.exclusive:hover,
+body.ybc-skin-green a.exclusive_large:hover{
+  background-color: #ffa200;
+}
+body.ybc-skin-green #my-account ul.myaccount-link-list li a i:hover, 
+body.ybc-skin-green #search_block_top .btn.button-search:hover,
+body.ybc-skin-green a:hover, 
+body.ybc-skin-green a:hover:after, 
+body.ybc-skin-green a:hover:before, 
+body.ybc-skin-green #contact-link > a:hover:before,
+body.ybc-skin-green #currencies-block-top:hover div.current strong, 
+body.ybc-skin-green nav #currencies-block-top:hover div.current::after,
+body.ybc-skin-green #languages-block-top:hover div.current span,
+body.ybc-skin-green #languages-block-top:hover div.current::after,
+body.ybc-skin-green .footer-container #footer a:hover,
+body.ybc-skin-green .buttons_bottom_block #wishlist_button:hover:before, 
+body.ybc-skin-green .buttons_bottom_block #wishlist_button_nopop:hover:before,
+body.ybc-skin-green .caption-skin-light .button:hover,
+body.ybc-skin-green .content_sortPagiBar .display li a:hover i, 
+body.ybc-skin-green .content_sortPagiBar .display_m li a:hover i {
+      color: #ffa200;
+}
+/*button color*/            
+body.ybc-skin-green #submitWishlist, 
+body.ybc-skin-green #submitAddress, 
+body.ybc-skin-green #SubmitLogin,
+body.ybc-skin-green #submitMessage, 
+body.ybc-skin-green #add_to_cart .exclusive,
+body.ybc-skin-green #social_block ul li a:hover,
+body.ybc-skin-green #ybc-advancedcats-wrapper > h6,
+body.ybc-skin-green #footer #newsletter_block_left .form-group .button-small span,
+body.ybc-skin-green .button_color, 
+body.ybc-skin-green .sale-label,
+body.ybc-skin-green .price-percent-reduction, 
+body.ybc-skin-green .cart_navigation .button-medium,
+body.ybc-skin-green .body.ybc-skin-red button.button-medium.exclusive,
+body.ybc-skin-green .box-info-product .exclusive span, 
+body.ybc-skin-green .button.button-medium.exclusive span, 
+body.ybc-skin-green .ybc-blog-search .block_content .button,
+body.ybc-skin-green .blockcart .shopping_cart > a b.icon-cart, 
+body.ybc-skin-green .button.ajax_add_to_cart_button:hover span,
+body.ybc-skin-green .cart_block .cart-buttons a#button_order_cart, 
+body.ybc-skin-green .product_list .functional-buttons div a:hover, 
+body.ybc-skin-green ul.product_list .functional-buttons div label:hover,
+body.ybc-skin-green ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-green .button.ybc-nivo-button,
+body.ybc-skin-green #ybc-advancedcats-wrapper,
+body.ybc-skin-green .button.button-medium,
+body.ybc-skin-green input.button_mini,
+body.ybc-skin-green input.button_small,
+body.ybc-skin-green input.button,
+body.ybc-skin-green input.button_large,
+body.ybc-skin-green input.button_mini_disabled,
+body.ybc-skin-green input.button_small_disabled,
+body.ybc-skin-green input.button_disabled,
+body.ybc-skin-green input.button_large_disabled,
+body.ybc-skin-green input.exclusive_mini,
+body.ybc-skin-green input.exclusive_small,
+body.ybc-skin-green input.exclusive,
+body.ybc-skin-green input.exclusive_large,
+body.ybc-skin-green input.exclusive_mini_disabled,
+body.ybc-skin-green input.exclusive_small_disabled,
+body.ybc-skin-green input.exclusive_disabled,
+body.ybc-skin-green input.exclusive_large_disabled,
+body.ybc-skin-green a.button_mini,
+body.ybc-skin-green a.button_small,
+body.ybc-skin-green a.button,
+body.ybc-skin-green a.button_large,
+body.ybc-skin-green a.exclusive_mini,
+body.ybc-skin-green a.exclusive_small,
+body.ybc-skin-green a.exclusive,
+body.ybc-skin-green a.exclusive_large,
+body.ybc-skin-green span.button_mini,
+body.ybc-skin-green span.button_small,
+body.ybc-skin-green span.button,
+body.ybc-skin-green span.button_large,
+body.ybc-skin-green span.exclusive_mini,
+body.ybc-skin-green span.exclusive_small,
+body.ybc-skin-green span.exclusive,
+body.ybc-skin-green span.exclusive_large,
+body.ybc-skin-green span.exclusive_large_disabled,
+body.ybc-skin-green .ybc-menu-toggle.change_background{
+  background-color: #fb6902;
+}
+body.ybc-skin-green .footer-container, 
+body.ybc-skin-green .button.button-medium span, 
+body.ybc-skin-green .block .title_block, 
+body.ybc-skin-green .block h4,
+body.ybc-skin-green .price-percent-reduction,
+body.ybc-skin-green ul.product_list .product-image-container a.quick-view:hover,
+body.ybc-skin-green ul.product_list .functional-buttons div a:hover, 
+body.ybc-skin-green ul.product_list .functional-buttons div label:hover ,
+body.ybc-skin-green .product_list.grid .button.ajax_add_to_cart_button:hover, 
+body.ybc-skin-green #productscategory_list .button-container .ajax_add_to_cart_button:hover, 
+body.ybc-skin-green .accessories-block .button-container .ajax_add_to_cart_button:hover,
+body.ybc-skin-green .title_tab_product li a.selected:after,
+body.ybc-skin-green .caption-skin-light .button:hover,
+body.ybc-skin-green .ybc-blog-search .block_content .button,
+body.ybc-skin-green input.button_mini,
+body.ybc-skin-green input.button_small,
+body.ybc-skin-green input.button,
+body.ybc-skin-green input.button_large,
+body.ybc-skin-green input.button_mini_disabled,
+body.ybc-skin-green input.button_small_disabled,
+body.ybc-skin-green input.button_disabled,
+body.ybc-skin-green input.button_large_disabled,
+body.ybc-skin-green input.exclusive_mini,
+body.ybc-skin-green input.exclusive_small,
+body.ybc-skin-green input.exclusive,
+body.ybc-skin-green input.exclusive_large,
+body.ybc-skin-green input.exclusive_mini_disabled,
+body.ybc-skin-green input.exclusive_small_disabled,
+body.ybc-skin-green input.exclusive_disabled,
+body.ybc-skin-green input.exclusive_large_disabled,
+body.ybc-skin-green a.button_mini,
+body.ybc-skin-green a.button_small,
+body.ybc-skin-green a.button,
+body.ybc-skin-green a.button_large,
+body.ybc-skin-green a.exclusive_mini,
+body.ybc-skin-green a.exclusive_small,
+body.ybc-skin-green a.exclusive,
+body.ybc-skin-green a.exclusive_large,
+body.ybc-skin-green span.button_mini,
+body.ybc-skin-green span.button_small,
+body.ybc-skin-green span.button,
+body.ybc-skin-green span.button_large,
+body.ybc-skin-green span.exclusive_mini,
+body.ybc-skin-green span.exclusive_small,
+body.ybc-skin-green span.exclusive,
+body.ybc-skin-green span.exclusive_large,
+body.ybc-skin-green span.exclusive_large_disabled,
+body.ybc-skin-green .button.ajax_add_to_cart_button:hover{
+  border-color: #fb6902;
+}
+body.ybc-skin-green #header .cart_block .cart_block_list .remove_link a, 
+body.ybc-skin-green #header .cart_block .cart_block_list .ajax_cart_block_remove_link,
+body.ybc-skin-green .nivo-controlNav a.active.nivo-control:before,
+body.ybc-skin-green .theme-default a.nivo-nextNav:before,
+body.ybc-skin-green .theme-default a.nivo-prevNav:before,
+body.ybc-skin-green #home-page-tabs li:hover a:before, 
+body.ybc-skin-green #home-page-tabs li.active a:before,
+body.ybc-skin-green#my-account ul.myaccount-link-list li a i,
+body.ybc-skin-green .ybc-caption-frame .caption2 .caption-span,
+body.ybc-skin-green .pb-center-column .content_prices .our_price_display,
+body.ybc-skin-green #home-page-tabs li a:hover:before,
+body.ybc-skin-green #home-page-tabs li.active a:before {
+  color: #fb6902;
+}
+
+body.ybc-skin-green .ybc-copyright, body.ybc-skin-green .footer_bottom {
+  background-color: #3aa11c;
+}
+/* end ybc-skin-green */
+@media (min-width: 992px){
+    body.ybc-layout-boxed .content_sortPagiBar div.selector {
+      width: 100px !important;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px){
+    .ybc-layout-boxed #search_block_top {
+      right: 15px;
+    }
+    .ybc-layout-boxed .product_list.grid > li {
+      width: 33%;
+    }
+    .ybc-layout-boxed #category ul.product_list.grid > li.first-in-line {
+      clear: inherit;
+    }
+    .ybc-layout-boxed#category .product_list.grid > li:nth-child(3n+1),
+    .ybc-layout-boxed#search .product_list.grid > li:nth-child(3n+1) {
+      clear: left;
+    }
+    .ybc-layout-boxed#index ul.product_list.tab-pane > li {
+      width: 196px !important;
+    }
+    .ybc-layout-boxed .footer-container #footer #social_block {
+      width: 46%;
+    }
+    .ybc-layout-boxed .content_sortPagiBar .nbrItemPage {
+      width: 26%;
+    }
+    .ybc-layout-boxed #productscategory_list #bxslider1 .product-box.item {
+      margin-right: 48px !important;
+      width: 190px !important;
+    }
+    .ybc-layout-boxed .accessories-block .block_content li {
+      width: 192px !important;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px){
+    .ybc-layout-boxed#index ul.product_list.tab-pane > li {
+      margin-right: 20px !important;
+    }
+    body.ybc-layout-boxed #center_column ul.product_list .product-container:hover .functional-buttons .compare, 
+    body.ybc-layout-boxed #center_column ul.product_list .product-container:hover .functional-buttons > .wishlist {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    body.ybc-layout-boxed .footer-container #footer #social_block {
+      padding-right: 5px;
+      width: 38%;
+    }
+    body.ybc-layout-boxed #center_column .content_sortPagiBar .sortPagiBar #productsSortForm {
+      width: 36%;
+    }
+    body.ybc-layout-boxed .content_sortPagiBar div.selector {
+      width: 100px !important;
+    }
+    body.ybc-layout-boxed #productscategory_list #bxslider1 .product-box.item {
+      margin-right: 50px;
+    }
+    body#index.ybc-layout-boxed .tab-content ul.product_list li {
+      max-width: 220px;
+      width: 220px !important;
+    }
+    body.ybc-layout-boxed .ybc-mnf-block-li {
+      width: 213px !important;
+    }
+    body.ybc-layout-boxed #footer #newsletter_block_left{
+        padding-left: 10px;
+    }
+    body.ybc-layout-boxed .footer-container #footer .bottom-footer {
+      margin-left: 1%;
+      width: 98%;
+    }
+    body.ybc-layout-boxed .payment_footer {
+      right: 7px;
+    }
+    body.ybc-layout-boxed #productscategory_list .product-box.item {
+      max-width: 164px;
+    }
+    body.ybc-layout-boxed .accessories-block .block_content li {
+      margin-right: 12px !important;
+    }
+}
+@media (max-width: 767px){
+    body.ybc-skin-orange .footer-container #footer .footer-block {
+      border-bottom: 1px solid rgb(250, 105, 0);
+    }
+    body.ybc-skin-green .footer-container #footer .footer-block {
+      border-bottom: 1px solid rgb(77, 180, 47);
+    }
+    body.ybc-skin-blue .footer-container #footer .footer-block {
+      border-bottom: 1px solid #018BBA;
+    }
+    body.ybc-skin-pink .footer-container #footer .footer-block {
+      border-bottom: 1px solid rgb(234, 76, 111);
+    }
+    body.ybc-skin-red .footer-container #footer .footer-block {
+      border-bottom: 1px solid #ff2321;
+    }
+    
+}
+@media (max-width: 479px){
+    body.ybc-skin-pink #footer #newsletter_block_left {
+      border-top: 1px solid #ea4c6f;
+    }
+    body.ybc-skin-green #footer #newsletter_block_left {
+      border-top: 1px solid #4db42f;
+    }
+    body.ybc-skin-orange #footer #newsletter_block_left {
+      border-top: 1px solid #FA6900;
+    }
+    body.ybc-skin-blue #footer #newsletter_block_left {
+      border-top: 1px solid #018bba;
+    }
+}
+
+
+
+
+
+
+
+
+

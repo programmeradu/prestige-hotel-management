@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Payment Reminder</title>
+</head>
+<body style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #333333;">
+  <table style="width: 100%; max-width: 600px; margin: 0 auto; border-collapse: collapse;">
+    <tr>
+      <td style="padding: 20px; border-bottom: 1px solid #eee;">
+        <h2 style="color: #D9534F;">{shop_name} - Payment Reminder</h2>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 20px;">
+        <p>Hello {firstname} {lastname},</p>
+        
+        <p>This is a friendly reminder about your recent order #{order_reference} at {shop_name}.</p>
+        
+        <p><strong>Your payment is still pending.</strong> To keep your order active, please complete your mobile money payment within the next {hours_left} hours, or it will be automatically canceled.</p>
+        
+        <div style="background-color: #f8f8f8; border-left: 4px solid #D9534F; padding: 15px; margin: 20px 0;">
+          <p><strong>Payment Instructions:</strong></p>
+          <ol style="padding-left: 20px; margin-top: 10px;">
+            <li>Send {total_paid} {currency} to our Mobile Money number: <strong>{momo_number}</strong></li>
+            <li>Use your order reference <strong>{order_reference}</strong> as payment description</li>
+            <li>After payment, go to your order confirmation page and enter the transaction ID</li>
+          </ol>
+        </div>
+        
+        <p>You can check the status of your order and complete payment by following this link:</p>
+        <p><a style="color: #337ab7; text-decoration: none; font-weight: bold;" href="{order_link}">{order_link}</a></p>
+        
+        <p>Thank you for your prompt attention to this matter.</p>
+        
+        <p>Best regards,<br>
+        The {shop_name} Team</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 20px; background-color: #f8f8f8; text-align: center; font-size: 12px; color: #777;">
+        <p>{shop_name}</p>
+        <p>Powered by <a style="color: #337ab7; text-decoration: none;" href="https://www.prestashop.com/">PrestaShop</a></p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,36 @@
+-----------------------------
+# V1.0.3 to V1.0.4
+-----------------------------
+
+- [CO] : Updated zip file name
+- [CO] : Fixed : Boolean values sent via AJAX were incorrectly interpreted as strings on the server side in PHP.
+
+-----------------------------
+# V1.0.2 to V1.0.3
+-----------------------------
+
+- [CO] : Resolve minor bugs
+- [CO] : Updates: old modules are now disabled instead of removing them
+- [CO] : Modules are now updated in script, no need to open module and services page.
+
+-----------------------------
+# V1.0.1 to V1.0.2
+-----------------------------
+
+## Fixed Bug:
+
+- [CO] : Removed : Removed unused list.
+- [CO] : Updated : Db upgrade sql script directory.
+
+-----------------------------
+# V1.0.0 to V1.0.1
+-----------------------------
+
+## Fixed Bug:
+
+- [CO] : Resloved : channel not available issue.
+- [CO] : Resloved : Room features not images not availabe after upgrade.
+
+
+## New Feature:
+- [CO] : Support QloApps upgrade to QloApps:1.5.2.0

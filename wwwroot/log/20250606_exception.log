@@ -1,0 +1,14 @@
+*ERROR* 	2025/06/06 - 05:45:27: Table 'hotel.qlooo_shop_url' doesn't exist<br /><br /><pre>SELECT s.id_shop, CONCAT(su.physical_uri, su.virtual_uri) AS uri, su.domain, su.main
+					FROM qlooo_shop_url su
+					LEFT JOIN qlooo_shop s ON (s.id_shop = su.id_shop)
+					WHERE (su.domain = 'prestigehotel.org' OR su.domain_ssl = 'prestigehotel.org')
+						AND s.active = 1
+						AND s.deleted = 0
+					ORDER BY LENGTH(CONCAT(su.physical_uri, su.virtual_uri)) DESC</pre> at line 797 in file classes/db/Db.php
+*ERROR* 	2025/06/06 - 06:26:04: Table 'hotel.qlooo_shop_url' doesn't exist<br /><br /><pre>SELECT s.id_shop, CONCAT(su.physical_uri, su.virtual_uri) AS uri, su.domain, su.main
+					FROM qlooo_shop_url su
+					LEFT JOIN qlooo_shop s ON (s.id_shop = su.id_shop)
+					WHERE (su.domain = 'prestigehotel.org' OR su.domain_ssl = 'prestigehotel.org')
+						AND s.active = 1
+						AND s.deleted = 0
+					ORDER BY LENGTH(CONCAT(su.physical_uri, su.virtual_uri)) DESC</pre> at line 797 in file classes/db/Db.php

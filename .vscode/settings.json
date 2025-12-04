@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/6bfc4009-1ce0-4b95-8507-6481a8b4168d/resourceGroups/stagreen/providers/Microsoft.Web/sites/prestigehotel",
+    "appService.deploySubpath": "."
+}

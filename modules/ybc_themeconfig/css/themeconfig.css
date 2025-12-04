@@ -1,0 +1,325 @@
+.ybc-theme-panel {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 1px solid #C6C6C6;
+  font-family: Open Sans, Arial, "Times New Roman";
+  left: -302px;
+  position: fixed;
+  top: 50px;
+  width: 300px;
+  z-index: 999999;
+}
+.ybc-theme-panel-bg{
+    width: 35px;
+    height: 35px;
+    border: 1px solid #eee;
+    display: inline-block;
+    cursor: pointer;
+}
+.ybc-theme-panel-bg-list li{
+    list-style: none;
+    display: inline-block;
+    margin-right: 5px;
+}
+.ybc-theme-panel-wrapper{
+    width: 100%;
+    height: 100%;
+}
+.ybc-theme-panel-loading{
+    position: absolute;
+    z-index: 999;
+    /*background: url('../img/blinder.png');*/
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+}
+.ie8 .ybc-theme-panel-loading{
+    background-color: #FFFFFF;
+}
+.ybc-theme-panel-loading-setting {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+.ybc-theme-panel-box.tc-reset > span:hover:before {
+  color: #018BBA;
+  transition: color 0.5s ease 0s;
+}
+.ybc-theme-panel-loading-setting {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+.ybc-theme-panel-loading-setting > h2 {
+  display: table-cell;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.ybc-theme-panel-loading-logo {
+  border: 1px solid #CDCDCD;
+  border-radius: 50px 50px 50px 50px;
+  height: 65px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 65px;
+}
+.ybc-theme-panel-medium {
+  float: left;
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+.ybc-theme-panel-bg.active{
+    border: 1px solid #0160BF!important;
+}
+.ybc-theme-panel-bg:hover{
+    border: 1px solid #ccc;
+}
+.ybc-theme-panel-btn {
+  background: none repeat scroll 0 0 #018BBA;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  left: 270px;
+  line-height: 21px;
+  padding: 10px;
+  position: absolute;
+  text-transform: uppercase;
+  top: 140px;
+  transform: rotate(90deg);
+  -ms-transform: rotate(90deg); 
+  -webkit-transform: rotate(90deg);
+  width: 100px;
+}
+.ie8 .ybc-theme-panel-btn{
+    left: 100%;
+    width: 115px;
+}
+.ybc-theme-panel-box {
+  float: left;
+  margin: 3px 0;
+  width: 100%;
+}
+.ybc-theme-panel-box label {
+  float: left;
+  font-size: 13px;
+  width: 115px;
+}
+.ybc-theme-panel-box select {
+  float: left;
+  font-size: 12px;
+  min-width: 100px;
+}
+.ybc-theme-panel-inner {
+  float: left;
+  padding: 10px 10px;
+  width: 100%;
+}
+.ybc-theme-panel-wrapper > h2 {
+  background-color: #EFEFEF;
+  border-bottom: 1px solid #C6C6C6;
+  color: #333333;
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+}
+.ybc-theme-panel-box.tc-separator h3 {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+.ybc-theme-panel-box.tc-separator {
+  border-top: 1px solid #dedede;
+  float: left;
+  width: 100%;
+}
+.ybc-theme-panel-btn:before {
+  content: "\f013";
+  font-family: FontAwesome;
+  margin-right: 10px;
+}
+.ybc-theme-panel-box.tc-reset > span:before {
+  color: #888888;
+  content: "\f01e";
+  font-family: FontAwesome;
+  font-size: 12px;
+  font-weight: normal;
+  margin-right: 7px;
+}
+.ybc-theme-panel-box.tc-reset > span {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+}
+.ybc-theme-panel-box.tc-reset > span:hover {
+  color: #018BBA;
+  transition: color 0.5s ease 0s;
+}
+.ybc-theme-panel-btn:hover:after {
+  background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2);
+  transition: background-color 0.5s ease 0s;
+}
+.ybc-theme-panel-btn:after {
+  background: none repeat scroll 0 0 rgba(255, 255, 255, 0);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  content: "";
+  height: 100%;
+  left: 0;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  width: 100px;
+}
+.ybc-theme-panel-box.tc-reset {
+  border-top: 1px solid #DEDEDE;
+  margin-bottom: 0;
+  padding-top: 10px;
+}
+body.ybc-fontsize-small{
+    font-size: small;
+}
+body.ybc-fontsize-medium{
+    font-size: medium;
+}
+body.ybc-fontsize-large{
+    font-size: large;
+}
+
+/*setting general font*/
+body.ybc-gf-arial{
+    font-family: Arial;
+}
+body.ybc-gf-default{
+    font-family: Open Sans;
+}
+body.ybc-gf-verdana{
+    font-family: verdana;
+}
+body.ybc-gf-tahoma{
+    font-family: tahoma;
+}
+body.ybc-gf-times{
+    font-family: Times New Roman;
+}
+body.ybc-gf-impact{
+    font-family: impact;
+}
+body.ybc-gf-courier{
+    font-family: Courier New;
+}
+/*end general font*/
+
+
+
+
+/*setting background image*/
+
+body.ybc-bg-img-default{
+    background: #fff;
+}
+body.ybc-layout-boxed.ybc-bg-img-default{
+    background: url("../bgs/line.png") repeat;
+}
+body.ybc-bg-img-bg1{
+    background: url("../bgs/bg1.png") repeat;
+}
+body.ybc-bg-img-bg2{
+    background: url("../bgs/bg2.png") repeat;
+}
+body.ybc-bg-img-bg3{
+    background: url("../bgs/bg3.png") repeat;
+}
+body.ybc-bg-img-bg4{
+    background: url("../bgs/bg4.png") repeat;
+}
+body.ybc-bg-img-bg5{
+    background: url("../bgs/bg5.png") repeat;
+}
+body.ybc-bg-img-bg6{
+    background: url("../bgs/bg6.png") repeat;
+}
+body.ybc-bg-img-bg7{
+    background: url("../bgs/bg7.png") repeat;
+}
+body.ybc-bg-img-bg8{
+    background: url("../bgs/bg8.png") repeat;
+}
+body.ybc-bg-img-bg9{
+    background: url("../bgs/bg9.png") repeat;
+}
+body.ybc-bg-img-bg10{
+    background: url("../bgs/bg10.png") repeat;
+}
+body.ybc-bg-img-bg11{
+    background: url("../bgs/bg11.png") repeat;
+}
+/*end setting background image*/
+
+/*setting font-family heading font*/
+
+
+body.ybc-hf-arial .title_cat, body.ybc-hf-arial .pb-center-column h1, 
+body.ybc-hf-arial .ybc_htmltitle > span, body.ybc-hf-arial .page-heading{
+    font-family: Arial;
+}
+
+body.ybc-hf-default .title_cat, body.ybc-hf-default .pb-center-column h1, 
+body.ybc-hf-default .ybc_htmltitle > span, body.ybc-hf-default .page-heading{
+    font-family: Open Sans;
+}
+body.ybc-hf-verdana .title_cat, body.ybc-hf-verdana .pb-center-column h1, 
+body.ybc-hf-verdana .ybc_htmltitle > span, body.ybc-hf-verdana .page-heading{
+    font-family: verdana;
+}
+body.ybc-hf-tahoma .title_cat, body.ybc-hf-tahoma .pb-center-column h1, 
+body.ybc-hf-tahoma .ybc_htmltitle > span, body.ybc-hf-tahoma .page-heading{
+    font-family: tahoma;
+}
+body.ybc-hf-times .title_cat, body.ybc-hf-times .pb-center-column h1, 
+body.ybc-hf-times .ybc_htmltitle > span, body.ybc-hf-times .page-heading{
+    font-family: Times New Roman;
+}
+body.ybc-hf-impact .title_cat, body.ybc-hf-impact .pb-center-column h1, 
+body.ybc-hf-impact .ybc_htmltitle > span, body.ybc-hf-impact .page-heading{
+    font-family: impact;
+}
+body.ybc-hf-courier .title_cat, body.ybc-hf-courier .pb-center-column h1, 
+body.ybc-hf-courier .ybc_htmltitle > span, body.ybc-hf-courier .page-heading{
+    font-family: Courier New;
+}
+
+/*end setting heading font*/
+
+/* setting custom font*/
+
+body.ybc-cf-arial .content_price, body.ybc-cf-arial .new-label, body.ybc-cf-arial .sale-label{
+    font-family: Arial;
+}
+body.ybc-cf-default .content_price, body.ybc-cf-default .new-label, body.ybc-cf-default .sale-label{
+    font-family: Open Sans;
+}
+body.ybc-cf-verdana .content_price, body.ybc-cf-verdana .new-label, body.ybc-cf-verdana .sale-label{
+    font-family: verdana;
+}
+body.ybc-cf-times .content_price, body.ybc-cf-times .new-label, body.ybc-cf-times .sale-label{
+    font-family: Times New Roman;
+}
+body.ybc-cf-impact .content_price, body.ybc-cf-impact .new-label, body.ybc-cf-impact .sale-label{
+    font-family: impact;
+}
+body.ybc-cf-courier .content_price, body.ybc-cf-courier .new-label, body.ybc-cf-courier .sale-label{
+    font-family: Courier New;
+}

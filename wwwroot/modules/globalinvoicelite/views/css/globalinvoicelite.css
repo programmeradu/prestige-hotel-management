@@ -1,0 +1,10 @@
+body .bootstrap #content-fact-total .btn {white-space:normal;}
+#genexcell {background-color: #363A41; font-family: monospace; color: #14D014; font-size: 0.9em; padding: 15px;}
+body .bootstrap #panel-informe .process-viewer .panel-footer {height: auto;}
+body .bootstrap #panel-informe .panel-footer .btn {line-height: auto;}
+body .bootstrap #panel-informe .process-viewer .panel-footer [class^="process-icon-"] {display: inline; line-height: auto; margin-top: 0px; margin-left: 5px; margin-bottom: 0px;}
+body #content.bootstrap #content-fact-total .panel-heading {padding:0px 0px 10px 10px; margin: -20px -20px 15px; }
+#ul-panel-short-header {padding: 0;}
+#ul-panel-short-header li {list-style: none; cursor: move;}
+#ul-panel-short-header li:hover {background: #72C279; opacity: 0.8;}
+#form_panel_header {float: left;}

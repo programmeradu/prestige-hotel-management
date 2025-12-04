@@ -1,0 +1,36 @@
+*ERROR* 	2025/03/15 - 00:55:09: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:55:20: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:55:26: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:55:29: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:55:39: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:57:25: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:57:40: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:57:45: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:59:46: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 00:59:48: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:00:38: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:01:38: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:24: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:25: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:25: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:28: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:30: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:31: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:32: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:33: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:35: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:37: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:38: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:38: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:39: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:40: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:41: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 01:02:42: Link to database cannot be established:SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: NO) at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/15 - 12:09:26: Template 'module:paystack/views/templates/front/payment_execution.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php
+*ERROR* 	2025/03/15 - 12:09:31: Template 'module:paystack/views/templates/front/payment_execution.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php
+*ERROR* 	2025/03/15 - 12:09:47: Template 'module:paystack/views/templates/front/payment_execution.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php
+*ERROR* 	2025/03/15 - 12:16:35: Template 'module:paystack/views/templates/front/payment_execution.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php
+*ERROR* 	2025/03/15 - 12:17:27: Template 'module:paystack/views/templates/front/payment_execution.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php
+*ERROR* 	2025/03/15 - 12:17:35: Template 'module:paystack/views/templates/front/payment_execution.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php
+*ERROR* 	2025/03/15 - 12:46:21: Template 'module:paystack/views/templates/front/payment.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php
+*ERROR* 	2025/03/15 - 12:46:29: Template 'module:paystack/views/templates/front/payment.tpl' not found at line 66 in file classes/controller/ModuleFrontController.php

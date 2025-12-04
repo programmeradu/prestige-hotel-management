@@ -1,0 +1,83 @@
+.ybc-mnf-block-li{
+    float: left;
+    list-style: none;
+    text-align: center;
+}
+#ybc-mnf-block-ul {
+  background: none repeat scroll 0 0 #FFFFFF;
+  float: left;
+  margin-bottom: 40px;
+}
+#ybc-mnf-block {
+  float: left;
+  margin-top: 25px;
+  position: relative;
+  width: 100%;
+}
+#ybc-mnf-block .owl-theme .owl-controls {
+  margin-top: 0;
+  position: absolute;
+  right: 0px;
+  text-align: center;
+  top: -5px;
+  width: 55px;
+}
+#ybc_gallery_home .owl-theme .owl-controls{
+    top: -7px;
+}
+.ybc-mnf-block-a-img {
+  float: left;
+  margin: 0;
+  max-width: 100%;
+  min-height: 90px;
+  padding: 25px 25px;
+  text-align: center;
+  width: 100%;
+}
+.ybc-mnf-block-a-img > img {
+  margin: 0 auto;
+  max-width: 100%;
+}
+.ybc-mnf-block-title {
+  text-align: center;
+  float: left;
+}
+.ybc-mnf-block-a-name {
+  padding: 3px;
+  text-transform: uppercase;
+}
+#ybc-mnf-block .bx-controls.bx-has-controls-direction {
+  margin-top: 0px;
+}
+.ybc-mnf-block-title {
+  font-size: 14px;
+  line-height: 20px;
+  border-bottom: 2px solid #F3F3F3;
+  padding: 0;
+  width: 100%;
+  float: left;
+  margin: 0 0 15px 0;
+}
+.ybc-mnf-block-li {
+  float: left;
+  width: 100%;
+}
+#ybc-mnf-block .owl-carousel .owl-item {
+  float: left;
+  padding: 0 5px;
+}
+/*responsive bxslider on homepage*/
+
+@media (max-width: 767px){
+    #ybc-mnf-block {
+      width: 100%;
+    }
+    .ybc-mnf-block-a-img {
+      padding: 25px 15px;
+    }
+}
+@media (max-width: 479px){
+    .ybc-mnf-block-a-img {
+      padding: 25px 5px;
+    }
+}

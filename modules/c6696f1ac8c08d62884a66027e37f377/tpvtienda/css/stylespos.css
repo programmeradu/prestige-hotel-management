@@ -1,0 +1,558 @@
+/*@media not print {  esto lo puse para arreglar la visión en pedidos al imprimir que salia todo descuadrado*/
+	html,body{width:100%;height:auto;min-height:40px;min-width: 200px !important;font-size: 12px !important} /* mucho cuidado con esto, si pones 100% el min-height y el height los tickets ocupan dos paginas*/
+	.container{padding-left:20px;padding-right:20px}
+	#container{margin:0;overflow:hidden}
+/*}*/
+
+::-webkit-scrollbar {width: 1em}
+::-webkit-scrollbar-track {-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2)}
+::-webkit-scrollbar-thumb {background-color:#87CEEB;border-radius: 20px;  border-left: 1px solid #81C7E5}
+/* ===============================================================
+Basic Swiper Styles 
+================================================================*/
+.swiper-container{margin:0 auto;position:relative;overflow:hidden;-webkit-backface-visibility:hidden;-moz-backface-visibility:hidden;-ms-backface-visibility:hidden;
+	-o-backface-visibility:hidden;backface-visibility:hidden;/* Fix of Webkit flickering */z-index:1}
+.swiper-wrapper{position:relative;width:100%;-webkit-transition-property:-webkit-transform, left, top;-webkit-transition-duration:0s;-webkit-transform:translate3d(0px,0,0);-webkit-transition-timing-function:ease;
+	-moz-transition-property:-moz-transform, left, top;-moz-transition-duration:0s;-moz-transform:translate3d(0px,0,0);-moz-transition-timing-function:ease;
+	-o-transition-property:-o-transform, left, top;-o-transition-duration:0s;-o-transform:translate3d(0px,0,0);-o-transition-timing-function:ease;-o-transform:translate(0px,0px);
+	-ms-transition-property:-ms-transform, left, top;-ms-transition-duration:0s;-ms-transform:translate3d(0px,0,0);-ms-transition-timing-function:ease;
+	transition-property:transform, left, top;transition-duration:0s;transform:translate3d(0px,0,0);transition-timing-function:ease;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}
+.swiper-free-mode > .swiper-wrapper{-webkit-transition-timing-function:ease-out;-moz-transition-timing-function:ease-out;-ms-transition-timing-function:ease-out;-o-transition-timing-function:ease-out;transition-timing-function:ease-out;margin:0 auto}
+.swiper-slide{position:relative;float:left;-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box}
+/* IE10 Windows Phone 8 Fixes */
+.swiper-wp8-horizontal{-ms-touch-action:pan-y}
+.swiper-wp8-vertical{-ms-touch-action:pan-x}
+.ps-container{overflow:hidden !important}.ps-container.ps-active-x>.ps-scrollbar-x-rail,.ps-container.ps-active-y>.ps-scrollbar-y-rail{display:block}.ps-container.ps-in-scrolling{pointer-events:none}.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail{background-color:#eee;opacity:0.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90)}.ps-container.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x{background-color:#999}.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail{background-color:#eee;opacity:0.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90)}.ps-container.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y{background-color:#999}.ps-container>.ps-scrollbar-x-rail{display:none;position:absolute;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;border-radius:4px;opacity:0;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0);-webkit-transition:background-color .2s linear,opacity .2s linear;-moz-transition:background-color .2s linear,opacity .2s linear;-o-transition:background-color .2s linear,opacity .2s linear;transition:background-color .2s linear,opacity .2s linear;bottom:3px;height:8px}.ps-container>.ps-scrollbar-x-rail>.ps-scrollbar-x{position:absolute;background-color:#aaa;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;border-radius:4px;-webkit-transition:background-color .2s linear;-moz-transition:background-color .2s linear;-o-transition:background-color .2s linear;transition:background-color .2s linear;bottom:0;height:8px}.ps-container>.ps-scrollbar-y-rail{display:none;position:absolute;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;border-radius:4px;opacity:0;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";filter:alpha(opacity=0);-webkit-transition:background-color .2s linear,opacity .2s linear;-moz-transition:background-color .2s linear,opacity .2s linear;-o-transition:background-color .2s linear,opacity .2s linear;transition:background-color .2s linear,opacity .2s linear;right:3px;width:8px}.ps-container>.ps-scrollbar-y-rail>.ps-scrollbar-y{position:absolute;background-color:#aaa;-webkit-border-radius:4px;-moz-border-radius:4px;-ms-border-radius:4px;border-radius:4px;-webkit-transition:background-color .2s linear;-moz-transition:background-color .2s linear;-o-transition:background-color .2s linear;transition:background-color .2s linear;right:0;width:8px}.ps-container:hover.ps-in-scrolling{pointer-events:none}.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail{background-color:#eee;opacity:0.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90)}.ps-container:hover.ps-in-scrolling.ps-x>.ps-scrollbar-x-rail>.ps-scrollbar-x{background-color:#999}.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail{background-color:#eee;opacity:0.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90)}.ps-container:hover.ps-in-scrolling.ps-y>.ps-scrollbar-y-rail>.ps-scrollbar-y{background-color:#999}.ps-container:hover>.ps-scrollbar-x-rail,.ps-container:hover>.ps-scrollbar-y-rail{opacity:0.6;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";filter:alpha(opacity=60)}.ps-container:hover>.ps-scrollbar-x-rail:hover{background-color:#eee;opacity:0.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90)}.ps-container:hover>.ps-scrollbar-x-rail:hover>.ps-scrollbar-x{background-color:#999}.ps-container:hover>.ps-scrollbar-y-rail:hover{background-color:#eee;opacity:0.9;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";filter:alpha(opacity=90)}.ps-container:hover>.ps-scrollbar-y-rail:hover>.ps-scrollbar-y{background-color:#999}
+
+.row,.bootstrap .row {width:100%;margin:0 auto;float:left}
+.onecol, .twocol, .threecol, .fourcol, .fivecol, .sixcol, .sevencol, .eightcol, .ninecol, .tencol, .elevencol {margin-right:1.8%;float:left;min-height:1px}
+.row .onecol {width:5.85%}
+.row .twocol {width:14.45%}
+.row .threecol {width:23.4%}
+.row .fourcol {width:32.05%}
+.row .fivecol {width:40.45%}
+.row .sixcol {width:49%}
+.row .sevencol {width:57.75%}
+.row .eightcol {width:66.1%}
+.row .ninecol {width:74.8%}
+.row .tencol {width:83.7%}
+.row .elevencol {width:92.35%}
+.row .twelvecol {width:100%;float:left}
+.last {margin:0px !important}
+img, object, embed {max-width:100%}
+
+#TPVTienda {position:relative;background:#FFF;overflow:hidden}
+#TPVTienda,#TPVTienda input,#TPVTienda select,#TPVTienda textarea, #TPVTienda button{font-size: 1.2em;line-height: 1.3;}
+/*body.admintpvtienda #main{padding:0 !important}*/
+#TPVTienda #contFlecha {display:inline-block;margin:4px;float:left}
+#TPVTienda #contFlecha #flecha{padding:14px}
+#TPVTienda #contFlecha #flecha:after{right:2px}
+#TPVTienda #contx{margin:17px 6px;width:15px;float:left;text-align:center}
+#TPVTienda.1.5 .row .button,#anadirClienteForm .button,#anadirProductoForm .button{text-shadow:none;background:#87CEEB;border:0;color:#fff;padding:7px;font-size:1.1em;margin:0 2px}
+#TPVTienda .ac_results ul {top:351px;left:700px}
+#TPVTienda #busqueda {height:33px;text-align:center}
+#TPVTienda legend{border:0;font-size:16px;}
+#TPVTienda #cabecera fieldset{padding:0}
+#TPVTienda input.button{padding:3px !important}
+#TPVTienda #entradaCodigo{float:left;padding:3px;position:relative;display:inline-block}
+#TPVTienda #entradaCodigo input{height:33px}
+#TPVTienda #entradaCodigo label{color:#fff;text-shadow:none}
+#TPVTienda #entradaCodigo:hover{color:#ddd;}
+#TPVTienda #order_query{border:0}
+.ui-effects-transfer {border:1px dotted black}
+#TPVTienda .guardado{border-radius:5px;display:none;color:#fff;padding:5px;position:absolute;top:10px;right:10px;background:#90CB5C}
+#TPVTienda #contCantidadCodebar{margin:3px 0;width:35px;float:left}
+#TPVTienda #cantidadCodebar{padding:5px}
+#TPVTienda #cantidad{text-align:right}
+#TPVTienda .alterado{background:#31B1E6;color:#FFF}
+#TPVTienda input.qty{width:43px;text-align:center;height:20px}
+#TPVTienda .centrar{padding:21px 0 5px 1px;float:left}
+.bootstrap #TPVTienda *:before, .bootstrap #TPVTienda *:after {-webkit-box-sizing: initial;-moz-box-sizing:initial;box-sizing: initial}
+.contInput input, .contInput textarea, .contInput select {width:100%;box-shadow:0 1px 2px rgba(0, 0, 0, 0.1) inset;border:1px solid #CCCCCC;font-size:1.2em;padding:5px 7px}
+.center{text-align:center}
+.panel{position:relative;padding:20px;margin-bottom:20px;border:solid 1px rgb(230, 230, 230);background-color:rgb(255, 255, 255);-webkit-border-radius:5px;float:left;width:100%;
+border-radius:5px;-webkit-box-shadow:rgba(0, 0, 0, 0.1) 0 2px 0,rgb(255, 255, 255) 0 0 0 3px inset;box-shadow:rgba(0, 0, 0, 0.1) 0 2px 0,rgb(255, 255, 255) 0 0 0 3px inset}
+.panel_lateral input.ui-btn, .panel_lateral form.ui-btn,.panel_lateral form.ui-btn:hover{background-color:#FFF;font-size:16px;}
+.panel_lateral label.error, .panel_lateral label.error{ background:rgba(255,255,255,0.8);padding:6px;position:absolute;right:27px;
+  text-align:center;top:-32px;width:157px;font-size:0.8em;border-radius:3px;color:#383838;line-height:16px;margin:0 0 10px;min-height:16px;border:1px solid #ccc}
+.panel_lateral label.error:before,.panel_lateral label.error:before{ border-left:7px solid rgba(0, 0, 0, 0);border-right:7px solid rgba(0, 0, 0, 0);
+  border-top:7px solid rgba(255,255,255,0.8);content:"";height:0;left:50%;position:absolute;top:28px;width:0}
+.ui-input-text{position:relative}
+#TPVTienda #fullscreen{text-indent:-999999;cursor:pointer;background:transparent url(../img/sprite.png) no-repeat;width:26px;height:26px;padding:3px 10px}
+.addCartButton{position:absolute; top:0;left:0;z-index: 8050;}
+.clickable-area {display:block;width:100%;height:300px;background-color:#ffefef}
+#menuBarPos{color:#FFF;font-weight:bold;margin:0;display:inline-block;left:0;background:#87CEEB;top:0;width:100%;z-index:1;position:fixed}
+#nombreTienda{float:right;margin:15px;font-weight:normal;}
+#contprodDesHab{float:left;display:inline-block;margin:3px;width:236px;position:relative}
+#contprodDesHab label{position:absolute;left:40px;top:13px;width:243px;color:#fff;text-align:left;font-size: 0.9em;}
+#contprodDesHab #inactivos{margin:5px}
+#cabecera{  margin-top: 52px}
+.loader{width:64px;height:60px;margin:30px auto}
+.ponerBotonera{cursor:pointer;text-overflow:clip}
+#subTPVTienda.open {-webkit-transform:translate3d(-280px, 0, 0);-moz-transform:translate3d(-280px, 0, 0);-ms-transform:translate3d(-280px, 0, 0);-o-transform:translate3d(-280px, 0, 0)}
+#subTPVTienda, .panel_lateral{transition:all 0.3s ease-in-out;-webkit-transition:all 0.3s ease-in-out;-moz-transition:all 0.3s ease-in-out;-ms-transition:all 0.3s ease-in-out;-o-transition:all 0.3s ease-in-out}
+#TPVTienda table tr.selected td{background:#7DD38B}
+#TPVTienda table tr.selected td{color:#fff}
+#TPVTienda table tr.selected td input{color:#000}
+.bootstrap #TPVTienda .table tbody>tr>td {font-size:14px;}
+.ui-btn.error{background:#F0A5A5;}
+.bootstrap input[type="radio"], .bootstrap input[type="checkbox"]{margin:-11px 0 0 0}
+.ui-icon-codebar:after {background-image:url("../img/codebar.png")}
+.ui-icon-pdf:after {background-image:url("../img/pdf.png")}
+.page-sidebar-closed #content.expandido{margin-left:0 !important}
+#menuButtom{padding:.4em 1em;}
+.dz-clickable{background: #FFF url("../img/DragDrop.png") no-repeat center center;}
+.dz-max-files-reached{background:#fff !important}
+
+
+/* advertencias */
+#TPVTienda #advertencia{color:#000000;width:100%;font-weight:bold;right:1%;padding:0 20px;position:fixed;top:88px;max-width:500px;z-index:8011}
+#TPVTienda #advertencia #docFirmados .contentFirmados .contDocumento{width:100%}
+#TPVTienda #advertencia #docFirmados .contentFirmados a{float:left;margin: 5px 0;}
+#TPVTienda .aladerecha{float:right;margin-right:16px}
+#TPVTienda #advertencia .alert{box-shadow:3px 2px 12px 0px}
+#TPVTienda #tCredito,#TPVTienda #cheque,#TPVTienda #tBancaria{float:left;display:none}
+#TPVTienda #tCredito label,#TPVTienda #cheque label,#TPVTienda #tBancaria label{width:auto;text-align:left}
+#TPVTienda #tCredito p,#TPVTienda #cheque p{margin:0 0 20px 0}
+#TPVTienda .estadoPedidoHecho{padding:2px}
+#TPVTienda #advertencia .conf, #TPVTienda #advertencia .warn, #TPVTienda #advertencia .error{display:none;border-radius:15px;padding:8px 22px 8px 22px;position:relative;text-align:left;min-height:60px}
+#TPVTienda .conf:before, #TPVTienda .warn:before, #TPVTienda .error:before{position: absolute;top: 6px;display: block;height: 25px;width: 25px;  left: 7px;}
+#TPVTienda #confAparcado .close,#TPVTienda #tCredito .close,#TPVTienda #cheque .close{display:block;position:absolute;right:-11px;top:-12px;font-size:1.6em;cursor:pointer}
+#TPVTienda #confAparcado fieldset{clear:both;height:100%;width:auto;text-align:right;background-color:transparent;}
+#TPVTienda .popupDocumento{z-index:8013}
+#TPVTienda .popupDocumentoScreen{z-index:8012}
+.alert-success {background-color: #DFF0D8;border-color: #D6E9C6;color: #3C763D;}
+
+
+/* botonera */
+button.key.ui-btn{-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px;
+	-webkit-box-shadow:rgba(0,0,0,.2) 0 1px 1px 0;-moz-box-shadow:rgba(0,0,0,.2) 0 1px 1px 0;box-shadow:rgba(0,0,0,.2) 0 1px 1px 0;
+	background-image:-webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#fcfcfc),color-stop(100%,#e9e9e9));
+	background-image:-webkit-linear-gradient(#fcfcfc,#e9e9e9);background-image:-moz-linear-gradient(#fcfcfc,#e9e9e9);
+	background-image:-o-linear-gradient(#fcfcfc,#e9e9e9);background-image:linear-gradient(#fcfcfc,#e9e9e9);
+	text-shadow:#fff 0 1px 0;-webkit-user-select:none;-moz-user-select:none;user-select:none;outline:0;display:inline-block;padding:0;
+	border-style:solid;border-color:#404040;text-align:center;text-decoration:none;cursor:pointer;color:#686868;font-size:18px;font-weight:700;
+	height:48px;margin:5px;line-height:48px;border-width:1px;float:left;margin:0.8%;width:63px}
+button.key.ui-btn:hover{background-image:-webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#f7f7f7),color-stop(100%,#ddd));
+	background-image:-webkit-linear-gradient(#f7f7f7,#ddd);background-image:-moz-linear-gradient(#f7f7f7,#ddd);
+	background-image:-o-linear-gradient(#f7f7f7,#ddd);background-image:linear-gradient(#f7f7f7,#ddd);border-color:#404040;color:#525252}
+button.keyTwo.ui-btn{float:left;width:48%;margin:0 1%}
+.botonera,.cambioNombreBotonera{width:222px;display:inline-block;padding:11px}
+#TPVTienda.v15 .botonera{width:200px}
+.CEButton{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -51px -91px;text-indent:-999999px;position:relative;float:left;width:18px;
+	height:14px;margin:16px 22px}
+.CEButton:hover{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -51px -106px;text-indent:-999999px;position:relative;float:left;width:18px;
+	height:14px;margin:16px 22px}
+.clickable-area:focus {outline:0}
+.ui-page{position:relative !important;}
+.ui-body-b, .ui-page-theme-b .ui-body-inherit, html .ui-bar-b .ui-body-inherit, html .ui-body-b .ui-body-inherit, 
+	html body .ui-group-theme-b .ui-body-inherit, html .ui-panel-page-container-b{background:#525252}
+
+.cambioNombreBotonera .cambioNombreCampo{background:#fff}
+.cambioNombreCampo::-webkit-input-placeholder { color:red}
+.cambioNombreCampo:-moz-placeholder { /* Firefox 18- */color:red}
+.cambioNombreCampo::-moz-placeholder {  /* Firefox 19+ */ color:red}
+.cambioNombreCampo:-ms-input-placeholder {color:red}
+
+/* licencia */
+#contLicencia{margin:40px auto;width:400px;background:#ECF6FB;padding:46px}
+/*cambio */
+#TPVTienda .tecla{margin:2px 1px !important;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;
+user-select:none;cursor:pointer;background:#EBEDF4;height:auto;padding:23px 0;text-align:center;float:left;color:#585A69;direction:ltr !important;
+	font-size:1.4em;border:none;box-shadow:#fff 0px 0px 1px 1px, #ddd 1px 1px 0px 0px inset, #585A69 1px 1px 1px 1px}
+#TPVTienda .tecla:hover{background:none repeat scroll 0 0 #D9D9D9}
+#TPVTienda .tecla:active{background:none repeat scroll 0 0 #87CEEB;color:#fff}
+#TPVTienda .cambio label{width:100%;display:inline-block;text-align:right;margin:1.1em 0}
+#TPVTienda .cambio input#formaPago,input#pagadoButton{height:19px;background:#FFF}
+#TPVTienda .cambio input[type="radio"]{width:14px;height:14px;margin:3px 0 !important;float:left}
+#TPVTienda .cambio input#FechaFinFact,#TPVTienda .cambio input#diasFact{width:77%;margin:0 !important}
+#TPVTienda .cambio div.alterado{background:#87CEEB;text-align:center;color:#fff;font-weight:normal;border:0}
+#TPVTienda .cambio #retencionRentaButton,#TPVTienda .cambio #retencionIVAButton{width:69%;float:left}
+#TPVTienda .cambio #retCont{background:#91DD91;float:left;width: 100%;}
+
+/*categorias*/
+#TPVTienda #contCategorias{max-width:200px;float:left;padding:2px}
+#TPVTienda #contContCategorias{padding:4px;display:inline-block}
+#TPVTienda #contContCategorias h3{margin:0;display:inline-block}
+#TPVTienda #categorias {float:left;padding:5px;height:32px;font-size:1.1em;width:100%;border-radius:4px}
+
+/* compra */
+#TPVTienda #parteAbajo{position:fixed;bottom:0;right:0;width:40.45%;background: #FFF}
+#TPVTienda #contCompra{height: 68%;position: fixed;overflow: auto;width: 40.45%}
+#TPVTienda #compraVacia{text-align:center;padding:50px 0;background:#F3FBFF}
+#TPVTienda table#compra{color:#585858;width:100%;border-spacing:0}
+#TPVTienda table#compra tbody tr{background:#E8F8FF}
+#TPVTienda table#compra tbody tr.devolucion{background:#7DD38B}
+#TPVTienda table#compra tbody tr.devolucion td, #TPVTienda table#compra tbody tr.devolucion td a{color:#fff}
+#TPVTienda table#compra tbody tr.par{background:#F3FBFF}
+#TPVTienda table#compra tbody td{text-align:center;padding:4px}
+#TPVTienda table#compra tbody td.foto{padding:0}
+#TPVTienda table#compra tbody td.foto img{max-height:100px}
+#TPVTienda table#compra tbody td .imgProduct{transition:width 0.1s, all 3s ease 0s;-ms-transition:width 0.1s, all 3s ease 0s;-webkit-transition:width 0.1s, all 3s ease 0s}
+#TPVTienda table#compra tbody td .imgProduct:hover{z-index:20;transform:scale(3.0) rotate(0deg);-ms-transform:scale(3.0) rotate(0deg);-webkit-transform:scale(3.0) rotate(0deg)}
+#TPVTienda table#compra tbody td img.delete{width:16px;height:16px;min-width:16px}
+#TPVTienda table#compra tbody td img.masmenos{padding:0}
+#TPVTienda table#compra tbody td.cantidad .formQty{margin:0 auto;width:40px}
+#TPVTienda table#compra tbody td.cantidad a{clear:both;display:block;margin:0;padding:0}
+#TPVTienda table#compra tbody td.cantidad .masmenos{float:left}
+#TPVTienda table#compra tbody td .formDescuento{text-align:center}
+#TPVTienda table#compra tbody td .precio{position:relative}
+#TPVTienda table#compra tbody td .customization label{margin:.6em 0;}
+#TPVTienda table#compra tbody td .customization input{font-size:.8em}
+#TPVTienda table#compra tbody td .precio .borrarCambioPrecio .CEButton{display:inline-block}
+#TPVTienda table#compra tbody td .precio .borrarCambioPrecio .CEButton{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -51px -91px;margin:0;
+	text-indent:-999999px;position:relative;float:left;width:18px;height:14px;margin:3px 0}
+#TPVTienda table#compra tbody td .precio .cambioprecio{display:inline-block;width:76px}
+#TPVTienda table#compra tbody td .precio .borrarCambioPrecio:hover{font-weight:bold}
+#TPVTienda table#compra tbody td .descuento{display:inline-block;text-align:center}
+#TPVTienda #anadirProductoButton{float:right;margin-right:10px}
+#TPVTienda #deletecart{float:right}
+#TPVTienda table#compra tbody td.nombre .deleteCambioNombre{float:right;margin:1em 0;z-index:99}
+#TPVTienda td.nombre .alterado{width:94%;float:left}
+
+
+/*descuentos*/
+#anadirDescuentos{z-index:1040;width:500px;background:#ECF6FB;position:fixed;top:0;left:-520px;height:100%;box-shadow:0px 0px 13px #AAA;overflow-y:auto}
+#anadirDescuentos.open{left:0;display:block;}
+
+/* nombre /codigo*/
+#TPVTienda .close{display:none;position:absolute;top:14px;right:8px;font-size:1.6em;cursor:pointer;opacity:1}
+#TPVTienda #ajax_search_results{z-index:2;width:93%;text-align:center;max-height:135px}
+
+/* totales */
+#TPVTienda #totalesCont label {display:inline-block;margin:1.1em 0;text-align:right;width:100%}
+
+/* pedido */
+#TPVTienda #pedido{background:transparent}
+#TPVTienda #pedido label {display:inline-block;margin:1.1em 0;text-align:right;width:100%}
+#TPVTienda #pedido select,#TPVTienda #pedido #conIva{display:block;background:#f2f2f2;text-align:center;border:0}
+#TPVTienda #pedido select#id_customer{display:inline-block;float:left;margin:2px !important}
+#TPVTienda #pedido #checkout{display:block}
+#TPVTienda #messageOrder{height:57px}
+#contCheckout .fourcol,#contCheckout .eightcol{margin-top:4px}
+#TPVTienda #pedido #filter{margin:6px !important}
+#TPVTienda #pedido select{width:100%;font-size:1em;clear:both}
+#TPVTienda .pedidoElemento .icon-pencil{display:none;position:absolute;background:transparent url(../img/sprite.png) no-repeat -44px -85px;right:10px;top:2px;width:18px;height:17px}
+
+/*productos*/
+#selectorListado{float:left}
+#anadirProducto{z-index:1040;width:300px;background:#ECF6FB;position:fixed;top:0;left:-460px;height:100%;box-shadow:0px 0px 13px #AAA;overflow-y:auto}
+#anadirProducto.open{left:0;display:block}
+.fullscreenProduct{position:absolute;top:0;right:0;background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -29px -105px;z-index:1;margin:0 auto;width:19px;height:18px}
+.grid .contProducto{position:relative;  float: left;}
+#TPVTienda #contSlide{position:relative;margin:7px auto 15px auto;overflow:hidden}
+#TPVTienda .bomenu0 #contSlide {margin:95px auto 20px auto}
+#TPVTienda .bomenu0.v15 #contSlide {margin:60px auto 20px auto}
+#TPVTienda .bomenu0.v15 #contSlide.expandido{margin:57px auto 0 auto}
+#TPVTienda .bomenu0.v16 #contSlide.expandido{margin:0px auto 0 auto}
+#TPVTienda .bomenu1.v16 #contSlide.expandido{margin:62px auto 0 auto}
+#TPVTienda #productos{margin:0 20px 0px 20px;padding:0}
+#TPVTienda #productos .producto{transform-style:preserve-3d;transition:width 0.1s, all 0.4s ease 0s}
+#TPVTienda #productos .producto:hover{transform:scale(1.3) rotate(0deg)}
+#TPVTienda span.view_scroll_spacer {float:left;height:16px;width:21px}
+#TPVTienda .left{position:absolute;left:0}
+#TPVTienda .right{position:absolute;right:0}
+#TPVTienda #view_scroll_left, #TPVTienda #view_scroll_right{border-bottom:21px solid rgba(0, 0, 0, 0);cursor:pointer;border-right:14px solid #585858;
+	border-top:21px solid rgba(0, 0, 0, 0);float:left;height:0;margin:51px 2px 0 2px;text-indent:999999px;width:0}
+#TPVTienda #view_scroll_right{border-right:0;border-top:21px solid transparent;border-bottom:21px solid transparent;border-left:14px solid #585858}
+#TPVTienda .contProductos{} 
+#TPVTienda .list-products .producto{overflow:hidden;float:left;margin:19px 5.5px;cursor:pointer;position:relative;display:inline-block;width:124px;height:124px}
+#TPVTienda .list-products .selected {background:#DFEAF4}
+#TPVTienda .list-products a {display:block;color:#272E39;font-weight:bold}
+#TPVTienda .list-products a:hover {text-decoration:none}
+#TPVTienda .list-products .name {background:rgba(236, 246, 251, 0.7);bottom:0;left:0;padding:4px 0;position:absolute;text-align:center;width:124px}
+#TPVTienda .list-products .precio {background:rgba(236, 246, 251, 0.7);top:-7px;left:0;padding:4px 0;position:absolute;text-align:center}
+#TPVTienda .list-products .country {font-size:11px;font-weight:normal;color:#999;margin-left:5px}
+#TPVTienda .codebarIcon{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -6px -107px;margin:0 auto;width:19px;height:15px}
+#TPVTienda .accion a{display:inline-block}
+#TPVTienda td.accion:hover,#TPVTienda td.codebarProducto:hover{background:#87CEEB}
+#TPVTienda .subField{display:inline-block;padding:11px 3px}
+.customization label{text-align:right}
+
+.list .fullscreenProduct{position: relative;background: none;margin: 0 auto;width: 19px;height: 18px}
+.list td{cursor:pointer}
+.list tbody tr:hover{background:#87CEEB}
+.list tbody tr:hover td{color:#fff}
+.list td.precioList{text-align:right}
+.list td.stockList,.list td.refList{text-align:center}
+
+
+/* aparcados */
+#aparcados{z-index:1040;width:500px;background:#ECF6FB;position:fixed;top:0;left:-520px;height:100%;box-shadow:0px 0px 13px #AAA;overflow-y:auto}
+#aparcados.open{left:0;display:block;}
+#aparcados .diezSigAparcados{margin:.5em 0;}
+#pedidosAparcados tr{height:50px}
+
+
+/* ticket */
+.ticket{font-family:monospace;color:#000}
+.fancybox-skin{background:#fff}
+.ticket table,.ticket p{color:#000}
+.ticket p{font-family:monospace;margin:1px 0}
+.ticket .total{border-top:1px dotted #000}
+.ticket #cabeceraTicket, #ticket #totalesTicket, #ticket .datosCliente{margin:16px 0}
+.ticket .justify{text-align:justify}
+.ticket .rightTicket{text-align:right}
+.ticket h1{text-align:center}
+.ticket .customization ul{margin:0.3em 0;list-style-type:circle}
+#fancybox-wrap{left:50px !important}
+.fctTicket, .tituloCliente{padding:1px 0;border-top:1px dashed #000;min-height:17px;border-bottom:1px dashed #000;display:inline-block;width:100%}
+.ticket #fact_simpl{display:inline-block;float:left}
+.ticket .alignright{float:right}
+.ticket .messageOrderContent{word-wrap:break-word}
+.ticket .lineaPuntos{border-top:1px dashed #000;float:left;margin-bottom:15px}
+.ticket .tituloTicket,.ticket .tituloTicket2{font-weight:bold}
+.ticket .codeValeDescuento, .ticket .totalValeDescuento, .ticket .dateTicketTo{font-size:1.6em;margin-top:11px;font-weight:bold;text-align:center;width:100%}
+.ticket #productosTicket td{vertical-align:bottom}
+.printWrapper{cursor:pointer;background:#BDBDBD;position:absolute;border-bottom-left-radius:5px;padding:6px;border-top-left-radius:5px}
+.printWrapperDer{cursor:pointer;background:#BDBDBD;position:absolute;border-bottom-right-radius:5px;padding:6px;border-top-right-radius:5px}
+.printWrapper:hover, .seleccionado{background:#FFF}
+.ticketPrint{left:-59px;top:0}
+.ticketPrintGoogleCloud{top:55px;left:-59px}
+#ticketPrintNormal{top:10px;right:-58px}
+#ticketPrintRegalo{top:64px;right:-58px}
+#ticketSendEmail{top:118px;right:-58px}
+#ticketPrintGuardar{top:172px;right:-58px}
+#ticketPrintGuardar .print{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -35px -13px;width:32px;height:35px}
+#ticketPrintRegalo .print{background:transparent url(../img/sprite.png) no-repeat 0 -49px;width:32px;height:35px}
+#ticketPrintNormal .print{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -30px -49px;width:32px;height:35px}
+.ticketPrintGoogleCloud .print{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -72px -84px;width:32px;height:35px}
+#ticketSendEmail .print{background:rgba(0, 0, 0, 0) url(../img/sprite.png) no-repeat -69px -14px;width:32px;height:35px}
+.ticketPrint .print{background:transparent url(../img/sprite.png) no-repeat 0 -14px;width:32px;height:35px}
+.sendEmail{min-height:385px}
+#emailSend{margin:14px 0;text-align:center}
+#sendEmail input[type=submit]{padding:10px 0;width:100%}
+.contCheckbox{background:#ECF6FB;margin:10px auto;border-radius:5px;padding:10px;float:left;width:100%;text-align:center}
+.contCheckbox input{margin:0 6px;width:20px;height:20px}
+.contCheckbox label{vertical-align:super}
+.resultadoEnviarEmail{margin:10px 0}
+.sendEmail #nombrePedido{padding:10px;text-align:center;width:100%;background:#DFF0D8;border-radius:5px}
+.ticket #total{font-weight:bold;font-size:1.3em}
+.contTicket{display:none}
+#totalCont,#pagadoFactCredCont{height:39px;}
+#totalCont td,#totalCont td strong,#pagadoFactCredCont td,#pagadoFactCredCont td strong{font-size:1.1em}
+.facturaCheck{display:inline-block}
+
+
+/* caja */
+.calendarioTotalizacion select{font-size:1em}
+.calendarioTotalizacion .ui-datepicker .ui-state-active {color:#000 !important}
+.calendarioTotalizacion .ui-datepicker {width:100% !important}
+.calendarioTotalizacion  a{text-align:center !important}
+.calendarioTotalizacion .ui-state-default, .calendarioTotalizacion .ui-widget-content .ui-state-default, .calendarioTotalizacion .ui-widget-header .ui-state-default{background:#87CEEB !important}
+.calendarioTotalizacion .ui-state-default.ui-state-active{background:#FFF !important}
+.calendarioTotalizacion .ui-widget-content{background:transparent !important;border:0 !important}
+.calendarioTotalizacion .ui-datepicker .ui-datepicker-prev-hover, .calendarioTotalizacion .ui-datepicker .ui-datepicker-next-hover {top:4px}
+.calendarioTotalizacion .ui-state-default, .calendarioTotalizacion .ui-widget-content .ui-state-default, .calendarioTotalizacion .ui-widget-header .ui-state-default{border:0 !important}
+#TPVTienda #dia{padding:4px !important}
+#TPVTienda #changeDate label{width:300px}
+#TPVTienda table th {text-align:center}
+#TPVTienda table tr.alt_row {background-color:#EFF4F9}
+.totalTotalizacion{font-weight:bold;border:2px dashed #CCCCCC;font-size:1.4em;margin:5px auto;padding:5px;text-align:center;width:100%}
+#cajaTabla table,#sinResultados{margin:15px auto}
+#cajaTabla tr td{border:0}
+body.admintpvcaja .ui-datepicker{z-index:2}
+input[type="radio"].radioHasta{float:left;margin: 7px 0;}
+.labelHasta{  padding: 13px 0 0 0;text-align: right;width: 100%;}
+#caja .date{  float: left;width: 100%;text-align: center;}
+.calendarioTotalizacion .ui-datepicker-inline{margin:0 auto}
+.ui-tabs .ui-tabs-nav {display:block;width:99.5%}
+.totaTab,.totaTab .ui-tabs,.totaTab .ui-tabs-panel{width:100%}
+
+/* arabe */
+.languagear .onecol, .languagear .twocol, .languagear .threecol, .languagear .fourcol, .languagear .fivecol, .languagear .sixcol, 
+.languagear .sevencol, .languagear .eightcol, .languagear .ninecol, .languagear .tencol, .languagear .elevencol, .languagear .twelvecol{margin:0 0 0 1.8%;float:right}
+.languagear #pedido select{display:block;clear:both}
+.languagear .close {left:15px;right:initial !important}
+.languagear #pedido #filter{float:right}
+.languagear #pedido select#id_customer{float:right !important}
+
+
+/* configuración */
+form#TPVTienda #imgTicket{display:block}
+#ajax{float:left;width:300px;padding-top:5px;font-weight:700}
+.permisostpv{width:auto}
+#permisostpv th.tienda{text-align:center}
+
+/* pantalla */
+#pantallaTPV{position:relative}
+#pantallaTPV table#productos img{max-width:100%}
+#pantallaTPV table#productos td,#pantallaTPV table#productos th{vertical-align:middle;text-align:center}
+#pantallaTPV label{vertical-align:middle;text-align:right;margin:1.1em 0;}
+#pantallaTPV .alterado{background:#31B1E6 !important;color:#FFF !important;font-weight:normal}
+#pantallaTPV #menuBarScreen{margin:0;display:inline-block;width:100%;}
+#pantallaTPV #menuBarScreen.expandido{top:68px;left:0;}
+#pantallaTPV #menuBarScreen.v16.bomenu0{top:121px;left:0;}
+#pantallaTPV #menuBarScreen.v15.bomenu0{top:0px;left:0;position:absolute;}
+#pantallaTPV #menuBarScreen.v15.bomenu0.expandido,#pantallaTPV #menuBarScreen.v15.bomenu1.expandido{width:100%;margin-top:0;top:0}
+#pantallaTPV #menuBarScreen.v16.bomenu0.expandido,#pantallaTPV #menuBarScreen.v16.bomenu1.expandido{width:100%;margin-top:0;top:0}
+#pantallaTPV #menuBarScreen.bomenu0.expandido{margin-top:0;}
+#main.expandido{padding:0 !important}
+#textoReducir{display:none}
+
+/* pagina pedido */
+.documentSigned{text-align: right;}
+.nombreProd{position:relative}
+a.cambiarNombrePedido{position:absolute;right:0;top: 16px;}
+.popupCambioNombrePedido{padding:8px;width: 454px;max-width: 100%;}
+.bootstrap.popupCambioNombrePedido input{width:80%;float:left}
+.bootstrap.popupCambioNombrePedido a.btn{width:20%}
+
+/* firma */
+.firma{display:none}
+.m-signature-pad {z-index: 8013;position:absolute;font-size:10px;width:760px;height:400px;top:434px;left:50%;margin-left:-350px;margin-top:-200px;border:1px solid #e8e8e8;
+  background-color:#fff;box-shadow:0 1px 4px rgba(0, 0, 0, 0.27), 0 0 40px rgba(0, 0, 0, 0.08) inset;border-radius:4px}
+.m-signature-pad--body {  position:absolute;left:20px;right:20px;top:20px;bottom:60px;border:1px solid #f4f4f4}
+.m-signature-pad--body canvas {position:absolute;left:0;top:0;width:100%;height:100%;border-radius:4px;box-shadow:0 0 5px rgba(0, 0, 0, 0.02) inset}
+.m-signature-pad--footer {position:absolute;left:20px;right:20px;bottom:20px;height:40px}
+.m-signature-pad--footer .description {color:#C3C3C3;text-align:center;font-size:1.2em;margin-top:1.8em}
+.m-signature-pad--footer .button {width:36% !important;position:absolute;bottom:0}
+.m-signature-pad--footer .button.clear {left:0}
+.m-signature-pad--footer .button.save {right:0}
+@media screen and (max-width:1024px) {
+	.m-signature-pad {top:0;left:0;right:0;bottom:0;width:auto;height:auto;min-width:250px;min-height:140px;margin:5%}
+}
+
+@media screen and (min-device-width:768px) and (max-device-width:1024px) {
+  .m-signature-pad {margin:10%}
+}
+
+@media screen and (max-height:320px) {
+  .m-signature-pad--body {left:0;right:0;top:0;bottom:32px}
+  .m-signature-pad--footer {left:20px;right:20px;bottom:4px;height:28px}
+  .m-signature-pad--footer .description {   font-size:1em;margin-top:1em}
+}
+/* estadisticas */
+table.informeStocks td{text-align:center}
+.DataTables_sort_icon.ui-icon{display:none}
+.dataTables_length select{width: 77px;font-size: 1em !important;display: inline-block;}
+/* panel configuración */
+.nuevaFormaPago{display:none}
+tr.disabled td{color:#aaa !important}
+#formasPago tbody tr td span{vertical-align:middle;float:left}
+td.translatable div{position:relative}
+td.translatable img{position:absolute;top:6px;left:2px}
+td.translatable input.ac_input{padding:6px 0 6px 26px}
+.contentpayments .calendar{text-align:center}
+.nuevaFormaPago td{background:#7DD38B !important}
+.tipoPapelCodebar{width:100%;float:left}
+.tipoPapelCodebar .estiloPapel{padding:10px 0}
+.tipoPapelCodebar .estiloPapel:hover{background:#31B1E6}
+.tipoPapelCodebar img{display:block;text-align:center;margin:0 auto;width:65px}
+.tipoPapelCodebar input[type=radio]{margin:0 auto;width:19px;display:block}
+.tipoPapelCodebar .seleccionado{background:rgb(135, 206, 235)}
+.submenuPOS{background:#CCC;padding:20px;margin:0 0 0 20px;float:left}
+.opcionesTicket{overflow:hidden;padding:0 40px}
+.configurationTPVTienda .ticket{position:relative;width:287px;padding:15px;background:#fff;box-shadow:2px 3px 11px #000;float:left}
+.configurationTPVTienda .opcionesTicket label,.configurationTPVTienda #codigosDeBarrasCont label{float:left;margin:8px 0}
+.configurationTPVTienda .elementoConf,#cod_bar_option_pvp{width:auto;float:right}
+.configurationTPVTienda .contTicket{display:block}
+.configurationTPVTienda .camposCodBar input{width:80px;float:left;text-align:center;font-size:1.2em;}
+.configurationTPVTienda .camposCodBar select{width:100px;float:left;text-align:center;}
+.configurationTPVTienda textarea#css_custom{min-height:300px;margin:0 20px;width:97%}
+.configurationTPVTienda .camposCodBar label{width:204px;float:left;text-align:right}
+.configurationTPVTienda .margin-form{padding:0 !important;width:100%}
+.configurationTPVTienda #formasPago td{text-align:center}
+
+#reStock{position:relative;background:#FFF;overflow:hidden;}
+#popupExplicacionTipo{font-size:0.9em}
+
+@media print {
+   #ticketPedidos{display:none}
+   .noPrint{display:none}
+   /* caja */
+   .bootstrap #TPVTienda #caja .table tbody>tr>td{font-size:12px}
+   #caja .fourcol, #caja .sixcol,#caja .eightcol{width:100%}
+}
+
+/* Pantallas grandes */
+@media only screen and (min-width:1600px) {
+	#TPVTienda .producto .name {font-size:0.85em;line-height:1.5em}
+}
+
+
+/* Pantallas medianas */
+@media only screen and (max-width:1230px) {
+	#TPVTienda body {font-size:0.9em;line-height:1.5em}
+}
+
+/* Tablets */
+@media all and (min-width:1025px) and (max-width:1200px) {
+	/*columas que desaparecen*/
+	#TPVTienda table .peso,#TPVTienda table .stock,#TPVTienda table .total,#TPVTienda table .codebarProducto,#TPVTienda table .tax{display:none}
+	#contprodDesHab{display:none}
+	.row, body, .container {min-width:0;margin-left:0px;margin-right:0px}
+	fieldset{font-size:0.9em}
+	#TPVTienda input{font-size:1em}
+	#TPVTienda .tecla {padding:3%}
+	#TPVTienda #productos {height:124px}
+	#TPVTienda .list-products .producto{width:100px;height:100px}
+	#TPVTienda .list-products .name {width:100px}
+	 
+	#TPVTienda table#compra select,#TPVTienda #id_customer,#TPVTienda #id_carrier{max-width:200px}
+   	#TPVTienda #entradaCodigo input {width:98%}
+   	#TPVTienda #contBusqueda, #TPVTienda #contCategorias{float:left;width:47%}
+   	#menuButtom{padding:.4em 1em;}
+}
+@media all and (min-width:1200px) and (max-width:1400px) {
+	/*columas que desaparecen*/
+	#TPVTienda table .peso,#TPVTienda table .stock{display:none}
+}
+/* moviles */
+@media all and (min-width:676px) and (max-width:1024px)  {
+	/*cosas que desaparecen*/
+	#TPVTienda table .ID,#TPVTienda table .stock,#TPVTienda table .codebarProducto,#TPVTienda table .foto,#TPVTienda table .tax,
+	#TPVTienda table .total,#TPVTienda table .peso,#TPVTienda table .codebarProducto,#TPVTienda table .referencia,#TPVTienda table .estado,
+	#contprodDesHab,#TPVTienda input.qty,#nombreTienda,#contprodDesHab{display:none}
+	 
+	#menuTPVmovil-button{display:inline-block}
+	#contMenu{display:none}
+	#TPVTienda body {font-size:0.8em;-webkit-text-size-adjust:none}
+  	#TPVTienda h1{font-size:1.2em}
+
+  	#TPVTienda #productos {width:91%}
+	.panel_lateral{max-width:90%}
+  	#TPVTienda #entradaCodigo input{font-size:1em;height:34px}
+	#TPVTienda table#compra select,#TPVTienda #id_customer,#TPVTienda #id_carrier{max-width:100px}
+  	.row, body, .container {min-width:0}
+  	.row .onecol, .row .twocol, .row .threecol, .row .fourcol, .row .fivecol, .row .sixcol, .row .sevencol, .row .eightcol, .row .ninecol, 
+  	.row .tencol, .row .elevencol, .row .twelvecol{padding:0;width:100% !important;margin:0}
+  	.cambio label,#contCheckout label{font-size:14px !important}
+  	#TPVTienda #retCont .fivecol{width:40.45% !important}
+  	#TPVTienda #retCont .sevencol{width:57.75% !important}
+  	#totalesCont {width:49% !important;float:left}
+  	#totalesCont .sixcol,#parteAbajo .cambio .sixcol{width:49% !important}
+  	#pedido {width:49% !important;float:right}
+  	#contCheckout .fourcol{max-height:60px;width:32% !important}
+  	#contCheckout .eightcol{width:64% !important}
+}
+/* moviles medianos*/
+@media all and (min-width:445px) and (max-width:675px)  {
+	#TPVTienda table .descuento,#contCantidadCodebar, #contx,#contprodDesHab,#nombreTienda{display:none}
+	#menuTPVmovil-button{display:inline-block}
+	#contMenu{display:none}
+	
+	#menuBarPos.bomenu1{width:90%;left:52px}
+	#TPVTienda #entradaCodigo {width:80px}
+	.row .cambio,.row #pedido{width:100% !important}
+	.cambio .threecol{width:49% !important}
+	#pedido .row{width:49% !important;height:64px;}
+	#totalesCont {width:100% !important;float:left}
+	.cambio .threecol:nth-child(2){margin:0}
+  	.cambio label,#contCheckout label,#deletecart,#anadirProductoButton{font-size:13px !important}
+}
+/* moviles pequeños*/
+@media all and (min-width:0px) and (max-width:444px)  {
+	#TPVTienda table .descuento,#contCantidadCodebar, #contx,#contprodDesHab,#nombreTienda{display:none}
+	#menuTPVmovil-button{display:inline-block}
+	#contMenu{display:none}
+	#TPVTienda .bomenu1.v16 #contSlide.expandido {margin:0 auto}
+	#menuBarPos.bomenu1{width:100%;left:0}
+	#TPVTienda #entradaCodigo {width:80px}
+	.row .cambio,.row #pedido{width:100% !important}
+	#contMenu {width:112px}
+	.cambio .threecol{width:100% !important}
+	#pedido .row{width:100% !important}
+	.cambio .threecol:nth-child(2){margin:0}
+  	.cambio label,#contCheckout label,#deletecart,#anadirProductoButton{font-size:13px !important}
+}

@@ -1,0 +1,16 @@
+*.xml
+translations/*
+!translations/index.php
+!translations/en.php
+!translations/fr.php
+!translations/es.php
+!translations/it.php
+.bashrc
+.bash_profile
+.bash_history
+.bash_logout
+.git-credentials
+.idea/*
+.DS_Store
+views/js/script_custom.js
+readme.md

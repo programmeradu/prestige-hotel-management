@@ -1,0 +1,6 @@
+{foreach $list as $tienda}
+						{$tienda['name']}
+
+						{$tienda['total']}
+                       
+{/foreach}

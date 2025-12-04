@@ -1,0 +1,53 @@
+/* pantalla */
+.adminscreen{background: #fff}
+.adminscreen #main{margin:0;padding-bottom:0}
+@media screen and (max-width:1023px){
+    .adminscreen #main{padding: 60px 0 0 0}
+}
+#pantallaTPV #contFlecha{width:30px;height:31px;padding:0;background:#31b1e6}
+.adminscreen.fullscreen #main{padding:0}
+.adminscreen .ui-content{padding:0;overflow:hidden}
+#footerPantalla{margin:0;color:#fff;text-align:center;font-size:23px;height:90px;padding:0;background:#31b1e6}
+.adminscreen #content > .row > .col-lg-12{padding:0 !important}
+#footerPantalla #total,#descuentos{display:inline-block;padding:23px 63px 23px 23px}
+#pantallaTPV #loading{position:absolute;width:100%;height:100%}
+#pantallaTPV #loading .logo{margin:104px}
+#pantallaTPV #loading > img{position:absolute;left:44%}
+#descuentos{padding:23px}
+#pantallaTPV .productos{max-width:1024px;margin:0 auto;overflow:hidden}
+#pantallaTPV .productos .row{display:flex;align-items:center;justify-content:center;margin:6px 0}
+#pantallaTPV .productos .restoLista img{max-width:100px}
+#pantallaTPV .productos .restoLista h2,#pantallaTPV .productos .restoLista .contInfoPantalla{font-size:23px}
+#pantallaTPV .productos .contInfoPantalla{background:#31b1e6;border-radius:15px;color:#fff;text-shadow:none;float:right;padding:3px 20px;font-size:32px}
+#pantallaTPV .productos>div:not(.restoLista){margin:30px 0 20px 0}
+#pantallaTPV .productos .contentProd{min-width:207px;margin:0 16px}
+#pantallaTPV .productos h2{margin:8px 0 7px;font-size:52px}
+#pantallaTPV .productos img{margin-right: 5px;}
+#pantallaTPV .alterado{background:#31B1E6 !important;color:#FFF !important;font-weight:normal}
+#pantallaTPV #menuBarScreen{font-size:19px;bottom:0;margin:0;position:absolute;width:38px;right:0px}
+#pantallaTPV #customerSeleccionado{font-size:1.3em}
+#pantallaTPV .logo{margin-bottom:20px}
+#pantallaTPV #cambioEntregado{align-items:center;flex-flow:wrap;display:flex}
+#pantallaTPV #cambioEntregado,#QR{position:absolute;top:0;left:0;background:#fff;z-index:1;width:100%;height:100%}
+#pantallaTPV .codBarTicket{display:flex;align-items:center;justify-content:center;height:100%}
+#pantallaTPV #main.expandido{padding:0 !important}
+#content.expandido .contScreen{position:fixed;top:0;width:100%;height:100%}
+@media screen and (max-height:700px){
+    #pantallaTPV .productos{max-width:900px;margin:0 20px}
+    #pantallaTPV .productos h2,#pantallaTPV .productos .contInfoPantalla{font-size:36px}
+    #pantallaTPV label {margin:1.2em 0.8em;}
+    .row .twocol {width: 14.45% !important}
+    .row .fourcol {width: 32.05% !important}
+    .row .fivecol {width: 40.45% !important}
+    .row .sixcol {width: 49% !important}
+    .row .threecol {width: 23.4% !important}
+    .row .ninecol {width: 74.8% !important}
+}
+@media screen and (max-height:400px){
+    #pantallaTPV .productos{max-width:600px;margin:0 20px}
+    #pantallaTPV .productos h2,#pantallaTPV .productos .contInfoPantalla{font-size:32px}
+    #pantallaTPV label {margin:1.2em 0.8em;}
+    .row .twocol {width: 21.45% !important}
+    .row .threecol {width: 23.4% !important}
+    .row .ninecol {width: 74.8% !important}
+}

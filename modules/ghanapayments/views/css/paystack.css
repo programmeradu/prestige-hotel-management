@@ -1,0 +1,34 @@
+/**
+ * Paystack specific styles
+ */
+
+/* Paystack iframe container */
+.paystack-iframe {
+    z-index: 999999 !important;
+}
+
+/* Paystack button */
+.paystack-button {
+    background-color: #3aa54d;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.paystack-button:hover {
+    background-color: #2d8a3e;
+}
+
+/* Test mode warning */
+.test-mode-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}

@@ -1,0 +1,17 @@
+*ERROR* 	2025/03/09 - 03:03:26: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 11:39:23: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 11:39:26: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 12:03:40: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 12:03:41: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 12:40:59: Link to database cannot be established:SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: Name or service not known at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 13:08:52: Link to database cannot be established:SQLSTATE[HY000] [3159] Connections using insecure transport are prohibited while --require_secure_transport=ON. at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 13:08:54: Link to database cannot be established:SQLSTATE[HY000] [3159] Connections using insecure transport are prohibited while --require_secure_transport=ON. at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 13:09:00: Link to database cannot be established:SQLSTATE[HY000] [3159] Connections using insecure transport are prohibited while --require_secure_transport=ON. at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 13:09:01: Link to database cannot be established:SQLSTATE[HY000] [3159] Connections using insecure transport are prohibited while --require_secure_transport=ON. at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 13:10:15: Link to database cannot be established:SQLSTATE[HY000] [3159] Connections using insecure transport are prohibited while --require_secure_transport=ON. at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 13:10:16: Link to database cannot be established:SQLSTATE[HY000] [3159] Connections using insecure transport are prohibited while --require_secure_transport=ON. at line 102 in file classes/db/DbPDO.php
+*ERROR* 	2025/03/09 - 15:59:45: Table 'hotel.qlooo_employee' doesn't exist<br /><br /><pre>
+			UPDATE `qlooo_employee`
+			SET `last_connection_date` = CURRENT_DATE()
+			WHERE `id_employee` = 0 AND `last_connection_date`< CURRENT_DATE()
+		</pre> at line 797 in file classes/db/Db.php

@@ -1,0 +1,65 @@
+
+[{shop_url}] 
+
+Hi {firstname} {lastname},
+
+Thank you for shopping with {shop_name}! 
+
+ORDER: {order_name} Placed on {date}
+
+PAYMENT: {payment} 		 
+
+المرجع
+
+منتج
+
+سعر الوحدة
+
+الكمية
+
+السعر الإجمالي
+
+{products} 
+
+{discounts} 
+
+المنتجات 
+
+{total_products} 
+
+خصومات 
+
+{total_discounts} 
+
+GIFT-WRAPPING 
+
+{total_wrapping} 
+
+الشحن 
+
+{total_shipping} 
+
+TOTAL TAX PAID 
+
+{total_tax_paid} 
+
+إجمالي المدفوعات 
+
+{total_paid} 
+
+جهة الشحن: {carrier}
+
+PAYMENT: {payment} 		 
+
+{delivery_block_html} 
+
+{invoice_block_html} 
+
+You can review your order and download your invoice from the
+"Order history" [{history_url}] section of your
+customer account by clicking "My account"
+[{my_account_url}] on our shop. 
+
+
+{shop_name} [{shop_url}]
+

@@ -1,0 +1,38 @@
+.ybc-product-html .fa {
+  border: 1px solid #3CABDB;
+  border-radius: 20px 20px 20px 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  clear: left;
+  color: #3CABDB;
+  float: left;
+  font-size: 16px;
+  height: 34px;
+  line-height: 20px;
+  margin-left: 0;
+  margin-right: 10px;
+  margin-top: 4px;
+  max-width: 25%;
+  padding: 5px;
+  text-align: center;
+  width: 34px;
+}
+.ybc-product-html p {
+  font-size: 85%;
+  line-height: 20px;
+  margin-bottom: 20px;
+  width: 75%;
+}
+.ybc-product-html .ybc_htmltitle, .ybc-product-html h3 {
+  float: left;
+  font-size: 100%;
+  margin-top: 0;
+  width: 100%;
+}
+.ybc-product-html .ybc_htmltitle > span {
+  border-bottom: 1px solid #3CABDB;
+  float: left;
+  margin-bottom: 3px;
+  padding-bottom: 3px;
+  text-transform: uppercase;
+}

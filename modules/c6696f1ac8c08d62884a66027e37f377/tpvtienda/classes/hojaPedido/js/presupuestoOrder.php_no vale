@@ -1,0 +1,77 @@
+<?php
+/*
+* 2015 Pos Tpv Prestashop
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to a Private Software License 
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to customize this module
+* please contact with us.
+*
+*  @author Alejandro Lozano AELE <soporte@pos-tpv.com>
+*  @copyright  2015 Pos Tpv Prestashop
+*  @license private
+*/
+header("Access-Control-Allow-Origin: *");
+
+include('../../config/config.inc.php');
+include('templates/HTMLTemplateProforma.php');
+include_once(dirname(__FILE__).'/classes/CambioPrecio.php');
+include_once(dirname(__FILE__).'/classes/CambioNombre.php');
+include_once(dirname(__FILE__).'/classes/POSPrestashop.php');
+include_once(dirname(__FILE__).'/classes/PDFBudget.php');
+include_once(dirname(__FILE__).'/classes/PDFGeneratorBudget.php');
+include_once('../../init.php');
+	$context = Context::getContext();
+	$customerTienda = POSPrestashop::getIdCustomerTienda ( $context );
+	
+	if (isset($_GET['id_cart'])){
+		$order = Order::getOrderByCartId($_GET['id_cart']);
+		if(!$order){
+			$tax = Configuration::get('TPVTIENDA_IVA',null,$context->shop->id_shop_group,$context->shop->id);
+			if($tax == 1 || $tax == null)
+				$tax = true;
+			else
+				$tax = false;
+			
+			$id_employee = Tools::getValue ( 'id_employee' );
+			if(!empty($id_employee)){
+				$context->employee = new Employee ( $id_employee );
+				$context->cart = new Cart($_GET['id_cart']);
+				CambioPrecio::cambiarPreciosEnDb($context);
+				CambioNombre::cambiarNombresEnDb($context);
+				$context->cart->id_currency = $_GET['id_currency'];
+				$context->cart->id_carrier = $_GET['id_carrier'];
+				$context->language->id = $_GET['id_lang'];
+				
+				$products = $context->cart->getProducts();
+				$context->customer = new Customer($context->cart->id_customer);
+				$gift_message = $context->cart->gift_message;
+				$context->cart->gift_message = $_GET['note'];
+				$context->cart->update();
+				if (!Validate::isLoadedObject($context->cart))
+					die(Tools::displayError('The cart cannot be found within your database.'));
+				if ($context->cart->id_customer != $customerTienda ['id']) {
+					// lo meto en el grupo tpvtienda
+					$grupoTPV = Configuration::getGlobalValue ( 'TPVTIENDA_ID_GROUP' );
+					$context->customer->addGroups(array($grupoTPV));
+				}
+				$pdf = new PDFBudget($_GET['id_cart'], 'Proforma', Context::getContext()->smarty);
+				$pdf->render();
+				if ($context->customer->id != $customerTienda ['id']) {
+					// lo saco del grupo tpvtienda
+					$where = 'id_customer = "' . $context->cart->id_customer . '" AND id_group ="' . Configuration::getGlobalValue ( 'TPVTIENDA_ID_GROUP' ) . '"';
+					Db::getInstance ()->delete ( 'customer_group', $where, 0, true, true );
+				}
+				$context->cart->gift_message = $gift_message;
+				$context->cart->update();
+			}else
+				echo 'no employee';
+			CambioPrecio::dejarPreciosComoEstaban($_GET['id_cart'],$context,true);
+			CambioNombre::dejarNombresComoEstaban($_GET['id_cart'],$context,true);
+		}
+	}
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>epsonreceiptprinter</name>
+    <displayName><![CDATA[Guest Folio Printer (Epson)]]></displayName>
+    <version><![CDATA[1.0.2]]></version>
+    <description><![CDATA[Adds a button to print a formatted guest folio for Epson printers via browser.]]></description>
+    <author><![CDATA[Your Name]]></author>
+    <tab><![CDATA[administration]]></tab>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+    <limited_countries></limited_countries>
+</module>

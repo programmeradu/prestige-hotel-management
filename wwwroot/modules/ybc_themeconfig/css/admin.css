@@ -1,0 +1,6 @@
+.icon-AdminYbcThemeConfig {
+}
+.icon-AdminYbcThemeConfig::before {
+  content: "\f009";
+  font-family: FontAwesome;
+}

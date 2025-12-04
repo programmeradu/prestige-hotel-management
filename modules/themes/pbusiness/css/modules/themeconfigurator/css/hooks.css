@@ -1,0 +1,105 @@
+/* Home hook CSS */
+#htmlcontent_home ul {
+  margin: 0 -20px; 
+}
+#htmlcontent_home ul li {
+    padding: 0 5px 10px; 
+}
+#htmlcontent_top ul li {
+  margin-bottom: 10px;
+  width: 36%;
+}
+#htmlcontent_top ul li:last-child {
+  width: 28%;
+}
+#htmlcontent_home ul li img {
+  max-width: 100%;
+  height: auto; 
+}
+#htmlcontent_home ul li.htmlcontent-item-5 {
+  width: 66.6667%; 
+}
+#htmlcontent_top {
+  float: left;
+  padding-left: 5px;
+  width: 100%;
+}
+#htmlcontent_top ul li:last-child {
+    margin-bottom: 0; 
+}
+#htmlcontent_top ul li img {
+  float: left;
+  height: auto;
+  margin-right: 13px;
+  max-width: 100%;
+  width: auto;
+}
+.item-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  clear: right;
+}
+#htmlcontent_top .item-title {
+  text-transform: uppercase;
+}
+@media (min-width: 768px) and (max-width: 991px){
+    #htmlcontent_top ul li:last-child {
+      width: 33.333%;
+    }
+    #htmlcontent_top ul li {
+      margin-bottom: 10px;
+      width: 33.333%;
+    }
+    #htmlcontent_top .item-html {
+      float: left;
+      width: 78%;
+    }
+    #htmlcontent_top ul li img {
+      float: left;
+      height: auto;
+      margin: 0 2% 0 0;
+      max-width: 20%;
+      width: auto;
+    }
+    #htmlcontent_top .item-title {
+      margin-top:0px;
+    }
+}
+@media (max-width: 767px) {
+  #htmlcontent_top ul li {
+    float: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 50%; 
+  } 
+    #htmlcontent_top {
+      width: 100%;
+      max-width: 100%;
+      padding-left: 0;
+      padding-top: 0px; 
+    } 
+    #htmlcontent_top ul {
+      margin: 0 -5px; 
+    } 
+}
+@media (max-width: 479px) {
+    #htmlcontent_home ul li img {
+      min-width: 100%; 
+    } 
+    #htmlcontent_home ul li.htmlcontent-item-5 {
+      width: 100%; } 
+    #htmlcontent_top ul li {
+      width: 100%;
+    }
+    #htmlcontent_home ul li {
+      width: 100%; 
+    } 
+    #htmlcontent_top ul li:last-child {
+      width:100%;
+    }
+}
+/* Left hook CSS */
+/* Right hook CSS */
+/* Footer hook CSS */

@@ -1,0 +1,70 @@
+.ybc_ac_item {
+  border: 1px solid #DEDEDE;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 1px 4px 1px #DEDEDE;
+  cursor: all-scroll;
+  float: left;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  width: 100%;
+  background: #f6f6f6;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+}
+.ybc_advancedcats_backend {
+  float: left;
+  list-style: none outside none;
+  padding: 0;
+  width: 1100px;
+}
+.ybc_advancedcats_backend .ac_button {
+  float: right;
+  width: 70px;
+}
+.ybc_advancedcats_backend .ac-content {
+  float: left;
+  width: 92%;
+}
+.ybc_advancedcats_backend .ac_button > ul {
+  list-style: none outside none;
+  padding: 0;
+}
+.ybc_advancedcats_backend .ac_button li {
+  float: left;
+  margin: 0 5px;
+}
+.ybc_advancedcats_backend h6 {
+  margin-top: 0;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+.advancedcat_title {
+  float: left;
+}
+.add_new_advancedcat {
+  float: right;
+}
+.ybc_advancedcats_backend ul li a .icon-check {
+  background-color: #93CD60;
+  border: 1px solid #A6C964;
+  border-radius: 3px 3px 3px 3px;
+  color: white;
+  font-size: 10px;
+  padding: 1px;
+}
+.ybc_advancedcats_backend ul li a .icon-remove {
+  background-color: #E27C79;
+  border: 1px solid #D9534F;
+  border-radius: 3px 3px 3px 3px;
+  color: #F7E2E1;
+  font-size: 10px;
+  padding: 1px 2px;
+}
+.ybc_advancedcats_backend ul li a .icon-trash {
+  color: #999999;
+}

@@ -1,0 +1,39 @@
+.header_user_info {
+  float: right;
+}
+.header_user_info a {
+    display: block;
+    padding: 8px 0 11px 8px;
+    cursor: pointer;
+    line-height: 18px; 
+}
+@media (max-width: 479px) {
+  .header_user_info a {
+    font-size: 11px; 
+  } 
+}
+.login:before {
+  color: #ADADAD;
+  content: "\f023";
+  float: left;
+  font-family: FontAwesome;
+  font-size: 15px;
+  margin-right: 5px;
+  margin-top: 1px;
+}
+.logout:before {
+  color: #ADADAD;
+  content: "\f09c";
+  font-family: FontAwesome;
+  float: left;
+  font-size: 15px;
+  margin-right: 5px;
+  margin-top: 1px;
+}
+#left_column .logout:before{
+    display: none;
+}
+.account > span {
+  font-weight: bold;
+}
+/*# sourceMappingURL=blockuserinfo.css.map */
