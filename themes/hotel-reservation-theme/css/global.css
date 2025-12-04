@@ -382,7 +382,7 @@ html {
 
 
 body {
-  font-family: 'Oxygen', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: 13px;
   line-height: 1.42857;
   color: #777777;
@@ -13002,3 +13002,122 @@ button[name="search_room_submit"]:active {
   /* A slightly darker shade for hover state */
   border-color: #0b204d;
 }
+/* Modern Hero Section */
+#header {
+    height: 100vh !important;
+    background-size: cover !important;
+    background-position: center !important;
+    position: relative;
+}
+
+#header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+    z-index: 1;
+}
+
+.header-container {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.header-top {
+    background: transparent !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding-top: 20px;
+}
+
+#header_logo {
+    float: none !important;
+    display: inline-block;
+}
+
+/* Centered Welcome Text (injected via hook or hardcoded later) */
+.hero-content {
+    color: #fff;
+    margin-top: 100px;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 4em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+
+/* Typography Override */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Playfair Display', serif !important;
+}
+
+/* Modern Room Cards */
+.hotelRoomDescContainer {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-radius: 0 0 8px 8px;
+    margin-top: -5px; /* Connect with image */
+    position: relative;
+    z-index: 2;
+}
+
+.home_block_container img {
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.htlRoomTypeNameText {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    color: #1C2331;
+    font-weight: 700;
+}
+
+.htlRoomTypePriceText {
+    font-family: 'Lato', sans-serif;
+    color: #C0A062;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.htlRoomTypeBookNow {
+    background-color: #1C2331 !important;
+    color: #fff !important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.3s ease;
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+}
+
+.htlRoomTypeBookNow:hover {
+    background-color: #C0A062 !important;
+    color: #fff !important;
+}
+
