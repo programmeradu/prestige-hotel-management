@@ -124,9 +124,11 @@
 										</div>
 									</div>
 								</div>
+								{*
 								{block name='displaySearchHotelPanel'}
 									{hook h='displaySearchHotelPanel'}
 								{/block}
+								*}
 							</div>
 						</div>
 					{/block}
