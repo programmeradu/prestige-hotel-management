@@ -40,8 +40,59 @@
 					{/block}
 					<!-- Footer -->
 					<div class="footer-container">
-						<footer id="footer"  class="container">
+						<footer id="footer" class="container">
+							<div class="row">
+								{* Navigation Column *}
+								<div class="col-md-3 col-sm-6 footer-column">
+									<h4>NAVIGATION</h4>
+									<ul>
+										<li><a href="{$base_dir}">Home</a></li>
+										<li><a href="{$base_dir}about-us">About Us</a></li>
+										<li><a href="{$base_dir}contact-us">Contact</a></li>
+									</ul>
+								</div>
+								
+								{* Contact Column *}
+								<div class="col-md-3 col-sm-6 footer-column">
+									<h4>CONTACT</h4>
+									<ul>
+										<li><a href="{$base_dir}contact-us">Contact Us</a></li>
+										<li><a href="mailto:prestigehotelcc@gmail.com">Email Us</a></li>
+										<li><a href="tel:+233205328339">Call Us</a></li>
+									</ul>
+								</div>
+								
+								{* Policies Column *}
+								<div class="col-md-3 col-sm-6 footer-column">
+									<h4>POLICIES</h4>
+									<ul>
+										<li><a href="{$base_dir}content/1-policies">Policies</a></li>
+										<li><a href="{$base_dir}content/2-legal-notice">About Us</a></li>
+										<li><a href="{$base_dir}content/3-privacy-policy">Privacy Policy</a></li>
+									</ul>
+								</div>
+								
+								{* Follow Us Column *}
+								<div class="col-md-3 col-sm-6 footer-column">
+									<h4>FOLLOW US</h4>
+									<div class="footer-social">
+										<a href="#" title="Facebook"><i class="icon-facebook"></i></a>
+										<a href="#" title="Twitter"><i class="icon-twitter"></i></a>
+										<a href="#" title="Instagram"><i class="icon-instagram"></i></a>
+										<a href="#" title="LinkedIn"><i class="icon-linkedin"></i></a>
+									</div>
+								</div>
+							</div>
+							
+							{* Footer Hooks *}
 							<div class="row margin-btm-50">{$HOOK_FOOTER}</div>
+							
+							{* Footer Bottom *}
+							<div class="footer-bottom">
+								<p class="footer-copyright">
+									© {$smarty.now|date_format:"%Y"} <a href="{$base_dir}">Prestige Hotel</a>. All rights reserved.
+								</p>
+							</div>
 						</footer>
 						{block name='displayAfterDefautlFooterHook'}
 							{hook h="displayAfterDefautlFooterHook"}

@@ -30,7 +30,7 @@
 <html{if isset($language_code) && $language_code} lang="{$language_code|escape:'html':'UTF-8'}"{/if} {if isset($language_is_rtl) && $language_is_rtl}dir="rtl"{/if} style="{if $page_name == 'index'}height: 100%;{/if}">
 	<head>
 		<meta charset="utf-8" />
-		<title>Prestige Hotel</title>
+		<title>Prestige Hotel | Luxury Accommodation in Cape Coast, Ghana</title>
 		{if isset($meta_description) AND $meta_description}
 			<meta name="description" content="{$meta_description|escape:'html':'UTF-8'}" />
 		{/if}
@@ -41,8 +41,13 @@
 		<meta name="robots" content="{if isset($nobots)}no{/if}index,{if isset($nofollow) && $nofollow}no{/if}follow" />
 		<meta name="viewport" content="width=device-width, minimum-scale=0.25, maximum-scale=1.6, initial-scale=1.0" />
 		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="theme-color" content="#1C2331" />
 		<link rel="icon" type="image/vnd.microsoft.icon" href="{$favicon_url}?{$img_update_time}" />
 		<link rel="shortcut icon" type="image/x-icon" href="{$favicon_url}?{$img_update_time}" />
+		
+		{* Prestige Hotel Custom Theme CSS *}
+		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
 		{if isset($css_files)}
 			{foreach from=$css_files key=css_uri item=media}
 				{if $css_uri == 'lteIE9'}
@@ -77,8 +82,15 @@
 		<!-- <link href='https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700,700italic' rel='stylesheet' type='text/css'> -->
 		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 	</head>
-	<body{if isset($page_name)} id="{$page_name|escape:'html':'UTF-8'}"{/if} class="{if isset($page_name)}{$page_name|escape:'html':'UTF-8'}{/if}{if isset($body_classes) && $body_classes|@count} {' '|implode:$body_classes}{/if}{if $hide_left_column} hide-left-column{else} show-left-column{/if}{if $hide_right_column} hide-right-column{else} hide-right-column{/if}{if isset($content_only) && $content_only} content_only{/if} lang_{$lang_iso}" style="{if $page_name == 'index'}height: 100%;{/if}">
+	<body{if isset($page_name)} id="{$page_name|escape:'html':'UTF-8'}"{/if} class="christmas-mode {if isset($page_name)}{$page_name|escape:'html':'UTF-8'}{/if}{if isset($body_classes) && $body_classes|@count} {' '|implode:$body_classes}{/if}{if $hide_left_column} hide-left-column{else} show-left-column{/if}{if $hide_right_column} hide-right-column{else} hide-right-column{/if}{if isset($content_only) && $content_only} content_only{/if} lang_{$lang_iso}" style="{if $page_name == 'index'}height: 100%;{/if}">
 	{if !isset($content_only) || !$content_only}
+		{* Christmas Banner *}
+		<div class="christmas-banner">
+			<span>🎄 Season's Greetings! Enjoy special holiday rates at Prestige Hotel. Book your festive getaway today! ❄️</span>
+		</div>
+		{* Christmas Lights Decoration *}
+		<div class="christmas-lights"></div>
+		
 		{if isset($restricted_country_mode) && $restricted_country_mode}
 			<div id="restricted-country">
 				<p>{l s='You cannot place a new order from your country.'}{if isset($geolocation_country) && $geolocation_country} <span class="bold">{$geolocation_country|escape:'html':'UTF-8'}</span>{/if}</p>
@@ -86,7 +98,7 @@
 		{/if}
 		<div id="page" style="{if $page_name == 'index'}height: 100%;{/if}">
 			<div class="header-container" style="{if $page_name == 'index'}height: 100%;{/if}">
-				<header id="header" style='{if $page_name == "index"}background-image:url("{$link->getMediaLink("`$smarty.const._PS_IMG_`{Configuration::get('WK_HOTEL_HEADER_IMAGE')}")}"); height: 100%;{else}background-color:#252525;{/if}' >
+				<header id="header" style='{if $page_name == "index"}background-image:url("{$link->getMediaLink("`$smarty.const._PS_IMG_`{Configuration::get('WK_HOTEL_HEADER_IMAGE')}")}"); height: 100%;{else}background-color:#1C2331;{/if}' >
 					<div class="banner">
 						<div class="container">
 							<div class="row">
@@ -134,6 +146,18 @@
 							</div>
 						</div>
 					{/block}
+					
+					{* Hero Content - Only on Homepage *}
+					{if $page_name == 'index'}
+						<div class="hero-content-wrapper">
+							<h1 class="hero-title">Experience Unparalleled Luxury at<br>Prestige Hotel, Cape Coast</h1>
+							<p class="hero-subtitle">A place where comfort and luxury are blended with care.</p>
+							<a href="#" class="hero-video-btn" title="Watch Video">
+								<i class="icon-play"></i>
+							</a>
+						</div>
+					{/if}
+					
 					{block name='displayAfterHookTop'}
 						{hook h='displayAfterHookTop'}
 					{/block}
