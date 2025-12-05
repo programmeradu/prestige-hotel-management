@@ -4,18 +4,6 @@
  * Version: 1.0.0
  * 
  * Color Palette:
- * - Primary Navy: #1C2331
- * - Secondary Teal: #0D4F5F
- * - Gold/Amber: #C0A062
- * - Light Gold: #D4B978
- * - Coral Accent: #E8604C
- * - Turquoise: #40B5AD
- * - White: #FFFFFF
- * - Dark Text: #333333
- */
-
-/* ============================================
-   CSS VARIABLES / CUSTOM PROPERTIES
    ============================================ */
 :root {
     /* Brand Colors */
@@ -250,15 +238,21 @@ a:hover {
 }
 
 /* Mobile Menu Toggle */
-.menu-icon {
+.menu-icon,
+.nav_toggle {
     width: 40px;
     height: 40px;
-    background: var(--prestige-gold);
+    background: var(--prestige-gold) !important;
     border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border: none !important;
+}
+
+.nav_toggle .icon-bar {
+    background-color: var(--prestige-navy) !important;
 }
 
 /* ============================================
@@ -318,12 +312,13 @@ a:hover {
 }
 
 /* ============================================
-   BOOKING SEARCH BAR
+/* ============================================
+   BOOKING SEARCH BAR - TRANSPARENT
    ============================================ */
 .header-rmsearch-container {
+    padding-top: 40px;
     position: relative;
     z-index: 100;
-    margin-top: 40px;
 }
 
 #index .header-rmsearch-container {
@@ -332,15 +327,19 @@ a:hover {
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 1000px;
+    max-width: 900px !important;
     padding: 0 20px;
 }
 
 .header-rmsearch-wrapper {
-    background: var(--bg-white);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 50px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    padding: 15px 30px !important;
+    margin: 0 auto;
     overflow: visible;
 }
 
@@ -376,22 +375,23 @@ a:hover {
 /* Search Form Inputs */
 .header-rmsearch-input,
 #search_hotel_block_form .form-control {
-    height: 55px;
-    border: 2px solid #E8E8E8;
-    border-radius: var(--radius-md);
+    height: 45px !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 30px !important;
     padding: 10px 20px;
-    font-size: 15px;
-    color: var(--text-dark);
-    background: var(--bg-white);
+    font-size: 14px !important;
+    color: #333 !important;
+    background: rgba(255, 255, 255, 0.9) !important;
     transition: var(--transition-fast);
     display: flex;
     align-items: center;
+    box-shadow: none !important;
 }
 
 .header-rmsearch-input:focus,
 #search_hotel_block_form .form-control:focus {
     border-color: var(--prestige-gold);
-    box-shadow: 0 0 0 3px rgba(192, 160, 98, 0.1);
+    box-shadow: 0 0 0 3px rgba(192, 160, 98, 0.1) !important;
     outline: none;
 }
 
