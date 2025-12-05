@@ -19,16 +19,5 @@
 *  International Registered Trademark & Property of ETS-Soft
 *}
 <!-- Block search module TOP -->
-<div id="search_block_top" class="col-sm-6 clearfix {if $searched_categories}has-categories-dropdown{else}no-categories-dropdown{/if}">
-	<form id="searchbox" method="get" action="{$link->getPageLink('search', null, null, null, false, null, true)|escape:'html':'UTF-8'}" >
-		<input type="hidden" name="controller" value="search" />
-		<input type="hidden" name="orderby" value="position" />
-		<input type="hidden" name="orderway" value="desc" />
-        {if $searched_categories}{$searched_categories nofilter}{/if}
-		<input class="search_query form-control" type="text" id="search_query_top" name="search_query" placeholder="{l s='Enter product name ...' mod='ybc_blocksearch'}" value="{$search_query|escape:'htmlall':'UTF-8'|stripslashes}" />
-		<button type="submit" name="submit_search" class="btn btn-default button-search">
-			<span>{l s='Search' mod='ybc_blocksearch'}</span>
-		</button>
-	</form>
-</div>
+{* Search block removed as per user request *}
 <!-- /Block search module TOP -->

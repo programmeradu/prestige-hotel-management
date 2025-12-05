@@ -7,17 +7,25 @@
 /* ============================================
    GLOBAL OVERFLOW FIX
    ============================================ */
-html, body {
+html,
+body {
     overflow-x: hidden !important;
     max-width: 100% !important;
     width: 100% !important;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-.container, .row, #page, .header-container, .columns-container, .footer-container {
+.container,
+.row,
+#page,
+.header-container,
+.columns-container,
+.footer-container {
     max-width: 100%;
     overflow-x: hidden;
 }
@@ -105,9 +113,11 @@ html, body {
     0% {
         box-shadow: 0 0 0 5px rgba(192, 160, 98, 0.4);
     }
+
     50% {
         box-shadow: 0 0 0 15px rgba(192, 160, 98, 0.1);
     }
+
     100% {
         box-shadow: 0 0 0 5px rgba(192, 160, 98, 0.4);
     }
@@ -128,12 +138,15 @@ html, body {
    ROOM SEARCH FORM - BOOKING BAR
    ============================================ */
 .header-rmsearch-wrapper {
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-    padding: 25px 35px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 15px 30px;
     margin: 0 auto;
-    max-width: 1000px;
+    max-width: 900px;
 }
 
 #search_hotel_block_form {
@@ -161,13 +174,13 @@ html, body {
 #search_hotel_block_form input.form-control,
 #search_hotel_block_form select.form-control,
 #search_hotel_block_form .form-control {
-    height: 55px;
-    border: 2px solid #e8e8e8;
-    border-radius: 12px;
-    padding: 12px 20px;
-    font-size: 15px;
+    height: 45px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 14px;
     color: #333;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.9);
     transition: all 0.3s ease;
     box-shadow: none;
 }
@@ -246,8 +259,8 @@ html, body {
     padding: 20px 0;
 }
 
-#product_list > li,
-.product_list > li {
+#product_list>li,
+.product_list>li {
     list-style: none;
     width: 100% !important;
     float: none !important;
@@ -267,20 +280,24 @@ html, body {
 }
 
 /* Colored Border Variants */
-.product_list > li:nth-child(4n+1) .product-container {
-    border-color: #C0A062; /* Gold */
+.product_list>li:nth-child(4n+1) .product-container {
+    border-color: #C0A062;
+    /* Gold */
 }
 
-.product_list > li:nth-child(4n+2) .product-container {
-    border-color: #40B5AD; /* Teal */
+.product_list>li:nth-child(4n+2) .product-container {
+    border-color: #40B5AD;
+    /* Teal */
 }
 
-.product_list > li:nth-child(4n+3) .product-container {
-    border-color: #E8604C; /* Coral */
+.product_list>li:nth-child(4n+3) .product-container {
+    border-color: #E8604C;
+    /* Coral */
 }
 
-.product_list > li:nth-child(4n+4) .product-container {
-    border-color: #6B4C9A; /* Purple */
+.product_list>li:nth-child(4n+4) .product-container {
+    border-color: #6B4C9A;
+    /* Purple */
 }
 
 .product-container:hover {
@@ -314,7 +331,7 @@ html, body {
     left: 0;
     right: 0;
     height: 50%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
     pointer-events: none;
 }
 
@@ -332,7 +349,7 @@ html, body {
     color: #fff;
     font-size: 1.5rem;
     font-weight: 700;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Right Block - Content */
@@ -427,7 +444,7 @@ html, body {
     top: 15px;
     right: 15px;
     z-index: 3;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     padding: 10px 15px;
     border-radius: 8px;
     font-size: 12px;
@@ -550,7 +567,7 @@ html, body {
 }
 
 .hotel-features-section .section-subtitle {
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 /* Feature Items */
@@ -572,7 +589,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     transition: all 0.3s ease;
 }
@@ -601,7 +618,7 @@ html, body {
 
 .feature-description {
     font-size: 14px;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255, 255, 255, 0.7);
     line-height: 1.6;
 }
 
@@ -614,7 +631,7 @@ html, body {
 }
 
 .feature-item.featured .feature-icon {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* Decorative Shapes */
@@ -651,10 +668,21 @@ html, body {
     z-index: 1;
 }
 
-.decor-dot.coral { background: #E8604C; }
-.decor-dot.gold { background: #C0A062; }
-.decor-dot.teal { background: #40B5AD; }
-.decor-dot.purple { background: #6B4C9A; }
+.decor-dot.coral {
+    background: #E8604C;
+}
+
+.decor-dot.gold {
+    background: #C0A062;
+}
+
+.decor-dot.teal {
+    background: #40B5AD;
+}
+
+.decor-dot.purple {
+    background: #6B4C9A;
+}
 
 /* ============================================
    TESTIMONIALS / REVIEWS
@@ -668,14 +696,14 @@ html, body {
     background: #fff;
     border-radius: 20px;
     padding: 35px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
     margin: 15px;
     transition: all 0.3s ease;
 }
 
 .testimonial-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
 }
 
 .testimonial-text {
@@ -751,13 +779,13 @@ html, body {
     overflow: hidden;
     position: relative;
     height: 300px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease;
 }
 
 .experience-card:hover {
     transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
 
 .experience-card img {
@@ -777,7 +805,7 @@ html, body {
     left: 0;
     right: 0;
     padding: 25px;
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
 }
 
 .experience-card-title {
@@ -806,30 +834,8 @@ html, body {
 
 /* Footer Columns */
 #footer .footer-block,
-#footer > .row > div {
+#footer>.row>div {
     margin-bottom: 30px;
-}
-
-#footer h4,
-#footer .footer-block h4 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.125rem;
-    color: #fff;
-    margin-bottom: 25px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    padding-bottom: 12px;
-}
-
-#footer h4::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background: #C0A062;
 }
 
 #footer ul {
@@ -906,24 +912,24 @@ html, body {
     .header-rmsearch-wrapper {
         padding: 20px;
     }
-    
+
     #search_hotel_block_form .grid {
         flex-direction: column;
     }
-    
+
     #search_hotel_block_form .grid-item {
         width: 100%;
     }
-    
+
     #search_room_submit {
         width: 100%;
     }
-    
+
     #product_list {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
-    
+
     .hotel-features-section {
         padding: 60px 0;
     }
@@ -933,25 +939,25 @@ html, body {
     #product_list {
         grid-template-columns: 1fr;
     }
-    
+
     .home-section-title,
     #HOOK_HOME h2 {
         font-size: 1.75rem;
     }
-    
+
     .product-image-container {
         height: 200px;
     }
-    
+
     .footer-container {
         text-align: center;
     }
-    
+
     #footer h4::after {
         left: 50%;
         transform: translateX(-50%);
     }
-    
+
     .footer-social {
         justify-content: center;
     }
@@ -964,11 +970,11 @@ html, body {
     border-color: #C41E3A;
 }
 
-.christmas-mode .product_list > li:nth-child(odd) .product-container {
+.christmas-mode .product_list>li:nth-child(odd) .product-container {
     border-color: #C41E3A;
 }
 
-.christmas-mode .product_list > li:nth-child(even) .product-container {
+.christmas-mode .product_list>li:nth-child(even) .product-container {
     border-color: #228B22;
 }
 
@@ -991,11 +997,14 @@ html, body {
 }
 
 @keyframes twinkle-lights {
-    0%, 100% { 
-        filter: brightness(1); 
+
+    0%,
+    100% {
+        filter: brightness(1);
     }
-    50% { 
-        filter: brightness(1.3); 
+
+    50% {
+        filter: brightness(1.3);
     }
 }
 

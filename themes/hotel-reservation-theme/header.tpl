@@ -144,11 +144,7 @@
 					{if $page_name == 'index'}
 						<div class="hero-section">
 							<div class="hero-content-wrapper">
-								<h1 class="hero-title">Experience Unparalleled Luxury at<br>Prestige Hotel, Cape Coast</h1>
-								<p class="hero-subtitle">A place where comfort and luxury are blended with care.</p>
-								<a href="#rooms" class="hero-video-btn" title="Explore Our Rooms">
-									<i class="icon-arrow-down"></i>
-								</a>
+								{* Hardcoded content removed to prevent duplication with module output *}
 							</div>
 							
 							{* Search Bar - Positioned at bottom of hero *}
