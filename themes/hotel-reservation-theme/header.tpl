@@ -45,9 +45,6 @@
 		<link rel="icon" type="image/vnd.microsoft.icon" href="{$favicon_url}?{$img_update_time}" />
 		<link rel="shortcut icon" type="image/x-icon" href="{$favicon_url}?{$img_update_time}" />
 		
-		{* Prestige Hotel Custom Theme CSS *}
-		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
-		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
 		{if isset($css_files)}
 			{foreach from=$css_files key=css_uri item=media}
 				{if $css_uri == 'lteIE9'}
@@ -61,6 +58,12 @@
 				{/if}
 			{/foreach}
 		{/if}
+		
+		{* Prestige Hotel Custom Theme CSS - Loaded AFTER all module CSS to override *}
+		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}prestige-modules.css" type="text/css" media="all" />
+		
 		{if isset($js_defer) && !$js_defer && isset($js_files) && isset($js_def)}
 			{$js_def}
 			{foreach from=$js_files item=js_uri}
@@ -138,29 +141,31 @@
 										</div>
 									</div>
 								</div>
-								{*
-								{block name='displaySearchHotelPanel'}
-									{hook h='displaySearchHotelPanel'}
-								{/block}
-								*}
 							</div>
 						</div>
 					{/block}
 					
 					{* Hero Content - Only on Homepage *}
 					{if $page_name == 'index'}
-						<div class="hero-content-wrapper">
-							<h1 class="hero-title">Experience Unparalleled Luxury at<br>Prestige Hotel, Cape Coast</h1>
-							<p class="hero-subtitle">A place where comfort and luxury are blended with care.</p>
-							<a href="#" class="hero-video-btn" title="Watch Video">
-								<i class="icon-play"></i>
-							</a>
+						<div class="hero-section">
+							<div class="hero-content-wrapper">
+								<h1 class="hero-title">Experience Unparalleled Luxury at<br>Prestige Hotel, Cape Coast</h1>
+								<p class="hero-subtitle">A place where comfort and luxury are blended with care.</p>
+								<a href="#rooms" class="hero-video-btn" title="Explore Our Rooms">
+									<i class="icon-arrow-down"></i>
+								</a>
+							</div>
+							
+							{* Search Bar - Positioned at bottom of hero *}
+							{block name='displayAfterHookTop'}
+								{hook h='displayAfterHookTop'}
+							{/block}
 						</div>
+					{else}
+						{block name='displayAfterHookTop'}
+							{hook h='displayAfterHookTop'}
+						{/block}
 					{/if}
-					
-					{block name='displayAfterHookTop'}
-						{hook h='displayAfterHookTop'}
-					{/block}
 				</header>
 			</div>
 			<div class="columns-container">

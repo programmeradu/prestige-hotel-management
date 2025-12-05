@@ -5,23 +5,49 @@
  */
 
 /* ============================================
-   HOMEPAGE HERO CONTENT (Inside Header)
+   GLOBAL OVERFLOW FIX
+   ============================================ */
+html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.container, .row, #page, .header-container, .columns-container, .footer-container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   HOMEPAGE HERO SECTION
    ============================================ */
 #index .header-container {
     position: relative;
 }
 
+/* Hero Section Wrapper */
+.hero-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+    padding: 60px 20px 120px;
+    z-index: 5;
+}
+
 /* Hero Content Overlay */
 .hero-content-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     text-align: center;
     z-index: 5;
     width: 90%;
     max-width: 800px;
-    padding-top: 60px;
+    margin-bottom: 40px;
 }
 
 #index .header-top {
@@ -51,6 +77,51 @@
     text-align: center;
     max-width: 600px;
     margin: 0 auto 30px;
+}
+
+/* Hero Video/Explore Button */
+.hero-video-btn {
+    width: 70px;
+    height: 70px;
+    background: #C0A062;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #1C2331;
+    font-size: 24px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 10px rgba(192, 160, 98, 0.2);
+    animation: pulse-ring 2s infinite;
+}
+
+.hero-video-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 15px rgba(192, 160, 98, 0.3);
+    color: #1C2331;
+}
+
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 5px rgba(192, 160, 98, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(192, 160, 98, 0.1);
+    }
+    100% {
+        box-shadow: 0 0 0 5px rgba(192, 160, 98, 0.4);
+    }
+}
+
+/* Search Bar Position in Hero */
+.hero-section .header-rmsearch-container {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100%;
+    max-width: 1100px;
+    margin-top: auto;
 }
 
 /* ============================================
@@ -641,6 +712,30 @@
 /* ============================================
    EXPERIENCES / GALLERY GRID
    ============================================ */
+/* Utility classes */
+.py-80 {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+}
+
+.py-60 {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+}
+
+/* Rooms Section */
+.rooms-section {
+    padding: 80px 0;
+    background: #fff;
+}
+
+.rooms-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Experiences Section */
 .experiences-section {
     padding: 80px 0;
 }

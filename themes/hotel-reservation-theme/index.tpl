@@ -24,23 +24,25 @@
 *}
 
 {* Our Exquisite Rooms Section *}
-<section class="rooms-section py-80">
-	<div class="section-header">
-		<h2 class="home-section-title">Our Exquisite Rooms</h2>
-		<p class="home-section-subtitle">Step into the sophisticated elegance of our hotel, where every detail is designed for your comfort in mind.</p>
+<section id="rooms" class="rooms-section py-80">
+	<div class="container">
+		<div class="section-header">
+			<h2 class="home-section-title">Our Exquisite Rooms</h2>
+			<p class="home-section-subtitle">Step into the sophisticated elegance of our hotel, where every detail is designed for your comfort in mind.</p>
+		</div>
+		{block name='displayHomeTabContent'}
+			{if isset($HOOK_HOME_TAB_CONTENT) && $HOOK_HOME_TAB_CONTENT|trim}
+				{block name='displayHomeTab'}
+					{if isset($HOOK_HOME_TAB) && $HOOK_HOME_TAB|trim}
+						<ul id="home-page-tabs" class="nav nav-tabs clearfix">
+							{$HOOK_HOME_TAB}
+						</ul>
+					{/if}
+				{/block}
+				<div class="tab-content">{$HOOK_HOME_TAB_CONTENT}</div>
+			{/if}
+		{/block}
 	</div>
-	{block name='displayHomeTabContent'}
-		{if isset($HOOK_HOME_TAB_CONTENT) && $HOOK_HOME_TAB_CONTENT|trim}
-			{block name='displayHomeTab'}
-				{if isset($HOOK_HOME_TAB) && $HOOK_HOME_TAB|trim}
-					<ul id="home-page-tabs" class="nav nav-tabs clearfix">
-						{$HOOK_HOME_TAB}
-					</ul>
-				{/if}
-			{/block}
-			<div class="tab-content">{$HOOK_HOME_TAB_CONTENT}</div>
-		{/if}
-	{/block}
 </section>
 
 {* World-Class Amenities Section *}
