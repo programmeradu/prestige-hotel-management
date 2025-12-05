@@ -27,42 +27,37 @@
     --prestige-turquoise: #40B5AD;
     --prestige-purple: #6B4C9A;
     --prestige-pink: #E84C8A;
-    
+
     /* Text Colors */
     --text-dark: #1C2331;
     --text-body: #555555;
     --text-light: #777777;
     --text-white: #FFFFFF;
-    
+
     /* Background Colors */
     --bg-white: #FFFFFF;
     --bg-light: #F8F9FA;
     --bg-cream: #FDF9F3;
     --bg-dark: #1C2331;
-    
-    /* Christmas Colors */
-    --christmas-red: #C41E3A;
-    --christmas-green: #228B22;
-    --christmas-gold: #FFD700;
-    --christmas-snow: #FFFAFA;
-    
+
+
     /* Fonts */
     --font-primary: 'Lato', sans-serif;
     --font-display: 'Playfair Display', serif;
-    
+
     /* Shadows */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12);
     --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.15);
     --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.1);
-    
+
     /* Border Radius */
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
     --radius-xl: 30px;
     --radius-full: 50%;
-    
+
     /* Transitions */
     --transition-fast: 0.2s ease;
     --transition-normal: 0.3s ease;
@@ -72,7 +67,8 @@
 /* ============================================
    GLOBAL TYPOGRAPHY & BASE STYLES
    ============================================ */
-html, body {
+html,
+body {
     overflow-x: hidden;
     max-width: 100vw;
 }
@@ -86,18 +82,37 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-display);
     color: var(--text-dark);
     font-weight: 600;
     line-height: 1.3;
 }
 
-h1 { font-size: 3rem; }
-h2 { font-size: 2.5rem; }
-h3 { font-size: 1.875rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 1.875rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
 
 /* Links */
 a {
@@ -134,12 +149,10 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(28, 35, 49, 0.7) 0%,
-        rgba(28, 35, 49, 0.4) 50%,
-        rgba(28, 35, 49, 0.6) 100%
-    );
+    background: linear-gradient(180deg,
+            rgba(28, 35, 49, 0.7) 0%,
+            rgba(28, 35, 49, 0.4) 50%,
+            rgba(28, 35, 49, 0.6) 100%);
     z-index: 1;
 }
 
@@ -218,7 +231,7 @@ a:hover {
 }
 
 /* Cart Icon */
-.shopping_cart > a {
+.shopping_cart>a {
     color: var(--text-white);
     font-size: 20px;
 }
@@ -503,11 +516,9 @@ a:hover {
     left: 0;
     right: 0;
     height: 60%;
-    background: linear-gradient(
-        to top,
-        rgba(28, 35, 49, 0.9) 0%,
-        rgba(28, 35, 49, 0) 100%
-    );
+    background: linear-gradient(to top,
+            rgba(28, 35, 49, 0.9) 0%,
+            rgba(28, 35, 49, 0) 100%);
     pointer-events: none;
 }
 
@@ -927,112 +938,16 @@ input.button:hover {
 .decor-wave {
     position: absolute;
     width: 100%;
-    height: 60px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60'%3E%3Cpath fill='%23E8604C' d='M0,30 C360,60 720,0 1080,30 C1260,45 1350,45 1440,30 L1440,60 L0,60 Z'/%3E%3C/svg%3E");
-    background-size: cover;
-}
 
-/* ============================================
-   CHRISTMAS THEME 🎄
-   ============================================ */
-.christmas-mode {
-    /* Enable with body class "christmas-mode" */
-}
-
-/* Snow will be added via external library later */
-
-/* Christmas Colors Override */
-.christmas-mode .btn-primary,
-.christmas-mode .button.button-medium,
-.christmas-mode #search_room_submit {
-    background: var(--christmas-red) !important;
-    color: var(--text-white) !important;
-}
-
-.christmas-mode .btn-primary:hover,
-.christmas-mode .button.button-medium:hover,
-.christmas-mode #search_room_submit:hover {
-    background: var(--christmas-green) !important;
-}
-
-.christmas-mode .prestige-gold,
-.christmas-mode a {
-    color: var(--christmas-gold);
-}
-
-/* Christmas Banner */
-.christmas-banner {
-    background: linear-gradient(90deg, var(--christmas-red) 0%, var(--christmas-green) 100%);
-    color: var(--text-white);
-    text-align: center;
-    padding: 12px 20px;
-    font-size: 14px;
-    position: relative;
-    overflow: hidden;
-    max-width: 100vw;
-    box-sizing: border-box;
-}
-
-.christmas-banner::before,
-.christmas-banner::after {
-    content: '🎄';
-    position: absolute;
-    font-size: 20px;
-}
-
-.christmas-banner::before {
-    left: 20px;
-}
-
-.christmas-banner::after {
-    right: 20px;
-}
-
-.christmas-banner span {
-    animation: sparkle 2s ease-in-out infinite;
-}
-
-@keyframes sparkle {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
-/* Christmas Decorations */
-.christmas-lights {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    max-width: 100vw;
-    height: 30px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30'%3E%3Cellipse cx='10' cy='20' rx='8' ry='10' fill='%23ff0000'/%3E%3Cellipse cx='30' cy='20' rx='8' ry='10' fill='%2300ff00'/%3E%3Cellipse cx='50' cy='20' rx='8' ry='10' fill='%23FFD700'/%3E%3Cpath d='M10,10 L10,0 M30,10 L30,0 M50,10 L50,0' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-    z-index: 10000;
-    pointer-events: none;
-    animation: twinkle 1s ease-in-out infinite alternate;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-@keyframes twinkle {
-    0% { opacity: 1; }
-    100% { opacity: 0.8; }
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-@media (max-width: 991px) {
     .hero-title,
     #index h1 {
         font-size: 2.5rem;
     }
-    
+
     .section-title {
         font-size: 2rem;
     }
-    
+
     #index .header-rmsearch-container {
         position: relative;
         bottom: auto;
@@ -1040,69 +955,71 @@ input.button:hover {
         transform: none;
         margin: 40px auto;
     }
-    
+
     .header-rmsearch-inner-wrapper,
     #search_hotel_block_form,
     #search_hotel_block_form .grid {
         flex-direction: column;
     }
-    
+
     #search_hotel_block_form .grid-item,
     #search_hotel_block_form .form-group {
         width: 100%;
     }
-    
+
     #search_room_submit {
         width: 100%;
     }
 }
 
 @media (max-width: 767px) {
+
     .hero-title,
     #index h1 {
         font-size: 2rem;
     }
-    
+
     .section-title {
         font-size: 1.75rem;
     }
-    
+
     h2 {
         font-size: 1.75rem;
     }
-    
+
     .header-rmsearch-wrapper {
         padding: 20px;
     }
-    
+
     .room-card-image img,
     .product-image-container img {
         height: 200px;
     }
-    
+
     .amenities-section {
         padding: 50px 0;
     }
-    
+
     .footer-container {
         text-align: center;
     }
-    
+
     .footer-social {
         justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
+
     .hero-title,
     #index h1 {
         font-size: 1.75rem;
     }
-    
+
     .header-top-menu {
         display: none;
     }
-    
+
     .mobile-menu-toggle {
         display: block;
     }
@@ -1111,33 +1028,96 @@ input.button:hover {
 /* ============================================
    UTILITY CLASSES
    ============================================ */
-.text-gold { color: var(--prestige-gold); }
-.text-navy { color: var(--prestige-navy); }
-.text-coral { color: var(--prestige-coral); }
-.text-white { color: var(--text-white); }
+.text-gold {
+    color: var(--prestige-gold);
+}
 
-.bg-navy { background-color: var(--prestige-navy); }
-.bg-gold { background-color: var(--prestige-gold); }
-.bg-light { background-color: var(--bg-light); }
-.bg-white { background-color: var(--bg-white); }
+.text-navy {
+    color: var(--prestige-navy);
+}
 
-.shadow-sm { box-shadow: var(--shadow-sm); }
-.shadow-md { box-shadow: var(--shadow-md); }
-.shadow-lg { box-shadow: var(--shadow-lg); }
+.text-coral {
+    color: var(--prestige-coral);
+}
 
-.rounded-sm { border-radius: var(--radius-sm); }
-.rounded-md { border-radius: var(--radius-md); }
-.rounded-lg { border-radius: var(--radius-lg); }
-.rounded-full { border-radius: var(--radius-full); }
+.text-white {
+    color: var(--text-white);
+}
 
-.mb-0 { margin-bottom: 0; }
-.mb-20 { margin-bottom: 20px; }
-.mb-40 { margin-bottom: 40px; }
-.mb-60 { margin-bottom: 60px; }
+.bg-navy {
+    background-color: var(--prestige-navy);
+}
 
-.py-40 { padding-top: 40px; padding-bottom: 40px; }
-.py-60 { padding-top: 60px; padding-bottom: 60px; }
-.py-80 { padding-top: 80px; padding-bottom: 80px; }
+.bg-gold {
+    background-color: var(--prestige-gold);
+}
+
+.bg-light {
+    background-color: var(--bg-light);
+}
+
+.bg-white {
+    background-color: var(--bg-white);
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+    box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+    box-shadow: var(--shadow-lg);
+}
+
+.rounded-sm {
+    border-radius: var(--radius-sm);
+}
+
+.rounded-md {
+    border-radius: var(--radius-md);
+}
+
+.rounded-lg {
+    border-radius: var(--radius-lg);
+}
+
+.rounded-full {
+    border-radius: var(--radius-full);
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.mb-60 {
+    margin-bottom: 60px;
+}
+
+.py-40 {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.py-60 {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.py-80 {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
 
 /* ============================================
    OVERRIDE QOAPPS DEFAULT STYLES
@@ -1189,13 +1169,13 @@ input.button:hover {
 }
 
 /* Fix navigation menu */
-#block_top_menu > ul > li > a {
+#block_top_menu>ul>li>a {
     color: var(--text-white);
     font-weight: 500;
     padding: 15px 20px;
 }
 
-#block_top_menu > ul > li > a:hover {
+#block_top_menu>ul>li>a:hover {
     color: var(--prestige-gold);
 }
 
@@ -1235,19 +1215,19 @@ input.button:hover {
 }
 
 /* Fix pagination */
-.pagination > li > a {
+.pagination>li>a {
     border-radius: var(--radius-sm);
     margin: 0 3px;
     border: none;
     color: var(--text-dark);
 }
 
-.pagination > li.active > a {
+.pagination>li.active>a {
     background: var(--prestige-gold);
     color: var(--prestige-navy);
 }
 
-.pagination > li > a:hover {
+.pagination>li>a:hover {
     background: var(--bg-light);
     color: var(--prestige-gold);
 }
@@ -1276,14 +1256,3 @@ input.button:hover {
 /* ============================================
    PRINT STYLES
    ============================================ */
-@media print {
-    .christmas-mode::before,
-    .christmas-lights,
-    .christmas-banner {
-        display: none;
-    }
-    
-    header, footer {
-        position: static;
-    }
-}
