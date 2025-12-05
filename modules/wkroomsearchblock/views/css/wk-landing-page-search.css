@@ -19,13 +19,11 @@
 
 
 .header-rmsearch-container {
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   width: 100%;
   max-width: 900px;
-  padding: 0 20px;
+  margin: 0 auto;
+  padding: 30px 20px;
   z-index: 10;
 }
 
@@ -39,13 +37,11 @@
 }
 
 .header-rmsearch-wrapper {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 50px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 15px 30px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 25px 35px;
   margin: 0 auto;
 }
 
