@@ -135,6 +135,13 @@
 				    </div>
 				  </div>
 				</footer>
+				
+				<!-- Hidden post-footer hook to remove extra dark section -->
+				<div style="display: none;">
+					{block name='displayAfterDefautlFooterHook'}
+						{hook h="displayAfterDefautlFooterHook"}
+					{/block}
+				</div>
 
 			{/block}
 		</div><!-- #page -->

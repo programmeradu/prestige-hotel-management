@@ -1523,3 +1523,106 @@ body:not(#index) .breadcrumb {
     text-align: center;
   }
 }
+
+/* ============================================
+   FOOTER RESPONSIVE FIXES
+   ============================================ */
+/* Add Container Wrapper with Proper Padding */
+.footer-main .container,
+.footer-top .container,
+.footer-middle .container,
+.footer-bottom .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+/* Ensure all footer sections respect container padding */
+.footer-top,
+.footer-middle,
+.footer-bottom {
+  width: 100%;
+  padding-left: 0 !important; /* Remove any conflicting padding */
+  padding-right: 0 !important; /* Container handles it */
+}
+
+/* Footer Grid - Ensure it doesn't overflow */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  width: 100%;
+  /* No negative margins or overflow */
+}
+
+/* Responsive Padding Adjustments */
+@media (max-width: 1400px) {
+  .footer-main .container {
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .footer-main .container {
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+  }
+  
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-main .container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  
+  .footer-grid {
+    gap: 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-main .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .footer-payment-social {
+    flex-direction: column;
+    gap: 25px;
+    align-items: flex-start;
+  }
+}
+
+/* Ensure text doesn't overflow */
+.footer-column {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  min-width: 0; /* Allows grid items to shrink below content size */
+}
+
+.footer-column p,
+.footer-column ul li {
+  max-width: 100%;
+}
+
+/* Payment and Social Section Spacing */
+.footer-payment-social {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
