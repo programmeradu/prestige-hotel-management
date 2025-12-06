@@ -229,6 +229,20 @@ a:hover {
 .shopping_cart>a {
     color: var(--text-white);
     font-size: 20px;
+    position: relative;
+    padding-right: 28px; /* room for badge */
+}
+
+/* Replace cart icon with custom SVG */
+.shopping_cart>a::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.2 6h14.1l-1.1 7.2a1.5 1.5 0 0 1-1.5 1.3H9.1a1.5 1.5 0 0 1-1.5-1.3L6.2 6Z' stroke='%23FFFFFF' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M6 6 5.2 3.8A1 1 0 0 0 4.2 3H2' stroke='%23FFFFFF' stroke-width='1.6' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='19.5' r='1.5' fill='%23FFFFFF'/%3E%3Ccircle cx='17' cy='19.5' r='1.5' fill='%23FFFFFF'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
 }
 
 .shopping_cart .cart_block {
@@ -258,10 +272,20 @@ button.nav_toggle,
 .nav_toggle .icon-bar,
 .menu-icon .icon-bar,
 .navbar-toggle .icon-bar {
-    background-color: #1C2331 !important;
-    width: 22px !important;
-    height: 2px !important;
-    display: block !important;
+    display: none !important; /* hide legacy bars */
+}
+
+/* Custom nav icon (sparkle-style) */
+.nav_toggle::before,
+.menu-icon::before,
+.navbar-toggle::before,
+#block_top_menu .menu-icon::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 22px;
+    background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 7h16M4 12h16M8 17h8' stroke='%231C2331' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
 }
 
 .nav_toggle:hover,
