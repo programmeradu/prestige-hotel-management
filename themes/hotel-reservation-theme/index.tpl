@@ -106,18 +106,18 @@
         {* REAL ASSETS LAYER - Lottie Animations *}
         
         {* 1. Premium Christmas Tree (Center Left) *}
-        <div style="position: absolute; bottom: 0; left: -30px; width: 320px; height: 320px; z-index: 10; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
-            <lottie-player src="https://assets10.lottiefiles.com/private_files/lf30_m6j5igxb.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        <div style="position: absolute; bottom: -20px; left: -20px; width: 350px; height: 350px; z-index: 10; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
+            <dotlottie-player src="https://assets-v2.lottiefiles.com/a/f5b6027e-a330-11ee-b0c3-eb4933c450f1/X0ouzbU8rx.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
 
         {* 2. Wrapped Gifts (Bottom Center) *}
-        <div style="position: absolute; bottom: 20px; left: 190px; width: 200px; height: 200px; z-index: 12; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));">
-             <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_penc2u.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        <div style="position: absolute; bottom: 10px; left: 200px; width: 180px; height: 180px; z-index: 12; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));">
+             <dotlottie-player src="https://assets-v2.lottiefiles.com/a/935a4350-1150-11ee-b83d-3383b7ffc792/vtRZ6rj7GX.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
         
         {* 3. Hanging Ornaments (Top Left) *}
-        <div class="ornament-container" style="position: absolute; top: -20px; left: 40px; width: 150px; height: 150px; z-index: 15; animation: swing 5s ease-in-out infinite;">
-            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_1LhsaB.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        <div class="ornament-container" style="position: absolute; top: -20px; left: 20px; width: 200px; height: 200px; z-index: 15; animation: swing 5s ease-in-out infinite;">
+            <dotlottie-player src="https://assets-v2.lottiefiles.com/a/19defabe-1175-11ee-82ed-f3a7235b8559/8oIBquGoPo.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
 
 
