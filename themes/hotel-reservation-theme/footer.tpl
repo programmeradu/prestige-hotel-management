@@ -91,22 +91,16 @@
 				                </li>
 				            {/if}
 
-				            {* WhatsApp (Check multiple config keys) *}
+				            {* WhatsApp (Fallback to Shop Phone if not set) *}
 				            {assign var='whatsapp_num' value=Configuration::get('HOTEL_WHATSAPP_NUMBER')}
 				            {if !$whatsapp_num}
-				                {assign var='whatsapp_num' value=Configuration::get('BLOCKSOCIAL_WHATSAPP')}
+				                {assign var='whatsapp_num' value=Configuration::get('PS_SHOP_PHONE')}
 				            {/if}
 				            
 				            {if $whatsapp_num}
 				                <li>
 				                    <i class="icon-whatsapp"></i> 
-				                    <a href="https://wa.me/{$whatsapp_num|replace:'+':''|replace:' ':''}" target="_blank">{$whatsapp_num}</a>
-				                </li>
-				            {elseif Configuration::get('PS_SHOP_PHONE')}
-				                 {* Fallback to shop phone if no specific whatsapp *}
-				                 <li>
-				                    <i class="icon-whatsapp"></i> 
-				                    <a href="https://wa.me/{Configuration::get('PS_SHOP_PHONE')|replace:'+':''|replace:' ':''}" target="_blank">{Configuration::get('PS_SHOP_PHONE')}</a>
+				                    <a href="https://wa.me/{$whatsapp_num|replace:'+':''|replace:' ':''|replace:'-':''}" target="_blank">{$whatsapp_num}</a>
 				                </li>
 				            {/if}
 				          </ul>
@@ -124,9 +118,9 @@
 				            
 				            {* Dynamic CMS Pages *}
 				            {if class_exists('CMS')}
-				                {assign var='cms_pages' value=CMS::listCms($cookie->id_lang)}
+				                {assign var='cms_pages' value=CMS::listCms($cookie->id_lang, false, true)}
 				                {foreach from=$cms_pages item=cms}
-				                    {if $cms.meta_title != 'About Us' && $cms.meta_title != 'Policies'} {* avoid dupes if hardcoded below *}
+				                    {if $cms.meta_title != 'About Us' && $cms.meta_title != 'Policies'}
 				                    <li>
 				                        <a href="{$link->getCMSLink($cms.id_cms, $cms.link_rewrite)|escape:'html':'UTF-8'}">
 				                            {$cms.meta_title|escape:'html':'UTF-8'}
@@ -136,45 +130,46 @@
 				                {/foreach}
 				            {/if}
 				            
-				            {* Hardcoded common pages if CMS fail or specific ordering needed *}
+				            {* Common pages *}
 				            <li><a href="{$link->getCMSLink(4, 'about-us')|default:'#'}">{l s='About Us'}</a></li>
 				            <li><a href="{$link->getCMSLink(1, 'policies')|default:'#'}">{l s='Policies'}</a></li>
 				            <li><a href="{$link->getPageLink('contact', true)|escape:'html':'UTF-8'}">{l s='Contact'}</a></li>
-				            <li><a href="{$link->getPageLink('blog', true)|escape:'html':'UTF-8'}">{l s='Blog'}</a></li>
+				            {if Module::isInstalled('ybc_blog_free')}
+                                {assign var='ybc_module' value=Module::getInstanceByName('ybc_blog_free')}
+				                <li><a href="{$ybc_module->getLink('blog')|escape:'html':'UTF-8'}">{l s='Blog'}</a></li>
+                            {/if}
 				          </ul>
 				        </div>
 
-				        <!-- Column 4: Latest Posts -->
+				        <!-- Column 4: Latest Posts (Dynamic Fetch) -->
 				        <div class="footer-column">
 				          <h4>{l s='LATEST POSTS'}</h4>
 				          <ul class="footer-blog">
-				            {assign var='posts_found' value=false}
-				            
-				            {* Try YbcBlogFree *}
-				            {if Module::isInstalled('ybc_blog_free') && class_exists('YbcBlogFree')}
-				                {assign var='recent_posts' value=YbcBlogFree::getRecentPosts($cookie->id_lang, 3)}
-				                {if $recent_posts}
-				                    {assign var='posts_found' value=true}
-				                    {foreach from=$recent_posts item=post}
-				                        <li>
-				                            <a href="{$link->getModuleLink('ybc_blog_free', 'details', ['id_post' => $post.id_post])|escape:'html':'UTF-8'}">
-				                                {$post.title|escape:'html':'UTF-8'}
-				                            </a>
-				                            <span class="date" style="display:block; font-size:12px; color:#666;">{$post.date_add|date_format:"%B %e, %Y"}</span>
-				                        </li>
-				                    {/foreach}
+				            {assign var='footer_posts' value=false}
+				            {if Module::isInstalled('ybc_blog_free') && Module::isEnabled('ybc_blog_free')}
+				                {assign var='ybc_module' value=Module::getInstanceByName('ybc_blog_free')}
+				                {if $ybc_module}
+				                    {assign var='footer_posts' value=$ybc_module->getPostsWithFilter(' AND p.enabled=1', 'p.id_post desc,', 0, 3)}
 				                {/if}
 				            {/if}
 
-				            {* Fallback: Static placeholders if no posts found *}
-				            {if !$posts_found}
-				                 <li>
-				                  <a href="#">10 Best Things to Do in Cape Coast</a>
-				                  <span class="date" style="display:block; font-size:12px; color:#666;">December 3rd 2025</span>
-				                </li>
+				            {if $footer_posts}
+				                {foreach from=$footer_posts item=post}
+				                    {assign var='post_link' value=$ybc_module->getLink('blog', ['id_post' => $post.id_post])}
+				                    <li>
+				                        <a href="{$post_link|escape:'html':'UTF-8'}">
+				                            {$post.title|escape:'html':'UTF-8'}
+				                        </a>
+				                        <span class="date" style="display:block; font-size:12px; color:#666;">
+                                            {date('F jS Y', strtotime($post.datetime_added))|escape:'html':'UTF-8'}
+				                        </span>
+				                    </li>
+				                {/foreach}
+				            {else}
+				                {* Fallback if no posts found *}
 				                <li>
-				                  <a href="#">Experience Ghanaian Hospitality</a>
-				                  <span class="date" style="display:block; font-size:12px; color:#666;">November 20th 2025</span>
+				                  <a href="#">Welcome to Prestige Hotel</a>
+				                  <span class="date" style="display:block; font-size:12px; color:#666;">{date('F jS Y')}</span>
 				                </li>
 				            {/if}
 				          </ul>
@@ -214,12 +209,9 @@
 				            <a href="{Configuration::get('BLOCKSOCIAL_LINKEDIN')}" target="_blank"><i class="icon-linkedin"></i></a>
 				          {/if}
 
-				          {* WhatsApp Icon *}
-				          {assign var='wa_num' value=Configuration::get('HOTEL_WHATSAPP_NUMBER')}
-				          {if !$wa_num}{assign var='wa_num' value=Configuration::get('PS_SHOP_PHONE')}{/if}
-				          
-				          {if $wa_num}
-				            <a href="https://wa.me/{$wa_num|replace:'+':''|replace:' ':''}" target="_blank"><i class="icon-whatsapp"></i></a>
+				          {* WhatsApp Icon - Uses same variable as Contact *}
+				          {if $whatsapp_num}
+				            <a href="https://wa.me/{$whatsapp_num|replace:'+':''|replace:' ':''|replace:'-':''}" target="_blank"><i class="icon-whatsapp"></i></a>
 				          {/if}
 				        </div>
 				      </div>
@@ -233,6 +225,13 @@
 				    </div>
 				  </div>
 				</footer>
+				
+				<!-- Hidden post-footer hook to remove extra dark section -->
+				<div style="display: none;">
+					{block name='displayAfterDefautlFooterHook'}
+						{hook h="displayAfterDefautlFooterHook"}
+					{/block}
+				</div>
 
 			{/block}
 		</div><!-- #page -->
