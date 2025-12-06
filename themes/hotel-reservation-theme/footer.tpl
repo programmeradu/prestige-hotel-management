@@ -67,42 +67,39 @@
 				          <h4>{l s='CONTACT US'}</h4>
 				          <ul class="contact-info">
 				            {* Address *}
-				            {if Configuration::get('PS_SHOP_ADDR1') || Configuration::get('PS_SHOP_CITY')}
-				                <li>
-				                    <i class="icon-map-marker"></i> 
-				                    {Configuration::get('PS_SHOP_ADDR1')|escape:'html':'UTF-8'}, 
-				                    {Configuration::get('PS_SHOP_CITY')|escape:'html':'UTF-8'}
-				                </li>
-				            {/if}
+                            {assign var='shop_addr' value=Configuration::get('PS_SHOP_ADDR1')}
+                            {assign var='shop_city' value=Configuration::get('PS_SHOP_CITY')}
+                            {if !$shop_addr}{assign var='shop_addr' value='Mooneye Street, Amamoma'}{/if}
+                            {if !$shop_city}{assign var='shop_city' value='Cape Coast'}{/if}
+                            <li>
+                                <i class="icon-map-marker"></i> 
+                                {$shop_addr|escape:'html':'UTF-8'}, {$shop_city|escape:'html':'UTF-8'}
+                            </li>
 				            
 				            {* Email *}
-				            {if Configuration::get('PS_SHOP_EMAIL')}
-				                <li>
-				                    <i class="icon-envelope"></i> 
-				                    <a href="mailto:{Configuration::get('PS_SHOP_EMAIL')}">{Configuration::get('PS_SHOP_EMAIL')}</a>
-				                </li>
-				            {/if}
+                            {assign var='shop_email' value=Configuration::get('PS_SHOP_EMAIL')}
+                            {if !$shop_email}{assign var='shop_email' value='prestigehotelcc@gmail.com'}{/if}
+                            <li>
+                                <i class="icon-envelope"></i> 
+                                <a href="mailto:{$shop_email}">{$shop_email}</a>
+                            </li>
 				            
 				            {* Phone *}
-				            {if Configuration::get('PS_SHOP_PHONE')}
-				                <li>
-				                    <i class="icon-phone"></i> 
-				                    <a href="tel:{Configuration::get('PS_SHOP_PHONE')|replace:' ':''}">{Configuration::get('PS_SHOP_PHONE')}</a>
-				                </li>
-				            {/if}
+                            {assign var='shop_phone' value=Configuration::get('PS_SHOP_PHONE')}
+                            {if !$shop_phone}{assign var='shop_phone' value='+233 20 532 8339'}{/if}
+                            <li>
+                                <i class="icon-phone"></i> 
+                                <a href="tel:{$shop_phone|replace:' ':''}">{$shop_phone}</a>
+                            </li>
 
-				            {* WhatsApp (Fallback to Shop Phone if not set) *}
+				            {* WhatsApp *}
 				            {assign var='whatsapp_num' value=Configuration::get('HOTEL_WHATSAPP_NUMBER')}
-				            {if !$whatsapp_num}
-				                {assign var='whatsapp_num' value=Configuration::get('PS_SHOP_PHONE')}
-				            {/if}
+				            {if !$whatsapp_num}{assign var='whatsapp_num' value=$shop_phone}{/if}
 				            
-				            {if $whatsapp_num}
-				                <li>
-				                    <i class="icon-whatsapp"></i> 
-				                    <a href="https://wa.me/{$whatsapp_num|replace:'+':''|replace:' ':''|replace:'-':''}" target="_blank">{$whatsapp_num}</a>
-				                </li>
-				            {/if}
+                            <li>
+                                <i class="icon-whatsapp"></i> 
+                                <a href="https://wa.me/{$whatsapp_num|replace:'+':''|replace:' ':''|replace:'-':''}" target="_blank">{$whatsapp_num}</a>
+                            </li>
 				          </ul>
 				        </div>
 

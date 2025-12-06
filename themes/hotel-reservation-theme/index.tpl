@@ -40,11 +40,28 @@
         {if $hotel_rooms}
         <div class="room-cards-grid">
             {foreach from=$hotel_rooms item=room}
-                {assign var='image_link' value=$link->getImageLink($room.link_rewrite, $room.id_image, 'home_default')}
+                {assign var='has_image' value=false}
+                {if isset($room.id_image) && $room.id_image}
+                    {assign var='image_id' value=$room.id_image}
+                    {assign var='has_image' value=true}
+                {else}
+                    {assign var='cover' value=Product::getCover($room.id_product)}
+                    {if isset($cover.id_image) && $cover.id_image}
+                        {assign var='image_id' value=$cover.id_image}
+                        {assign var='has_image' value=true}
+                    {/if}
+                {/if}
+
+                {if $has_image}
+                    {assign var='image_link' value=$link->getImageLink($room.link_rewrite, $image_id, 'home_default')}
+                {else}
+                    {assign var='image_link' value="https://via.placeholder.com/400x300/1a2332/C9A96E?text=No+Image"}
+                {/if}
+
                 <div class="room-card">
                     <div class="room-image">
                         <a href="{$room.link|escape:'html':'UTF-8'}">
-                            <img src="{$image_link}" alt="{$room.name|escape:'html':'UTF-8'}">
+                            <img src="{$image_link}" alt="{$room.name|escape:'html':'UTF-8'}" loading="lazy">
                         </a>
                     </div>
                     <div class="room-content">
@@ -52,7 +69,11 @@
                             <a href="{$room.link|escape:'html':'UTF-8'}">{$room.name|escape:'html':'UTF-8'}</a>
                         </h3>
                         <div class="room-price">
-                            <span class="price-amount">{convertPrice price=$room.show_price}</span>
+                            {if isset($room.show_price) && $room.show_price}
+                                <span class="price-amount">{convertPrice price=$room.show_price}</span>
+                            {elseif isset($room.price)}
+                                <span class="price-amount">{convertPrice price=$room.price}</span>
+                            {/if}
                             <span class="price-period">/ {l s='Per Night'}</span>
                         </div>
                         <p class="room-description">
