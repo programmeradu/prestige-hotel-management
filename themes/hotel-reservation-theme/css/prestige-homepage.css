@@ -75,6 +75,8 @@ body {
 header,
 .hero-section {
     max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
     overflow-x: hidden !important;
 }
 
@@ -94,8 +96,9 @@ header,
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 70vh;
-    padding: 100px 20px 80px;
+    width: 100% !important;
+    min-height: 85vh;
+    padding: 140px 20px 100px;
     z-index: 5;
 }
 
@@ -103,8 +106,8 @@ header,
 .hero-content-wrapper {
     text-align: center;
     z-index: 5;
-    width: 90%;
-    max-width: 800px;
+    width: 100%;
+    max-width: 1200px;
     margin-bottom: 40px;
 }
 
