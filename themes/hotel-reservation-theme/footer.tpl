@@ -236,5 +236,111 @@
 {block name='global'}
 	{include file="$tpl_dir./global.tpl"}
 {/block}
+
+{* ========== PREMIUM CANVAS SNOWFALL ========== *}
+{literal}
+<script>
+(function() {
+    // Wait for body to be available
+    var initSnow = function() {
+        if (!document.body) {
+            setTimeout(initSnow, 100);
+            return;
+        }
+
+        var canvas = document.createElement('canvas');
+        canvas.id = 'snow-canvas';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '9999999'; // Highest priority
+        document.body.appendChild(canvas);
+
+        var ctx = canvas.getContext('2d');
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        var particles = [];
+        var maxParticles = 150; // Increased density for visibility
+
+        // Initialize particles
+        for (var i = 0; i < maxParticles; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                r: Math.random() * 2 + 1, // Radius 1-3px
+                d: Math.random() * maxParticles // Density factor
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+            ctx.beginPath();
+            for (var i = 0; i < maxParticles; i++) {
+                var p = particles[i];
+                ctx.moveTo(p.x, p.y);
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+            }
+            ctx.fill();
+            update();
+        }
+
+        var angle = 0;
+        function update() {
+            angle += 0.01;
+            for (var i = 0; i < maxParticles; i++) {
+                var p = particles[i];
+                // Movement logic
+                p.y += Math.cos(angle + p.d) + 1 + p.r / 2;
+                p.x += Math.sin(angle) * 2;
+
+                // Reset if out of bounds
+                if (p.x > width + 5 || p.x < -5 || p.y > height) {
+                    if (i % 3 > 0) { // 66.67% of the flakes
+                        particles[i] = { x: Math.random() * width, y: -10, r: p.r, d: p.d };
+                    } else {
+                        // Enter from sides
+                        if (Math.sin(angle) > 0) {
+                            particles[i] = { x: -5, y: Math.random() * height, r: p.r, d: p.d };
+                        } else {
+                            particles[i] = { x: width + 5, y: Math.random() * height, r: p.r, d: p.d };
+                        }
+                    }
+                }
+            }
+        }
+
+        // Animation Loop
+        function loop() {
+            requestAnimationFrame(loop);
+            draw();
+        }
+        
+        // Handle resize
+        window.addEventListener('resize', function() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        });
+
+        loop();
+    };
+
+    // Run initialization
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSnow);
+    } else {
+        initSnow();
+    }
+})();
+</script>
+{/literal}
 	</body>
 </html>

@@ -5,30 +5,12 @@
  */
 
 /* ============================================
-   HIDE CHRISTMAS/BANNER ELEMENTS
+   HIDE CHRISTMAS/BANNER ELEMENTS (Legacy)
    ============================================ */
 .banner,
-.christmas-banner,
-.christmas-lights,
-.christmas-light,
-.xmas-lights,
-.holiday-banner,
-.festive-lights,
-.light-string,
-.bulb,
-.snow,
-.snowflake,
-[class*="christmas"],
-[class*="xmas"],
-[class*="holiday-light"],
-[class*="festive"] {
+.christmas-banner-old,
+.old-amenities-section {
     display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    width: 0 !important;
-    overflow: hidden !important;
-    pointer-events: none !important;
 }
 
 /* Ensure banner container is hidden */
@@ -1333,15 +1315,55 @@ header,
     transition: transform 0.3s ease;
 }
 
+/* New Compact Holiday Showcase Styles */
+.holiday-showcase-compact {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.holiday-showcase-compact:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.4) !important;
+}
+
+.btn-holiday-gold {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-holiday-gold::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-holiday-gold:hover::after {
+    left: 100%;
+}
+
+.btn-holiday-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(201, 169, 110, 0.4) !important;
+    color: #000 !important;
+}
+
 /* Holiday Showcase Responsive */
 @media (max-width: 768px) {
-    .holiday-showcase {
+    .holiday-showcase-compact {
         margin: 30px 0 !important;
         border-radius: 16px !important;
     }
     
-    .holiday-showcase .glass-card {
-        padding: 20px 15px !important;
+    .holiday-visual {
+        min-height: 250px !important;
+    }
+
+    .holiday-content {
+        padding: 30px 20px !important;
     }
 }
 

@@ -91,57 +91,6 @@
 	</head>
 	<body{if isset($page_name)} id="{$page_name|escape:'html':'UTF-8'}"{/if} class="{if isset($page_name)}{$page_name|escape:'html':'UTF-8'}{/if}{if isset($body_classes) && $body_classes|@count} {' '|implode:$body_classes}{/if}{if $hide_left_column} hide-left-column{else} show-left-column{/if}{if $hide_right_column} hide-right-column{else} hide-right-column{/if}{if isset($content_only) && $content_only} content_only{/if} lang_{$lang_iso}" style="{if $page_name == 'index'}height: 100%;{/if}">
 	
-	{* ========== ROBUST JS SNOWFALL ========== *}
-	{literal}
-	<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		const snowContainer = document.createElement('div');
-		snowContainer.style.position = 'fixed';
-		snowContainer.style.top = '0';
-		snowContainer.style.left = '0';
-		snowContainer.style.width = '100%';
-		snowContainer.style.height = '100%';
-		snowContainer.style.pointerEvents = 'none';
-		snowContainer.style.zIndex = '99999';
-		document.body.appendChild(snowContainer);
-
-		const snowflakes = ['❅', '❆', '❄'];
-		
-		function createSnowflake() {
-			const flake = document.createElement('div');
-			flake.innerHTML = snowflakes[Math.floor(Math.random() * snowflakes.length)];
-			flake.style.position = 'absolute';
-			flake.style.color = '#fff';
-			flake.style.fontSize = (Math.random() * 20 + 10) + 'px'; // 10px to 30px
-			flake.style.left = Math.random() * 100 + 'vw';
-			flake.style.top = '-50px';
-			flake.style.opacity = Math.random() * 0.6 + 0.4;
-			flake.style.textShadow = '0 0 5px #fff';
-			flake.style.transition = 'top linear, left ease-in-out';
-			
-			snowContainer.appendChild(flake);
-
-			// Animate
-			const duration = Math.random() * 5000 + 5000; // 5-10s fall time
-			const sway = (Math.random() - 0.5) * 200; // Sway left/right
-
-			const animation = flake.animate([
-				{ transform: `translate(0, 0)` },
-				{ transform: `translate(${sway}px, 110vh)` }
-			], {
-				duration: duration,
-				easing: 'linear'
-			});
-
-			animation.onfinish = () => {
-				flake.remove();
-			};
-		}
-
-		setInterval(createSnowflake, 300); // New flake every 300ms
-	});
-	</script>
-	{/literal}
 	
 	{if !isset($content_only) || !$content_only}
 
