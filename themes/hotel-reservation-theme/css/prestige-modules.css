@@ -55,21 +55,22 @@
 }
 
 /* ============================================
-   SEARCH SECTION - BELOW HERO
+   SEARCH SECTION WRAPPER
    ============================================ */
 .search-section-wrapper {
     background: linear-gradient(180deg, #1C2331 0%, #2a3444 100%);
-    padding: 30px 20px 40px; /* Added horizontal padding */
+    padding: 30px 0 40px;
     margin-top: -1px;
     position: relative;
-    z-index: 500; /* Increased z-index to sit above following sections */
+    z-index: 500;
     overflow: visible !important; /* CRITICAL: Allow dropdowns to escape */
 }
 
 .search-section-wrapper .container {
-    max-width: 1400px !important; /* Wider container for more freedom */
+    max-width: 1400px !important;
     width: 100% !important;
-    padding: 0 !important;
+    padding: 0 15px !important;
+    overflow: visible !important; /* CRITICAL */
 }
 
 /* Cart badge color override */
@@ -82,18 +83,19 @@
 }
 
 /* ============================================
-   ROOM SEARCH BLOCK - NO WRAPPER / FREE FORM
+   ROOM SEARCH BLOCK - LINEAR & REFINED
    ============================================ */
+
+/* Container Positioning */
 .header-rmsearch-container {
     position: relative !important;
     z-index: 100;
     width: 100%;
-    max-width: 100% !important;
     margin: 0 auto !important;
     padding: 0 !important;
+    overflow: visible !important;
 }
 
-/* REMOVED THE GLASS WRAPPER STYLES */
 .header-rmsearch-wrapper {
     background: transparent !important;
     box-shadow: none !important;
@@ -105,139 +107,118 @@
     width: 100% !important;
 }
 
-.header-rmsearch-primary {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    width: 100% !important;
-}
-
-.header-rmsearch-primary .container {
-    width: 100% !important;
-    padding: 0 !important;
-    max-width: 100% !important;
-}
-
-.fancy_search_header_xs {
-    display: none !important;
+#xs_room_search_form {
+    position: relative; /* Anchor for absolute children if needed */
 }
 
 .header-rmsearch-inner-wrapper {
     display: block !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    overflow: visible !important;
 }
 
-/* FLEXBOX LAYOUT FOR INPUTS */
+/* FORM LAYOUT - HORIZONTAL FLEX */
 #search_hotel_block_form {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important; /* Wrap on mobile */
     width: 100% !important;
-    gap: 20px !important; /* Healthy spacing */
     margin: 0 !important;
-    flex-wrap: wrap !important; /* Allow wrapping on small screens */
 }
 
-/* Override Grid System */
+/* Remove Grid System Interference */
 #search_hotel_block_form .grid {
-    display: contents !important; /* Remove grid container interference */
+    display: contents !important; /* Allows children to participate in parent flex */
 }
 
-/* INPUT ITEMS */
+/* FORM ELEMENTS SIZING & STYLING */
+
+/* Common Wrapper for Inputs */
 #search_hotel_block_form .grid-item {
-    flex: 1 1 250px !important; /* Grow, Shrink, Base width */
+    flex: 0 1 auto !important; /* Don't grow indefinitely */
     width: auto !important;
     margin: 0 !important;
-    max-width: 400px !important;
-}
-
-/* BUTTON BLOCK - Prevent Stretching */
-#search_hotel_block_form .search_room_submit_block {
-    flex: 0 0 auto !important; /* Don't grow */
-    width: auto !important;
+    position: relative !important;
 }
 
 #search_hotel_block_form .form-group {
     margin: 0 !important;
-    width: 100% !important;
+    width: auto !important;
 }
 
-/* INDIVIDUAL INPUT STYLING - PILL SHAPE */
+/* INPUT FIELDS (Date & Guests) */
 .header-rmsearch-input,
 #search_hotel_block_form .form-control,
 #search_hotel_block_form input.form-control,
-#search_hotel_block_form select.form-control,
-#search_hotel_block_form .chosen-container .chosen-single,
 #guest_occupancy,
 #daterange_value {
-    height: 50px !important; /* Comfortable touch target */
-    min-height: 50px !important;
+    height: 42px !important; /* Reduced height */
+    min-height: 42px !important;
+    width: 240px !important; /* Fixed width ~240px */
+    max-width: 100% !important;
+    
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 999px !important; /* Full Pill */
-    padding: 0 25px !important;
+    border-radius: 30px !important; /* Refined Pill Shape */
+    padding: 0 20px !important;
+    
     font-size: 14px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     color: #1C2331 !important;
-    background: #FFFFFF !important; /* Solid white for visibility */
-    transition: all 0.2s ease !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-    line-height: 50px !important;
+    background: #FFFFFF !important;
+    
     display: flex !important;
     align-items: center !important;
-    width: 100% !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    transition: all 0.2s ease !important;
 }
 
-.header-rmsearch-input:focus,
-#search_hotel_block_form .form-control:focus {
-    border-color: #C0A062 !important;
-    box-shadow: 0 0 0 4px rgba(192, 160, 98, 0.2) !important;
-}
-
-/* BUTTON STYLING */
+/* SEARCH BUTTON */
 #search_room_submit,
 .header-rmsearch-container .btn-primary,
 #search_hotel_block_form button[type="submit"] {
-    background: #C0A062 !important;
+    height: 42px !important;
+    width: 180px !important; /* Fixed width ~180px */
+    min-width: 160px !important;
+    
+    background: #C0A062 !important; /* Gold Accent */
     border: none !important;
+    border-radius: 30px !important;
+    
     color: #1C2331 !important;
     font-weight: 700 !important;
-    font-size: 15px !important;
-    padding: 0 40px !important;
-    border-radius: 999px !important;
-    height: 50px !important;
-    width: auto !important; /* Let content dictate width */
-    min-width: 180px !important;
-    transition: all 0.3s ease !important;
+    font-size: 14px !important;
     text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.4) !important;
-    margin-top: 0 !important;
+    letter-spacing: 0.5px !important;
+    
+    padding: 0 !important;
+    margin: 0 !important;
+    
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    white-space: nowrap !important;
+    box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3) !important;
+    transition: all 0.3s ease !important;
 }
 
 #search_room_submit:hover,
-.header-rmsearch-container .btn-primary:hover,
 #search_hotel_block_form button[type="submit"]:hover {
     background: #E8604C !important;
     color: #fff !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(232, 96, 76, 0.4) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(232, 96, 76, 0.3) !important;
 }
 
-/* ICONS */
+/* ICONS RESTORATION */
 #daterange_value::before,
 .input-date::before,
 #guest_occupancy::before,
 .input-occupancy::before {
     font-family: 'FontAwesome' !important;
-    margin-right: 12px !important;
+    margin-right: 10px !important;
     color: #C0A062 !important;
-    font-size: 16px !important;
+    font-size: 14px !important;
     display: inline-block !important;
     font-weight: normal !important;
 }
@@ -245,66 +226,64 @@
 #daterange_value::before, .input-date::before { content: '\f073' !important; }
 #guest_occupancy::before, .input-occupancy::before { content: '\f007' !important; }
 
+
 /* ============================================
-   DROPDOWN FIXES
+   DATEPICKER & DROPDOWN OVERLAY FIX
    ============================================ */
 .date-picker-wrapper,
 .dropdown-menu,
 #search_occupancy_wrapper {
-    z-index: 2147483647 !important;
     position: absolute !important;
     top: 100% !important;
-    margin-top: 15px !important;
+    left: 0 !important;
+    margin-top: 10px !important;
+    
+    z-index: 99999 !important; /* High Z-Index */
     background: #fff !important;
+    
     border: none !important;
-    border-radius: 12px !important;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important;
+    border-radius: 8px !important; /* Consistent Radius */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25) !important;
+    
     opacity: 1 !important;
     visibility: visible !important;
-    width: auto !important;
-    min-width: 300px !important;
+    overflow: visible !important;
 }
 
-/* Fix Date Picker */
-.date-picker-wrapper {
-    padding: 0 !important;
-}
-
+/* Ensure Datepicker internals are visible */
 .date-picker-wrapper .month-wrapper {
     width: auto !important;
     border: none !important;
+    background: transparent !important;
 }
 
-/* Fix Chosen */
+.date-picker-wrapper table {
+    width: 100% !important;
+}
+
+/* Chosen Fix */
 .chosen-container .chosen-single {
-    line-height: 50px !important;
-    height: 50px !important;
-    border-radius: 999px !important;
+    height: 42px !important;
+    line-height: 42px !important;
+    border-radius: 30px !important;
     background: #FFFFFF !important;
     border: none !important;
 }
 
-.chosen-container .chosen-drop {
-    border-radius: 12px !important;
-    margin-top: 15px !important;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important;
-    border: none !important;
-}
-
-@media (max-width: 991px) {
+/* RESPONSIVE BEHAVIOR (< 768px) */
+@media (max-width: 768px) {
     #search_hotel_block_form {
         flex-direction: column !important;
         gap: 15px !important;
     }
     
-    #search_hotel_block_form .grid-item,
-    #search_hotel_block_form .search_room_submit_block {
-        width: 100% !important;
+    .header-rmsearch-input,
+    #search_hotel_block_form .form-control,
+    #guest_occupancy,
+    #daterange_value,
+    #search_room_submit,
+    #search_hotel_block_form button[type="submit"] {
+        width: 100% !important; /* Full width on mobile */
         max-width: 100% !important;
-        flex: 1 1 auto !important;
-    }
-    
-    #search_room_submit {
-        width: 100% !important;
     }
 }
