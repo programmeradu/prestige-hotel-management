@@ -59,6 +59,12 @@
 			{/foreach}
 		{/if}
 		
+		{* Prestige Hotel Custom Theme CSS - Loaded BEFORE hooks to prevent FOUC *}
+		{* Uses !important declarations to override module CSS that loads via hooks *}
+		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}prestige-modules.css" type="text/css" media="all" />
+		
 		{if isset($js_defer) && !$js_defer && isset($js_files) && isset($js_def)}
 			{$js_def}
 			{foreach from=$js_files item=js_uri}
@@ -68,11 +74,6 @@
 		{block name='displayHeader'}
 			{$HOOK_HEADER}
 		{/block}
-		
-		{* Prestige Hotel Custom Theme CSS - Loaded AFTER all module CSS to override *}
-		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
-		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
-		<link rel="stylesheet" href="{$css_dir}prestige-modules.css" type="text/css" media="all" />
 		<!-- <link rel="stylesheet" href="http{if Tools::usingSecureMode()}s{/if}://fonts.googleapis.com/css?family=Open+Sans:300,600&amp;subset=latin,latin-ext" type="text/css" media="all" /> -->
 
 		<!--[if IE 8]>
@@ -144,21 +145,28 @@
 					{if $page_name == 'index'}
 						<div class="hero-section">
 							<div class="hero-content-wrapper">
-								{* Hardcoded content removed to prevent duplication with module output *}
+								{* Hero title and subtitle rendered by module *}
 							</div>
-							
-							{* Search Bar - Positioned at bottom of hero *}
-							{block name='displayAfterHookTop'}
-								{hook h='displayAfterHookTop'}
-							{/block}
 						</div>
-					{else}
-						{block name='displayAfterHookTop'}
-							{hook h='displayAfterHookTop'}
-						{/block}
 					{/if}
 				</header>
 			</div>
+			
+			{* Room Search Block - Positioned BELOW Hero Section *}
+			{if $page_name == 'index'}
+				<div class="search-section-wrapper">
+					<div class="container">
+						{block name='displayAfterHookTop'}
+							{hook h='displayAfterHookTop'}
+						{/block}
+					</div>
+				</div>
+			{else}
+				{block name='displayAfterHookTop'}
+					{hook h='displayAfterHookTop'}
+				{/block}
+			{/if}
+			
 			<div class="columns-container">
 				<div id="columns" class="container">
 					{if $show_breadcrump}

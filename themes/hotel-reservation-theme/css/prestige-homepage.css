@@ -43,12 +43,7 @@ header,
     overflow-x: hidden !important;
 }
 
-/* Fix any element using 100vw which causes overflow due to scrollbar */
-.header-rmsearch-wrapper {
-    max-width: calc(100vw - 40px) !important;
-    width: auto !important;
-    height: auto !important;
-}
+/* Note: .header-rmsearch-wrapper styles are consolidated in prestige-modules.css */
 
 /* ============================================
    HOMEPAGE HERO SECTION
@@ -57,15 +52,15 @@ header,
     position: relative;
 }
 
-/* Hero Section Wrapper */
+/* Hero Section Wrapper - Clean hero without search */
 .hero-section {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 100px);
-    padding: 60px 20px 120px;
+    min-height: 70vh;
+    padding: 100px 20px 80px;
     z-index: 5;
 }
 
@@ -143,16 +138,7 @@ header,
     }
 }
 
-/* Search Bar Position in Hero */
-.hero-section .header-rmsearch-container {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
-    transform: none !important;
-    width: 100%;
-    max-width: 1100px;
-    margin-top: auto;
-}
+/* Search bar is now rendered outside hero in .search-section-wrapper */
 
 /* ============================================
    ROOM SEARCH FORM - BOOKING BAR

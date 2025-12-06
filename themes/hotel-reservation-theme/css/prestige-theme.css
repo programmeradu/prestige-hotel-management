@@ -336,14 +336,13 @@ button.nav_toggle,
     z-index: 100;
 }
 
+/* Search container now rendered outside hero via .search-section-wrapper */
 #index .header-rmsearch-container {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     width: 100%;
     max-width: 900px !important;
-    padding: 0 20px;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .header-rmsearch-wrapper {
