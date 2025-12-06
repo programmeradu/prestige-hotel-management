@@ -90,8 +90,9 @@
     padding: 25px 35px !important;
     margin: 0 auto !important;
     max-width: 100% !important;
-    width: auto !important;
+    width: 100% !important;
     height: auto !important;
+    box-sizing: border-box !important;
 }
 
 .header-rmsearch-primary {
@@ -863,6 +864,7 @@
         max-width: 100% !important;
         width: 100% !important;
         height: auto !important;
+        box-sizing: border-box !important;
     }
 
     #search_hotel_block_form .grid {
