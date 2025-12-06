@@ -148,7 +148,16 @@
 					{if $page_name == 'index'}
 						<div class="hero-section">
 							<div class="hero-content-wrapper">
-								{* Hero title and subtitle rendered by module *}
+								<h1 class="hero-title">
+									{if isset($shop_name) && $shop_name|trim}
+										{$shop_name|escape:'html':'UTF-8'}
+									{else}
+										Prestige Hotel, Cape Coast
+									{/if}
+								</h1>
+								<p class="hero-subtitle">
+									Experience refined stays by the Atlantic coast with premium comfort.
+								</p>
 							</div>
 						</div>
 					{/if}
