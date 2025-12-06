@@ -97,6 +97,8 @@
 		<div id="page" style="{if $page_name == 'index'}height: 100%;{/if}">
 			<div class="header-container" style="{if $page_name == 'index'}height: 100%;{/if}">
 				<header id="header" style='{if $page_name == "index"}background-image:url("{$link->getMediaLink("`$smarty.const._PS_IMG_`{Configuration::get('WK_HOTEL_HEADER_IMAGE')}")}"); height: 100%;{else}background-color:#1C2331;{/if}' >
+					{* BANNER DISABLED - Was showing Christmas lights *}
+					{*
 					<div class="banner">
 						<div class="container">
 							<div class="row">
@@ -106,6 +108,7 @@
 							</div>
 						</div>
 					</div>
+					*}
 					{*
 					{block name='header_nav'}
 						<div id="nav-main">
