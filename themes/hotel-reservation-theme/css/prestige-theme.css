@@ -231,6 +231,9 @@ a:hover {
     font-size: 18px;
     position: relative;
     padding-right: 26px; /* room for badge */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 /* Replace cart icon with custom SVG */
@@ -250,12 +253,7 @@ a:hover {
 .shopping_cart>a .icon,
 .shopping_cart>a .fa {
     display: none !important;
-}
-
-/* Remove default cart pseudo from module to prevent double icon */
-.shopping_cart>a:first-child:before {
-    content: none !important;
-    background: none !important;
+    background-size: contain;
 }
 
 /* Cart badge: position and fit */
@@ -264,11 +262,11 @@ a:hover {
 .shopping_cart .ajax_cart_no_product {
     position: absolute !important;
     top: -6px !important;
-    right: -6px !important;
-    min-width: 18px !important;
-    height: 18px !important;
+    right: -4px !important;
+    min-width: 16px !important;
+    height: 16px !important;
     padding: 0 4px !important;
-    line-height: 18px !important;
+    line-height: 16px !important;
     font-size: 10px !important;
     display: flex !important;
     align-items: center !important;
