@@ -59,14 +59,14 @@
    ============================================ */
 .search-section-wrapper {
     background: linear-gradient(180deg, #1C2331 0%, #2a3444 100%);
-    padding: 40px 0 50px;
-    margin-top: -1px; /* Seamless connection with hero */
+    padding: 30px 0 40px;
+    margin-top: -1px;
     position: relative;
     z-index: 50;
 }
 
 .search-section-wrapper .container {
-    max-width: 1000px;
+    max-width: 1100px; /* Give it more room */
 }
 
 /* Cart badge color override */
@@ -79,32 +79,27 @@
 }
 
 /* ============================================
-   ROOM SEARCH BLOCK - PREMIUM GLASS
+   ROOM SEARCH BLOCK - NO WRAPPER / FREE FORM
    ============================================ */
 .header-rmsearch-container {
     position: relative !important;
     z-index: 100;
     width: 100%;
-    max-width: 950px !important; /* Wider to prevent crowding */
+    max-width: 100% !important;
     margin: 0 auto !important;
     padding: 0 !important;
 }
 
+/* REMOVED THE GLASS WRAPPER STYLES */
 .header-rmsearch-wrapper {
-    background: rgba(255, 255, 255, 0.12) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    border-radius: 50px !important;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-    padding: 10px 20px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
     margin: 0 auto !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    height: auto !important;
-    box-sizing: border-box !important;
-    overflow: visible !important; /* Allow dropdowns to escape */
+    overflow: visible !important;
     display: block !important;
+    width: 100% !important;
 }
 
 .header-rmsearch-primary {
@@ -131,46 +126,34 @@
     padding: 0 !important;
 }
 
-/* FORCE FLEXBOX LAYOUT - Override Inline Grid Styles */
+/* FLEXBOX LAYOUT FOR INPUTS */
 #search_hotel_block_form {
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
     width: 100% !important;
-    gap: 15px !important; /* More space between items */
+    gap: 20px !important; /* Healthy spacing */
     margin: 0 !important;
+    flex-wrap: wrap !important; /* Allow wrapping on small screens */
 }
 
+/* Override Grid System */
 #search_hotel_block_form .grid {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 15px !important;
-    width: 100% !important;
-    grid-template-columns: none !important; /* Disable grid */
-    margin: 0 !important;
-    padding: 0 !important;
+    display: contents !important; /* Remove grid container interference */
 }
 
-/* Force Grid Items to Fill Space */
+/* INPUT ITEMS */
 #search_hotel_block_form .grid-item {
-    flex-grow: 1 !important;
-    flex-basis: 0 !important;
+    flex: 1 1 250px !important; /* Grow, Shrink, Base width */
     width: auto !important;
-    min-width: 0 !important;
     margin: 0 !important;
-    grid-column: auto !important; /* Disable grid span */
-    position: relative !important;
+    max-width: 400px !important;
 }
 
-/* Search Button Block - Fixed Width to prevent huge button */
+/* BUTTON BLOCK - Prevent Stretching */
 #search_hotel_block_form .search_room_submit_block {
-    flex-grow: 0 !important;
-    flex-basis: auto !important;
+    flex: 0 0 auto !important; /* Don't grow */
     width: auto !important;
-    min-width: 160px !important;
 }
 
 #search_hotel_block_form .form-group {
@@ -178,7 +161,7 @@
     width: 100% !important;
 }
 
-/* Input Styling - Sleek & Thin (42px) */
+/* INDIVIDUAL INPUT STYLING - PILL SHAPE */
 .header-rmsearch-input,
 #search_hotel_block_form .form-control,
 #search_hotel_block_form input.form-control,
@@ -186,49 +169,30 @@
 #search_hotel_block_form .chosen-container .chosen-single,
 #guest_occupancy,
 #daterange_value {
-    height: 42px !important;
-    min-height: 42px !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    border-radius: 30px !important;
-    padding: 0 20px !important;
-    font-size: 13px !important;
+    height: 50px !important; /* Comfortable touch target */
+    min-height: 50px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 999px !important; /* Full Pill */
+    padding: 0 25px !important;
+    font-size: 14px !important;
     font-weight: 600 !important;
     color: #1C2331 !important;
-    background: rgba(255, 255, 255, 0.95) !important;
+    background: #FFFFFF !important; /* Solid white for visibility */
     transition: all 0.2s ease !important;
-    box-shadow: none !important;
-    line-height: 42px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    line-height: 50px !important;
     display: flex !important;
     align-items: center !important;
     width: 100% !important;
 }
 
-/* RESTORE ICONS VIA PSEUDO-ELEMENTS */
-/* Date Icon (Calendar) */
-#daterange_value::before,
-.input-date::before {
-    content: '\f073' !important; /* FontAwesome Calendar */
-    font-family: 'FontAwesome' !important;
-    margin-right: 10px !important;
-    color: #C0A062 !important;
-    font-size: 14px !important;
-    display: inline-block !important;
-    font-weight: normal !important;
+.header-rmsearch-input:focus,
+#search_hotel_block_form .form-control:focus {
+    border-color: #C0A062 !important;
+    box-shadow: 0 0 0 4px rgba(192, 160, 98, 0.2) !important;
 }
 
-/* Guest Icon (User) */
-#guest_occupancy::before,
-.input-occupancy::before {
-    content: '\f007' !important; /* FontAwesome User */
-    font-family: 'FontAwesome' !important;
-    margin-right: 10px !important;
-    color: #C0A062 !important;
-    font-size: 14px !important;
-    display: inline-block !important;
-    font-weight: normal !important;
-}
-
-/* Button Styling */
+/* BUTTON STYLING */
 #search_room_submit,
 .header-rmsearch-container .btn-primary,
 #search_hotel_block_form button[type="submit"] {
@@ -236,19 +200,21 @@
     border: none !important;
     color: #1C2331 !important;
     font-weight: 700 !important;
-    font-size: 14px !important;
-    padding: 0 30px !important;
-    border-radius: 30px !important;
-    height: 42px !important;
-    width: 100% !important;
+    font-size: 15px !important;
+    padding: 0 40px !important;
+    border-radius: 999px !important;
+    height: 50px !important;
+    width: auto !important; /* Let content dictate width */
+    min-width: 180px !important;
     transition: all 0.3s ease !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3) !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.4) !important;
     margin-top: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    white-space: nowrap !important;
 }
 
 #search_room_submit:hover,
@@ -256,63 +222,86 @@
 #search_hotel_block_form button[type="submit"]:hover {
     background: #E8604C !important;
     color: #fff !important;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(232, 96, 76, 0.4) !important;
 }
 
+/* ICONS */
+#daterange_value::before,
+.input-date::before,
+#guest_occupancy::before,
+.input-occupancy::before {
+    font-family: 'FontAwesome' !important;
+    margin-right: 12px !important;
+    color: #C0A062 !important;
+    font-size: 16px !important;
+    display: inline-block !important;
+    font-weight: normal !important;
+}
+
+#daterange_value::before, .input-date::before { content: '\f073' !important; }
+#guest_occupancy::before, .input-occupancy::before { content: '\f007' !important; }
+
 /* ============================================
-   DROPDOWN & Z-INDEX FIXES
+   DROPDOWN FIXES
    ============================================ */
-/* Ensure Dropdowns are visible above the glass wrapper */
 .date-picker-wrapper,
 .dropdown-menu,
 #search_occupancy_wrapper {
-    z-index: 2147483647 !important; /* Max safe integer z-index */
+    z-index: 2147483647 !important;
     position: absolute !important;
     top: 100% !important;
-    margin-top: 12px !important;
+    margin-top: 15px !important;
     background: #fff !important;
     border: none !important;
     border-radius: 12px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important;
     opacity: 1 !important;
     visibility: visible !important;
-    display: none; /* Let JS toggle display */
+    width: auto !important;
+    min-width: 300px !important;
 }
 
-/* When active/open */
-.open > .dropdown-menu,
-.date-picker-wrapper[style*="display: block"] {
-    display: block !important;
+/* Fix Date Picker */
+.date-picker-wrapper {
+    padding: 0 !important;
 }
 
-/* Fix Date Picker Internals */
 .date-picker-wrapper .month-wrapper {
     width: auto !important;
     border: none !important;
 }
 
-.date-picker-wrapper .month-wrapper table {
-    width: 100% !important;
-}
-
-/* Chosen Dropdown Fix */
-.chosen-container {
-    width: 100% !important;
-}
-
+/* Fix Chosen */
 .chosen-container .chosen-single {
-    line-height: 42px !important;
-    height: 42px !important;
-    border-radius: 30px !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    background: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: none !important;
+    line-height: 50px !important;
+    height: 50px !important;
+    border-radius: 999px !important;
+    background: #FFFFFF !important;
+    border: none !important;
 }
 
 .chosen-container .chosen-drop {
     border-radius: 12px !important;
-    border: 1px solid rgba(0,0,0,0.1) !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-    z-index: 2147483647 !important;
-    margin-top: 10px !important;
+    margin-top: 15px !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important;
+    border: none !important;
+}
+
+@media (max-width: 991px) {
+    #search_hotel_block_form {
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+    
+    #search_hotel_block_form .grid-item,
+    #search_hotel_block_form .search_room_submit_block {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+    }
+    
+    #search_room_submit {
+        width: 100% !important;
+    }
 }
