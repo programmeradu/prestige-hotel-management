@@ -392,7 +392,7 @@ button.nav_toggle,
    BOOKING SEARCH BAR - TRANSPARENT
    ============================================ */
 .header-rmsearch-container {
-    padding-top: 40px;
+    padding-top: 20px;
     position: relative;
     z-index: 100;
 }
@@ -401,92 +401,86 @@ button.nav_toggle,
 #index .header-rmsearch-container {
     position: relative;
     width: 100%;
-    max-width: 900px !important;
+    max-width: 850px !important; /* Slightly tighter width */
     margin: 0 auto;
     padding: 0;
 }
 
 .header-rmsearch-wrapper {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
     border-radius: 50px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-    padding: 15px 30px !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+    padding: 8px 15px !important; /* Reduced padding for thinner look */
     margin: 0 auto;
-    overflow: visible;
+    overflow: visible !important; /* Critical for dropdowns */
+    height: auto !important;
 }
 
 .header-rmsearch-inner-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    display: block;
+    width: 100%;
 }
 
+/* Flexbox Layout for Form Elements */
 #search_hotel_block_form {
-    display: flex;
+    display: flex !important;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
-    gap: 10px;
-}
-
-#search_hotel_block_form .form-group {
+    gap: 8px;
     margin: 0;
-    flex: 1;
 }
 
+/* Override Grid System */
 #search_hotel_block_form .grid {
-    display: flex;
+    display: flex !important;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
-    gap: 15px;
+    gap: 8px;
+    grid-template-columns: none !important; /* Disable grid */
 }
 
 #search_hotel_block_form .grid-item {
     flex: 1;
+    width: auto !important;
+    grid-column: auto !important; /* Disable grid span */
+    margin-bottom: 0;
 }
 
-/* Search Form Inputs */
+/* Specific widths for balance */
+#search_hotel_block_form .area-5 { flex: 1.2; } /* Check-in/out slightly wider */
+#search_hotel_block_form .area-4 { flex: 1; }
+
+/* Search Form Inputs - Thinner & Sleeker */
 .header-rmsearch-input,
 #search_hotel_block_form .form-control {
-    height: 45px !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    height: 42px !important; /* Reduced height */
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
     border-radius: 30px !important;
-    padding: 10px 20px;
-    font-size: 14px !important;
-    color: #333 !important;
-    background: rgba(255, 255, 255, 0.9) !important;
+    padding: 0 15px;
+    font-size: 13px !important;
+    font-weight: 500;
+    color: #1C2331 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     transition: var(--transition-fast);
     display: flex;
     align-items: center;
     box-shadow: none !important;
+    width: 100% !important;
 }
 
 .header-rmsearch-input:focus,
 #search_hotel_block_form .form-control:focus {
-    border-color: var(--prestige-gold);
-    box-shadow: 0 0 0 3px rgba(192, 160, 98, 0.1) !important;
+    border-color: var(--prestige-gold) !important;
+    box-shadow: 0 0 0 2px rgba(192, 160, 98, 0.2) !important;
     outline: none;
 }
 
-/* Date Input Icons */
-.input-date::before {
-    content: '\f073';
-    font-family: 'FontAwesome';
-    margin-right: 10px;
-    color: var(--prestige-gold);
-}
-
-/* Guest Selector */
-.input-occupancy::before {
-    content: '\f007';
-    font-family: 'FontAwesome';
-    margin-right: 10px;
-    color: var(--prestige-gold);
-}
-
-/* Search/Book Button */
+/* Search/Book Button - Thinner */
 #search_room_submit,
 .header-rmsearch-container .btn-primary,
 #search_hotel_block_form button[type="submit"] {
@@ -494,14 +488,16 @@ button.nav_toggle,
     border: none !important;
     color: var(--prestige-navy) !important;
     font-weight: 700;
-    font-size: 16px;
-    padding: 15px 40px;
-    border-radius: var(--radius-md);
-    height: 55px;
-    min-width: 160px;
+    font-size: 14px; /* Smaller font */
+    padding: 0 25px;
+    border-radius: 30px !important;
+    height: 42px !important; /* Matched input height */
+    min-width: 140px;
+    width: 100%;
     transition: var(--transition-normal);
-    text-transform: none;
-    letter-spacing: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3);
 }
 
 #search_room_submit:hover,
@@ -509,8 +505,36 @@ button.nav_toggle,
 #search_hotel_block_form button[type="submit"]:hover {
     background: var(--prestige-coral) !important;
     color: var(--text-white) !important;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(232, 96, 76, 0.4);
+}
+
+/* Fix Z-Index for Dropdowns & Datepicker */
+.date-picker-wrapper {
+    z-index: 99999 !important;
+    position: absolute !important;
+    top: 50px !important; /* Push it down slightly */
+    background-color: #fff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
+    border: none !important;
+    overflow: hidden;
+}
+
+#search_occupancy_wrapper.dropdown-menu {
+    z-index: 99999 !important;
+    margin-top: 10px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
+    border: none !important;
+}
+
+/* Icons inside inputs */
+.input-date::before,
+.input-occupancy::before {
+    font-size: 14px;
+    margin-right: 8px;
+    opacity: 0.8;
 }
 
 /* ============================================
