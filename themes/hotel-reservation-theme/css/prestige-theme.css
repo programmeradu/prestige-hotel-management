@@ -1626,3 +1626,25 @@ body:not(#index) .breadcrumb {
   flex-wrap: wrap;
   gap: 20px;
 }
+
+/* ============================================
+   DYNAMIC FOOTER TWEAKS
+   ============================================ */
+.footer-blog .date,
+.footer-blog .post-date {
+    display: block;
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+}
+
+.contact-info i {
+    min-width: 20px; /* Align icons */
+    text-align: center;
+    margin-right: 10px;
+}
+
+.social-media i {
+    font-size: 18px;
+    line-height: 40px; /* Vertically center in circle */
+}
