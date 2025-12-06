@@ -69,15 +69,12 @@
                             <a href="{$room.link|escape:'html':'UTF-8'}">{$room.name|escape:'html':'UTF-8'}</a>
                         </h3>
                         <div class="room-price">
-                            {if isset($room.show_price) && $room.show_price}
-                                <span class="price-amount">{convertPrice price=$room.show_price}</span>
-                            {elseif isset($room.price)}
-                                <span class="price-amount">{convertPrice price=$room.price}</span>
-                            {/if}
+                            {assign var='price_tax_incl' value=Product::getPriceStatic($room.id_product, true)}
+                            <span class="price-amount">{convertPrice price=$price_tax_incl}</span>
                             <span class="price-period">/ {l s='Per Night'}</span>
                         </div>
                         <p class="room-description">
-                            {$room.description_short|strip_tags:'UTF-8'|truncate:100:'...'}
+                            {$room.description_short|strip_tags:'UTF-8'|truncate:80:'...'}
                         </p>
                         <a href="{$room.link|escape:'html':'UTF-8'}" class="btn-book-now">
                             {l s='Book Now'}
