@@ -103,25 +103,23 @@
         <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 19, 33, 0.4), rgba(13, 19, 33, 0.95));"></div>
         <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, transparent, rgba(13, 19, 33, 0.8));"></div>
         
-        {* REAL ASSETS LAYER *}
+        {* REAL ASSETS LAYER - Lottie Animations *}
         
-        {* 1. Realistic Christmas Tree (High Quality Transparent) *}
-        <div style="position: absolute; bottom: -20px; left: -30px; width: 320px; z-index: 10; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
-            <img src="https://cdn.pixabay.com/photo/2016/11/14/15/34/christmas-1823528_1280.png" alt="Christmas Tree" style="width: 100%; height: auto; object-fit: contain;">
+        {* 1. Premium Christmas Tree (Center Left) *}
+        <div style="position: absolute; bottom: 0; left: -30px; width: 320px; height: 320px; z-index: 10; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));">
+            <lottie-player src="https://assets10.lottiefiles.com/private_files/lf30_m6j5igxb.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
 
         {* 2. Wrapped Gifts (Bottom Center) *}
-        <div style="position: absolute; bottom: 10px; left: 180px; width: 180px; z-index: 12; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));">
-             <img src="https://png.pngtree.com/png-clipart/20230426/original/pngtree-3d-christmas-gift-box-decorative-elements-png-image_9106979.png" alt="Gifts" style="width: 100%; height: auto; animation: float 4s ease-in-out infinite;">
+        <div style="position: absolute; bottom: 20px; left: 190px; width: 200px; height: 200px; z-index: 12; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.4));">
+             <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_penc2u.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
         
-        {* 3. Golden Ornaments (Hanging Top) *}
-        <div class="ornament-container" style="position: absolute; top: -10px; left: 40px; z-index: 15; animation: swing 5s ease-in-out infinite;">
-            <img src="https://png.pngtree.com/png-clipart/20220910/original/pngtree-christmas-ball-gold-png-image_8524458.png" style="width: 60px;">
+        {* 3. Hanging Ornaments (Top Left) *}
+        <div class="ornament-container" style="position: absolute; top: -20px; left: 40px; width: 150px; height: 150px; z-index: 15; animation: swing 5s ease-in-out infinite;">
+            <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_1LhsaB.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
         </div>
-        <div class="ornament-container" style="position: absolute; top: -20px; left: 120px; z-index: 15; animation: swing 6s ease-in-out infinite 0.5s;">
-            <img src="https://png.pngtree.com/png-clipart/20220910/original/pngtree-christmas-ball-gold-png-image_8524458.png" style="width: 40px; filter: hue-rotate(320deg);">
-        </div>
+
 
         {* Lottie Snow Effect (Subtle) *}
         <div style="position: absolute; inset: 0; pointer-events: none; opacity: 0.6; mix-blend-mode: screen;">
