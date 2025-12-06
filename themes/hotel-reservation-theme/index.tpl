@@ -91,13 +91,18 @@
 	</div>
 </section>
 
+{* DEBUG TEST BLOCK *}
+<div style="background: #c00; color: white; padding: 20px; text-align: center; font-weight: bold; margin: 20px 0;">
+    DEBUG: IF YOU SEE THIS, THE TEMPLATE IS EDITABLE.
+</div>
+
 {* 2. Christmas Promotional Banner (Standard Container) *}
 <section class="christmas-promo-banner">
     <div class="promo-content-wrapper">
         <div class="promo-header">
-            <span class="promo-badge">🎄 {l s='Holiday Special'}</span>
+            <span class="promo-badge">{l s='Holiday Special'}</span>
             <h2 class="promo-title">{l s='Celebrate Christmas at Prestige Hotel'}</h2>
-            <p class="promo-subtitle">{l s="Experience Cape Coast's premier luxury accommodation this festive season. Enjoy our warm hospitality and modern comforts."}</p>
+            <p class="promo-subtitle">{l s='Experience Cape Coast premier luxury accommodation this festive season.'}</p>
         </div>
         
         <div class="promo-features-grid">
@@ -127,8 +132,6 @@
             <a href="#hotelRoomsBlock" class="btn-promo-cta">{l s='Book Your Holiday Stay'}</a>
         </div>
     </div>
-    {* Subtle Snow Effect *}
-    <div class="snow-overlay"></div>
 </section>
 
 {* 3. Curated Experiences (Hooks for Blog/Other) *}
