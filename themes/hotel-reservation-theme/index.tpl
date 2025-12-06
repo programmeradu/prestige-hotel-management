@@ -91,90 +91,142 @@
 	</div>
 </section>
 
-{* 2. Premium Holiday Feature Section with Real Assets *}
-<div class="holiday-showcase" style="position: relative; margin: 60px 0; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 80px rgba(0,0,0,0.3);">
+{* 2. MAGICAL CHRISTMAS SHOWCASE with Real Decorations *}
+<div class="holiday-showcase" style="position: relative; margin: 60px 0; border-radius: 24px; overflow: hidden; box-shadow: 0 25px 80px rgba(0,0,0,0.4); min-height: 700px;">
     
-    {* Background Image with Overlay *}
-    <div style="position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=1920&q=80'); background-size: cover; background-position: center;"></div>
-    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(139, 21, 56, 0.92) 0%, rgba(76, 8, 24, 0.95) 50%, rgba(19, 1, 6, 0.97) 100%);"></div>
+    {* Background Image with Warm Christmas Overlay *}
+    <div style="position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=1920&q=80'); background-size: cover; background-position: center;"></div>
+    <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(139, 21, 56, 0.88) 0%, rgba(76, 8, 24, 0.92) 50%, rgba(19, 1, 6, 0.95) 100%);"></div>
     
-    {* Snowflake Lottie Animation (Top Right) *}
-    <div style="position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; opacity: 0.3; pointer-events: none;">
-        <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.5" loop autoplay></lottie-player>
+    {* ========== CHRISTMAS DECORATIONS ========== *}
+    
+    {* Christmas Lights Garland (Top) *}
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 80px; z-index: 15;">
+        <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_UJNc2t.json" background="transparent" speed="1" style="width: 100%; height: 80px;" loop autoplay></lottie-player>
     </div>
     
-    {* Snowflake Lottie Animation (Bottom Left) *}
-    <div style="position: absolute; bottom: -80px; left: -80px; width: 350px; height: 350px; opacity: 0.25; pointer-events: none; transform: rotate(180deg);">
-        <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.3" loop autoplay></lottie-player>
+    {* Animated Christmas Tree (Left) *}
+    <div style="position: absolute; bottom: 0; left: -20px; width: 250px; height: 300px; z-index: 10; opacity: 0.9;">
+        <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_svy4ivvy.json" background="transparent" speed="1" style="width: 250px; height: 300px;" loop autoplay></lottie-player>
     </div>
     
-    {* Main Content *}
-    <div style="position: relative; z-index: 2; padding: 80px 40px; text-align: center;">
+    {* Falling Snowflakes (Right Top) *}
+    <div style="position: absolute; top: 10%; right: 5%; width: 200px; height: 200px; z-index: 8; opacity: 0.7;">
+        <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.5" style="width: 200px; height: 200px;" loop autoplay></lottie-player>
+    </div>
+    
+    {* More Snowflakes (Left Top) *}
+    <div style="position: absolute; top: 5%; left: 15%; width: 150px; height: 150px; z-index: 8; opacity: 0.5;">
+        <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.3" style="width: 150px; height: 150px;" loop autoplay></lottie-player>
+    </div>
+    
+    {* Animated Gift Box (Right Bottom) *}
+    <div style="position: absolute; bottom: 5%; right: 3%; width: 180px; height: 180px; z-index: 10; opacity: 0.9;">
+        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_yzoqyyqf.json" background="transparent" speed="1" style="width: 180px; height: 180px;" loop autoplay></lottie-player>
+    </div>
+    
+    {* Hanging Ornament (Right Top) *}
+    <div class="hanging-ornament" style="position: absolute; top: 80px; right: 12%; z-index: 12;">
+        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%); border-radius: 50%; box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5), inset 0 -10px 20px rgba(0,0,0,0.2), inset 0 10px 20px rgba(255,255,255,0.3); animation: swing 4s ease-in-out infinite; transform-origin: top center;"></div>
+        <div style="width: 4px; height: 40px; background: linear-gradient(to bottom, #228B22, #006400); margin: -45px auto 0; border-radius: 2px;"></div>
+    </div>
+    
+    {* Second Ornament *}
+    <div class="hanging-ornament" style="position: absolute; top: 100px; right: 22%; z-index: 11;">
+        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #C41E3A 0%, #FF0000 50%, #8B0000 100%); border-radius: 50%; box-shadow: 0 8px 30px rgba(196, 30, 58, 0.4), inset 0 -8px 15px rgba(0,0,0,0.2), inset 0 8px 15px rgba(255,255,255,0.3); animation: swing 3.5s ease-in-out infinite 0.5s; transform-origin: top center;"></div>
+    </div>
+    
+    {* Sparkles Overlay *}
+    <div style="position: absolute; inset: 0; background: url('https://i.gifer.com/4SWl.gif') repeat; opacity: 0.08; pointer-events: none; mix-blend-mode: screen; z-index: 5;"></div>
+    
+    {* ========== MAIN CONTENT ========== *}
+    <div style="position: relative; z-index: 20; padding: 120px 40px 80px; text-align: center;">
         
-        {* Badge *}
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%); border: 1px solid rgba(212, 175, 55, 0.4); padding: 10px 24px; border-radius: 50px; margin-bottom: 30px; animation: pulse-glow 2s ease-in-out infinite;">
-            <span style="font-size: 18px;">🎄</span>
-            <span style="color: #D4AF37; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;">{l s='Holiday Special'}</span>
-            <span style="font-size: 18px;">✨</span>
+        {* Animated Badge with Christmas Glow *}
+        <div class="holiday-badge" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(255, 215, 0, 0.15) 100%); border: 2px solid rgba(255, 215, 0, 0.5); padding: 12px 28px; border-radius: 50px; margin-bottom: 30px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), 0 0 60px rgba(212, 175, 55, 0.2); animation: glow-pulse 2s ease-in-out infinite;">
+            <span style="font-size: 22px; animation: twinkle 1.5s ease-in-out infinite;">🎄</span>
+            <span style="color: #FFD700; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);">{l s='Holiday Special'}</span>
+            <span style="font-size: 22px; animation: twinkle 1.5s ease-in-out infinite 0.5s;">✨</span>
         </div>
         
-        {* Main Title *}
-        <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); color: #FFFFFF; margin: 0 0 20px 0; text-shadow: 0 4px 30px rgba(0,0,0,0.5); line-height: 1.2;">
+        {* Main Title with Festive Styling *}
+        <h2 style="font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 4.5rem); color: #FFFFFF; margin: 0 0 20px 0; text-shadow: 0 4px 30px rgba(0,0,0,0.5), 0 0 60px rgba(255, 215, 0, 0.2); line-height: 1.15;">
             {l s='Celebrate Christmas'}<br>
-            <span style="color: #D4AF37;">{l s='at Prestige Hotel'}</span>
+            <span style="background: linear-gradient(135deg, #FFD700, #D4AF37, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">{l s='at Prestige Hotel'}</span>
         </h2>
         
+        {* Decorative Divider *}
+        <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin: 25px 0;">
+            <div style="width: 60px; height: 2px; background: linear-gradient(to right, transparent, #D4AF37);"></div>
+            <span style="font-size: 24px;">❄️</span>
+            <div style="width: 60px; height: 2px; background: linear-gradient(to left, transparent, #D4AF37);"></div>
+        </div>
+        
         {* Subtitle *}
-        <p style="font-family: 'Montserrat', sans-serif; font-size: 1.1rem; color: rgba(240, 230, 210, 0.9); max-width: 600px; margin: 0 auto 50px; line-height: 1.7;">
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 1.15rem; color: rgba(255, 250, 240, 0.9); max-width: 650px; margin: 0 auto 50px; line-height: 1.8;">
             {l s='Experience Cape Coast premier luxury accommodation this festive season. Indulge in world-class hospitality and create unforgettable holiday memories.'}
         </p>
         
-        {* Feature Cards Grid *}
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto 50px;">
+        {* Feature Cards Grid - Wrapped Present Style *}
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; max-width: 1000px; margin: 0 auto 50px;">
             
-            {* Card 1 *}
-            <div class="glass-card" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 30px 20px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);">
-                    <i class="icon-coffee" style="font-size: 24px; color: #4C0818;"></i>
+            {* Card 1 - Breakfast *}
+            <div class="feature-card glass-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(212, 175, 55, 0.08) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 20px; padding: 35px 20px 25px; position: relative; overflow: visible; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                <span style="position: absolute; top: -18px; right: 15px; font-size: 2.2rem; animation: twinkle 2s ease-in-out infinite;">🎀</span>
+                <div style="width: 70px; height: 70px; margin: 0 auto 20px;">
+                    <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ysas4vcp.json" background="transparent" speed="1" style="width: 70px; height: 70px;" loop autoplay></lottie-player>
                 </div>
-                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #D4AF37; margin: 0 0 10px 0;">{l s='Complimentary Breakfast'}</h4>
-                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.5;">{l s='Start your day with our delicious festive spread'}</p>
+                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #FFD700; margin: 0 0 10px 0; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">{l s='Complimentary Breakfast'}</h4>
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.75); margin: 0; line-height: 1.5;">{l s='Start your day with our delicious festive spread'}</p>
             </div>
             
-            {* Card 2 *}
-            <div class="glass-card" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 30px 20px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);">
-                    <i class="icon-food" style="font-size: 24px; color: #4C0818;"></i>
+            {* Card 2 - Dining *}
+            <div class="feature-card glass-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(212, 175, 55, 0.08) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 20px; padding: 35px 20px 25px; position: relative; overflow: visible; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                <span style="position: absolute; top: -18px; right: 15px; font-size: 2.2rem; animation: twinkle 2s ease-in-out infinite 0.3s;">🎀</span>
+                <div style="width: 70px; height: 70px; margin: 0 auto 20px;">
+                    <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_tll0j4bb.json" background="transparent" speed="1" style="width: 70px; height: 70px;" loop autoplay></lottie-player>
                 </div>
-                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #D4AF37; margin: 0 0 10px 0;">{l s='Fine Dining'}</h4>
-                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.5;">{l s='Savor exquisite local and international cuisine'}</p>
+                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #FFD700; margin: 0 0 10px 0; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">{l s='Fine Dining'}</h4>
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.75); margin: 0; line-height: 1.5;">{l s='Savor exquisite local and international cuisine'}</p>
             </div>
             
-            {* Card 3 *}
-            <div class="glass-card" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 30px 20px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);">
-                    <i class="icon-star" style="font-size: 24px; color: #4C0818;"></i>
+            {* Card 3 - Comfort *}
+            <div class="feature-card glass-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(212, 175, 55, 0.08) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 20px; padding: 35px 20px 25px; position: relative; overflow: visible; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                <span style="position: absolute; top: -18px; right: 15px; font-size: 2.2rem; animation: twinkle 2s ease-in-out infinite 0.6s;">🎀</span>
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);">
+                    <span style="font-size: 30px;">⭐</span>
                 </div>
-                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #D4AF37; margin: 0 0 10px 0;">{l s='Luxurious Comfort'}</h4>
-                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.5;">{l s='AC, High-speed WiFi, and 24/7 Concierge'}</p>
+                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #FFD700; margin: 0 0 10px 0; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">{l s='Luxurious Comfort'}</h4>
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.75); margin: 0; line-height: 1.5;">{l s='AC, High-speed WiFi, and 24/7 Concierge'}</p>
             </div>
             
-            {* Card 4 *}
-            <div class="glass-card" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 30px 20px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
-                <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);">
-                    <i class="icon-map-marker" style="font-size: 24px; color: #4C0818;"></i>
+            {* Card 4 - Location *}
+            <div class="feature-card glass-card" style="background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(212, 175, 55, 0.08) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 20px; padding: 35px 20px 25px; position: relative; overflow: visible; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);">
+                <span style="position: absolute; top: -18px; right: 15px; font-size: 2.2rem; animation: twinkle 2s ease-in-out infinite 0.9s;">🎀</span>
+                <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);">
+                    <span style="font-size: 30px;">📍</span>
                 </div>
-                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #D4AF37; margin: 0 0 10px 0;">{l s='Prime Location'}</h4>
-                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.7); margin: 0; line-height: 1.5;">{l s='Minutes from Cape Coast Castle & Kakum'}</p>
+                <h4 style="font-family: 'Playfair Display', serif; font-size: 1.15rem; color: #FFD700; margin: 0 0 10px 0; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">{l s='Prime Location'}</h4>
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.75); margin: 0; line-height: 1.5;">{l s='Minutes from Cape Coast Castle & Kakum'}</p>
             </div>
             
         </div>
         
-        {* CTA Button *}
-        <a href="#hotelRoomsBlock" class="holiday-cta-btn" style="display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%); color: #4C0818; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; padding: 18px 40px; border-radius: 50px; text-decoration: none; box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4); transition: all 0.4s ease; position: relative; overflow: hidden;">
+        {* Premium CTA Button with Shimmer *}
+        <a href="#hotelRoomsBlock" class="holiday-cta-btn" style="display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #FFD700 0%, #D4AF37 50%, #B8860B 100%); color: #4C0818; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; padding: 20px 45px; border-radius: 50px; text-decoration: none; box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5), 0 0 30px rgba(255, 215, 0, 0.3); transition: all 0.4s ease; position: relative; overflow: hidden; border: 2px solid rgba(255, 255, 255, 0.3);">
+            <span style="font-size: 20px;">🎁</span>
             <span>{l s='Book Your Holiday Stay'}</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
+        
+        {* Bottom Decorative Snowflakes *}
+        <div style="margin-top: 40px; display: flex; justify-content: center; gap: 20px; opacity: 0.6;">
+            <span style="font-size: 20px; animation: float 3s ease-in-out infinite;">❄️</span>
+            <span style="font-size: 16px; animation: float 3s ease-in-out infinite 0.5s;">❄️</span>
+            <span style="font-size: 24px; animation: float 3s ease-in-out infinite 1s;">❄️</span>
+            <span style="font-size: 16px; animation: float 3s ease-in-out infinite 1.5s;">❄️</span>
+            <span style="font-size: 20px; animation: float 3s ease-in-out infinite 2s;">❄️</span>
+        </div>
         
     </div>
 </div>
