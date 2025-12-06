@@ -480,55 +480,6 @@ button.nav_toggle,
     outline: none;
 }
 
-/* Search/Book Button - Thinner */
-#search_room_submit,
-.header-rmsearch-container .btn-primary,
-#search_hotel_block_form button[type="submit"] {
-    background: var(--prestige-gold) !important;
-    border: none !important;
-    color: var(--prestige-navy) !important;
-    font-weight: 700;
-    font-size: 14px; /* Smaller font */
-    padding: 0 25px;
-    border-radius: 30px !important;
-    height: 42px !important; /* Matched input height */
-    min-width: 140px;
-    width: 100%;
-    transition: var(--transition-normal);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3);
-}
-
-#search_room_submit:hover,
-.header-rmsearch-container .btn-primary:hover,
-#search_hotel_block_form button[type="submit"]:hover {
-    background: var(--prestige-coral) !important;
-    color: var(--text-white) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(232, 96, 76, 0.4);
-}
-
-/* Fix Z-Index for Dropdowns & Datepicker */
-.date-picker-wrapper {
-    z-index: 99999 !important;
-    position: absolute !important;
-    top: 50px !important; /* Push it down slightly */
-    background-color: #fff !important;
-    border-radius: 12px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
-    border: none !important;
-    overflow: hidden;
-}
-
-#search_occupancy_wrapper.dropdown-menu {
-    z-index: 99999 !important;
-    margin-top: 10px !important;
-    border-radius: 12px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
-    border: none !important;
-}
-
 /* Icons inside inputs */
 .input-date::before,
 .input-occupancy::before {

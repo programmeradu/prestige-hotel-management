@@ -258,51 +258,25 @@
     align-items: center !important;
 }
 
-/* Date picker should appear above the translucent card */
-.date-picker-wrapper {
-    z-index: 9999 !important;
-}
-
-/* Book Button - Compact */
-#search_room_submit,
-#search_hotel_block_form button[type="submit"],
-.header-rmsearch-wrapper .btn-primary {
-    background: linear-gradient(135deg, #C0A062 0%, #D4B978 100%) !important;
-    border: none !important;
-    color: #1C2331 !important;
-    font-weight: 700 !important;
-    font-size: 15px !important;
-    padding: 0 32px !important;
-    height: 50px !important;
-    border-radius: 28px !important;
-    min-width: 170px !important;
-    transition: all 0.3s ease !important;
-    text-transform: none !important;
-    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3) !important;
-}
-
-#search_room_submit:hover,
-#search_hotel_block_form button[type="submit"]:hover {
-    background: linear-gradient(135deg, #E8604C 0%, #FF7B6B 100%) !important;
-    color: #fff !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(232, 96, 76, 0.4) !important;
-}
-
-/* Chosen Dropdown Fix */
+/* Chosen Dropdown Fix - Updated to match 42px height */
 .chosen-container {
     width: 100% !important;
 }
 
 .chosen-container .chosen-single {
-    line-height: 55px !important;
-    height: 55px !important;
+    line-height: 42px !important;
+    height: 42px !important;
+    border-radius: 30px !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: none !important;
 }
 
 .chosen-container .chosen-drop {
     border-radius: 12px !important;
-    border: 2px solid #e8e8e8 !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    z-index: 100000 !important;
 }
 
 /* Occupancy Dropdown */
