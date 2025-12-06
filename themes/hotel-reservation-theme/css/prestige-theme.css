@@ -1314,3 +1314,58 @@ input.button:hover {
 /* ============================================
    PRINT STYLES
    ============================================ */
+/* ============================================
+   SEARCH RESULTS / CATEGORY PAGE FIXES
+   ============================================ */
+.category #header,
+.hotel-listing #header,
+[class*="search"] #header,
+body:not(#index) #header {
+    min-height: 80px !important;
+    max-height: 100px !important;
+    height: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    background: #1C2331 !important; /* Dark Navy Background */
+}
+
+/* Ensure navigation is compact on these pages */
+.category #header .header-top,
+.hotel-listing #header .header-top,
+body:not(#index) #header .header-top {
+    position: relative !important;
+    background: #1C2331 !important;
+    padding: 10px 0 !important;
+}
+
+/* Remove hero section/content on search results */
+.category .hero-section,
+.hotel-listing .hero-section,
+body:not(#index) .hero-section,
+.category #header .hero-content,
+body:not(#index) #header .hero-content {
+    display: none !important;
+}
+
+/* Reduce top spacing on content area */
+.category #columns,
+.hotel-listing #columns,
+body:not(#index) #columns {
+    margin-top: 0 !important;
+    padding-top: 30px !important;
+}
+
+/* Remove any empty spacer divs or banners */
+.category .spacer,
+.category [class*="banner"],
+.hotel-listing [class*="banner"],
+body:not(#index) .spacer {
+    display: none !important;
+}
+
+/* Fix breadcrumb visibility/spacing */
+.category .breadcrumb,
+body:not(#index) .breadcrumb {
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
+}
