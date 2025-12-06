@@ -79,13 +79,13 @@
 }
 
 /* ============================================
-   ROOM SEARCH BLOCK - PREMIUM GLASS (Updated for Sleek/Thin Look)
+   ROOM SEARCH BLOCK - PREMIUM GLASS
    ============================================ */
 .header-rmsearch-container {
     position: relative !important;
     z-index: 100;
     width: 100%;
-    max-width: 850px !important;
+    max-width: 950px !important; /* Wider to prevent crowding */
     margin: 0 auto !important;
     padding: 0 !important;
 }
@@ -97,24 +97,27 @@
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     border-radius: 50px !important;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
-    padding: 8px 15px !important; /* Reduced padding */
+    padding: 10px 20px !important;
     margin: 0 auto !important;
     max-width: 100% !important;
     width: 100% !important;
     height: auto !important;
     box-sizing: border-box !important;
     overflow: visible !important; /* Allow dropdowns to escape */
+    display: block !important;
 }
 
 .header-rmsearch-primary {
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
+    width: 100% !important;
 }
 
 .header-rmsearch-primary .container {
     width: 100% !important;
     padding: 0 !important;
+    max-width: 100% !important;
 }
 
 .fancy_search_header_xs {
@@ -128,36 +131,47 @@
     padding: 0 !important;
 }
 
-/* Search Form Grid - Flexbox Conversion */
+/* FORCE FLEXBOX LAYOUT - Override Inline Grid Styles */
 #search_hotel_block_form {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
-    gap: 8px !important; /* Tighter gap */
+    gap: 15px !important; /* More space between items */
     margin: 0 !important;
 }
 
 #search_hotel_block_form .grid {
     display: flex !important;
+    flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 8px !important;
+    gap: 15px !important;
     width: 100% !important;
-    grid-template-columns: none !important; /* Kill grid */
-}
-
-#search_hotel_block_form .grid-item {
-    flex: 1 !important;
-    width: auto !important;
-    min-width: 0 !important; /* Allow shrinking */
+    grid-template-columns: none !important; /* Disable grid */
     margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* Specific sizing for balance */
-#search_hotel_block_form .area-5 { flex: 1.2 !important; }
-#search_hotel_block_form .area-4 { flex: 1 !important; }
+/* Force Grid Items to Fill Space */
+#search_hotel_block_form .grid-item {
+    flex-grow: 1 !important;
+    flex-basis: 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    grid-column: auto !important; /* Disable grid span */
+    position: relative !important;
+}
+
+/* Search Button Block - Fixed Width to prevent huge button */
+#search_hotel_block_form .search_room_submit_block {
+    flex-grow: 0 !important;
+    flex-basis: auto !important;
+    width: auto !important;
+    min-width: 160px !important;
+}
 
 #search_hotel_block_form .form-group {
     margin: 0 !important;
@@ -176,89 +190,112 @@
     min-height: 42px !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     border-radius: 30px !important;
-    padding: 0 15px !important;
+    padding: 0 20px !important;
     font-size: 13px !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     color: #1C2331 !important;
     background: rgba(255, 255, 255, 0.95) !important;
     transition: all 0.2s ease !important;
     box-shadow: none !important;
-    line-height: 42px !important; /* Vertical align text */
+    line-height: 42px !important;
     display: flex !important;
     align-items: center !important;
+    width: 100% !important;
 }
 
-/* Button Styling - Sleek & Thin (42px) */
+/* RESTORE ICONS VIA PSEUDO-ELEMENTS */
+/* Date Icon (Calendar) */
+#daterange_value::before,
+.input-date::before {
+    content: '\f073' !important; /* FontAwesome Calendar */
+    font-family: 'FontAwesome' !important;
+    margin-right: 10px !important;
+    color: #C0A062 !important;
+    font-size: 14px !important;
+    display: inline-block !important;
+    font-weight: normal !important;
+}
+
+/* Guest Icon (User) */
+#guest_occupancy::before,
+.input-occupancy::before {
+    content: '\f007' !important; /* FontAwesome User */
+    font-family: 'FontAwesome' !important;
+    margin-right: 10px !important;
+    color: #C0A062 !important;
+    font-size: 14px !important;
+    display: inline-block !important;
+    font-weight: normal !important;
+}
+
+/* Button Styling */
 #search_room_submit,
 .header-rmsearch-container .btn-primary,
 #search_hotel_block_form button[type="submit"] {
-    background: var(--prestige-gold) !important;
+    background: #C0A062 !important;
     border: none !important;
-    color: var(--prestige-navy) !important;
+    color: #1C2331 !important;
     font-weight: 700 !important;
     font-size: 14px !important;
-    padding: 0 25px !important;
+    padding: 0 30px !important;
     border-radius: 30px !important;
     height: 42px !important;
-    min-width: 120px !important;
     width: 100% !important;
     transition: all 0.3s ease !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3) !important;
     margin-top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-/* Dropdown & Datepicker Z-Index Fixes */
-.date-picker-wrapper {
-    z-index: 100000 !important; /* Extreme Z-Index */
-    position: absolute !important;
-    top: 100% !important;
-    margin-top: 10px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
-    border-radius: 12px !important;
-    background: #fff !important;
-    border: none !important;
+#search_room_submit:hover,
+.header-rmsearch-container .btn-primary:hover,
+#search_hotel_block_form button[type="submit"]:hover {
+    background: #E8604C !important;
+    color: #fff !important;
+    transform: translateY(-1px);
 }
 
+/* ============================================
+   DROPDOWN & Z-INDEX FIXES
+   ============================================ */
+/* Ensure Dropdowns are visible above the glass wrapper */
+.date-picker-wrapper,
 .dropdown-menu,
 #search_occupancy_wrapper {
-    z-index: 100000 !important;
+    z-index: 2147483647 !important; /* Max safe integer z-index */
+    position: absolute !important;
     top: 100% !important;
-    margin-top: 10px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
-    border-radius: 12px !important;
+    margin-top: 12px !important;
+    background: #fff !important;
     border: none !important;
-    width: 300px !important; /* Ensure enough width */
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: none; /* Let JS toggle display */
 }
 
-/* Fix datepicker table scaling */
-.month-wrapper table {
+/* When active/open */
+.open > .dropdown-menu,
+.date-picker-wrapper[style*="display: block"] {
+    display: block !important;
+}
+
+/* Fix Date Picker Internals */
+.date-picker-wrapper .month-wrapper {
+    width: auto !important;
+    border: none !important;
+}
+
+.date-picker-wrapper .month-wrapper table {
     width: 100% !important;
 }
 
-.header-rmsearch-input:hover,
-#search_hotel_block_form .form-control:hover {
-    border-color: #C0A062 !important;
-    background: #ffffff !important;
-}
-
-.header-rmsearch-input:focus,
-#search_hotel_block_form .form-control:focus {
-    border-color: #C0A062 !important;
-    box-shadow: 0 0 0 4px rgba(192, 160, 98, 0.15) !important;
-    outline: none !important;
-    background: #ffffff !important;
-}
-
-/* Date Range Picker */
-#daterange_value {
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-/* Chosen Dropdown Fix - Updated to match 42px height */
+/* Chosen Dropdown Fix */
 .chosen-container {
     width: 100% !important;
 }
@@ -276,1226 +313,6 @@
     border-radius: 12px !important;
     border: 1px solid rgba(0,0,0,0.1) !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-    z-index: 100000 !important;
-}
-
-/* Occupancy Dropdown */
-#search_occupancy_wrapper {
-    border-radius: 16px !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15) !important;
-    padding: 20px !important;
-    min-width: 320px !important;
-}
-
-.occupancy_info_head {
-    font-weight: 600 !important;
-    color: #1C2331 !important;
-    border-bottom: 1px solid #eee !important;
-    padding-bottom: 10px !important;
-    margin-bottom: 15px !important;
-}
-
-.occupancy_count_block label {
-    color: #666 !important;
-    font-weight: 500 !important;
-}
-
-.occupancy_quantity_up,
-.occupancy_quantity_down {
-    background: #f5f5f5 !important;
-    border: none !important;
-    border-radius: 8px !important;
-    width: 35px !important;
-    height: 35px !important;
-}
-
-.occupancy_quantity_up:hover,
-.occupancy_quantity_down:hover {
-    background: #C0A062 !important;
-    color: #fff !important;
-}
-
-/* ============================================
-   HOTEL FEATURES / AMENITIES BLOCK
-   ============================================ */
-#hotelAmenitiesBlock {
-    background: linear-gradient(135deg, #1C2331 0%, #0D4F5F 100%) !important;
-    padding: 80px 0 !important;
-    margin: 40px 0 !important;
-    position: relative;
-    overflow: hidden;
-}
-
-#hotelAmenitiesBlock .home_block_heading {
-    color: #fff !important;
-}
-
-#hotelAmenitiesBlock .home_block_description {
-    color: rgba(255, 255, 255, 0.8) !important;
-}
-
-/* Amenity Items */
-.amenity_content {
-    background: transparent !important;
-}
-
-.amenity_desc_primary {
-    background: transparent !important;
-    padding: 30px !important;
-}
-
-.amenity_heading {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 1.5rem !important;
-    color: #fff !important;
-    margin-bottom: 15px !important;
-}
-
-.amenity_description {
-    color: rgba(255, 255, 255, 0.8) !important;
-    font-size: 15px !important;
-    line-height: 1.7 !important;
-}
-
-.amenity_desc_hr {
-    border-color: rgba(192, 160, 98, 0.5) !important;
-    width: 60px !important;
-    margin-top: 20px !important;
-}
-
-.amenity_img_primary,
-.amenity_img_secondary {
-    border-radius: 16px !important;
-    overflow: hidden !important;
-}
-
-/* Decorative elements for amenities */
-#hotelAmenitiesBlock::before {
-    content: '';
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: #E8604C;
-    border-radius: 50%;
-    top: -80px;
-    right: 10%;
-    opacity: 0.5;
-}
-
-#hotelAmenitiesBlock::after {
-    content: '';
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    background: #40B5AD;
-    border-radius: 50%;
-    bottom: -50px;
-    left: 5%;
-    opacity: 0.4;
-}
-
-/* ============================================
-   HOTEL INTERIOR / GALLERY BLOCK
-   ============================================ */
-#hotelInteriorBlock {
-    background: #fff !important;
-    padding: 80px 0 !important;
-}
-
-#hotelInteriorBlock .home_block_heading {
-    color: #1C2331 !important;
-}
-
-.interiorbox {
-    border-radius: 16px !important;
-    overflow: hidden !important;
-    margin: 10px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.4s ease !important;
-}
-
-.interiorbox:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
-}
-
-.interiorboxInner {
-    border-radius: 16px !important;
-    overflow: hidden !important;
-}
-
-.interiorImg {
-    transition: transform 0.5s ease !important;
-}
-
-.interiorbox:hover .interiorImg {
-    transform: scale(1.1) !important;
-}
-
-.interiorHoverBlockWrapper {
-    background: rgba(28, 35, 49, 0.7) !important;
-    border-radius: 16px !important;
-}
-
-.interiorHoverSecondaryBlock i {
-    color: #C0A062 !important;
-    font-size: 32px !important;
-}
-
-/* ============================================
-   TESTIMONIALS BLOCK
-   ============================================ */
-#hotelTestimonialBlock {
-    background: #F8F9FA !important;
-    padding: 80px 0 !important;
-}
-
-.testimonialContentContainer {
-    background: #fff !important;
-    border-radius: 20px !important;
-    padding: 40px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05) !important;
-    margin-bottom: 30px !important;
-}
-
-.testimonialContentText {
-    font-size: 1.1rem !important;
-    color: #555 !important;
-    line-height: 1.8 !important;
-    font-style: italic !important;
-}
-
-.testimonialPersonDetail {
-    text-align: center !important;
-}
-
-.testimonialPersonImg {
-    width: 70px !important;
-    height: 70px !important;
-    border-radius: 50% !important;
-    object-fit: cover !important;
-    border: 3px solid #C0A062 !important;
-    margin-bottom: 15px !important;
-}
-
-.testimonialPersonName {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 1.125rem !important;
-    font-weight: 600 !important;
-    color: #1C2331 !important;
-    margin-bottom: 5px !important;
-}
-
-.testimonialPersonDesig {
-    font-size: 14px !important;
-    color: #999 !important;
-}
-
-/* ============================================
-   ROOM TYPE CARDS / PRODUCT LISTING
-   ============================================ */
-.home_block_content .product_list,
-.room-type-listing,
-#product_list {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-    gap: 30px !important;
-}
-
-.ajax_block_product,
-.room-type-card {
-    background: #fff !important;
-    border-radius: 20px !important;
-    overflow: hidden !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08) !important;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    border: 3px solid transparent !important;
-    width: 100% !important;
-    float: none !important;
-    padding: 0 !important;
-}
-
-.ajax_block_product:nth-child(4n+1) {
-    border-color: #C0A062 !important;
-}
-
-.ajax_block_product:nth-child(4n+2) {
-    border-color: #40B5AD !important;
-}
-
-.ajax_block_product:nth-child(4n+3) {
-    border-color: #E8604C !important;
-}
-
-.ajax_block_product:nth-child(4n+4) {
-    border-color: #6B4C9A !important;
-}
-
-.ajax_block_product:hover {
-    transform: translateY(-10px) !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
-}
-
-.product-container {
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-.product-image-container {
-    height: 220px !important;
-    overflow: hidden !important;
-    position: relative !important;
-}
-
-.product-image-container img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    transition: transform 0.6s ease !important;
-}
-
-.ajax_block_product:hover .product-image-container img {
-    transform: scale(1.1) !important;
-}
-
-.product-image-container::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 50% !important;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%) !important;
-    pointer-events: none !important;
-}
-
-/* Left Block - Image */
-.left-block {
-    position: relative !important;
-}
-
-/* Right Block - Content */
-.right-block {
-    padding: 25px !important;
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    background: #fff !important;
-}
-
-.right-block h5 {
-    margin-bottom: 12px !important;
-}
-
-.right-block h5 .product-name,
-.product-name {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 1.25rem !important;
-    font-weight: 600 !important;
-    color: #1C2331 !important;
-    text-decoration: none !important;
-}
-
-.product-name:hover {
-    color: #C0A062 !important;
-}
-
-.product-desc {
-    color: #666 !important;
-    font-size: 14px !important;
-    line-height: 1.6 !important;
-    flex: 1 !important;
-}
-
-/* Price */
-.content_price {
-    margin-bottom: 15px !important;
-    background: transparent !important;
-    padding: 0 !important;
-    position: relative !important;
-}
-
-.content_price .price,
-.product-price {
-    font-size: 1.4rem !important;
-    font-weight: 700 !important;
-    color: #C0A062 !important;
-}
-
-.old-price {
-    color: #999 !important;
-    text-decoration: line-through !important;
-    font-size: 1rem !important;
-}
-
-/* Buttons */
-.button-container {
-    display: flex !important;
-    gap: 10px !important;
-    margin-top: auto !important;
-}
-
-.button-container .button,
-.button-container a.button,
-.ajax_add_to_cart_button,
-.lnk_view {
-    flex: 1 !important;
-    text-align: center !important;
-    padding: 12px 20px !important;
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-    font-size: 14px !important;
-    transition: all 0.3s ease !important;
-    text-decoration: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.ajax_add_to_cart_button {
-    background: #C0A062 !important;
-    color: #1C2331 !important;
-    border: 2px solid #C0A062 !important;
-}
-
-.ajax_add_to_cart_button:hover {
-    background: #1C2331 !important;
-    color: #fff !important;
-    border-color: #1C2331 !important;
-}
-
-.lnk_view {
-    background: transparent !important;
-    color: #1C2331 !important;
-    border: 2px solid #1C2331 !important;
-}
-
-.lnk_view:hover {
-    background: #1C2331 !important;
-    color: #fff !important;
-}
-
-/* Labels */
-.new-box,
-.sale-box {
-    position: absolute !important;
-    top: 15px !important;
-    left: 15px !important;
-    z-index: 3 !important;
-}
-
-.new-label {
-    background: #40B5AD !important;
-    color: #fff !important;
-    padding: 5px 12px !important;
-    border-radius: 5px !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-}
-
-.sale-label {
-    background: #E8604C !important;
-    color: #fff !important;
-    padding: 5px 12px !important;
-    border-radius: 5px !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-}
-
-/* Quick View */
-.quick-view {
-    position: absolute !important;
-    top: 15px !important;
-    right: 15px !important;
-    z-index: 3 !important;
-    background: rgba(255, 255, 255, 0.9) !important;
-    padding: 10px 15px !important;
-    border-radius: 8px !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    color: #1C2331 !important;
-    opacity: 0 !important;
-    transform: translateY(-10px) !important;
-    transition: all 0.3s ease !important;
-}
-
-.ajax_block_product:hover .quick-view {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-}
-
-/* ============================================
-   OWL CAROUSEL OVERRIDES
-   ============================================ */
-.owl-carousel .owl-nav button,
-.owl-carousel .owl-nav .owl-prev,
-.owl-carousel .owl-nav .owl-next {
-    background: #C0A062 !important;
-    color: #1C2331 !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50% !important;
-    font-size: 20px !important;
-    transition: all 0.3s ease !important;
-}
-
-.owl-carousel .owl-nav button:hover {
-    background: #1C2331 !important;
-    color: #fff !important;
-}
-
-.owl-carousel .owl-dots .owl-dot span {
-    background: #ddd !important;
-    width: 12px !important;
-    height: 12px !important;
-    border-radius: 50% !important;
-    transition: all 0.3s ease !important;
-}
-
-.owl-carousel .owl-dots .owl-dot.active span {
-    background: #C0A062 !important;
-    transform: scale(1.2) !important;
-}
-
-/* ============================================
-   NEWSLETTER BLOCK
-   ============================================ */
-#newsletter_block_left,
-.newsletter-block {
-    background: #1C2331 !important;
-    border-radius: 16px !important;
-    padding: 40px !important;
-    margin: 40px 0 !important;
-}
-
-#newsletter_block_left h4,
-.newsletter-block h4 {
-    font-family: 'Playfair Display', serif !important;
-    color: #fff !important;
-    font-size: 1.5rem !important;
-    margin-bottom: 20px !important;
-}
-
-#newsletter_block_left .form-group {
-    display: flex !important;
-    gap: 10px !important;
-}
-
-#newsletter_block_left input[type="email"] {
-    flex: 1 !important;
-    border-radius: 10px !important;
-    border: none !important;
-    padding: 15px 20px !important;
-    font-size: 15px !important;
-}
-
-#newsletter_block_left button {
-    background: #C0A062 !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 15px 30px !important;
-    color: #1C2331 !important;
-    font-weight: 600 !important;
-}
-
-#newsletter_block_left button:hover {
-    background: #D4B978 !important;
-}
-
-/* ============================================
-   SOCIAL BLOCK
-   ============================================ */
-#social_block,
-.social-block {
-    display: flex !important;
-    gap: 12px !important;
-}
-
-#social_block li,
-.social-block li {
-    list-style: none !important;
-}
-
-#social_block a,
-.social-block a {
-    width: 42px !important;
-    height: 42px !important;
-    background: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: #fff !important;
-    font-size: 16px !important;
-    transition: all 0.3s ease !important;
-}
-
-#social_block a:hover,
-.social-block a:hover {
-    background: #C0A062 !important;
-    color: #1C2331 !important;
-    transform: translateY(-3px) !important;
-}
-
-/* ============================================
-   FOOTER MODULE BLOCKS
-   ============================================ */
-#footer .footer-block,
-#footer .block {
-    margin-bottom: 30px !important;
-}
-
-#footer .footer-block h4,
-#footer .block h4,
-#footer .title_block {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 1.125rem !important;
-    color: #fff !important;
-    margin-bottom: 25px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    position: relative !important;
-    padding-bottom: 12px !important;
-}
-
-#footer .footer-block h4::after,
-#footer .block h4::after,
-#footer .title_block::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    width: 40px !important;
-    height: 2px !important;
-    background: #C0A062 !important;
-}
-
-#footer ul {
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-#footer li {
-    margin-bottom: 12px !important;
-}
-
-#footer a {
-    color: rgba(255, 255, 255, 0.7) !important;
-    font-size: 14px !important;
-    transition: all 0.3s ease !important;
-    display: inline-block !important;
-}
-
-#footer a:hover {
-    color: #C0A062 !important;
-    padding-left: 8px !important;
-}
-
-/* ============================================
-   RESPONSIVE FIXES FOR MODULES
-   ============================================ */
-@media (max-width: 991px) {
-    #index .header-rmsearch-container {
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
-        transform: none !important;
-        margin: 30px auto !important;
-        padding: 0 15px !important;
-        max-width: 100% !important;
-    }
-
-    .header-rmsearch-wrapper {
-        padding: 15px 20px !important;
-        border-radius: 30px !important;
-        max-width: 100% !important;
-        width: 100% !important;
-        height: auto !important;
-        box-sizing: border-box !important;
-    }
-
-    #search_hotel_block_form .grid {
-        flex-direction: column !important;
-        flex-wrap: wrap !important;
-    }
-
-    #search_hotel_block_form .grid-item {
-        width: 100% !important;
-        min-width: 100% !important;
-    }
-
-    #search_room_submit {
-        width: 100% !important;
-    }
-
-    #hotelAmenitiesBlock {
-        padding: 50px 0 !important;
-    }
-
-    .amenity_content {
-        margin-bottom: 30px !important;
-    }
-}
-
-@media (max-width: 767px) {
-    .home_block_heading {
-        font-size: 1.75rem !important;
-    }
-
-    .home_block_container {
-        padding: 40px 0 !important;
-    }
-
-    #hotelAmenitiesBlock::before,
-    #hotelAmenitiesBlock::after {
-        display: none !important;
-    }
-
-    .testimonialContentContainer {
-        padding: 25px !important;
-    }
-
-    #footer {
-        text-align: center !important;
-    }
-
-    #footer .footer-block h4::after,
-    #footer .block h4::after {
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-    }
-}
-
-/* ============================================
-   CHRISTMAS MODE FOR MODULES
-   ============================================ */
-.christmas-mode #search_room_submit {
-    background: linear-gradient(135deg, #C41E3A 0%, #E74C3C 100%) !important;
-    color: #fff !important;
-}
-
-.christmas-mode #search_room_submit:hover {
-    background: linear-gradient(135deg, #228B22 0%, #2ECC71 100%) !important;
-}
-
-.christmas-mode .ajax_block_product:nth-child(odd) {
-    border-color: #C41E3A !important;
-}
-
-.christmas-mode .ajax_block_product:nth-child(even) {
-    border-color: #228B22 !important;
-}
-
-.christmas-mode .ajax_add_to_cart_button {
-    background: #C41E3A !important;
-    border-color: #C41E3A !important;
-    color: #fff !important;
-}
-
-.christmas-mode .ajax_add_to_cart_button:hover {
-    background: #228B22 !important;
-    border-color: #228B22 !important;
-}
-
-.christmas-mode .content_price .price {
-    color: #C41E3A !important;
-}
-
-.christmas-mode #hotelAmenitiesBlock {
-    background: linear-gradient(135deg, #1C2331 0%, #2C3E50 100%) !important;
-}
-
-.christmas-mode .owl-carousel .owl-nav button {
-    background: #C41E3A !important;
-    color: #fff !important;
-}
-
-.christmas-mode .owl-carousel .owl-dots .owl-dot.active span {
-    background: #C41E3A !important;
-}
-
-/* ============================================
-   HOME PAGE TABS - Room Type Navigation
-   ============================================ */
-#home-page-tabs,
-.home-page-tabs {
-    display: flex !important;
-    justify-content: center !important;
-    flex-wrap: wrap !important;
-    gap: 10px !important;
-    border: none !important;
-    background: transparent !important;
-    margin-bottom: 40px !important;
-    padding: 0 !important;
-}
-
-#home-page-tabs>li,
-.home-page-tabs>li {
-    float: none !important;
-    margin: 0 !important;
-}
-
-#home-page-tabs>li>a,
-.home-page-tabs>li>a {
-    background: #f5f5f5 !important;
-    color: #1C2331 !important;
-    border: 2px solid transparent !important;
-    border-radius: 30px !important;
-    padding: 12px 28px !important;
-    font-weight: 600 !important;
-    font-size: 14px !important;
-    text-transform: none !important;
-    transition: all 0.3s ease !important;
-}
-
-#home-page-tabs>li>a:hover {
-    background: #fff !important;
-    border-color: #C0A062 !important;
-    color: #C0A062 !important;
-}
-
-#home-page-tabs>li.active>a,
-#home-page-tabs>li.active>a:hover,
-#home-page-tabs>li.active>a:focus,
-.home-page-tabs>li.active>a {
-    background: #C0A062 !important;
-    color: #1C2331 !important;
-    border-color: #C0A062 !important;
-    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3) !important;
-}
-
-.tab-content {
-    padding: 0 !important;
-    background: transparent !important;
-}
-
-.tab-pane {
-    padding: 20px 0 !important;
-}
-
-/* ============================================
-   MAIN NAVIGATION OVERRIDES
-   ============================================ */
-.sf-menu,
-#block_top_menu ul.sf-menu {
-    display: flex !important;
-    justify-content: center !important;
-    gap: 5px !important;
-}
-
-.sf-menu>li>a {
-    color: #fff !important;
-    font-weight: 500 !important;
-    font-size: 14px !important;
-    padding: 12px 20px !important;
-    border-radius: 8px !important;
-    transition: all 0.3s ease !important;
-    background: transparent !important;
-}
-
-.sf-menu>li>a:hover,
-.sf-menu>li:hover>a,
-.sf-menu>li.sfHover>a {
-    background: rgba(255, 255, 255, 0.1) !important;
-    color: #C0A062 !important;
-}
-
-/* Dropdown Styling */
-.sf-menu ul,
-.sf-menu .submenu-container,
-.sf-menu li ul {
-    background: #fff !important;
-    border-radius: 12px !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12) !important;
-    border: none !important;
-    padding: 15px 0 !important;
-    min-width: 220px !important;
-}
-
-.sf-menu ul li a,
-.sf-menu .submenu-container a {
-    color: #1C2331 !important;
-    padding: 10px 25px !important;
-    font-size: 14px !important;
-}
-
-.sf-menu ul li a:hover {
-    background: #f9f6f0 !important;
-    color: #C0A062 !important;
-    padding-left: 30px !important;
-}
-
-/* ============================================
-   USER BLOCK & LANGUAGE/CURRENCY
-   ============================================ */
-#user_info_block {
-    display: flex !important;
-    align-items: center !important;
-    gap: 15px !important;
-}
-
-#user_info_block a {
-    color: #fff !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    transition: all 0.3s ease !important;
-}
-
-#user_info_block a:hover {
-    color: #C0A062 !important;
-}
-
-#user_info_block .logout,
-#user_info_block a[title="Log me out"] {
-    opacity: 0.7 !important;
-}
-
-#user_info_block .account,
-#user_info_block a[title="View my customer account"] {
-    background: rgba(192, 160, 98, 0.2) !important;
-    padding: 8px 18px !important;
-    border-radius: 25px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-}
-
-#user_info_block .account:hover {
-    background: #C0A062 !important;
-    color: #1C2331 !important;
-}
-
-/* Language & Currency Selectors */
-#languages-block-top,
-#currencies-block-top {
-    position: relative !important;
-}
-
-#languages-block-top .current,
-#currencies-block-top .current {
-    background: rgba(255, 255, 255, 0.1) !important;
-    padding: 8px 15px !important;
-    border-radius: 8px !important;
-    color: #fff !important;
-    font-size: 13px !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-}
-
-#languages-block-top .current:hover,
-#currencies-block-top .current:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-}
-
-#languages-block-top ul,
-#currencies-block-top ul {
-    background: #fff !important;
-    border-radius: 12px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
-    border: none !important;
-    padding: 10px 0 !important;
-}
-
-#languages-block-top ul li a,
-#currencies-block-top ul li a {
-    color: #1C2331 !important;
-    padding: 10px 20px !important;
-    display: block !important;
-}
-
-#languages-block-top ul li a:hover,
-#currencies-block-top ul li a:hover {
-    background: #f9f6f0 !important;
-    color: #C0A062 !important;
-}
-
-/* ============================================
-   SECTION HEADERS - Universal Styling
-   ============================================ */
-.section-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.section-header h2,
-.home-section-title {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 2.5rem !important;
-    color: #1C2331 !important;
-    font-weight: 600 !important;
-    margin-bottom: 15px !important;
-}
-
-.section-header h2::after,
-.home-section-title::after {
-    content: '' !important;
-    display: block !important;
-    width: 80px !important;
-    height: 3px !important;
-    background: linear-gradient(90deg, #C0A062, #D4B978) !important;
-    margin: 20px auto 0 !important;
-    border-radius: 2px !important;
-}
-
-.section-header p,
-.section-subtitle,
-.home-section-subtitle {
-    font-size: 1.1rem !important;
-    color: #666 !important;
-    max-width: 650px !important;
-    margin: 0 auto !important;
-    line-height: 1.7 !important;
-}
-
-/* ============================================
-   BREADCRUMB STYLING
-   ============================================ */
-.breadcrumb {
-    background: transparent !important;
-    padding: 20px 0 !important;
-    margin: 0 !important;
-}
-
-.breadcrumb a,
-.breadcrumb span {
-    color: #1C2331 !important;
-    font-size: 14px !important;
-}
-
-.breadcrumb a:hover {
-    color: #C0A062 !important;
-}
-
-.breadcrumb .navigation-pipe {
-    margin: 0 10px !important;
-    color: #999 !important;
-}
-
-/* ============================================
-   PAGINATION STYLING
-   ============================================ */
-.pagination {
-    display: flex !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    margin: 40px 0 !important;
-}
-
-.pagination li {
-    list-style: none !important;
-}
-
-.pagination li a,
-.pagination li span {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 45px !important;
-    height: 45px !important;
-    background: #fff !important;
-    border: 2px solid #e8e8e8 !important;
-    border-radius: 12px !important;
-    color: #1C2331 !important;
-    font-weight: 600 !important;
-    transition: all 0.3s ease !important;
-}
-
-.pagination li a:hover,
-.pagination li.active span,
-.pagination li.active a {
-    background: #C0A062 !important;
-    border-color: #C0A062 !important;
-    color: #1C2331 !important;
-}
-
-/* ============================================
-   ALERT & MESSAGE STYLING
-   ============================================ */
-.alert {
-    border-radius: 12px !important;
-    border: none !important;
-    padding: 18px 25px !important;
-    font-weight: 500 !important;
-}
-
-.alert-success {
-    background: rgba(64, 181, 173, 0.15) !important;
-    color: #0D4F5F !important;
-}
-
-.alert-danger,
-.alert-error {
-    background: rgba(232, 96, 76, 0.15) !important;
-    color: #C0392B !important;
-}
-
-.alert-warning {
-    background: rgba(192, 160, 98, 0.15) !important;
-    color: #8B6914 !important;
-}
-
-.alert-info {
-    background: rgba(64, 181, 173, 0.15) !important;
-    color: #0D4F5F !important;
-}
-
-/* ============================================
-   FORM OVERRIDES - Global
-   ============================================ */
-.form-control {
-    border: 2px solid #e8e8e8 !important;
-    border-radius: 12px !important;
-    padding: 14px 20px !important;
-    font-size: 15px !important;
-    color: #1C2331 !important;
-    height: auto !important;
-    min-height: 52px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: none !important;
-}
-
-.form-control:focus {
-    border-color: #C0A062 !important;
-    box-shadow: 0 0 0 4px rgba(192, 160, 98, 0.1) !important;
-    outline: none !important;
-}
-
-.form-control::placeholder {
-    color: #999 !important;
-}
-
-textarea.form-control {
-    min-height: 120px !important;
-}
-
-/* Labels */
-label {
-    color: #1C2331 !important;
-    font-weight: 600 !important;
-    margin-bottom: 8px !important;
-    font-size: 14px !important;
-}
-
-/* ============================================
-   MODAL OVERRIDES
-   ============================================ */
-.modal-content {
-    border-radius: 20px !important;
-    border: none !important;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2) !important;
-}
-
-.modal-header {
-    background: #1C2331 !important;
-    border-radius: 20px 20px 0 0 !important;
-    padding: 25px 30px !important;
-}
-
-.modal-header .modal-title,
-.modal-header h4 {
-    color: #fff !important;
-    font-family: 'Playfair Display', serif !important;
-    font-size: 1.5rem !important;
-}
-
-.modal-header .close {
-    color: #fff !important;
-    opacity: 0.8 !important;
-}
-
-.modal-body {
-    padding: 30px !important;
-}
-
-.modal-footer {
-    padding: 20px 30px !important;
-    border-top: 1px solid #f0f0f0 !important;
-}
-
-/* ============================================
-   DATEPICKER OVERRIDES
-   ============================================ */
-.daterangepicker,
-.datepicker {
-    border-radius: 16px !important;
-    border: none !important;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15) !important;
-    padding: 20px !important;
-    font-family: 'Lato', sans-serif !important;
-}
-
-.daterangepicker .calendar-table {
-    border: none !important;
-    background: transparent !important;
-}
-
-.daterangepicker td.active,
-.daterangepicker td.active:hover,
-.datepicker table tr td.active,
-.datepicker table tr td span.active {
-    background: #C0A062 !important;
-    color: #1C2331 !important;
-    border-radius: 8px !important;
-}
-
-.daterangepicker td.in-range {
-    background: rgba(192, 160, 98, 0.15) !important;
-}
-
-.daterangepicker .btn-primary,
-.daterangepicker .applyBtn {
-    background: #C0A062 !important;
-    border: none !important;
-    color: #1C2331 !important;
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-}
-
-.daterangepicker .drp-buttons .cancelBtn {
-    background: #f5f5f5 !important;
-    border: none !important;
-    border-radius: 10px !important;
-}
-
-/* ============================================
-   PRICE DISPLAY OVERRIDES
-   ============================================ */
-.price,
-.product-price {
-    font-size: 1.5rem !important;
-    font-weight: 700 !important;
-    color: #C0A062 !important;
-}
-
-.price-per-night {
-    font-size: 0.875rem !important;
-    color: #999 !important;
-    font-weight: 400 !important;
-}
-
-/* ============================================
-   AVAILABILITY BADGE OVERRIDES
-   ============================================ */
-.available,
-.in-stock {
-    background: rgba(64, 181, 173, 0.15) !important;
-    color: #0D4F5F !important;
-    padding: 5px 12px !important;
-    border-radius: 20px !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-}
-
-.unavailable,
-.out-of-stock {
-    background: rgba(232, 96, 76, 0.15) !important;
-    color: #C0392B !important;
-    padding: 5px 12px !important;
-    border-radius: 20px !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
+    z-index: 2147483647 !important;
+    margin-top: 10px !important;
 }
