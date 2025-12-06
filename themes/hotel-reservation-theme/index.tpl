@@ -91,45 +91,43 @@
 	</div>
 </section>
 
-{* 2. Christmas Promotional Banner (Inline Styles for Visibility Guarantee) *}
-<section class="christmas-promo-banner" style="background: linear-gradient(135deg, #0B1120 0%, #2C0B0E 100%); color: #ffffff; padding: 80px 20px; border-radius: 20px; margin: 60px 0; overflow: hidden; position: relative; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
-    <div class="promo-content-wrapper">
-        <div class="promo-header">
-            <span class="promo-badge" style="display:inline-block; background:rgba(201, 169, 110, 0.15); color:#C9A96E; padding:8px 16px; border-radius:50px; font-weight:bold; text-transform:uppercase; border:1px solid rgba(201, 169, 110, 0.3); margin-bottom:20px;">🎄 {l s='Holiday Special'}</span>
-            <h2 class="promo-title" style="font-family:'Playfair Display', serif; font-size:3.5rem; color:white; margin-bottom:20px; text-shadow:0 2px 10px rgba(0,0,0,0.3);">{l s='Celebrate Christmas at Prestige Hotel'}</h2>
-            <p class="promo-subtitle" style="font-size:1.2rem; color:rgba(255,255,255,0.8); max-width:700px; margin:0 auto; line-height:1.6;">{l s="Experience Cape Coast's premier luxury accommodation this festive season. Enjoy our warm hospitality and modern comforts."}</p>
+{* 2. Holiday Feature Section (Neutral Class Names) *}
+<div class="seasonal-highlight-box" style="display: block !important; background-color: #1C2331; background: linear-gradient(135deg, #0B1120 0%, #2C0B0E 100%); color: #ffffff; padding: 80px 20px; border-radius: 20px; margin: 60px 0; overflow: hidden; position: relative; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2);">
+    <div class="sh-content-wrapper">
+        <div class="sh-header">
+            <span class="sh-badge" style="display:inline-block; background:rgba(201, 169, 110, 0.15); color:#C9A96E; padding:8px 16px; border-radius:50px; font-weight:bold; text-transform:uppercase; border:1px solid rgba(201, 169, 110, 0.3); margin-bottom:20px;">🎄 {l s='Holiday Special'}</span>
+            <h2 class="sh-title" style="font-family:'Playfair Display', serif; font-size:3.5rem; color:white; margin-bottom:20px; text-shadow:0 2px 10px rgba(0,0,0,0.3);">{l s='Celebrate Christmas at Prestige Hotel'}</h2>
+            <p class="sh-subtitle" style="font-size:1.2rem; color:rgba(255,255,255,0.8); max-width:700px; margin:0 auto; line-height:1.6;">{l s='Experience Cape Coast premier luxury accommodation this festive season.'}</p>
         </div>
         
-        <div class="promo-features-grid" style="margin: 50px 0;">
-            <div class="promo-feature">
+        <div class="sh-features-grid" style="margin: 50px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <div class="sh-feature">
                 <div class="feature-icon-circle"><i class="icon-coffee"></i></div>
                 <h4>{l s='Complimentary Breakfast'}</h4>
                 <p>{l s='Start your day with our delicious festive spread'}</p>
             </div>
-            <div class="promo-feature">
+            <div class="sh-feature">
                 <div class="feature-icon-circle"><i class="icon-food"></i></div>
                 <h4>{l s='Fine Dining Restaurant'}</h4>
                 <p>{l s='Savor exquisite local and international cuisine'}</p>
             </div>
-            <div class="promo-feature">
+            <div class="sh-feature">
                 <div class="feature-icon-circle"><i class="icon-star"></i></div>
                 <h4>{l s='Luxurious Comfort'}</h4>
                 <p>{l s='AC, High-speed WiFi, and 24/7 Concierge'}</p>
             </div>
-            <div class="promo-feature">
+            <div class="sh-feature">
                 <div class="feature-icon-circle"><i class="icon-map-marker"></i></div>
                 <h4>{l s='Prime Location'}</h4>
                 <p>{l s='Minutes away from Cape Coast Castle & Kakum Park'}</p>
             </div>
         </div>
 
-        <div class="promo-cta-container">
-            <a href="#hotelRoomsBlock" class="btn-promo-cta" style="display:inline-block; background:#C9A96E; color:#1C2331; font-weight:bold; padding:18px 40px; border-radius:50px; font-size:16px; text-decoration:none; box-shadow:0 10px 30px rgba(201, 169, 110, 0.3);">{l s='Book Your Holiday Stay'}</a>
+        <div class="sh-cta-container">
+            <a href="#hotelRoomsBlock" class="btn-sh-cta" style="display:inline-block; background:#C9A96E; color:#1C2331; font-weight:bold; padding:18px 40px; border-radius:50px; font-size:16px; text-decoration:none; box-shadow:0 10px 30px rgba(201, 169, 110, 0.3);">{l s='Book Your Holiday Stay'}</a>
         </div>
     </div>
-    {* Subtle Snow Effect *}
-    <div class="snow-overlay"></div>
-</section>
+</div>
 
 {* 3. Curated Experiences (Hooks for Blog/Other) *}
 <section class="experiences-section py-80">
