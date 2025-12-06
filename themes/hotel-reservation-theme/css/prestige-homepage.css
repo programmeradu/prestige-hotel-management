@@ -7,17 +7,27 @@
 /* ============================================
    GLOBAL OVERFLOW FIX
    ============================================ */
-html,
+html {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 body {
     overflow-x: hidden !important;
     max-width: 100% !important;
     width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
 }
 
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+    box-sizing: border-box !important;
 }
 
 .container,
@@ -25,9 +35,19 @@ body {
 #page,
 .header-container,
 .columns-container,
-.footer-container {
-    max-width: 100%;
-    overflow-x: hidden;
+.footer-container,
+#header,
+header,
+.hero-section {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+/* Fix any element using 100vw which causes overflow due to scrollbar */
+.header-rmsearch-wrapper {
+    max-width: calc(100vw - 40px) !important;
+    width: auto !important;
+    height: auto !important;
 }
 
 /* ============================================

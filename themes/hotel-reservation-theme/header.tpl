@@ -59,11 +59,6 @@
 			{/foreach}
 		{/if}
 		
-		{* Prestige Hotel Custom Theme CSS - Loaded AFTER all module CSS to override *}
-		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
-		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
-		<link rel="stylesheet" href="{$css_dir}prestige-modules.css" type="text/css" media="all" />
-		
 		{if isset($js_defer) && !$js_defer && isset($js_files) && isset($js_def)}
 			{$js_def}
 			{foreach from=$js_files item=js_uri}
@@ -73,6 +68,11 @@
 		{block name='displayHeader'}
 			{$HOOK_HEADER}
 		{/block}
+		
+		{* Prestige Hotel Custom Theme CSS - Loaded AFTER all module CSS to override *}
+		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}prestige-modules.css" type="text/css" media="all" />
 		<!-- <link rel="stylesheet" href="http{if Tools::usingSecureMode()}s{/if}://fonts.googleapis.com/css?family=Open+Sans:300,600&amp;subset=latin,latin-ext" type="text/css" media="all" /> -->
 
 		<!--[if IE 8]>
