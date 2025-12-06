@@ -92,7 +92,7 @@
 </section>
 
 {* 2. Christmas Promotional Banner (Standard Container) *}
-<section class="christmas-promo-section">
+<section class="christmas-promo-banner">
     <div class="promo-content-wrapper">
         <div class="promo-header">
             <span class="promo-badge">🎄 {l s='Holiday Special'}</span>
