@@ -1369,3 +1369,157 @@ body:not(#index) .breadcrumb {
     margin-top: 10px !important;
     margin-bottom: 20px !important;
 }
+
+/* ============================================
+   NEW FOOTER STYLES
+   ============================================ */
+.footer-main {
+  background: #1a2332; /* Dark navy */
+  color: #ffffff;
+  font-size: 14px;
+}
+
+/* Footer Top - 4 Column Grid */
+.footer-top {
+  padding: 60px 0 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+/* Column Headings */
+.footer-column h4 {
+  color: #C9A96E; /* Gold accent */
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-column h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: #C9A96E;
+}
+
+/* Links Styling */
+.footer-links, .footer-blog, .contact-info {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.footer-links li,
+.footer-blog li {
+  margin-bottom: 12px;
+}
+
+.footer-links a,
+.footer-blog a {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover,
+.footer-blog a:hover {
+  color: #C9A96E;
+}
+
+/* Contact Info */
+.contact-info li {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  color: #d1d5db;
+}
+
+.contact-info i {
+    color: #C9A96E;
+    width: 20px;
+    text-align: center;
+}
+
+/* Footer Middle - Payment & Social */
+.footer-middle {
+  padding: 30px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-payment-social {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-methods img {
+  height: 30px;
+  margin: 0 8px;
+}
+
+.payment-methods i {
+    color: #fff;
+    opacity: 0.7;
+}
+
+.social-media a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  margin: 0 5px;
+  color: #ffffff;
+  transition: all 0.3s;
+}
+
+.social-media a:hover {
+  background: #C9A96E;
+  border-color: #C9A96E;
+}
+
+/* Footer Bottom - Copyright */
+.footer-bottom {
+  padding: 20px 0;
+  background: #0f1419; /* Darker shade */
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-payment-social {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+}
