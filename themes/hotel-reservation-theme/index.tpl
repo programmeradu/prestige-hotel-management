@@ -53,9 +53,9 @@
                 {/if}
 
                 {if $has_image}
-                    {assign var='image_link' value=$link->getImageLink($room.link_rewrite, $image_id, 'home_default')}
+                    {assign var='image_link' value=$link->getImageLink($room.link_rewrite, $image_id, 'thickbox_default')}
                 {else}
-                    {assign var='image_link' value="https://via.placeholder.com/400x300/1a2332/C9A96E?text=No+Image"}
+                    {assign var='image_link' value="https://via.placeholder.com/800x600/1a2332/C9A96E?text=No+Image"}
                 {/if}
 
                 <div class="room-card">
@@ -63,16 +63,18 @@
                         <a href="{$room.link|escape:'html':'UTF-8'}">
                             <img src="{$image_link}" alt="{$room.name|escape:'html':'UTF-8'}" loading="lazy">
                         </a>
+                        <div class="room-info-overlay">
+                            <h3 class="room-name">
+                                <a href="{$room.link|escape:'html':'UTF-8'}">{$room.name|escape:'html':'UTF-8'}</a>
+                            </h3>
+                            <div class="room-price">
+                                {assign var='price_tax_incl' value=Product::getPriceStatic($room.id_product, true)}
+                                <span class="price-amount">{convertPrice price=$price_tax_incl}</span>
+                                <span class="price-period">/ {l s='Per Night'}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="room-content">
-                        <h3 class="room-name">
-                            <a href="{$room.link|escape:'html':'UTF-8'}">{$room.name|escape:'html':'UTF-8'}</a>
-                        </h3>
-                        <div class="room-price">
-                            {assign var='price_tax_incl' value=Product::getPriceStatic($room.id_product, true)}
-                            <span class="price-amount">{convertPrice price=$price_tax_incl}</span>
-                            <span class="price-period">/ {l s='Per Night'}</span>
-                        </div>
                         <p class="room-description">
                             {$room.description_short|strip_tags:'UTF-8'|truncate:80:'...'}
                         </p>
@@ -89,57 +91,46 @@
 	</div>
 </section>
 
-{* 2. World-Class Amenities Section *}
-<section class="hotel-features-section">
-	<div class="container">
-		<div class="section-header">
-			<h2 class="home-section-title">World-Class Amenities & Services</h2>
-			<p class="section-subtitle">Relax in the comfort of our rooms. With modern amenities, serene décor, and stunning lake or any views, each room offers a peaceful retreat for your stay.</p>
-		</div>
-		
-		<span class="decor-dot coral" style="top: 20%; left: 5%;"></span>
-		<span class="decor-dot gold" style="top: 40%; right: 8%;"></span>
-		<span class="decor-dot teal" style="bottom: 30%; left: 15%;"></span>
-		<span class="decor-dot purple" style="bottom: 20%; right: 12%;"></span>
-		
-		<div class="row">
-			<div class="col-md-4 col-sm-6">
-				<div class="feature-item">
-					<div class="feature-icon"><i class="icon-food"></i></div>
-					<h4 class="feature-title">Fine Dining</h4>
-					<p class="feature-description">Enjoy our award-winning restaurant offering fine dining and catering services for travelers and visitors.</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6">
-				<div class="feature-item featured">
-					<div class="feature-icon"><i class="icon-tint"></i></div>
-					<h4 class="feature-title">Infinity Pool</h4>
-					<p class="feature-description">Start your night right overlooking our panoramic pool, infinity pool convenience and infinity foot.</p>
-				</div>
-			</div>
-			<div class="col-md-4 col-sm-6">
-				<div class="feature-item">
-					<div class="feature-icon"><i class="icon-heart"></i></div>
-					<h4 class="feature-title">Spa & Wellness</h4>
-					<p class="feature-description">Spa & Vees breakfast routine cornered wellness, and healthy medium consultations, and meals.</p>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="feature-item">
-					<div class="feature-icon"><i class="icon-user"></i></div>
-					<h4 class="feature-title">Concierge</h4>
-					<p class="feature-description">Concierge for your attention, crew any and hotel our concierge service at your disposal 24/7.</p>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<div class="feature-item">
-					<div class="feature-icon"><i class="icon-sun"></i></div>
-					<h4 class="feature-title">Private Beach Access</h4>
-					<p class="feature-description">Experience managed to contest for each room, access to your rooms, and pristine beach access.</p>
-				</div>
-			</div>
-		</div>
-	</div>
+{* 2. Christmas Promotional Banner (Replaces Amenities) *}
+<section class="christmas-promo-section">
+    <div class="container">
+        <div class="promo-content-wrapper">
+            <div class="promo-header">
+                <span class="promo-badge">🎄 {l s='Holiday Special'}</span>
+                <h2 class="promo-title">{l s='Celebrate Christmas at Prestige Hotel'}</h2>
+                <p class="promo-subtitle">{l s="Experience Cape Coast's premier luxury accommodation this festive season. Enjoy our warm hospitality and modern comforts."}</p>
+            </div>
+            
+            <div class="promo-features-grid">
+                <div class="promo-feature">
+                    <div class="feature-icon-circle"><i class="icon-coffee"></i></div>
+                    <h4>{l s='Complimentary Breakfast'}</h4>
+                    <p>{l s='Start your day with our delicious festive spread'}</p>
+                </div>
+                <div class="promo-feature">
+                    <div class="feature-icon-circle"><i class="icon-food"></i></div>
+                    <h4>{l s='Fine Dining Restaurant'}</h4>
+                    <p>{l s='Savor exquisite local and international cuisine'}</p>
+                </div>
+                <div class="promo-feature">
+                    <div class="feature-icon-circle"><i class="icon-star"></i></div>
+                    <h4>{l s='Luxurious Comfort'}</h4>
+                    <p>{l s='AC, High-speed WiFi, and 24/7 Concierge'}</p>
+                </div>
+                <div class="promo-feature">
+                    <div class="feature-icon-circle"><i class="icon-map-marker"></i></div>
+                    <h4>{l s='Prime Location'}</h4>
+                    <p>{l s='Minutes away from Cape Coast Castle & Kakum Park'}</p>
+                </div>
+            </div>
+
+            <div class="promo-cta-container">
+                <a href="#hotelRoomsBlock" class="btn-promo-cta">{l s='Book Your Holiday Stay'}</a>
+            </div>
+        </div>
+    </div>
+    {* Subtle Snow Effect *}
+    <div class="snow-overlay"></div>
 </section>
 
 {* 3. Curated Experiences (Hooks for Blog/Other) *}
