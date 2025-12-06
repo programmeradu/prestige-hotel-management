@@ -593,11 +593,14 @@ header,
 .christmas-promo-section {
     width: 100%;
     position: relative;
-    padding: 100px 0;
+    padding: 80px 40px;
+    margin: 60px 0;
+    border-radius: 20px;
     background: linear-gradient(135deg, #0B1120 0%, #2C0B0E 100%);
     color: #ffffff;
     overflow: hidden;
     text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
 }
 
 .promo-content-wrapper {
@@ -1238,7 +1241,7 @@ header,
 }
 .btn-book-now {
     display: block;
-    background: #C9A96E;
+    background: #1a2332; /* Footer Color */
     color: #ffffff;
     padding: 10px 20px;
     border-radius: 6px;
@@ -1251,10 +1254,10 @@ header,
     border: 1px solid transparent;
 }
 .btn-book-now:hover {
-    background: #1C2331;
+    background: #C9A96E; /* Gold on hover */
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(28, 35, 49, 0.3);
+    box-shadow: 0 5px 15px rgba(201, 169, 110, 0.3);
 }
 
 /* Hide Duplicate Rooms Block in Hook */

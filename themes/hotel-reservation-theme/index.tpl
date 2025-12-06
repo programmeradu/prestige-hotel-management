@@ -91,11 +91,7 @@
 	</div>
 </section>
 
-{* 2. Christmas Promotional Banner (Full Width) *}
-</div><!-- Close center_column -->
-</div><!-- Close row -->
-</div><!-- Close columns container -->
-
+{* 2. Christmas Promotional Banner (Standard Container) *}
 <section class="christmas-promo-section">
     <div class="promo-content-wrapper">
         <div class="promo-header">
@@ -134,10 +130,6 @@
     {* Subtle Snow Effect *}
     <div class="snow-overlay"></div>
 </section>
-
-<div id="columns" class="container">
-<div class="row">
-<div id="center_column" class="center_column col-xs-12 col-sm-12">
 
 {* 3. Curated Experiences (Hooks for Blog/Other) *}
 <section class="experiences-section py-80">
