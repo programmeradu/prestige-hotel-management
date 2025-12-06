@@ -30,11 +30,19 @@
 	{/if}
 		{block name='blockcart_shopping_cart'}
 			<div class="shopping_cart">
-				<a href="{$link->getPageLink($order_process, true)|escape:'html':'UTF-8'}" title="{l s='View my booking cart' mod='blockcart'}" rel="nofollow">
-					<!-- <b>{l s='Cart' mod='blockcart'}</b> -->
+				<a href="{$link->getPageLink($order_process, true)|escape:'html':'UTF-8'}" title="{l s='View my booking cart' mod='blockcart'}" rel="nofollow" class="cart-link">
+					<span class="cart-icon">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M6.2 6h14.1l-1.1 7.2a1.5 1.5 0 0 1-1.5 1.3H9.1a1.5 1.5 0 0 1-1.5-1.3L6.2 6Z" stroke="#FFFFFF" stroke-width="1.6" stroke-linejoin="round"/>
+							<path d="M6 6 5.2 3.8A1 1 0 0 0 4.2 3H2" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+							<circle cx="10" cy="19.5" r="1.5" fill="#FFFFFF"/>
+							<circle cx="17" cy="19.5" r="1.5" fill="#FFFFFF"/>
+						</svg>
+					</span>
+					
 					<span class="badge badge_style ajax_cart_quantity{if $cart_qties == 0} unvisible{/if}">{$total_products_in_cart}</span>
-					<!-- <span class="ajax_cart_product_txt{if $cart_qties != 1} unvisible{/if}">{l s='Rooms' mod='blockcart'}</span> -->
-					<!-- <span class="ajax_cart_product_txt_s{if $cart_qties < 2} unvisible{/if}">{l s='Rooms' mod='blockcart'}</span> -->
+					<span class="badge badge_style ajax_cart_no_product{if $cart_qties > 0} unvisible{/if}">0</span>
+					
 					<span class="ajax_cart_total{if $cart_qties == 0} unvisible{/if}">
 						{if $cart_qties > 0}
 							{if $priceDisplay == 1}
@@ -46,7 +54,7 @@
 							{/if}
 						{/if}
 					</span>
-					<span class="badge badge_style ajax_cart_no_product{if $cart_qties > 0} unvisible{/if}">0</span>
+					
 					{if $ajax_allowed && isset($blockcart_top) && !$blockcart_top}
 						<span class="block_cart_expand{if !isset($colapseExpandStatus) || (isset($colapseExpandStatus) && $colapseExpandStatus eq 'expanded')} unvisible{/if}">&nbsp;</span>
 						<span class="block_cart_collapse{if isset($colapseExpandStatus) && $colapseExpandStatus eq 'collapsed'} unvisible{/if}">&nbsp;</span>

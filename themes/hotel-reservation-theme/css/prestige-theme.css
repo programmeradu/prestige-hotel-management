@@ -225,53 +225,62 @@ a:hover {
     transform: translateY(-2px);
 }
 
-/* Cart Icon */
-.shopping_cart>a {
+/* Cart Icon Wrapper */
+.shopping_cart > .cart-link {
     color: var(--text-white);
     font-size: 18px;
     position: relative;
-    padding-right: 26px; /* room for badge */
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    padding: 8px !important;
+    background: transparent !important; /* override blockcart bg */
+    text-decoration: none !important;
 }
 
-/* Replace cart icon with custom SVG */
-.shopping_cart>a::before {
-    content: '';
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    margin-right: 8px;
+/* Cart Icon SVG */
+.cart-icon svg {
+    width: 22px;
+    height: 22px;
     vertical-align: middle;
-    background: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.2 6h14.1l-1.1 7.2a1.5 1.5 0 0 1-1.5 1.3H9.1a1.5 1.5 0 0 1-1.5-1.3L6.2 6Z' stroke='%23FFFFFF' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M6 6 5.2 3.8A1 1 0 0 0 4.2 3H2' stroke='%23FFFFFF' stroke-width='1.6' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='19.5' r='1.5' fill='%23FFFFFF'/%3E%3Ccircle cx='17' cy='19.5' r='1.5' fill='%23FFFFFF'/%3E%3C/svg%3E") no-repeat center;
-    background-size: contain;
+    display: block;
 }
 
-/* Hide legacy font icons to avoid double cart */
-.shopping_cart>a i,
-.shopping_cart>a .icon,
-.shopping_cart>a .fa {
+/* Remove default theme cart icon via CSS just in case */
+.shopping_cart > .cart-link:before,
+.shopping_cart > .cart-link:after {
     display: none !important;
-    background-size: contain;
+    content: none !important;
 }
 
-/* Cart badge: position and fit */
+/* Hide legacy expand/collapse arrows but keep DOM for JS */
+.block_cart_expand,
+.block_cart_collapse {
+    display: none !important;
+}
+
+/* Cart badge: Small & Round */
 .shopping_cart .badge_style,
 .shopping_cart .ajax_cart_quantity,
 .shopping_cart .ajax_cart_no_product {
     position: absolute !important;
-    top: -6px !important;
-    right: -4px !important;
+    top: 0 !important;
+    right: 0 !important;
     min-width: 16px !important;
+    width: 16px !important;
     height: 16px !important;
-    padding: 0 4px !important;
+    padding: 0 !important;
     line-height: 16px !important;
-    font-size: 10px !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     white-space: nowrap !important;
+    border-radius: 50% !important;
+    background: #C0A062 !important;
+    color: #1C2331 !important;
+    z-index: 10;
 }
 
 .shopping_cart .cart_block {
