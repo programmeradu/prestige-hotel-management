@@ -103,6 +103,7 @@
     width: 100% !important;
     height: auto !important;
     box-sizing: border-box !important;
+    overflow: visible !important; /* allow pickers to overflow */
 }
 
 .header-rmsearch-primary {
@@ -123,9 +124,10 @@
 .header-rmsearch-inner-wrapper {
     display: flex !important;
     align-items: center !important;
-    gap: 12px !important;
+    gap: 18px !important;
     margin: 0 !important;
     padding: 0 !important;
+    width: 100% !important;
 }
 
 /* Search Form Grid */
@@ -133,14 +135,15 @@
     display: flex !important;
     align-items: center !important;
     width: 100% !important;
-    gap: 14px !important;
+    gap: 18px !important;
 }
 
 #search_hotel_block_form .grid {
     display: flex !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 14px !important;
+    justify-content: space-between !important;
+    gap: 18px !important;
     width: 100% !important;
 }
 
@@ -195,6 +198,11 @@
     align-items: center !important;
 }
 
+/* Date picker should appear above the translucent card */
+.date-picker-wrapper {
+    z-index: 9999 !important;
+}
+
 /* Book Button - Compact */
 #search_room_submit,
 #search_hotel_block_form button[type="submit"],
@@ -207,7 +215,7 @@
     padding: 0 32px !important;
     height: 50px !important;
     border-radius: 28px !important;
-    min-width: 160px !important;
+    min-width: 170px !important;
     transition: all 0.3s ease !important;
     text-transform: none !important;
     box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3) !important;
