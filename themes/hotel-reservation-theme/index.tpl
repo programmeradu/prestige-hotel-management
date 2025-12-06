@@ -91,47 +91,53 @@
 	</div>
 </section>
 
-{* 2. Christmas Promotional Banner (Replaces Amenities) *}
-<section class="christmas-promo-section">
-    <div class="container">
-        <div class="promo-content-wrapper">
-            <div class="promo-header">
-                <span class="promo-badge">🎄 {l s='Holiday Special'}</span>
-                <h2 class="promo-title">{l s='Celebrate Christmas at Prestige Hotel'}</h2>
-                <p class="promo-subtitle">{l s="Experience Cape Coast's premier luxury accommodation this festive season. Enjoy our warm hospitality and modern comforts."}</p>
-            </div>
-            
-            <div class="promo-features-grid">
-                <div class="promo-feature">
-                    <div class="feature-icon-circle"><i class="icon-coffee"></i></div>
-                    <h4>{l s='Complimentary Breakfast'}</h4>
-                    <p>{l s='Start your day with our delicious festive spread'}</p>
-                </div>
-                <div class="promo-feature">
-                    <div class="feature-icon-circle"><i class="icon-food"></i></div>
-                    <h4>{l s='Fine Dining Restaurant'}</h4>
-                    <p>{l s='Savor exquisite local and international cuisine'}</p>
-                </div>
-                <div class="promo-feature">
-                    <div class="feature-icon-circle"><i class="icon-star"></i></div>
-                    <h4>{l s='Luxurious Comfort'}</h4>
-                    <p>{l s='AC, High-speed WiFi, and 24/7 Concierge'}</p>
-                </div>
-                <div class="promo-feature">
-                    <div class="feature-icon-circle"><i class="icon-map-marker"></i></div>
-                    <h4>{l s='Prime Location'}</h4>
-                    <p>{l s='Minutes away from Cape Coast Castle & Kakum Park'}</p>
-                </div>
-            </div>
+{* 2. Christmas Promotional Banner (Full Width) *}
+</div><!-- Close center_column -->
+</div><!-- Close row -->
+</div><!-- Close columns container -->
 
-            <div class="promo-cta-container">
-                <a href="#hotelRoomsBlock" class="btn-promo-cta">{l s='Book Your Holiday Stay'}</a>
+<section class="christmas-promo-section">
+    <div class="promo-content-wrapper">
+        <div class="promo-header">
+            <span class="promo-badge">🎄 {l s='Holiday Special'}</span>
+            <h2 class="promo-title">{l s='Celebrate Christmas at Prestige Hotel'}</h2>
+            <p class="promo-subtitle">{l s="Experience Cape Coast's premier luxury accommodation this festive season. Enjoy our warm hospitality and modern comforts."}</p>
+        </div>
+        
+        <div class="promo-features-grid">
+            <div class="promo-feature">
+                <div class="feature-icon-circle"><i class="icon-coffee"></i></div>
+                <h4>{l s='Complimentary Breakfast'}</h4>
+                <p>{l s='Start your day with our delicious festive spread'}</p>
             </div>
+            <div class="promo-feature">
+                <div class="feature-icon-circle"><i class="icon-food"></i></div>
+                <h4>{l s='Fine Dining Restaurant'}</h4>
+                <p>{l s='Savor exquisite local and international cuisine'}</p>
+            </div>
+            <div class="promo-feature">
+                <div class="feature-icon-circle"><i class="icon-star"></i></div>
+                <h4>{l s='Luxurious Comfort'}</h4>
+                <p>{l s='AC, High-speed WiFi, and 24/7 Concierge'}</p>
+            </div>
+            <div class="promo-feature">
+                <div class="feature-icon-circle"><i class="icon-map-marker"></i></div>
+                <h4>{l s='Prime Location'}</h4>
+                <p>{l s='Minutes away from Cape Coast Castle & Kakum Park'}</p>
+            </div>
+        </div>
+
+        <div class="promo-cta-container">
+            <a href="#hotelRoomsBlock" class="btn-promo-cta">{l s='Book Your Holiday Stay'}</a>
         </div>
     </div>
     {* Subtle Snow Effect *}
     <div class="snow-overlay"></div>
 </section>
+
+<div id="columns" class="container">
+<div class="row">
+<div id="center_column" class="center_column col-xs-12 col-sm-12">
 
 {* 3. Curated Experiences (Hooks for Blog/Other) *}
 <section class="experiences-section py-80">

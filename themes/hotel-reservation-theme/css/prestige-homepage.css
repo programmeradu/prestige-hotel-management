@@ -591,12 +591,8 @@ header,
    CHRISTMAS PROMO BANNER (Replaces Amenities)
    ============================================ */
 .christmas-promo-section {
-    width: 100vw;
+    width: 100%;
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
     padding: 100px 0;
     background: linear-gradient(135deg, #0B1120 0%, #2C0B0E 100%);
     color: #ffffff;
@@ -1137,13 +1133,13 @@ header,
 /* Room Cards Grid - Premium Overlay Design */
 .room-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
     margin-top: 40px;
 }
 .room-card {
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -1152,13 +1148,13 @@ header,
     height: 100%;
 }
 .room-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
 }
 .room-image {
     position: relative;
     overflow: hidden;
-    height: 300px;
+    height: 220px;
     width: 100%;
 }
 .room-image img {
@@ -1187,14 +1183,14 @@ header,
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 25px;
+    padding: 15px 20px;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 3px;
 }
 .room-name {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     margin: 0;
     color: #ffffff;
@@ -1208,21 +1204,21 @@ header,
 .room-price {
     display: flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 5px;
 }
 .price-amount {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: #C9A96E;
     text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 .price-period {
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.9);
     font-weight: 400;
 }
 .room-content {
-    padding: 20px 25px 25px;
+    padding: 15px 20px 20px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -1231,34 +1227,34 @@ header,
 }
 .room-description {
     color: #4b5563;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 15px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 44px;
+    height: 39px;
 }
 .btn-book-now {
     display: block;
-    background: #1C2331;
+    background: #C9A96E;
     color: #ffffff;
-    padding: 14px 20px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     transition: all 0.3s ease;
     text-align: center;
     width: 100%;
     border: 1px solid transparent;
 }
 .btn-book-now:hover {
-    background: #C9A96E;
+    background: #1C2331;
     color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(201, 169, 110, 0.3);
+    box-shadow: 0 5px 15px rgba(28, 35, 49, 0.3);
 }
 
 /* Hide Duplicate Rooms Block in Hook */
