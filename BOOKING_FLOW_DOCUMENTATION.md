@@ -249,3 +249,4 @@ This document describes the complete booking flow from room selection to order c
 - All hotel-specific data is stored in custom tables, not standard PrestaShop tables
 
 
+

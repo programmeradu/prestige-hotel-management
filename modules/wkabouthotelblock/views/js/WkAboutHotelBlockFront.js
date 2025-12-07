@@ -109,6 +109,49 @@ $(document).ready(function(){
     });
 });
 
+    if (images.length > 1) {
+        setInterval(function() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateFeatured(currentIndex);
+        }, 4000);
+    }
+
+    function updateFeatured(index) {
+        const img = images[index];
+        if (!img) return;
+        
+        // Fade out
+        featured.css('opacity', '0.5');
+        
+        setTimeout(function() {
+            // Update background and link
+            featured.css('background-image', 'url("' + img.src + '")');
+            featured.find('a').attr('href', img.href).attr('title', img.title);
+            
+            // Fade in
+            featured.css('opacity', '1');
+            
+            // Highlight active thumbnail (optional)
+            items.removeClass('active-thumb');
+            if (index > 0) { // 0 is the original featured, so subsequent ones match grid items
+                items.eq(index - 1).addClass('active-thumb');
+            }
+        }, 400);
+    }
+
+    // Optional: Click on thumbnail to set as featured
+    items.on('click', function(e) {
+        e.preventDefault();
+        // Find index in our images array
+        let href = $(this).find('a').attr('href');
+        let idx = images.findIndex(img => img.href === href);
+        if (idx !== -1) {
+            currentIndex = idx;
+            updateFeatured(currentIndex);
+        }
+    });
+});
+
 
     // Pause on hover
     $('.premium-gallery-container').hover(
