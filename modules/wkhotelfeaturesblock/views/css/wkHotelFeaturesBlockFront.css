@@ -17,165 +17,190 @@
 *  @license   https://store.webkul.com/license.html
 */
 
-/* Wrapper fixes */
+/* --- Reset & Wrapper Fixes --- */
 .home_amenities_wrapper {
     position: relative;
     width: 100%;
-    height: auto !important; /* Override JS height calculation */
-    min-height: auto !important;
-    overflow: visible !important; /* Prevent internal scrollbar */
-    margin-bottom: 40px;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    margin-bottom: 0;
     display: block !important;
 }
 
 .homeAmenitiesBlock {
-  position: relative !important; /* Changed from absolute */
-  z-index: 10;
-  width: 100%;
-  height: auto !important;
-  top: 0 !important; /* Override JS positioning */
-  left: 0 !important;
-  overflow: visible !important;
+    position: relative !important;
+    z-index: 1;
+    width: 100%;
+    height: auto !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    overflow: visible !important;
 }
 
-/* Row fixes */
-.homeAmenitiesBlock .row.margin-lr-0 {
+/* --- Main Layout Container --- */
+.homeAmenitiesBlock .home_block_content {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
     margin: 0;
-    width: 100%;
 }
 
-/* Column fixes */
+/* Override Bootstrap Grid for the Main Columns */
 .homeAmenitiesBlock .col-md-6 {
+    width: 50%;
+    float: none;
     padding: 0;
-    display: flex;
-    flex-direction: column;
+    display: flex; /* Make it a flex container */
+    flex: 0 0 50%;
+    max-width: 50%;
 }
 
+/* Inner Row (Amenity Content) */
 .amenity_content {
-    width: 100%;
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
     margin: 0 !important;
-    align-items: stretch; /* Ensure equal height */
+    height: auto;
+    position: relative;
 }
 
-/* Image Section */
+/* --- Layout: Image vs Text Sides --- */
+.amenity_content > div {
+    width: 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0;
+}
+
+/* Image Styling */
 .amenity_img_primary {
-  width: 100%;
-  height: 100%;
-  min-height: 350px; /* Fixed height for image container */
-  position: relative;
+    width: 100%;
+    position: relative;
+    height: 100%;
+    min-height: 300px; /* Keep a minimum height */
+    overflow: hidden;
 }
 
-.amenity_img_secondary{
-  background-size: cover;
-  background-position: center center;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding-bottom: 0; /* Remove padding hack, use flex height */
+.amenity_img_secondary {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
 }
 
-/* Text Section */
+/* Text Styling */
 .amenity_desc_cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+.amenity_desc_primary {
+    width: 100%;
+    padding: 40px; /* Comfortable padding */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.amenity_desc_primary {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #FFFFFF;
-  padding: 40px;
-}
-
 .amenity_desc_secondary {
-  text-align: center;
-  width: 100%;
-  max-width: 450px; /* Limit text width for readability */
+    text-align: center;
+    width: 100%;
 }
 
 .amenity_heading {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  color: #1C2331; /* Prestige Navy */
-  font-weight: 700;
-  text-transform: capitalize;
-  margin-bottom: 20px;
-  line-height: 1.3;
-  margin-top: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: #1C2331; /* Prestige Navy */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    line-height: 1.3;
+    margin-top: 0;
 }
 
 .amenity_description {
-  font-family: 'Lato', sans-serif;
-  font-size: 16px;
-  color: #555555;
-  font-weight: 400;
-  line-height: 1.8;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: #555;
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 0;
 }
 
 .amenity_desc_hr {
-  border-top: 2px solid #C0A062; /* Prestige Gold */
-  width: 60px;
-  margin: 25px auto 0;
+    border-top: 2px solid #C0A062; /* Prestige Gold */
+    width: 50px;
+    margin: 20px auto 0;
 }
 
-/* Responsive Styles */
-@media (min-width: 992px) {
-    /* Desktop Alternating Layout */
-    .amenity_content {
-        flex-direction: row;
-    }
-    
-    .homeAmenitiesBlock .col-md-6 {
-        width: 50%;
-    }
-}
+/* --- Responsive Media Queries --- */
 
+/* Tablet (iPad Portrait) & Mobile */
 @media (max-width: 991px) {
-    /* Tablet/Mobile Layout */
-    .amenity_desc_primary {
-        padding: 40px 20px;
-    }
-    
-    .amenity_img_primary {
-        min-height: 300px;
-    }
-    
-    /* Stack content on mobile */
+    /* Stack the main columns (Amenities blocks) */
     .homeAmenitiesBlock .col-md-6 {
         width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        display: block; /* Let natural stacking happen */
     }
-    
+
+    /* Within each block, stack image and text */
     .amenity_content {
         flex-direction: column;
     }
-    
-    /* Reset padding for stacked layout */
-    .amenity_img_secondary {
-        position: relative;
-        height: 300px;
+
+    .amenity_content > div {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Adjust Image Height */
+    .amenity_img_primary {
+        height: 250px; /* Fixed height on mobile */
+        min-height: 250px;
     }
     
+    .amenity_img_secondary {
+        position: absolute; /* Keep absolute to fill the wrapper */
+    }
+
+    /* Text Container adjustments */
     .amenity_desc_cont {
-        width: 100%;
+        height: auto; /* Allow text to grow */
+    }
+
+    .amenity_desc_primary {
+        padding: 30px 20px;
     }
 }
 
+/* Small Mobile */
 @media (max-width: 767px) {
     .amenity_heading {
-        font-size: 24px;
+        font-size: 20px;
     }
     
     .amenity_description {
-        font-size: 15px;
+        font-size: 13px;
+    }
+    
+    .amenity_img_primary {
+        height: 200px;
+        min-height: 200px;
     }
 }
