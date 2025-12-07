@@ -1,4 +1,4 @@
-﻿{*
+{*
 * 2007-2017 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -58,14 +58,17 @@
                     {assign var='image_link' value="https://via.placeholder.com/800x600/1a2332/C9A96E?text=No+Image"}
                 {/if}
 
+                {* Generate product link properly *}
+                {assign var='room_link' value=$link->getProductLink($room.id_product, $room.link_rewrite)}
+                
                 <div class="room-card">
                     <div class="room-image">
-                        <a href="{$room.link|escape:'html':'UTF-8'}">
+                        <a href="{$room_link|escape:'html':'UTF-8'}">
                             <img src="{$image_link}" alt="{$room.name|escape:'html':'UTF-8'}" loading="lazy">
                         </a>
                         <div class="room-info-overlay">
                             <h3 class="room-name">
-                                <a href="{$room.link|escape:'html':'UTF-8'}">{$room.name|escape:'html':'UTF-8'}</a>
+                                <a href="{$room_link|escape:'html':'UTF-8'}">{$room.name|escape:'html':'UTF-8'}</a>
                             </h3>
                             <div class="room-price">
                                 {assign var='price_tax_incl' value=Product::getPriceStatic($room.id_product, true)}
@@ -78,7 +81,7 @@
                         <p class="room-description">
                             {$room.description_short|strip_tags:'UTF-8'|truncate:80:'...'}
                         </p>
-                        <a href="{$room.link|escape:'html':'UTF-8'}" class="btn-book-now">
+                        <a href="{$room_link|escape:'html':'UTF-8'}" class="btn-book-now">
                             {l s='Book Now'}
                         </a>
                     </div>
