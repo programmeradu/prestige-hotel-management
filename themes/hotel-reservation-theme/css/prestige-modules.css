@@ -331,11 +331,11 @@
 }
 
 /* ============================================
-   CART DROPDOWN Z-INDEX FIX
-   Use position:fixed to escape header stacking context
+   CART DROPDOWN REDESIGN
+   Premium look and feel with corrected layout
    ============================================ */
 
-/* Cart dropdown block - use fixed positioning to escape stacking context */
+/* Cart dropdown block - fixed positioning and premium container */
 .cart_block,
 #header .cart_block,
 .shopping_cart .cart_block {
@@ -343,6 +343,206 @@
     top: 70px !important;
     right: 80px !important;
     z-index: 999999 !important;
+    background: #1C2331 !important; /* Prestige Navy */
+    border: 1px solid rgba(192, 160, 98, 0.3) !important; /* Gold border */
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+    padding: 0 !important;
+    width: 380px !important;
+    color: #ffffff !important;
+    font-family: 'Lato', sans-serif !important;
+}
+
+/* Product List Items */
+.cart_block .cart_block_list .products dt {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 15px !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+}
+
+/* Product Image */
+.cart_block .cart-images {
+    float: none !important;
+    margin: 0 !important;
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.cart_block .cart-images img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    max-width: none !important;
+}
+
+/* Product Info */
+.cart_block .cart-info {
+    float: none !important;
+    padding: 0 !important;
+    width: auto !important;
+    flex: 1 !important;
+}
+
+.cart_block .product-name {
+    padding-bottom: 5px !important;
+}
+
+.cart_block .product-name a {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #C0A062 !important; /* Gold */
+    text-transform: none !important;
+}
+
+/* Product Attributes/Details */
+.cart_block .product-atributes,
+.cart_block .product-atributes a {
+    color: #aaaaaa !important;
+    font-size: 12px !important;
+    padding: 0 !important;
+}
+
+/* Price and Quantity Section */
+.cart_block .cart-info-sec {
+    margin-top: 8px !important;
+    font-size: 13px !important;
+    color: #eeeeee !important;
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.cart_block .product_info_label {
+    color: #888888 !important;
+    margin-right: 5px !important;
+}
+
+.cart_block .price.product_info_data {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+/* Remove Button */
+.cart_block .remove_link {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+}
+
+.cart_block .ajax_cart_block_remove_link {
+    color: #ff6b6b !important;
+    font-size: 16px !important;
+    opacity: 0.7 !important;
+    transition: 0.3s !important;
+}
+
+.cart_block .ajax_cart_block_remove_link:hover {
+    opacity: 1 !important;
+}
+
+/* Cart Booking Dates Table */
+.cart_block .cart_prod_cont {
+    margin-top: 10px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-radius: 6px !important;
+    padding: 8px !important;
+}
+
+.cart_block .table {
+    margin: 0 !important;
+    background: transparent !important;
+}
+
+.cart_block .table th {
+    color: #888888 !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 4px !important;
+}
+
+.cart_block .table td {
+    color: #dddddd !important;
+    font-size: 11px !important;
+    border: none !important;
+    padding: 4px !important;
+}
+
+/* Cart Summary Section */
+.cart_block .cart-prices {
+    background: #151b26 !important; /* Darker Navy */
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 20px !important;
+}
+
+.cart_block .cart-prices-line {
+    color: #ffffff !important;
+    padding: 5px 0 !important;
+    border-bottom: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.cart_block .cart-prices-line.last-line {
+    margin-top: 10px !important;
+    padding-top: 15px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    font-size: 16px !important;
+}
+
+.cart_block .cart-prices-line.last-line span:first-child {
+    color: #C0A062 !important; /* Gold Price */
+    font-weight: 700 !important;
+}
+
+/* Checkout Button Area */
+.cart_block .cart-buttons {
+    background: #151b26 !important;
+    padding: 0 20px 25px !important;
+    border: none !important;
+}
+
+.cart_block .cart-buttons a#button_order_cart {
+    background: linear-gradient(135deg, #C0A062 0%, #D4B978 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0 !important;
+    height: 45px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(192, 160, 98, 0.3) !important;
+}
+
+.cart_block .cart-buttons a#button_order_cart:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(192, 160, 98, 0.4) !important;
+}
+
+.cart_block .cart-buttons a#button_order_cart span {
+    background: transparent !important;
+    border: none !important;
+    color: #1C2331 !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-shadow: none !important;
+    padding: 0 !important;
+}
+
+.cart_block .cart-buttons a#button_order_cart:hover span {
+    background: transparent !important;
+    border: none !important;
+    color: #1C2331 !important;
 }
 
 /* ============================================
