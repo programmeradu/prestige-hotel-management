@@ -1,4 +1,4 @@
-{*
+﻿{*
 * 2007-2017 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -64,6 +64,7 @@
 		<link rel="stylesheet" href="{$css_dir}prestige-theme.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$css_dir}prestige-homepage.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$css_dir}prestige-modules.css" type="text/css" media="all" />
+                <link rel="stylesheet" href="{$css_dir}events-feed.css" type="text/css" media="all" />
 		
 		{if isset($js_defer) && !$js_defer && isset($js_files) && isset($js_def)}
 			{$js_def}
@@ -202,3 +203,4 @@
 						{if isset($left_column_size) && isset($right_column_size)}{assign var='cols' value=(12 - $left_column_size - $right_column_size)}{else}{assign var='cols' value=12}{/if}
 						<div id="center_column" class="center_column col-xs-12 col-sm-{$cols|intval}">
 	{/if}
+

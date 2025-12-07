@@ -258,3 +258,6 @@ admin/themes/default/css/screen.css
 robots.txtimg.zip
 first.zip
 img.zip
+
+# API Keys - NEVER COMMIT
+config/env.local.php

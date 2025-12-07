@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 * 2007-2017 PrestaShop
 *
@@ -31,6 +31,11 @@ if (is_file($currentDir.'/defines_custom.inc.php')) {
     include_once($currentDir.'/defines_custom.inc.php');
 }
 require_once($currentDir.'/defines.inc.php');
+
+/* Load environment variables for API keys */
+if (is_file($currentDir.'/env.local.php')) {
+    include_once($currentDir.'/env.local.php');
+}
 
 $start_time = microtime(true);
 

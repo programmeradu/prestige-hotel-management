@@ -1,4 +1,4 @@
-{*
+﻿{*
 * 2007-2017 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -151,11 +151,11 @@
         {* Features List (Compact) *}
         <div style="display: flex; gap: 20px; margin-bottom: 35px;">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">✓</div>
+                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">âœ“</div>
                 <span style="color: #cbd5e1; font-size: 13px;">Festive Meals</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">✓</div>
+                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">âœ“</div>
                 <span style="color: #cbd5e1; font-size: 13px;">Live Music</span>
             </div>
         </div>
@@ -194,21 +194,124 @@
     </style>
 </div>
 
-{* 3. Curated Experiences (Hooks for Blog/Other) *}
-<section class="experiences-section py-80">
-	<div class="container">
-		<div class="section-header">
-			<h2 class="home-section-title">Curated Experiences</h2>
-			<p class="home-section-subtitle">Enjoy Prestige Hotel, where natural bay space activities, our local experiences await in your stay.</p>
-		</div>
-		
-		{block name='displayHome'}
-			{if isset($HOOK_HOME) && $HOOK_HOME|trim}
-                {* Hide duplicate rooms block if it appears here *}
-                <div class="home-hook-content">
-				    {$HOOK_HOME}
+{* 3. Dynamic Events - Cape Coast Live *}
+<section class="experiences-section py-80" id="live-events">
+        <div class="container">
+                <div class="section-header events-header">
+                        <span class="badge-premium">Live in Cape Coast</span>
+                        <h2 class="home-section-title">Curated Experiences</h2>
+                        <p class="home-section-subtitle">Real upcoming events near Prestige Hotel, powered by Eventbrite &amp; PredictHQ.</p>
                 </div>
-			{/if}
-		{/block}
-	</div>
+
+                <div id="events-showcase" class="events-grid" data-endpoint="{$link->getModuleLink('eventsfeed', 'feed')}" aria-live="polite">
+                        {for $i=1 to 4}
+                        <div class="event-card skeleton">
+                                <div class="event-media"></div>
+                                <div class="event-body">
+                                        <div class="event-date shimmer"></div>
+                                        <div class="event-title shimmer"></div>
+                                        <div class="event-desc shimmer"></div>
+                                        <div class="event-desc shimmer short"></div>
+                                        <div class="event-cta shimmer"></div>
+                                </div>
+                        </div>
+                        {/for}
+                </div>
+
+                {block name='displayHome'}
+                        {if isset($HOOK_HOME) && $HOOK_HOME|trim}
+                        <div id="events-fallback" class="home-hook-content" style="display:none;">
+                                {$HOOK_HOME}
+                        </div>
+                        {/if}
+                {/block}
+        </div>
 </section>
+
+{literal}
+<script>
+(function(){
+    var grid = document.getElementById('events-showcase');
+    if (!grid) return;
+    var endpoint = grid.getAttribute('data-endpoint');
+    var fallback = document.getElementById('events-fallback');
+
+    function formatDate(d) {
+        if (!d) return '';
+        var dt = new Date(d);
+        if (isNaN(dt)) return '';
+        return dt.toLocaleDateString('en-GB', {month:'short',day:'numeric'}) + ' - ' + dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    }
+
+    function card(e) {
+        var c = document.createElement('article');
+        c.className = 'event-card';
+        var m = document.createElement('div');
+        m.className = 'event-media' + (e.image ? '' : ' event-media-ai');
+        if (e.image) m.style.backgroundImage = 'url(' + e.image + ')';
+        var badge = document.createElement('div');
+        badge.className = 'event-badge';
+        badge.textContent = (e.category || 'event').replace(/_/g,' ');
+        m.appendChild(badge);
+        if (e.needs_ai_image) {
+            var ai = document.createElement('div');
+            ai.className = 'ai-badge';
+            ai.textContent = 'AI Visual';
+            m.appendChild(ai);
+        }
+        var b = document.createElement('div');
+        b.className = 'event-body';
+        var dt = document.createElement('div');
+        dt.className = 'event-date';
+        dt.textContent = formatDate(e.start);
+        b.appendChild(dt);
+        var t = document.createElement('h3');
+        t.className = 'event-title';
+        t.textContent = e.title || 'Upcoming Event';
+        b.appendChild(t);
+        var desc = document.createElement('p');
+        desc.className = 'event-desc';
+        desc.textContent = e.description || 'Experience Cape Coast with Prestige Hotel.';
+        b.appendChild(desc);
+        var meta = document.createElement('div');
+        meta.className = 'event-meta';
+        var v = document.createElement('span');
+        v.textContent = e.venue && e.venue.name ? e.venue.name : 'Cape Coast';
+        meta.appendChild(v);
+        var s = document.createElement('span');
+        s.textContent = e.source ? e.source.toUpperCase() : 'LIVE';
+        meta.appendChild(s);
+        b.appendChild(meta);
+        var cta = document.createElement('a');
+        cta.className = 'event-cta';
+        cta.href = e.url || '#';
+        cta.target = '_blank';
+        cta.rel = 'noopener';
+        cta.textContent = 'View Details';
+        if (!e.url) cta.className += ' disabled';
+        b.appendChild(cta);
+        c.appendChild(m);
+        c.appendChild(b);
+        return c;
+    }
+
+    function render(events) {
+        grid.innerHTML = '';
+        if (!events || !events.length) {
+            grid.innerHTML = '<p class="event-empty">No live events found. Check back soon!</p>';
+            if (fallback) fallback.style.display = 'block';
+            return;
+        }
+        events.slice(0,4).forEach(function(e){ grid.appendChild(card(e)); });
+    }
+
+    fetch(endpoint + '?limit=4', {credentials:'same-origin'})
+        .then(function(r){ return r.json(); })
+        .then(function(data){ render(data.events || []); })
+        .catch(function(){ 
+            grid.innerHTML = '<p class="event-empty">Could not load events.</p>';
+            if (fallback) fallback.style.display = 'block';
+        });
+})();
+</script>
+{/literal}
