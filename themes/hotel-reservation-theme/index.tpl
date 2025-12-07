@@ -123,15 +123,19 @@
         {* Gold Dust Texture Overlay *}
         <div style="position: absolute; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none;"></div>
 
-        {* Snowman (Moved to Content Area - Bottom Left) *}
-        <div style="position: absolute; bottom: 10px; left: 10px; width: 180px; height: 180px; z-index: 5; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); opacity: 1;">
+        {* Snowman (Moved to Bottom Right) *}
+        <div style="position: absolute; bottom: -10px; right: -10px; width: 160px; height: 160px; z-index: 5; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); opacity: 1;">
             <dotlottie-player src="https://assets-v2.lottiefiles.com/a/f5b6027e-a330-11ee-b0c3-eb4933c450f1/X0ouzbU8rx.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
 
         {* Badge *}
         <div style="margin-bottom: 20px;">
             <span style="background: rgba(201, 169, 110, 0.15); color: #C9A96E; border: 1px solid rgba(201, 169, 110, 0.3); padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px;">
-                <span style="animation: pulse 2s infinite;">✨</span> EXCLUSIVE HOLIDAY OFFER
+                {* Custom Star Icon *}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#C9A96E" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                </svg>
+                EXCLUSIVE HOLIDAY OFFER
             </span>
         </div>
 
@@ -149,7 +153,7 @@
         <div style="display: flex; gap: 20px; margin-bottom: 35px;">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">✓</div>
-                <span style="color: #cbd5e1; font-size: 13px;">Festive Dinner</span>
+                <span style="color: #cbd5e1; font-size: 13px;">Festive Meals</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">✓</div>
