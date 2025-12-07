@@ -363,19 +363,56 @@ body .header {
     right: 0 !important;
 }
 
-/* Ensure cart block appears above everything when open */
+/* Ensure cart block z-index is high when open (but don't force display) */
 .shopping_cart:hover .cart_block,
 .shopping_cart .cart_block.expanded,
 .shopping_cart .cart_block:not(.collapsed),
 #header .shopping_cart:hover .cart_block,
 #header .shopping_cart .cart_block.expanded {
     z-index: 10002 !important;
-    display: block !important;
 }
 
 /* Override any conflicting cart block z-index from other CSS files */
 #header .cart_block {
     z-index: 10002 !important;
+}
+
+/* ============================================
+   HERO OVERLAY FIX - NO DOUBLE SCROLLBARS
+   ============================================ */
+#index #header {
+    overflow: hidden !important;
+    position: relative !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+}
+
+#index #header::before {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Ensure header container doesn't create scroll */
+#index #header .header-container {
+    overflow: hidden !important;
+    height: 100% !important;
+    max-height: 100vh !important;
+}
+
+/* Prevent double scrollbars on body */
+html,
+body {
+    overflow-x: hidden !important;
+}
+
+/* Ensure no scrollable content in hero */
+#index #header * {
+    max-height: 100vh !important;
 }
 
 /* ============================================
