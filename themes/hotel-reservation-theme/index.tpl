@@ -106,13 +106,13 @@
         {* REAL ASSETS LAYER - Lottie Animations *}
         
         {* 3. Hanging Ornaments (Top Left) *}
-        <div class="ornament-container" style="position: absolute; top: -20px; left: 20px; width: 200px; height: 200px; z-index: 15; animation: swing 5s ease-in-out infinite;">
-            <dotlottie-player src="https://assets-v2.lottiefiles.com/a/19defabe-1175-11ee-82ed-f3a7235b8559/8oIBquGoPo.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
+        <div id="ornaments-animation" class="ornament-container" style="position: absolute; top: -20px; left: 20px; width: 200px; height: 200px; z-index: 15; animation: swing 5s ease-in-out infinite;">
+            <dotlottie-player class="allowed-lottie" src="https://assets-v2.lottiefiles.com/a/19defabe-1175-11ee-82ed-f3a7235b8559/8oIBquGoPo.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
 
         {* Lottie Snow Effect (Subtle) *}
-        <div style="position: absolute; inset: 0; pointer-events: none; opacity: 0.6; mix-blend-mode: screen;">
-             <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.5" loop autoplay style="width: 100%; height: 100%;"></lottie-player>
+        <div id="snow-animation" style="position: absolute; inset: 0; pointer-events: none; opacity: 0.6; mix-blend-mode: screen;">
+             <lottie-player class="allowed-lottie" src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.5" loop autoplay style="width: 100%; height: 100%;"></lottie-player>
         </div>
     </div>
 
@@ -123,7 +123,7 @@
         <div style="position: absolute; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none;"></div>
 
         {* Snowman (Moved to Bottom Right) *}
-        <div style="position: absolute; bottom: 10px; right: 10px; width: 120px; height: 120px; z-index: 5; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); opacity: 1;">
+        <div id="snowman-animation" style="position: absolute; bottom: 10px; right: 10px; width: 120px; height: 120px; z-index: 5; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); opacity: 1;">
             <dotlottie-player src="https://assets-v2.lottiefiles.com/a/f5b6027e-a330-11ee-b0c3-eb4933c450f1/X0ouzbU8rx.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
 
@@ -172,6 +172,12 @@
 
     {* Inline CSS for responsive grid *}
     <style>
+        /* Defensive: hide any unexpected lottie/dotlottie inside the visual area except our allowlisted ones */
+        .holiday-visual lottie-player:not(.allowed-lottie),
+        .holiday-visual dotlottie-player:not(.allowed-lottie) {
+            display: none !important;
+        }
+
         @media (max-width: 900px) {
             .holiday-showcase-compact {
                 grid-template-columns: 1fr !important;
