@@ -86,7 +86,19 @@ class WkHotelRoom extends Module
 
                 $product_price = Product::getPriceStatic($idProduct, $useTax);
                 $htlRoom['image'] = $prodImg;
-                $htlRoom['product_link'] = $this->context->link->getProductLink($product);
+                // Generate product link safely
+                try {
+                    $htlRoom['product_link'] = $this->context->link->getProductLink(
+                        $idProduct,
+                        $product->link_rewrite,
+                        null,
+                        null,
+                        $idLang
+                    );
+                } catch (Exception $e) {
+                    // Fallback to simple product URL
+                    $htlRoom['product_link'] = $this->context->link->getPageLink('product', true, $idLang, 'id_product='.$idProduct);
+                }
                 $htlRoom['description'] = $product->description_short;
                 $htlRoom['name'] = $product->name;
                 $htlRoom['show_price'] = $product->show_price;
@@ -112,7 +124,8 @@ class WkHotelRoom extends Module
                     'HOTEL_ROOM_DISPLAY_DESCRIPTION',
                     $this->context->language->id
                 ),
-                'hotelRoomDisplay' => $hotelRoomDisplay
+                'hotelRoomDisplay' => $hotelRoomDisplay,
+                'link' => $this->context->link
             )
         );
 

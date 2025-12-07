@@ -34,14 +34,20 @@
                         </div>
                     </div>
                 {/if}
-                
+
                 {block name='hotel_room_block_content'}
                     <div class="premium-rooms-grid">
                         {foreach from=$hotelRoomDisplay item=roomDisplay name=htlRoom}
                             <div class="premium-room-card">
                                 {block name='hotel_room_block_room_type_image'}
                                     <div class="room-image-wrapper">
-                                        <a href="{$roomDisplay.product_link|escape:'html':'UTF-8'}" class="room-link">
+                                        {if isset($link)}
+                                            <a href="{$link->getProductLink($roomDisplay.id_product)|escape:'html':'UTF-8'}" class="room-link">
+                                        {elseif isset($roomDisplay.product_link)}
+                                            <a href="{$roomDisplay.product_link|escape:'html':'UTF-8'}" class="room-link">
+                                        {else}
+                                            <a href="#" class="room-link">
+                                        {/if}
                                             <img src="{$roomDisplay.image|escape:'htmlall':'UTF-8'}" alt="{$roomDisplay.name|escape:'htmlall':'UTF-8'}" class="room-img">
                                             <div class="room-overlay">
                                                 <span class="btn btn-light">{l s='View Details' mod='wkhotelroom'}</span>
@@ -60,16 +66,28 @@
 
                                 <div class="room-content">
                                     <h3 class="room-title">
-                                        <a href="{$roomDisplay.product_link|escape:'html':'UTF-8'}">{$roomDisplay.name|escape:'htmlall':'UTF-8'}</a>
+                                        {if isset($link)}
+                                            <a href="{$link->getProductLink($roomDisplay.id_product)|escape:'html':'UTF-8'}">{$roomDisplay.name|escape:'htmlall':'UTF-8'}</a>
+                                        {elseif isset($roomDisplay.product_link)}
+                                            <a href="{$roomDisplay.product_link|escape:'html':'UTF-8'}">{$roomDisplay.name|escape:'htmlall':'UTF-8'}</a>
+                                        {else}
+                                            <span>{$roomDisplay.name|escape:'htmlall':'UTF-8'}</span>
+                                        {/if}
                                     </h3>
-                                    
+
                                     <div class="room-desc">
                                         {$roomDisplay.description|strip_tags:'UTF-8'|truncate:100:'...'}
                                     </div>
 
                                     {block name='hotel_room_block_action'}
                                         <div class="room-actions">
-                                            <a class="btn btn-primary btn-book-now" href="{$roomDisplay.product_link|escape:'html':'UTF-8'}">
+                                            {if isset($link)}
+                                                <a class="btn btn-primary btn-book-now" href="{$link->getProductLink($roomDisplay.id_product)|escape:'html':'UTF-8'}">
+                                            {elseif isset($roomDisplay.product_link)}
+                                                <a class="btn btn-primary btn-book-now" href="{$roomDisplay.product_link|escape:'html':'UTF-8'}">
+                                            {else}
+                                                <a class="btn btn-primary btn-book-now" href="#">
+                                            {/if}
                                                 {if !isset($restricted_country_mode) && !$PS_CATALOG_MODE}
                                                     {l s='Book Now' mod='wkhotelroom'}
                                                 {else}
