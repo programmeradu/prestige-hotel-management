@@ -20,7 +20,7 @@
 /* Premium Interior Block Styles */
 .premium-interior-block .home_block_heading {
     font-family: 'Playfair Display', serif;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
     margin-bottom: 15px;
     letter-spacing: 0.5px;
@@ -28,13 +28,14 @@
 
 .premium-gallery-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    /* Changed to 3:1 ratio for a larger main image and compact sidebar */
+    grid-template-columns: 3fr 1fr;
     gap: 15px;
-    height: 600px;
-    margin-top: 40px;
+    /* More compact height for better UX on laptops */
+    height: 500px;
+    margin-top: 30px;
     width: 100%;
-    /* Constrain width to prevent excessive upscaling of images */
-    max-width: 1200px; 
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -45,8 +46,8 @@
     height: 100%;
     overflow: hidden;
     border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-    background: #000; /* Dark background for better contrast */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    background: #000;
 }
 
 .featured-image {
@@ -57,48 +58,41 @@
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     cursor: pointer;
-    
-    /* Image Quality Optimizations */
-    image-rendering: -webkit-optimize-contrast; /* Chrome/Safari */
-    image-rendering: high-quality; /* Future standard */
-    
-    /* Prevent blurry upscale artifacts */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    transform: translateZ(0);
+    /* Ensure image quality */
+    image-rendering: -webkit-optimize-contrast;
 }
 
-.featured-image:hover {
-    transform: scale(1.02); /* Reduced scale effect to minimize blur */
-}
-
-/* Grid Section */
+/* Thumbnail Sidebar (Carousel) */
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 1fr;
-    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     height: 100%;
+    overflow: hidden; /* Hide scrollbar for carousel effect */
+    position: relative;
 }
 
 .gallery-item {
+    /* Fixed height for thumbnails to show exactly 3 fully */
+    flex: 0 0 calc(33.33% - 8px);
     background-size: cover;
     background-position: center;
     border-radius: 8px;
     position: relative;
     cursor: pointer;
     transition: all 0.4s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    overflow: hidden;
-    background-color: #f5f5f5;
-    
-    /* Quality optimizations */
-    image-rendering: -webkit-optimize-contrast;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 2px solid transparent; /* Border for active state */
+}
+
+.gallery-item.active-thumb {
+    border-color: #C9A96E; /* Active highlight color */
+    transform: scale(0.98);
 }
 
 .gallery-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transform: translateX(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
     z-index: 2;
 }
 
@@ -109,12 +103,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+    background: rgba(0,0,0,0.2);
     opacity: 0;
     transition: opacity 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 6px;
 }
 
 .gallery-item:hover .image-overlay,
@@ -124,17 +119,15 @@
 
 .view-btn {
     color: #fff;
-    font-size: 24px;
-    background: rgba(255,255,255,0.15);
-    width: 60px;
-    height: 60px;
+    font-size: 20px;
+    background: rgba(255,255,255,0.2);
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
 }
 
 /* Link triggers */
@@ -151,40 +144,28 @@
 @media (max-width: 991px) {
     .premium-gallery-container {
         grid-template-columns: 1fr;
+        grid-template-rows: 350px auto;
         height: auto;
-        max-width: 100%;
-    }
-    
-    .gallery-featured {
-        height: 400px; /* Reduced height for better aspect ratio on mobile */
-    }
-    
-    .gallery-grid {
-        height: auto;
-        grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
     
-    .gallery-item {
-        height: 150px;
-    }
-}
-
-@media (max-width: 767px) {
-    .premium-gallery-container {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
-    
     .gallery-featured {
-        height: 280px; /* Further reduced for mobile */
+        height: 100%;
     }
     
     .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        height: 120px;
     }
     
     .gallery-item {
-        height: 120px;
+        flex: 0 0 160px; /* Horizontal scrolling items on mobile */
+        height: 100%;
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-3px);
     }
 }
