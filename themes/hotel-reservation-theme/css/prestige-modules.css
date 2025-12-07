@@ -343,6 +343,42 @@ body .header {
 }
 
 /* ============================================
+   CART DROPDOWN Z-INDEX FIX - ABOVE HEADER
+   ============================================ */
+.shopping_cart {
+    position: relative !important;
+    z-index: 10001 !important;
+}
+
+#header .shopping_cart {
+    z-index: 10001 !important;
+}
+
+#header .cart_block,
+.cart_block,
+.shopping_cart .cart_block {
+    position: absolute !important;
+    z-index: 10002 !important;
+    top: 100% !important;
+    right: 0 !important;
+}
+
+/* Ensure cart block appears above everything when open */
+.shopping_cart:hover .cart_block,
+.shopping_cart .cart_block.expanded,
+.shopping_cart .cart_block:not(.collapsed),
+#header .shopping_cart:hover .cart_block,
+#header .shopping_cart .cart_block.expanded {
+    z-index: 10002 !important;
+    display: block !important;
+}
+
+/* Override any conflicting cart block z-index from other CSS files */
+#header .cart_block {
+    z-index: 10002 !important;
+}
+
+/* ============================================
    BOOK NOW BUTTON FIX - SEARCH RESULTS PAGE
    ============================================ */
 .ajax_add_to_cart_button,
