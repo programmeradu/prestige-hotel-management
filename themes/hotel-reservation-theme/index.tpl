@@ -110,7 +110,6 @@
             <dotlottie-player src="https://assets-v2.lottiefiles.com/a/19defabe-1175-11ee-82ed-f3a7235b8559/8oIBquGoPo.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
 
-
         {* Lottie Snow Effect (Subtle) *}
         <div style="position: absolute; inset: 0; pointer-events: none; opacity: 0.6; mix-blend-mode: screen;">
              <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.5" loop autoplay style="width: 100%; height: 100%;"></lottie-player>
@@ -124,16 +123,16 @@
         <div style="position: absolute; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.1; pointer-events: none;"></div>
 
         {* Snowman (Moved to Bottom Right) *}
-        <div style="position: absolute; bottom: -10px; right: -10px; width: 160px; height: 160px; z-index: 5; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); opacity: 1;">
+        <div style="position: absolute; bottom: 10px; right: 10px; width: 120px; height: 120px; z-index: 5; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); opacity: 1;">
             <dotlottie-player src="https://assets-v2.lottiefiles.com/a/f5b6027e-a330-11ee-b0c3-eb4933c450f1/X0ouzbU8rx.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
         </div>
 
         {* Badge *}
         <div style="margin-bottom: 20px;">
             <span style="background: rgba(201, 169, 110, 0.15); color: #C9A96E; border: 1px solid rgba(201, 169, 110, 0.3); padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px;">
-                {* Custom Star Icon *}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="#C9A96E" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+                {* Custom SVG Icon for Exclusive Holiday Offer *}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#C9A96E" stroke="#C9A96E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 EXCLUSIVE HOLIDAY OFFER
             </span>
