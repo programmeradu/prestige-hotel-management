@@ -1,4 +1,4 @@
-{*
+{**
 * 2010-2020 Webkul.
 *
 * NOTICE OF LICENSE
@@ -19,8 +19,8 @@
 
 {block name='hotel_features_block'}
     {if isset($hotelAmenities) && $hotelAmenities}
-        <div id="hotelAmenitiesBlock" class="row home_block_container premium-amenities-block">
-            <div class="col-xs-12 col-sm-12">
+        <div id="hotelAmenitiesBlock" class="row home_block_container">
+            <div class="col-xs-12 col-sm-12 home_amenities_wrapper">
                 {if $HOTEL_AMENITIES_HEADING && $HOTEL_AMENITIES_DESCRIPTION}
                     <div class="row home_block_desc_wrapper">
                         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
@@ -34,21 +34,117 @@
                         </div>
                     </div>
                 {/if}
-
                 {block name='hotel_features_images'}
-                    <div class="amenities-grid-container">
+                    <div class="homeAmenitiesBlock home_block_content">
+                        {assign var='amenityPosition' value=0}
+                        {assign var='amenityIteration' value=0}
                         {foreach from=$hotelAmenities item=amenity name=amenityBlock}
-                            <div class="amenity-card">
-                                <div class="amenity-image-wrapper">
-                                    <div class="amenity-image" style="background-image: url('{$link->getMediaLink("`$module_dir`views/img/hotels_features_img/`$amenity.id_features_block`.jpg")}')"></div>
-                                    <div class="amenity-overlay"></div>
+
+                            {if $smarty.foreach.amenityBlock.iteration%2 != 0}
+                                <div class="row margin-lr-0">
+                                {if $amenityPosition}
+                                    {assign var='amenityPosition' value=0}
+                                {else}
+                                    {assign var='amenityPosition' value=1}
+                                {/if}
+                            {/if}
+                                    <div class="col-md-6 padding-lr-0 hidden-xs hidden-sm">
+                                        <div class="row margin-lr-0 amenity_content">
+                                            {if $amenityPosition}
+                                                <div class="col-md-6 padding-lr-0">
+                                                    <div class="amenity_img_primary">
+
+                                                        <div class="amenity_img_secondary" style="background-image: url('{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/hotels_features_img/`$amenity.id_features_block|escape:'htmlall':'UTF-8'`.jpg")}')">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 padding-lr-0 amenity_desc_cont">
+                                                    <div class="amenity_desc_primary">
+                                                        <div class="amenity_desc_secondary">
+                                                            <p class="amenity_heading">{$amenity['feature_title']|escape:'htmlall':'UTF-8'}</p>
+                                                            <p class="amenity_description">{$amenity['feature_description']|escape:'htmlall':'UTF-8'}</p>
+                                                            <hr class="amenity_desc_hr" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {else}
+                                                <div class="col-md-6 padding-lr-0 amenity_desc_cont">
+                                                    <div class="amenity_desc_primary">
+                                                        <div class="amenity_desc_secondary">
+                                                            <p class="amenity_heading">{$amenity['feature_title']|escape:'htmlall':'UTF-8'}</p>
+                                                            <p class="amenity_description">{$amenity['feature_description']|escape:'htmlall':'UTF-8'}</p>
+                                                            <hr class="amenity_desc_hr" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 padding-lr-0">
+                                                    <div class="amenity_img_primary">
+                                                        <div class="amenity_img_secondary" style="background-image: url('{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/hotels_features_img/`$amenity.id_features_block|escape:'htmlall':'UTF-8'`.jpg")}')">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 padding-lr-0 visible-sm">
+                                        <div class="row margin-lr-0 amenity_content">
+                                            {if $smarty.foreach.amenityBlock.iteration%2 != 0}
+                                                <div class="col-sm-6 padding-lr-0">
+                                                    <div class="amenity_img_primary">
+                                                        <div class="amenity_img_secondary" style="background-image: url('{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/hotels_features_img/`$amenity.id_features_block|escape:'htmlall':'UTF-8'`.jpg")}')">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 padding-lr-0 amenity_desc_cont">
+                                                    <div class="amenity_desc_primary">
+                                                        <div class="amenity_desc_secondary">
+                                                            <p class="amenity_heading">{$amenity['feature_title']|escape:'htmlall':'UTF-8'}</p>
+                                                            <p class="amenity_description">{$amenity['feature_description']|escape:'htmlall':'UTF-8'}</p>
+                                                            <hr class="amenity_desc_hr" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {else}
+                                                <div class="col-sm-6 padding-lr-0 amenity_desc_cont">
+                                                    <div class="amenity_desc_primary">
+                                                        <div class="amenity_desc_secondary">
+                                                            <p class="amenity_heading">{$amenity['feature_title']|escape:'htmlall':'UTF-8'}</p>
+                                                            <p class="amenity_description">{$amenity['feature_description']|escape:'htmlall':'UTF-8'}</p>
+                                                            <hr class="amenity_desc_hr" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 padding-lr-0">
+                                                    <div class="amenity_img_primary">
+                                                        <div class="amenity_img_secondary" style="background-image: url('{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/hotels_features_img/`$amenity.id_features_block|escape:'htmlall':'UTF-8'`.jpg")}')">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 padding-lr-0 visible-xs">
+                                        <div class="row margin-lr-0 amenity_content">
+                                            <div class="col-xs-12 padding-lr-0">
+                                                <div class="amenity_img_primary">
+                                                    <div class="amenity_img_secondary" style="background-image: url('{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/hotels_features_img/`$amenity.id_features_block|escape:'htmlall':'UTF-8'`.jpg")}')">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 padding-lr-0 amenity_desc_cont">
+                                                <div class="amenity_desc_primary">
+                                                    <div class="amenity_desc_secondary">
+                                                        <p class="amenity_heading">{$amenity['feature_title']|escape:'htmlall':'UTF-8'}</p>
+                                                        <p class="amenity_description">{$amenity['feature_description']|escape:'htmlall':'UTF-8'}</p>
+                                                        <hr class="amenity_desc_hr" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            {if $smarty.foreach.amenityBlock.iteration%2 == 0}
                                 </div>
-                                <div class="amenity-content">
-                                    <h3 class="amenity-title">{$amenity['feature_title']|escape:'htmlall':'UTF-8'}</h3>
-                                    <div class="amenity-divider"></div>
-                                    <p class="amenity-desc">{$amenity['feature_description']|escape:'htmlall':'UTF-8'}</p>
-                                </div>
-                            </div>
+                            {/if}
                         {/foreach}
                     </div>
                 {/block}
