@@ -17,46 +17,141 @@
 *  @license   https://store.webkul.com/license.html
 */
 
-.homeAmenitiesBlock {
-  position: absolute;
-  z-index: 10;
+/* Wrapper fixes */
+.home_amenities_wrapper {
+    position: relative;
+    width: 100%;
+    height: auto !important; /* Override JS height calculation */
+    margin-bottom: 40px;
 }
+
+.homeAmenitiesBlock {
+  position: relative !important; /* Changed from absolute */
+  z-index: 10;
+  width: 100%;
+  top: 0 !important; /* Override JS positioning */
+  left: 0 !important;
+}
+
+/* Row fixes */
+.homeAmenitiesBlock .row.margin-lr-0 {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+/* Column fixes */
+.homeAmenitiesBlock .col-md-6 {
+    padding: 0;
+    display: flex;
+}
+
+.amenity_content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .amenity_img_primary {
   width: 100%;
   height: 100%;
+  min-height: 300px; /* Ensure minimum height */
+  position: relative;
 }
+
 .amenity_img_secondary{
-  padding-bottom: 75%;
+  padding-bottom: 60%; /* Made more compact (was 75%) */
   background-size: cover;
   background-position: center center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
+
+.amenity_desc_cont {
+    display: flex;
+    align-items: center;
+}
+
 .amenity_desc_primary {
   width: 100%;
   height: 100%;
-  display: table;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #FFFFFF;
+  padding: 30px;
 }
+
 .amenity_desc_secondary {
-  display: table-cell;
   text-align: center;
-  vertical-align: middle;
-  padding: 0px 25px;
+  width: 100%;
+  max-width: 500px; /* Limit text width for readability */
 }
+
 .amenity_heading {
+  font-family: 'Playfair Display', serif;
   font-size: 24px;
-  color: #333333;
-  font-weight: 400;
+  color: #1C2331; /* Prestige Navy */
+  font-weight: 700;
   text-transform: capitalize;
   margin-bottom: 15px;
-  line-height: 27px;
+  line-height: 1.3;
 }
+
 .amenity_description {
-  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  font-size: 15px;
   color: #555555;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 1.6;
 }
+
 .amenity_desc_hr {
-  border-top: 1px solid #333333;
+  border-top: 2px solid #C0A062; /* Prestige Gold */
   width: 60px;
+  margin: 20px auto 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .amenity_desc_primary {
+        padding: 40px 20px;
+    }
+    
+    .amenity_img_secondary {
+        padding-bottom: 60%;
+        position: relative;
+    }
+    
+    .amenity_img_primary {
+        height: auto;
+        min-height: auto;
+    }
+    
+    /* Stack content on mobile */
+    .homeAmenitiesBlock .col-md-6 {
+        width: 100%;
+        flex: 0 0 100%;
+    }
+    
+    .amenity_content {
+        flex-direction: column;
+    }
+    
+    .amenity_content > div {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .amenity_heading {
+        font-size: 22px;
+    }
+    
+    .amenity_description {
+        font-size: 14px;
+    }
 }
