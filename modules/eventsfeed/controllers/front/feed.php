@@ -1,6 +1,10 @@
 <?php
 /**
- * Events feed JSON endpoint.
+ * 2024-2025 Prestige Hotel.
+ *
+ * @author    Prestige Hotel <info@prestigehotel.com>
+ * @copyright 2024-2025 Prestige Hotel
+ * @license   http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
  */
 
 if (!defined('_PS_VERSION_')) {
@@ -9,23 +13,44 @@ if (!defined('_PS_VERSION_')) {
 
 class EventsfeedFeedModuleFrontController extends ModuleFrontController
 {
+    /** @var bool */
     public $ssl = true;
+
+    /** @var bool */
     public $display_header = false;
+
+    /** @var bool */
     public $display_footer = false;
 
+    /**
+     * @see FrontController::initContent()
+     */
     public function initContent()
     {
         parent::initContent();
 
+        // Set JSON headers
         header('Content-Type: application/json; charset=utf-8');
         header('Cache-Control: public, max-age=300');
+        header('Access-Control-Allow-Origin: *');
 
-        require_once _PS_MODULE_DIR_ . 'eventsfeed/classes/EventFeedService.php';
+        // Get parameters
+        $limit = (int)Tools::getValue('limit', 4);
+        $refresh = (int)Tools::getValue('refresh', 0);
 
-        $limit = (int) Tools::getValue('limit', 4);
+        // Load service
+        require_once _PS_MODULE_DIR_.'eventsfeed/classes/EventFeedService.php';
+
         $service = new EventFeedService();
-        $events = $service->getEvents($limit);
 
+        // Force refresh if requested
+        if ($refresh) {
+            $events = $service->refreshCache();
+        } else {
+            $events = $service->getEvents($limit);
+        }
+
+        // Build response
         $response = array(
             'success' => true,
             'cached' => $service->wasFromCache(),
@@ -35,7 +60,7 @@ class EventsfeedFeedModuleFrontController extends ModuleFrontController
             'events' => $events,
         );
 
-        die(json_encode($response));
+        // Output JSON
+        die(Tools::jsonEncode($response));
     }
 }
-
