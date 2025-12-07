@@ -248,3 +248,4 @@ This document describes the complete booking flow from room selection to order c
 - Occupancy-based booking requires `with_occupancy = 1` on order
 - All hotel-specific data is stored in custom tables, not standard PrestaShop tables
 
+

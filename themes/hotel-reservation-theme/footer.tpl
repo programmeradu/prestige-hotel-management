@@ -237,6 +237,69 @@
 	{include file="$tpl_dir./global.tpl"}
 {/block}
 
+{* ========== MODAL Z-INDEX FIX - FORCE ABOVE HEADER ========== *}
+{literal}
+<script>
+(function() {
+    function fixModalZIndex() {
+        // Fix layer_cart modal
+        var layerCart = document.getElementById('layer_cart');
+        if (layerCart) {
+            layerCart.style.zIndex = '999999';
+            layerCart.style.position = 'fixed';
+        }
+        
+        var layerOverlay = document.querySelector('.layer_cart_overlay');
+        if (layerOverlay) {
+            layerOverlay.style.zIndex = '999998';
+        }
+        
+        // Fix all modals
+        var modals = document.querySelectorAll('.modal, .modal-dialog, .modal-content');
+        modals.forEach(function(modal) {
+            modal.style.zIndex = '999999';
+        });
+        
+        var modalBackdrops = document.querySelectorAll('.modal-backdrop');
+        modalBackdrops.forEach(function(backdrop) {
+            backdrop.style.zIndex = '999998';
+        });
+        
+        // Force header to lower z-index
+        var headers = document.querySelectorAll('#header, .header, header, .header-top');
+        headers.forEach(function(header) {
+            header.style.zIndex = '1000';
+        });
+    }
+    
+    // Run immediately
+    fixModalZIndex();
+    
+    // Run after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixModalZIndex);
+    }
+    
+    // Run after page load
+    window.addEventListener('load', fixModalZIndex);
+    
+    // Watch for dynamically added modals
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+                fixModalZIndex();
+            }
+        });
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+})();
+</script>
+{/literal}
+
 {* ========== PREMIUM CANVAS SNOWFALL ========== *}
 {literal}
 <script>
