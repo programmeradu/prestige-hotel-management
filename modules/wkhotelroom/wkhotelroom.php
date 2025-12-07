@@ -99,6 +99,12 @@ class WkHotelRoom extends Module
                 );
                 $htlRoom['feature_price'] = $featurePrice;
                 $htlRoom['feature_price_diff'] = (float)($priceWithoutReduction - $featurePrice);
+                // Add product link directly to room data for template use (with fallback)
+                try {
+                    $htlRoom['product_link'] = $this->context->link->getProductLink($idProduct);
+                } catch (Exception $e) {
+                    $htlRoom['product_link'] = '#';
+                }
             }
         }
         $this->context->smarty->assign(

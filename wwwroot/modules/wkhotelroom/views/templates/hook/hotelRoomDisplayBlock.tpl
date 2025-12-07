@@ -44,7 +44,7 @@
                                 {/if}
                                         <div class="col-sm-12 col-md-6 margin-btm-30">
                                             {block name='hotel_room_block_room_type_image'}
-                                                <a href="{$link->getProductLink($roomDisplay.id_product)|escape:'html':'UTF-8'}">
+                                                <a href="{if isset($roomDisplay.product_link) && $roomDisplay.product_link}{$roomDisplay.product_link|escape:'html':'UTF-8'}{elseif isset($link)}{$link->getProductLink($roomDisplay.id_product)|escape:'html':'UTF-8'}{else}#{/if}">
                                                     <img src="{$roomDisplay.image|escape:'htmlall':'UTF-8'}" alt="{$roomDisplay.name|escape:'htmlall':'UTF-8'}" class="img-responsive width-100">
                                                 </a>
                                             {/block}
@@ -75,7 +75,7 @@
                                                 {/block}
                                                 {block name='hotel_room_block_action'}
                                                     <div class="row margin-lr-0">
-                                                        <a class="btn htlRoomTypeBookNow" href="{$link->getProductLink($roomDisplay.id_product)|escape:'html':'UTF-8'}"><span>{if !isset($restricted_country_mode) && !$PS_CATALOG_MODE}{l s='book now' mod='wkhotelroom'}{else}{l s='View' mod='wkhotelroom'}{/if}</span></a>
+                                                        <a class="btn htlRoomTypeBookNow" href="{if isset($roomDisplay.product_link) && $roomDisplay.product_link}{$roomDisplay.product_link|escape:'html':'UTF-8'}{elseif isset($link)}{$link->getProductLink($roomDisplay.id_product)|escape:'html':'UTF-8'}{else}#{/if}"><span>{if !isset($restricted_country_mode) && !$PS_CATALOG_MODE}{l s='book now' mod='wkhotelroom'}{else}{l s='View' mod='wkhotelroom'}{/if}</span></a>
                                                     </div>
                                                 {/block}
                                             </div>

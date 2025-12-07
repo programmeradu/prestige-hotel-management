@@ -97,7 +97,8 @@
     {* LEFT SIDE: VISUAL IMMERSION *}
     <div class="holiday-visual" style="position: relative; min-height: 400px; overflow: hidden;">
         {* Real Hotel Image as Base *}
-        <div style="position: absolute; inset: 0; background-image: url('{$link->getMediaLink("`$smarty.const._PS_IMG_`{Configuration::get('WK_HOTEL_HEADER_IMAGE')}")}'); background-size: cover; background-position: center; transition: transform 10s ease;"></div>
+        {assign var='hotel_header_img' value=$smarty.const._PS_IMG_DIR_|cat:Configuration::get('WK_HOTEL_HEADER_IMAGE')}
+        <div style="position: absolute; inset: 0; background-image: url('{$link->getMediaLink($hotel_header_img)}'); background-size: cover; background-position: center; transition: transform 10s ease;"></div>
         
         {* Sophisticated Overlay *}
         <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 19, 33, 0.4), rgba(13, 19, 33, 0.95));"></div>
@@ -108,11 +109,6 @@
         {* 3. Hanging Ornaments (Top Left) *}
         <div id="ornaments-animation" class="ornament-container" style="position: absolute; top: -20px; left: 20px; width: 200px; height: 200px; z-index: 15; animation: swing 5s ease-in-out infinite;">
             <dotlottie-player class="allowed-lottie" src="https://assets-v2.lottiefiles.com/a/19defabe-1175-11ee-82ed-f3a7235b8559/8oIBquGoPo.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
-        </div>
-
-        {* Lottie Snow Effect (Subtle) *}
-        <div id="snow-animation" style="position: absolute; inset: 0; pointer-events: none; opacity: 0.6; mix-blend-mode: screen;">
-             <lottie-player class="allowed-lottie" src="https://assets9.lottiefiles.com/packages/lf20_ystsffqy.json" background="transparent" speed="0.5" loop autoplay style="width: 100%; height: 100%;"></lottie-player>
         </div>
     </div>
 
