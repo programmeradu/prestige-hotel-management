@@ -17,78 +17,156 @@
 *  @license   https://store.webkul.com/license.html
 */
 
-.htlInterior-owlCarousel .owl-stage-outer {
-    border: 1px solid #ccc;
+/* Premium Interior Block Styles */
+.premium-interior-block .home_block_heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
 }
-.interiorImgWrapper {
+
+.premium-gallery-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 15px;
+    height: 600px;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Featured Section */
+.gallery-featured {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.featured-image {
     width: 100%;
     height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    cursor: pointer;
 }
-.interiorbox {
-   position: relative;
-   width: 100%;
-   padding-bottom: 50%;
+
+.featured-image:hover {
+    transform: scale(1.03);
 }
-.interiorboxInner {
-   position: absolute;
-   left: 0px;
-   right: 0px;
-   top: 0px;
-   bottom: 0px;
-   overflow: hidden;
-   border: 1px solid #ccc;
+
+/* Grid Section */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 15px;
+    height: 100%;
 }
-.interiorboxInner img {
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
+
+.gallery-item {
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
 }
-.htlInterior-owlCarousel .owl-prev, .htlInterior-owlCarousel .owl-next{
-    font-size: 40px;
-    font-weight: 200;
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    z-index: 2;
+}
+
+/* Overlays */
+.image-overlay {
     position: absolute;
     top: 0;
-    bottom: 0;
-    z-index: 10;
-}
-.htlInterior-owlCarousel .owl-prev {
     left: 0;
-}
-.htlInterior-owlCarousel .owl-next {
     right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.nav-direction-wrapper{
-	display: table;
-    height: 100%;
+
+.gallery-item:hover .image-overlay,
+.featured-image:hover .image-overlay {
+    opacity: 1;
 }
-.nav-direction-primary {
-	display: table-cell;
-    vertical-align: middle;
+
+.view-btn {
+    color: #fff;
+    font-size: 24px;
+    background: rgba(255,255,255,0.2);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
 }
-.nav-direction-secondary {
-	padding: 40px 18px;
-	opacity: 0.85;
-	background-color: #ffffff;
-}
-.interiorHoverBlockWrapper {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	background-image: url("../img/black-opacity-5.png");
-	cursor: pointer;
-	display: none;
-}
-.interiorHoverPrimaryBlock {
-	display: table;
-    height: 100%;
+
+/* Link triggers */
+.fancybox-trigger, .fancybox-item {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+    z-index: 5;
 }
-.interiorHoverSecondaryBlock {
-	color: #fff;
-    display: table-cell;
-    font-size: 50px;
-    text-align: center;
-    vertical-align: middle;
+
+/* Responsive */
+@media (max-width: 991px) {
+    .premium-gallery-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .gallery-featured {
+        height: 400px;
+    }
+    
+    .gallery-grid {
+        height: auto;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    
+    .gallery-item {
+        height: 150px;
+    }
+}
+
+@media (max-width: 767px) {
+    .premium-gallery-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .gallery-featured {
+        height: 300px;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gallery-item {
+        height: 120px;
+    }
 }

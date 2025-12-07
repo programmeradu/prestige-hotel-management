@@ -19,7 +19,7 @@
 
 {block name='hotel_interior_block'}
     {if isset($InteriorImg) && $InteriorImg}
-        <div id="hotelInteriorBlock" class="row home_block_container">
+        <div id="hotelInteriorBlock" class="row home_block_container premium-interior-block">
             <div class="col-xs-12 col-sm-12">
                 {if $HOTEL_INTERIOR_HEADING && $HOTEL_INTERIOR_DESCRIPTION}
                     <div class="row home_block_desc_wrapper">
@@ -30,51 +30,35 @@
                             {block name='hotel_interior_block_description'}
                                 <p class="home_block_description">{$HOTEL_INTERIOR_DESCRIPTION|escape:'htmlall':'UTF-8'}</p>
                             {/block}
-                            {block name='displayInteriorExtraContent'}
-                                {hook h="displayInteriorExtraContent"}
-                            {/block}
                             <hr class="home_block_desc_line"/>
                         </div>
                     </div>
                 {/if}
+
                 {block name='hotel_interior_images'}
-                    <div class="row home_block_content htlInterior-owlCarousel">
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="owl-carousel owl-theme">
-                                {assign var='intImgIteration' value=0}
-                                {foreach from=$InteriorImg item=img_name name=intImg}
-                                    {if $smarty.foreach.intImg.iteration%3 == 1}
-                                    <div class="interiorImgWrapper">
-                                    {/if}
-                                        <div class="interiorbox" data-fancybox-group="interiorGallery" rel="interiorGallery" href="{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/hotel_interior/`$img_name['name']|escape:'htmlall':'UTF-8'`.jpg")}" title="{$img_name['display_name']|escape:'htmlall':'UTF-8'}">
-                                            <div class="interiorboxInner">
-                                                <img src="{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/hotel_interior/`$img_name['name']|escape:'htmlall':'UTF-8'`.jpg")}" class="interiorImg" alt="{$img_name['display_name']|escape:'htmlall':'UTF-8'}">
-                                            </div>
-                                            <div class="interiorHoverBlockWrapper">
-                                                <div class="interiorHoverPrimaryBlock">
-                                                    <div class="interiorHoverSecondaryBlock">
-                                                        <i class="icon-search-plus"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {if $smarty.foreach.intImg.iteration%3 == 0}
+                    <div class="premium-gallery-container">
+                        {* Main Featured Display *}
+                        <div class="gallery-featured">
+                            {if isset($InteriorImg[0])}
+                                <div class="featured-image active" style="background-image: url('{$link->getMediaLink("`$module_dir`views/img/hotel_interior/`$InteriorImg[0]['name']`.jpg")}')">
+                                    <div class="image-overlay">
+                                        <span class="view-btn"><i class="icon-search-plus"></i></span>
                                     </div>
-                                    {/if}
-                                    {assign var='intImgIteration' value=$smarty.foreach.intImg.iteration}
-                                {/foreach}
-                                {if $intImgIteration%3}
-                                    {assign var='intImgLeft' value=3-($intImgIteration%3)}
-                                    {for $foo=1 to $intImgLeft}
-                                        <div class="interiorbox">
-                                            <div class="interiorboxInner">
-                                                <img src="{$link->getMediaLink("`$module_dir|escape:'htmlall':'UTF-8'`views/img/Default-Image.png")}" class="interiorImg" alt="Default Image">
-                                            </div>
-                                        </div>
-                                    {/for}
+                                    <a class="fancybox-trigger" href="{$link->getMediaLink("`$module_dir`views/img/hotel_interior/`$InteriorImg[0]['name']`.jpg")}" title="{$InteriorImg[0]['display_name']|escape:'htmlall':'UTF-8'}"></a>
+                                </div>
+                            {/if}
+                        </div>
+
+                        {* Side Grid *}
+                        <div class="gallery-grid">
+                            {foreach from=$InteriorImg item=img_name name=intImg}
+                                {if !$smarty.foreach.intImg.first} {* Skip first as it's featured *}
+                                    <div class="gallery-item" style="background-image: url('{$link->getMediaLink("`$module_dir`views/img/hotel_interior/`$img_name['name']`.jpg")}')">
+                                        <div class="image-overlay"></div>
+                                        <a class="fancybox-item" href="{$link->getMediaLink("`$module_dir`views/img/hotel_interior/`$img_name['name']`.jpg")}" title="{$img_name['display_name']|escape:'htmlall':'UTF-8'}"></a>
                                     </div>
                                 {/if}
-                            </div>
+                            {/foreach}
                         </div>
                     </div>
                 {/block}
