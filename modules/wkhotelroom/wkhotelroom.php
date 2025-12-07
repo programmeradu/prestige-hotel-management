@@ -86,6 +86,7 @@ class WkHotelRoom extends Module
 
                 $product_price = Product::getPriceStatic($idProduct, $useTax);
                 $htlRoom['image'] = $prodImg;
+                $htlRoom['product_link'] = $this->context->link->getProductLink($product);
                 $htlRoom['description'] = $product->description_short;
                 $htlRoom['name'] = $product->name;
                 $htlRoom['show_price'] = $product->show_price;

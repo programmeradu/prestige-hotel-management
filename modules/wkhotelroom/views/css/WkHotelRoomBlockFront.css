@@ -17,83 +17,159 @@
 *  @license   https://store.webkul.com/license.html
 */
 
-.htlRoomTypeDescTextContainer {
+.premium-rooms-block .home_block_heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.premium-rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.premium-room-card {
+    background: #fff;
+    border-radius: 12px;
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
-.htlRoomTypeDescReadmore, .htlRoomTypeDescReadless{
-    cursor: pointer;
-    font-weight: 400;
-    display: none;
-}
-.htlRoomTypeDescExtras {
-    display: none;
-}
-@media (min-width: 530px) {
-    .hotelRoomDescContainer{
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(255, 255, 255, 0.8);
-        margin-left: 10px;
-        margin-right: 10px;
-        padding: 20px;
-        z-index: 10;
-    }
-    .htlRoomTypePriceText{
-        float :right;
-    }
-}
-@media (max-width: 530px) {
-    .hotelRoomDescContainer{
-        padding: 10px;
-    }
-    .wk_roomType_price_type{
-        font-size: 16px;
-        font-weight: 400;
-    }
-    .htlRoomTypeNameText {
-        width: 100%;
-    }
-
-    .room_type_old_price {
-        width: 100%;
-        display: block;
-    }
-}
-.htlRoomTypeNameText, .htlRoomTypePriceText {
-	font-size: 18px;
-	color: #222222;
-	font-weight: 400;
-	text-transform: capitalize;
-}
-.htlRoomTypeDescText{
-	font-size: 16px;
-    word-break: break-word;
-	color: #555555;
-	font-weight: 300;
-	line-height: 21px;
-    margin-bottom: 10px;
-}
-a.htlRoomTypeBookNow {
-	font-size: 15px;
-	color: #333333;
-	font-weight: 400;
-	background: transparent;
-    border: 1px solid #333333;
-    padding: 10px 30px;
-    text-transform: capitalize;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-.btn.htlRoomTypeBookNow:hover{
-	border: 1px solid #333333;
+.premium-room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
-.room_type_old_price {
-   text-decoration: line-through;
-   color:#555555;
-   font-size:14px;
+.room-image-wrapper {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+}
+
+.room-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.premium-room-card:hover .room-img {
+    transform: scale(1.05);
+}
+
+.room-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.premium-room-card:hover .room-overlay {
+    opacity: 1;
+}
+
+.room-price-badge {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.room-price-badge .price {
+    font-weight: 700;
+    color: #C9A96E;
+    font-size: 16px;
+}
+
+.room-price-badge .period {
+    color: #888;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-left: 3px;
+}
+
+.room-content {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.room-title {
+    margin: 0 0 10px;
+    font-size: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.room-title a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.room-title a:hover {
+    color: #C9A96E;
+}
+
+.room-desc {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.room-actions {
+    margin-top: auto;
+}
+
+.btn-book-now {
+    width: 100%;
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    border-radius: 4px;
+}
+
+.btn-book-now:hover {
+    background: #C9A96E;
+    color: #fff;
+}
+
+@media (max-width: 767px) {
+    .premium-rooms-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .room-image-wrapper {
+        height: 200px;
+    }
 }
