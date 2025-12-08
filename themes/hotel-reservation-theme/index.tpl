@@ -96,8 +96,8 @@
 
 {* 2. PREMIUM COMPACT CHRISTMAS BANNER *}
 <link rel="stylesheet" href="{$css_dir}christmas.css" type="text/css" media="all" />
-<div class="container" style="max-width: 1600px; width: 100%; margin: 0 auto; padding: 0 20px;">
-<div class="holiday-showcase-compact" style="position: relative; margin: 40px auto; max-width: 100%; width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); background: #0f172a; display: grid; grid-template-columns: 1.2fr 1fr;">
+<div class="holiday-wrapper" style="width: 100%; padding: 0 5%;">
+<div class="holiday-showcase-compact" style="position: relative; margin: 40px auto; max-width: 1800px; width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); background: #0f172a; display: grid; grid-template-columns: 1.2fr 1fr;">
 
     {* LEFT SIDE: CHRISTMAS TREE ANIMATION WITH HERO BACKDROP & ORNAMENTS *}
     <div class="holiday-visual christmas-tree-container" style="position: relative; min-height: 400px; overflow: hidden; background-color: #151522;">

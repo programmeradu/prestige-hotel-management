@@ -1416,7 +1416,26 @@ pre code {
   .container {
     max-width: 1800px;
   }
+}
 
+/* Very large screens */
+@media (min-width: 1920px) {
+  .container {
+    max-width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+
+@media (min-width: 2560px) {
+  .container {
+    max-width: 2200px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (min-width: 1600px) {
   .col-lg-1,
   .col-lg-2,
   .col-lg-3,
