@@ -1,4 +1,4 @@
-{**
+{*
 * 2010-2020 Webkul.
 *
 * NOTICE OF LICENSE
@@ -145,7 +145,11 @@
                             {if $smarty.foreach.amenityBlock.iteration%2 == 0}
                                 </div>
                             {/if}
+                            {assign var='amenityIteration' value=$smarty.foreach.amenityBlock.iteration}
                         {/foreach}
+                        {if $amenityIteration%2}
+                            </div>
+                        {/if}
                     </div>
                 {/block}
             </div>

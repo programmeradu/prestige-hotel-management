@@ -17,217 +17,46 @@
 *  @license   https://store.webkul.com/license.html
 */
 
-/* --- Reset & Wrapper Fixes --- */
-.home_amenities_wrapper {
-    position: relative;
-    width: 100%;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-    margin-bottom: 0;
-    display: block !important;
-}
-
 .homeAmenitiesBlock {
-    position: relative !important;
-    z-index: 1;
-    width: 100%;
-    height: auto !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    overflow: visible !important;
+  position: absolute;
+  z-index: 10;
 }
-
-/* --- Main Layout Container --- */
-.homeAmenitiesBlock .home_block_content {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 0;
-}
-
-/* Override Bootstrap Grid for the Main Columns - Force Full Width Rows on Desktop */
-.homeAmenitiesBlock .col-md-6 {
-    width: 100% !important;
-    float: none;
-    padding: 0;
-    display: flex;
-    flex: 0 0 100% !important;
-    max-width: 100% !important;
-}
-
-/* Inner Row (Amenity Content) */
-.amenity_content {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 0 !important;
-    height: auto;
-    position: relative;
-    min-height: 450px; /* Ensure substantial height for desktop presence */
-}
-
-/* --- Layout: Image vs Text Sides --- */
-.amenity_content > div {
-    width: 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
-    padding: 0;
-    position: relative; /* Important for absolute image positioning */
-}
-
-/* Image Styling */
 .amenity_img_primary {
-    width: 100%;
-    position: absolute; /* Absolute to fill the 50% container */
-    height: 100%;
-    top: 0;
-    left: 0;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
-
-.amenity_img_secondary {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    transition: transform 0.5s ease;
+.amenity_img_secondary{
+  padding-bottom: 75%;
+  background-size: cover;
+  background-position: center center;
 }
-
-.amenity_content:hover .amenity_img_secondary {
-    transform: scale(1.05); /* Subtle zoom effect on hover */
-}
-
-/* Text Styling */
-.amenity_desc_cont {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    position: relative;
-    z-index: 2;
-    min-height: 450px; /* Match the minimum height */
-}
-
 .amenity_desc_primary {
-    width: 100%;
-    padding: 40px; /* Comfortable padding */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 100%;
+  display: table;
+  background-color: #FFFFFF;
 }
-
 .amenity_desc_secondary {
-    text-align: center;
-    width: 100%;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0px 25px;
 }
-
 .amenity_heading {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    color: #1C2331; /* Prestige Navy */
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
-    line-height: 1.3;
-    margin-top: 0;
+  font-size: 24px;
+  color: #333333;
+  font-weight: 400;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+  line-height: 27px;
 }
-
 .amenity_description {
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    color: #555;
-    font-weight: 400;
-    line-height: 1.6;
-    margin-bottom: 0;
+  font-size: 16px;
+  color: #555555;
+  font-weight: 400;
+  line-height: 20px;
 }
-
 .amenity_desc_hr {
-    border-top: 2px solid #C0A062; /* Prestige Gold */
-    width: 50px;
-    margin: 20px auto 0;
-}
-
-/* --- Responsive Media Queries --- */
-
-/* Force Full Width Rows on Desktop */
-@media (min-width: 992px) {
-    .homeAmenitiesBlock .col-md-6 {
-        width: 100% !important;
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-    }
-    
-    .amenity_content {
-        flex-direction: row;
-    }
-}
-
-/* Tablet (iPad Portrait) & Mobile */
-@media (max-width: 991px) {
-    /* Stack the main columns (Amenities blocks) */
-    .homeAmenitiesBlock .col-md-6 {
-        width: 100% !important;
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-        display: block;
-    }
-
-    /* Within each block, stack image and text */
-    .amenity_content {
-        flex-direction: column;
-    }
-
-    .amenity_content > div {
-        width: 100%;
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-    /* Adjust Image Height */
-    .amenity_img_primary {
-        position: relative; /* Reset to relative for stacking */
-        height: 300px; /* Fixed height on mobile */
-        min-height: 300px;
-    }
-    
-    .amenity_img_secondary {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-    }
-
-    /* Text Container adjustments */
-    .amenity_desc_cont {
-        height: auto;
-        width: 100%;
-    }
-
-    .amenity_desc_primary {
-        padding: 40px 20px;
-    }
-}
-
-/* Small Mobile */
-@media (max-width: 767px) {
-    .amenity_heading {
-        font-size: 20px;
-    }
-    
-    .amenity_description {
-        font-size: 13px;
-    }
-    
-    .amenity_img_primary {
-        height: 200px;
-        min-height: 200px;
-    }
+  border-top: 1px solid #333333;
+  width: 60px;
 }
