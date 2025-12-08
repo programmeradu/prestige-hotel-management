@@ -1,0 +1,639 @@
+/**
+ * Prestige Hotel - Large Screen Responsive Fixes
+ * For screens 1920px and above
+ * Version: 1.0.0
+ */
+
+/* ============================================
+   CSS VARIABLES FOR MAINTAINABILITY
+   ============================================ */
+:root {
+    --container-max-width: 1200px;
+    --section-padding: 80px;
+    --card-min-width: 380px;
+    --hero-title-max: 5rem;
+    --hero-subtitle-max: 2rem;
+}
+
+@media (min-width: 1920px) {
+    :root {
+        --container-max-width: 1700px;
+        --section-padding: 120px;
+        --card-min-width: 450px;
+        --hero-title-max: 7rem;
+        --hero-subtitle-max: 2.5rem;
+    }
+}
+
+@media (min-width: 2560px) {
+    :root {
+        --container-max-width: 2000px;
+        --section-padding: 150px;
+        --card-min-width: 500px;
+        --hero-title-max: 8rem;
+        --hero-subtitle-max: 3rem;
+    }
+}
+
+/* ============================================
+   1. ROOM SEARCH BLOCK - Center and Scale Up
+   ============================================ */
+@media (min-width: 1920px) {
+    .search-section-wrapper,
+    .header-rmsearch-wrapper,
+    .booking-form-container,
+    .room-search-widget {
+        max-width: 1400px !important;
+        margin: 0 auto !important;
+        padding: 30px 50px !important;
+        transform: scale(1.1);
+        transform-origin: center center;
+    }
+    
+    .search-section-wrapper .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .header-rmsearch-wrapper {
+        padding: 25px 40px !important;
+    }
+    
+    #search_hotel_block_form {
+        gap: 25px !important;
+        justify-content: space-between !important;
+    }
+    
+    #search_hotel_block_form .grid-item,
+    #search_hotel_block_form .form-group {
+        flex: 1 1 auto !important;
+        min-width: 220px !important;
+    }
+    
+    #search_hotel_block_form input,
+    #search_hotel_block_form select,
+    #search_hotel_block_form .form-control,
+    .header-rmsearch-input {
+        font-size: 18px !important;
+        padding: 16px 24px !important;
+        min-height: 55px !important;
+    }
+    
+    #search_room_submit,
+    #search_hotel_block_form button[type="submit"],
+    .header-rmsearch-wrapper .btn-primary {
+        min-width: 220px !important;
+        height: 55px !important;
+        font-size: 18px !important;
+        padding: 16px 32px !important;
+    }
+}
+
+/* ============================================
+   2. ROOM CARDS - Larger and Better Distributed
+   ============================================ */
+@media (min-width: 1920px) {
+    .rooms-section,
+    .room-cards-section,
+    .rooms-container {
+        max-width: 1700px !important;
+        margin: 80px auto !important;
+        padding: 0 80px !important;
+    }
+    
+    .rooms-section .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .room-cards-grid,
+    .room-cards-wrapper,
+    .rooms-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 40px !important;
+        justify-items: center !important;
+        margin-top: 60px !important;
+    }
+    
+    .room-card,
+    .room-item {
+        width: 100% !important;
+        max-width: 420px !important;
+        min-width: 380px !important;
+        margin: 0 !important;
+    }
+    
+    .room-card .room-image,
+    .room-card-image {
+        height: 300px !important;
+    }
+    
+    .room-card img,
+    .room-card-image img {
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+    
+    .room-card h3,
+    .room-card-title,
+    .room-title {
+        font-size: 28px !important;
+        margin-top: 20px !important;
+        line-height: 1.3 !important;
+    }
+    
+    .room-card .room-price,
+    .room-price {
+        font-size: 36px !important;
+        font-weight: 700 !important;
+        margin: 15px 0 !important;
+    }
+    
+    .room-card .room-description,
+    .room-card-description {
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .room-card .book-btn,
+    .room-card-btn,
+    .book-now-btn {
+        width: 100% !important;
+        padding: 18px !important;
+        font-size: 18px !important;
+        margin-top: 20px !important;
+        min-height: 55px !important;
+    }
+    
+    .section-header {
+        margin-bottom: 50px !important;
+    }
+    
+    .section-title,
+    .home-section-title {
+        font-size: 48px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .section-description,
+    .home-section-subtitle {
+        font-size: 20px !important;
+        line-height: 1.7 !important;
+        max-width: 800px !important;
+    }
+}
+
+/* ============================================
+   3. CHRISTMAS CARD - Better Positioning and Size
+   ============================================ */
+@media (min-width: 1920px) {
+    .holiday-showcase-compact,
+    .christmas-promo,
+    .christmas-card,
+    .holiday-offer-card {
+        position: relative !important;
+        max-width: 1800px !important;
+        width: 100% !important;
+        margin: 80px auto !important;
+        padding: 80px 120px !important;
+    }
+    
+    .holiday-showcase-compact .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .holiday-showcase-compact .promo-content,
+    .christmas-card-content,
+    .promo-text-content {
+        max-width: 700px !important;
+        margin-right: auto !important;
+        margin-left: 100px !important;
+    }
+    
+    .holiday-showcase-compact h2,
+    .christmas-card h2,
+    .promo-title {
+        font-size: 52px !important;
+        line-height: 1.3 !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .holiday-showcase-compact p,
+    .christmas-card p,
+    .promo-description {
+        font-size: 20px !important;
+        line-height: 1.7 !important;
+        margin-bottom: 25px !important;
+    }
+    
+    .holiday-showcase-compact .badge,
+    .christmas-card .badge,
+    .exclusive-offer-badge {
+        font-size: 16px !important;
+        padding: 12px 28px !important;
+    }
+    
+    .holiday-showcase-compact .cta-button,
+    .christmas-card .cta-button,
+    .book-now-christmas {
+        font-size: 20px !important;
+        padding: 18px 45px !important;
+        min-width: 220px !important;
+        min-height: 55px !important;
+    }
+    
+    .holiday-showcase-compact .features-list li,
+    .christmas-card .features-list li {
+        font-size: 18px !important;
+        margin: 15px 0 !important;
+    }
+}
+
+/* ============================================
+   4. SNOWMAN - Maintain Proper Size
+   ============================================ */
+@media (min-width: 1920px) {
+    #snowman-animation,
+    .snowman,
+    .snowman-decoration,
+    .christmas-snowman {
+        position: fixed !important;
+        bottom: 40px !important;
+        right: 60px !important;
+        width: 180px !important;
+        height: 180px !important;
+        min-width: 180px !important;
+        min-height: 180px !important;
+        transform: scale(1.4) !important;
+        transform-origin: bottom right;
+        z-index: 100 !important;
+    }
+    
+    /* Override inline styles from index.tpl */
+    #snowman-animation[style] {
+        position: fixed !important;
+        bottom: 40px !important;
+        right: 60px !important;
+        width: 180px !important;
+        height: 180px !important;
+    }
+    
+    #snowman-animation img,
+    .snowman img {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* ============================================
+   5. CURATED EXPERIENCES - Scale Up Content
+   ============================================ */
+@media (min-width: 1920px) {
+    .experiences-section,
+    .curated-experiences {
+        max-width: 1700px !important;
+        margin: 100px auto !important;
+        padding: 80px 100px !important;
+    }
+    
+    .experiences-section .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .experiences-section .section-header,
+    .events-header {
+        margin-bottom: 50px !important;
+    }
+    
+    .experiences-section .home-section-title,
+    .curated-experiences h2,
+    .section-title {
+        font-size: 56px !important;
+        margin-bottom: 35px !important;
+        font-weight: 700 !important;
+    }
+    
+    .experiences-section .home-section-subtitle,
+    .curated-experiences p,
+    .section-description {
+        font-size: 22px !important;
+        line-height: 1.8 !important;
+        max-width: 900px !important;
+        margin: 0 auto 40px !important;
+    }
+    
+    .badge-premium,
+    .experience-badge,
+    .live-in-cape-coast-badge {
+        font-size: 18px !important;
+        padding: 14px 32px !important;
+        margin-bottom: 30px !important;
+    }
+    
+    .events-grid,
+    .experiences-grid,
+    .events-container {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)) !important;
+        gap: 40px !important;
+        margin-top: 60px !important;
+    }
+    
+    .event-card {
+        min-height: 450px !important;
+        padding: 30px !important;
+    }
+    
+    .event-card .event-title,
+    .event-card h3 {
+        font-size: 28px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .event-card .event-desc,
+    .event-card p {
+        font-size: 18px !important;
+        line-height: 1.6 !important;
+    }
+    
+    .event-card .event-cta {
+        font-size: 16px !important;
+        padding: 14px 28px !important;
+        min-height: 50px !important;
+    }
+}
+
+/* ============================================
+   6. EXPLORE INTERIORS - Bigger Gallery
+   ============================================ */
+@media (min-width: 1920px) {
+    .interiors-section,
+    .gallery-section,
+    section[id*="interior"],
+    section[id*="gallery"] {
+        max-width: 1800px !important;
+        margin: 100px auto !important;
+        padding: 80px 100px !important;
+    }
+    
+    .interiors-section .container,
+    .gallery-section .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .interiors-section h2,
+    .gallery-section h2,
+    .interiors-section .section-title {
+        font-size: 56px !important;
+        margin-bottom: 40px !important;
+    }
+    
+    .interiors-section p,
+    .gallery-section p,
+    .interiors-section .section-description {
+        font-size: 22px !important;
+        margin-bottom: 50px !important;
+        line-height: 1.7 !important;
+    }
+    
+    .gallery-container,
+    .interiors-gallery {
+        display: flex !important;
+        gap: 30px !important;
+        align-items: flex-start !important;
+    }
+    
+    .main-gallery-image,
+    .featured-interior-img,
+    .gallery-main {
+        flex: 1 1 60% !important;
+        max-width: 1000px !important;
+        height: 650px !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+    }
+    
+    .main-gallery-image img,
+    .featured-interior-img img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+    
+    .gallery-thumbnails,
+    .thumbnail-grid,
+    .gallery-grid {
+        flex: 1 1 35% !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+        max-width: 600px !important;
+    }
+    
+    .gallery-thumbnail,
+    .thumbnail-item,
+    .gallery-item {
+        width: 100% !important;
+        height: 200px !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .gallery-thumbnail:hover,
+    .thumbnail-item:hover {
+        transform: scale(1.05);
+    }
+    
+    .gallery-thumbnail img,
+    .thumbnail-item img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+}
+
+/* ============================================
+   7. GENERAL FIXES - Prevent Left-Shift
+   ============================================ */
+@media (min-width: 1920px) {
+    body {
+        overflow-x: hidden !important;
+    }
+    
+    .container,
+    .main-container,
+    section .container {
+        max-width: 1800px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+    }
+    
+    /* Center all content */
+    main,
+    .page-wrapper,
+    #page {
+        max-width: 1920px !important;
+        margin: 0 auto !important;
+    }
+    
+    /* Fix any flex containers */
+    .flex-container,
+    .row {
+        justify-content: center !important;
+    }
+    
+    /* Ensure sections are centered */
+    section {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    /* Hero content wrapper scaling */
+    .hero-content-wrapper {
+        max-width: 1800px !important;
+        padding: 0 40px !important;
+    }
+}
+
+/* ============================================
+   8. 4K SCREEN SUPPORT (2560px+)
+   ============================================ */
+@media (min-width: 2560px) {
+    .search-section-wrapper,
+    .header-rmsearch-wrapper {
+        transform: scale(1.25) !important;
+        max-width: 1600px !important;
+    }
+    
+    .room-card {
+        min-width: 500px !important;
+        max-width: 480px !important;
+    }
+    
+    .room-card .room-image,
+    .room-card-image {
+        height: 350px !important;
+    }
+    
+    .room-card h3,
+    .room-card-title {
+        font-size: 32px !important;
+    }
+    
+    .room-card .room-price {
+        font-size: 42px !important;
+    }
+    
+    .holiday-showcase-compact h2,
+    .christmas-card h2 {
+        font-size: 72px !important;
+    }
+    
+    .holiday-showcase-compact p,
+    .christmas-card p {
+        font-size: 24px !important;
+    }
+    
+    .experiences-section .home-section-title,
+    .curated-experiences h2,
+    .interiors-section h2 {
+        font-size: 72px !important;
+    }
+    
+    .experiences-section .home-section-subtitle,
+    .curated-experiences p,
+    .interiors-section p {
+        font-size: 24px !important;
+    }
+    
+    .section-title,
+    .home-section-title {
+        font-size: 64px !important;
+    }
+    
+    .section-description,
+    .home-section-subtitle {
+        font-size: 22px !important;
+    }
+    
+    #snowman-animation,
+    .snowman {
+        transform: scale(1.8) !important;
+        width: 200px !important;
+        height: 200px !important;
+    }
+    
+    /* Override inline styles for 4K */
+    #snowman-animation[style] {
+        position: fixed !important;
+        bottom: 50px !important;
+        right: 80px !important;
+        width: 200px !important;
+        height: 200px !important;
+    }
+    
+    .container,
+    .main-container {
+        max-width: 2200px !important;
+        padding-left: 60px !important;
+        padding-right: 60px !important;
+    }
+    
+    .room-cards-grid {
+        gap: 50px !important;
+    }
+    
+    .events-grid {
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)) !important;
+        gap: 50px !important;
+    }
+}
+
+/* ============================================
+   9. ULTRA-WIDE SUPPORT (3840px+ / 4K)
+   ============================================ */
+@media (min-width: 3840px) {
+    .container,
+    .main-container {
+        max-width: 2800px !important;
+        padding-left: 80px !important;
+        padding-right: 80px !important;
+    }
+    
+    .search-section-wrapper,
+    .header-rmsearch-wrapper {
+        max-width: 2000px !important;
+        transform: scale(1.4) !important;
+    }
+    
+    .room-cards-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 60px !important;
+        max-width: 2400px !important;
+    }
+    
+    .room-card {
+        min-width: 550px !important;
+        max-width: 550px !important;
+    }
+    
+    .holiday-showcase-compact {
+        max-width: 2400px !important;
+        padding: 120px 160px !important;
+    }
+    
+    .experiences-section,
+    .interiors-section {
+        max-width: 2400px !important;
+        padding: 120px 160px !important;
+    }
+}

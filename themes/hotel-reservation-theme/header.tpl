@@ -1,4 +1,4 @@
-﻿{*
+{*
 * 2007-2017 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -66,6 +66,7 @@
 		<link rel="stylesheet" href="{$css_dir}prestige-modules.css" type="text/css" media="all" />
                 <link rel="stylesheet" href="{$css_dir}events-feed.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$css_dir}cart-modal-fixes.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$css_dir}responsive-large-screens.css" type="text/css" media="all" />
 		
 		{if isset($js_defer) && !$js_defer && isset($js_files) && isset($js_def)}
 			{$js_def}

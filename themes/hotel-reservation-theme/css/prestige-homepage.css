@@ -84,6 +84,21 @@ header,
     z-index: 5;
 }
 
+/* Large screens - better hero section padding */
+@media (min-width: 1400px) {
+    .hero-section {
+        padding: 160px 30px 120px;
+        min-height: 90vh;
+    }
+}
+
+@media (min-width: 1600px) {
+    .hero-section {
+        padding: 180px 40px 140px;
+        min-height: 90vh;
+    }
+}
+
 /* Hero Content Overlay */
 .hero-content-wrapper {
     text-align: center;
@@ -91,6 +106,22 @@ header,
     width: 100%;
     max-width: 1200px;
     margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+/* Large screens - increase hero content width */
+@media (min-width: 1400px) {
+    .hero-content-wrapper {
+        max-width: 1600px;
+        padding: 0 30px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .hero-content-wrapper {
+        max-width: 1800px;
+        padding: 0 40px;
+    }
 }
 
 #index .header-top {
@@ -115,11 +146,27 @@ header,
 }
 
 #index .hero-subtitle {
-    font-size: 1.25rem;
+    font-size: clamp(1.25rem, 2.5vw, 2rem); /* Responsive subtitle */
     color: rgba(255, 255, 255, 0.9);
     text-align: center;
-    max-width: 600px;
+    max-width: 800px; /* Increased from 600px */
     margin: 0 auto 30px;
+    line-height: 1.6;
+}
+
+/* Large screens - bigger subtitle */
+@media (min-width: 1400px) {
+    #index .hero-subtitle {
+        font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
+        max-width: 900px;
+    }
+}
+
+@media (min-width: 1600px) {
+    #index .hero-subtitle {
+        font-size: clamp(1.75rem, 3.5vw, 2.5rem) !important;
+        max-width: 1000px;
+    }
 }
 
 /* Hero Video/Explore Button */
