@@ -190,8 +190,8 @@
         </div>
 
         {* Badge *}
-        <div style="margin-bottom: 20px;">
-            <span style="background: rgba(201, 169, 110, 0.15); color: #C9A96E; border: 1px solid rgba(201, 169, 110, 0.3); padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px;">
+        <div style="margin-bottom: 20px; display: flex; justify-content: center; align-items: center; width: 100%;">
+            <span style="background: rgba(201, 169, 110, 0.15); color: #C9A96E; border: 1px solid rgba(201, 169, 110, 0.3); padding: 6px 16px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
                 {* Custom SVG Icon for Exclusive Holiday Offer *}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#C9A96E" stroke="#C9A96E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
