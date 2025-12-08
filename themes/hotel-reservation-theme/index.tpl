@@ -402,5 +402,3 @@
 
 <!-- Custom Animation Script -->
 <script src="{$js_dir}christmas.js"></script>
-
-{/literal}
