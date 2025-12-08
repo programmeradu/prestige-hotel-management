@@ -15,7 +15,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: public, max-age=300');
 header('Access-Control-Allow-Origin: *');
 
-// Demo events fallback function
+// Demo events fallback function with placeholder images
 function getDemoEventsFallback() {
     return array(
         array(
@@ -25,7 +25,7 @@ function getDemoEventsFallback() {
             'start' => date('Y-m-d', strtotime('+7 days')).'T10:00:00',
             'end' => date('Y-m-d', strtotime('+7 days')).'T18:00:00',
             'url' => '#',
-            'image' => null,
+            'image' => 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=450&fit=crop',
             'venue' => array('name' => 'Cape Coast Castle', 'address' => 'Cape Coast, Ghana'),
             'category' => 'festival',
             'source' => 'demo',
@@ -37,7 +37,7 @@ function getDemoEventsFallback() {
             'start' => date('Y-m-d', strtotime('+14 days')).'T08:00:00',
             'end' => date('Y-m-d', strtotime('+14 days')).'T12:00:00',
             'url' => '#',
-            'image' => null,
+            'image' => 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=450&fit=crop',
             'venue' => array('name' => 'Elmina Beach', 'address' => 'Elmina, Ghana'),
             'category' => 'community',
             'source' => 'demo',
@@ -49,7 +49,7 @@ function getDemoEventsFallback() {
             'start' => date('Y-m-d', strtotime('+21 days')).'T09:00:00',
             'end' => date('Y-m-d', strtotime('+22 days')).'T17:00:00',
             'url' => '#',
-            'image' => null,
+            'image' => 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=450&fit=crop',
             'venue' => array('name' => 'Cape Coast Market', 'address' => 'Cape Coast, Ghana'),
             'category' => 'market',
             'source' => 'demo',
@@ -61,7 +61,7 @@ function getDemoEventsFallback() {
             'start' => date('Y-m-d', strtotime('+28 days')).'T17:00:00',
             'end' => date('Y-m-d', strtotime('+28 days')).'T21:00:00',
             'url' => '#',
-            'image' => null,
+            'image' => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=450&fit=crop',
             'venue' => array('name' => 'Prestige Hotel Terrace', 'address' => 'Cape Coast, Ghana'),
             'category' => 'concert',
             'source' => 'demo',
@@ -104,14 +104,27 @@ try {
     // Get parameters
     $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 4;
     $refresh = isset($_GET['refresh']) ? (int)$_GET['refresh'] : 0;
+    $regenImages = isset($_GET['regen_images']) ? (int)$_GET['regen_images'] : 0;
 
     // Initialize helper and get events
     $helper = new EventFeedHelper();
 
-    if ($refresh) {
+    if ($refresh || $regenImages) {
+        // Clear cache to force fresh data
         $events = $helper->refreshCache();
     } else {
         $events = $helper->getEvents($limit);
+    }
+
+    // Add debug info about AI generation
+    $debugInfo = array();
+    foreach ($events as $event) {
+        $debugInfo[] = array(
+            'id' => $event['id'],
+            'has_image' => !empty($event['image']),
+            'is_ai_image' => !empty($event['needs_ai_image']),
+            'is_placeholder' => !empty($event['placeholder_image']),
+        );
     }
 
     // Success response
@@ -122,6 +135,7 @@ try {
         'fetched_at' => date('c'),
         'count' => count($events),
         'events' => $events,
+        'debug' => $debugInfo,
     )));
 
 } catch (Throwable $e) {

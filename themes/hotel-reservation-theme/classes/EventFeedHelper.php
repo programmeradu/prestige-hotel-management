@@ -19,7 +19,7 @@ class EventFeedHelper
     const GEMINI_API_KEY = 'AIzaSyBe_6gJkOE0767f4S_JzPNgEHPWQsS_22E';
     const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta';
     const IMAGEN_MODEL = 'imagen-4.0-generate-001';
-    const GEMINI_MODEL = 'gemini-2.5-flash-exp';
+    const GEMINI_MODEL = 'gemini-2.5-flash';
     
     // Default API tokens (can be overridden via Configuration or environment variables)
     // Option B: Set tokens here as constants
@@ -425,7 +425,7 @@ class EventFeedHelper
             'market' => 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=450&fit=crop',
             'conferences' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
             'expos' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
-            'sports' => 'https://images.unsplash.com/photo-1461896836934- voices-81e05835a7c4?w=800&h=450&fit=crop',
+            'sports' => 'https://images.unsplash.com/photo-1461896836934-1e0cd4e86e4e?w=800&h=450&fit=crop',
             'default' => 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=450&fit=crop',
         );
 
@@ -578,13 +578,15 @@ class EventFeedHelper
 
     /**
      * Generate image using Imagen 4.0
+     * Uses the REST API format per Google documentation
      *
      * @param string $prompt
      * @return string|null Base64 image data or null on failure
      */
     protected function generateImageWithImagen($prompt)
     {
-        $url = self::GEMINI_API_BASE . '/models/' . self::IMAGEN_MODEL . ':predict?key=' . self::GEMINI_API_KEY;
+        // Imagen 4.0 REST API endpoint (from official docs)
+        $url = self::GEMINI_API_BASE . '/models/' . self::IMAGEN_MODEL . ':predict';
 
         $payload = array(
             'instances' => array(
@@ -594,29 +596,85 @@ class EventFeedHelper
             ),
             'parameters' => array(
                 'sampleCount' => 1,
-                'aspectRatio' => '16:9',
-                'imageSize' => '1K'
+                'aspectRatio' => '16:9'
             )
         );
 
-        $response = $this->httpPost($url, $payload);
+        // Use dedicated method with proper API key header
+        $response = $this->httpPostWithApiKey($url, $payload, self::GEMINI_API_KEY);
         
-        // Handle different possible response formats
+        // Log for debugging
         if (!$response) {
+            error_log('Imagen API: No response received');
             return null;
         }
 
-        // Try predictions format (REST API)
+        // Check for API errors
+        if (isset($response['error'])) {
+            error_log('Imagen API Error: ' . json_encode($response['error']));
+            return null;
+        }
+
+        // Try predictions format (REST API standard response)
         if (isset($response['predictions'][0]['bytesBase64Encoded'])) {
+            error_log('Imagen API: Successfully generated image');
             return $response['predictions'][0]['bytesBase64Encoded'];
         }
         
-        // Try generatedImages format (if API returns different structure)
+        // Try alternative response formats
+        if (isset($response['predictions'][0]['image'])) {
+            return $response['predictions'][0]['image'];
+        }
+        
+        // Try generatedImages format (SDK response format)
         if (isset($response['generatedImages'][0]['image']['imageBytes'])) {
             return $response['generatedImages'][0]['image']['imageBytes'];
         }
 
+        error_log('Imagen API: Unexpected response format: ' . json_encode(array_keys($response)));
         return null;
+    }
+
+    /**
+     * Make HTTP POST request with API key in header (for Google Gemini/Imagen APIs)
+     *
+     * @param string $url
+     * @param array $payload
+     * @param string $apiKey
+     * @return array|null
+     */
+    protected function httpPostWithApiKey($url, array $payload, $apiKey)
+    {
+        $opts = array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => "Content-Type: application/json\r\n" .
+                           "x-goog-api-key: {$apiKey}\r\n",
+                'content' => json_encode($payload),
+                'timeout' => 60, // Longer timeout for image generation
+                'ignore_errors' => true,
+            ),
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ),
+        );
+
+        $context = stream_context_create($opts);
+        $body = @file_get_contents($url, false, $context);
+
+        if ($body === false) {
+            error_log('Imagen API: Request failed - no response body');
+            return null;
+        }
+
+        $decoded = json_decode($body, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            error_log('Imagen API: Invalid JSON response: ' . substr($body, 0, 500));
+            return null;
+        }
+
+        return $decoded;
     }
 
     /**
