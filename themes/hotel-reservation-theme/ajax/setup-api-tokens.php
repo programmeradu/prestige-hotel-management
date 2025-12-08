@@ -21,9 +21,12 @@ if ($secret !== $expectedSecret) {
 }
 
 // API Tokens - Option A: Configure via PrestaShop Configuration
-// Eventbrite: Application Key provided, but you need Personal OAuth Token for API access
-// Generate Personal OAuth Token from: https://www.eventbrite.com/platform/api-keys/
-$eventbriteToken = 'PO5FJEM5NG3PTXBCJQ'; // Application Key (won't work - need Personal OAuth Token)
+// Eventbrite API Credentials:
+// API Key: A2TOTKGGKRJVK2S5HG
+// Client Secret: KXLTG27TXWRUNL5IRRGDXLBQYVXME3DXEG2J46LGWS6K544L66
+// Private Token: V6B37YHBPIGYMMY5VP4V (used for API authentication)
+// Public Token: YPCBFL4WBY26RFH4LBGV
+$eventbriteToken = 'V6B37YHBPIGYMMY5VP4V'; // Eventbrite Private Token
 $predicthqToken = 'XuZ1aN9EPua5odyYqMo1XcwPyHEVwrHM-BAhRYSX'; // PredictHQ API Token
 
 $results = array();
@@ -52,7 +55,7 @@ echo json_encode(array(
     'message' => 'API tokens configured via PrestaShop Configuration (Option A)',
     'results' => $results,
     'next_steps' => array(
-        'eventbrite' => 'Generate Personal OAuth Token from Eventbrite and update Configuration::updateValue("EVENTSFEED_EVENTBRITE_TOKEN", "YOUR_PERSONAL_TOKEN")',
+        'eventbrite' => 'Private Token configured successfully',
         'predicthq' => 'Token configured successfully',
     ),
     'verify' => array(

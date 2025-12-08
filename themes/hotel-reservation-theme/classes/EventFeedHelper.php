@@ -25,10 +25,12 @@ class EventFeedHelper
     // Generate Personal OAuth Token from: https://www.eventbrite.com/platform/api-keys/
     // Application Key: PO5FJEM5NG3PTXBCJQ
     // OAuth Client Secret: UYDZHPBKTRYGCDEV6CB6I5GSJL22LPVHZ2KPJ44XYMHJ6VZBMA
-    // Application Key provided: PO5FJEM5NG3PTXBCJQ (won't work for API - need Personal OAuth Token)
-    // OAuth Client Secret: UYDZHPBKTRYGCDEV6CB6I5GSJL22LPVHZ2KPJ44XYMHJ6VZBMA
-    // TODO: Generate Personal OAuth Token from https://www.eventbrite.com/platform/api-keys/ and replace below
-    const DEFAULT_EVENTBRITE_TOKEN = null; // Set to your Personal OAuth Token when generated
+    // Option B: Eventbrite API Credentials
+    // API Key: A2TOTKGGKRJVK2S5HG
+    // Client Secret: KXLTG27TXWRUNL5IRRGDXLBQYVXME3DXEG2J46LGWS6K544L66
+    // Private Token: V6B37YHBPIGYMMY5VP4V (used for API authentication)
+    // Public Token: YPCBFL4WBY26RFH4LBGV
+    const DEFAULT_EVENTBRITE_TOKEN = 'V6B37YHBPIGYMMY5VP4V';
     const DEFAULT_PREDICTHQ_TOKEN = 'XuZ1aN9EPua5odyYqMo1XcwPyHEVwrHM-BAhRYSX';
 
     protected $cacheDir;
