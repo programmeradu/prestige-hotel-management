@@ -293,13 +293,6 @@
                         {/for}
                 </div>
 
-                {block name='displayHome'}
-                        {if isset($HOOK_HOME) && $HOOK_HOME|trim}
-                        <div id="events-fallback" class="home-hook-content" style="display:none;">
-                                {$HOOK_HOME}
-                        </div>
-                        {/if}
-                {/block}
         </div>
 </section>
 
@@ -309,7 +302,6 @@
     var grid = document.getElementById('events-showcase');
     if (!grid) return;
     var endpoint = grid.getAttribute('data-endpoint');
-    var fallback = document.getElementById('events-fallback');
 
     function formatDate(d) {
         if (!d) return '';
@@ -374,7 +366,6 @@
         grid.innerHTML = '';
         if (!events || !events.length) {
             grid.innerHTML = '<p class="event-empty">No live events found. Check back soon!</p>';
-            if (fallback) fallback.style.display = 'block';
             return;
         }
         events.slice(0,4).forEach(function(e){ grid.appendChild(card(e)); });
@@ -406,8 +397,14 @@
         .catch(function(err){ 
             console.error('Events feed error:', err);
             grid.innerHTML = '<p class="event-empty">Could not load events.</p>';
-            if (fallback) fallback.style.display = 'block';
         });
 })();
 </script>
 {/literal}
+
+{* 4. Display Home Hook - Renders Interiors, Amenities, Blog, etc. *}
+{block name='displayHome'}
+    {if isset($HOOK_HOME) && $HOOK_HOME|trim}
+        {$HOOK_HOME}
+    {/if}
+{/block}

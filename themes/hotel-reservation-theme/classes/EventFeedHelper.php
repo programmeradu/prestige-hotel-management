@@ -407,12 +407,28 @@ class EventFeedHelper
 
     /**
      * Generate AI images for events that don't have images
+     * Falls back to themed placeholder images if AI generation fails
      *
      * @param array $events
      * @return array
      */
     protected function generateMissingImages(array $events)
     {
+        // Themed placeholder images by category
+        $placeholders = array(
+            'festival' => 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=450&fit=crop',
+            'festivals' => 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=450&fit=crop',
+            'concert' => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=450&fit=crop',
+            'concerts' => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=450&fit=crop',
+            'performing-arts' => 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&h=450&fit=crop',
+            'community' => 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=450&fit=crop',
+            'market' => 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=450&fit=crop',
+            'conferences' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
+            'expos' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
+            'sports' => 'https://images.unsplash.com/photo-1461896836934- voices-81e05835a7c4?w=800&h=450&fit=crop',
+            'default' => 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=450&fit=crop',
+        );
+
         foreach ($events as &$event) {
             // Skip if event already has an image
             if (!empty($event['image'])) {
@@ -428,17 +444,22 @@ class EventFeedHelper
                     continue;
                 }
 
-                // Generate AI image (with timeout protection)
+                // Try to generate AI image
                 $aiImage = $this->generateAIImage($event);
                 if ($aiImage) {
                     $event['image'] = $aiImage;
                     $event['needs_ai_image'] = true;
+                    continue;
                 }
             } catch (Exception $e) {
-                // Silently fail - event will display without image
-                // Log error if needed: error_log('AI image generation failed: ' . $e->getMessage());
-                continue;
+                // Log error but continue
+                error_log('AI image generation failed: ' . $e->getMessage());
             }
+
+            // Fallback to themed placeholder
+            $category = strtolower($event['category'] ?? 'default');
+            $event['image'] = isset($placeholders[$category]) ? $placeholders[$category] : $placeholders['default'];
+            $event['placeholder_image'] = true;
         }
 
         return $events;
