@@ -7,16 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
 
-    (function(){
-        function r(a){
-            gsap.killTweensOf(a,{opacity:!0});
-            gsap.fromTo(a,{opacity:1},{duration:.07,opacity:Math.random(),repeat:-1})
-        }
-        function t(a){
-            e&&(a=l[d],gsap.set(a,{x:gsap.getProperty(".pContainer","x"),y:gsap.getProperty(".pContainer","y"),scale:m()}),gsap.timeline().to(a,{duration:gsap.utils.random(.61,6),physics2D:{velocity:gsap.utils.random(-23,23),angle:gsap.utils.random(-180,180),gravity:gsap.utils.random(-6,50)},scale:0,rotation:gsap.utils.random(-123,360),ease:"power1",onStart:r,onStartParams:[a],
-            onRepeat:function(b){gsap.set(b,{scale:m()})},onRepeatParams:[a]}),d++,d=201<=d?0:d)
-        }
-        
+    // Main start function so we can replay the animation
+    const startAnimation = () => {
         MorphSVGPlugin.convertToPath("polygon");
         document.querySelector(".pContainer");
         var u=document.querySelector(".mainSVG");
@@ -32,6 +24,14 @@ document.addEventListener("DOMContentLoaded", function() {
         c=gsap.timeline({delay:0,repeat:0});
         var k,m=gsap.utils.random(.5,3,.001,!0);
         (function(){for(var a=201,b;-1<--a;)b=document.querySelector(p[a%p.length]).cloneNode(!0),u.appendChild(b),b.setAttribute("fill",n[a%n.length]),b.setAttribute("class","particle"),l.push(b),gsap.set(b,{x:-100,y:-100,transformOrigin:"50% 50%"})})();
+        function r(a){
+            gsap.killTweensOf(a,{opacity:!0});
+            gsap.fromTo(a,{opacity:1},{duration:.07,opacity:Math.random(),repeat:-1})
+        }
+        function t(a){
+            e&&(a=l[d],gsap.set(a,{x:gsap.getProperty(".pContainer","x"),y:gsap.getProperty(".pContainer","y"),scale:m()}),gsap.timeline().to(a,{duration:gsap.utils.random(.61,6),physics2D:{velocity:gsap.utils.random(-23,23),angle:gsap.utils.random(-180,180),gravity:gsap.utils.random(-6,50)},scale:0,rotation:gsap.utils.random(-123,360),ease:"power1",onStart:r,onStartParams:[a],
+            onRepeat:function(b){gsap.set(b,{scale:m()})},onRepeatParams:[a]}),d++,d=201<=d?0:d)
+        }
         (function(){
             k=gsap.timeline({onUpdate:t});
             k.to(".pContainer, .sparkle",{duration:6,motionPath:{path:".treePath",autoRotate:!1},ease:"linear"})
@@ -46,5 +46,21 @@ document.addEventListener("DOMContentLoaded", function() {
         c.add(k,0);
         gsap.globalTimeline.timeScale(1.5); 
         k.vars.onComplete = function() { gsap.to('#endMessage', { opacity: 1 }) } 
-    })();
+
+        // Glow effect pattern on the star and outline
+        gsap.timeline({repeat:-1, yoyo:true})
+            .to(".treeStar, .treeStarOutline", {duration:1.2, scale:1.05, filter:"drop-shadow(0 0 12px rgba(201,169,110,0.7))", ease:"sine.inOut"})
+            .to(".treeStar, .treeStarOutline", {duration:1.2, scale:1, filter:"drop-shadow(0 0 4px rgba(201,169,110,0.4))", ease:"sine.inOut"});
+
+        // Replay the whole animation every 15 seconds
+        setTimeout(() => {
+            // reset particles
+            l.forEach(el => gsap.set(el, {x:-100,y:-100,opacity:1,scale:1}));
+            // restart timelines
+            c.restart(true);
+            k.restart(true);
+        }, 15000);
+    };
+
+    startAnimation();
 });
