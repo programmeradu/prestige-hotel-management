@@ -31,9 +31,12 @@
     z-index: 1;
     top: auto !important;
     left: auto !important;
+    right: auto !important; /* Fix: Override JS 'right' property causing shift */
+    bottom: auto !important;
     width: 100% !important;
     height: auto !important;
     overflow: visible !important;
+    margin: 0 !important;
 }
 
 /* Ensure columns have equal height for table-cell centering to work if needed */
