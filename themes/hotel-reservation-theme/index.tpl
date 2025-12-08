@@ -98,8 +98,15 @@
 <link rel="stylesheet" href="{$css_dir}christmas.css" type="text/css" media="all" />
 <div class="holiday-showcase-compact" style="position: relative; margin: 40px auto; max-width: 1100px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); background: #0f172a; display: grid; grid-template-columns: 1.2fr 1fr;">
 
-    {* LEFT SIDE: CHRISTMAS TREE ANIMATION *}
+    {* LEFT SIDE: CHRISTMAS TREE ANIMATION WITH HERO BACKDROP & ORNAMENTS *}
     <div class="holiday-visual christmas-tree-container" style="position: relative; min-height: 400px; overflow: hidden; background-color: #151522;">
+        {* Hero image as soft backdrop *}
+        {assign var='hotel_header_img' value=$smarty.const._PS_IMG_DIR_|cat:Configuration::get('WK_HOTEL_HEADER_IMAGE')}
+        <div style="position: absolute; inset: 0; background-image: url('{$link->getMediaLink($hotel_header_img)}'); background-size: cover; background-position: center; opacity: 0.35; filter: blur(1px);"></div>
+        {* Gradient overlays to keep focus on the tree *}
+        <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 19, 33, 0.7), rgba(13, 19, 33, 0.85));"></div>
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, transparent 0%, rgba(13, 19, 33, 0.75) 70%);"></div>
+
         <svg class="mainSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 600" style="width: 100%; height: 100%;">
             <defs>
                 <circle id="circ" class="particle" cx="0" cy="0" r="1" />
@@ -157,10 +164,14 @@
             </g>
             <foreignObject id="endMessage" x="0" y="550" width="800" height="250">
                 <span class="endMessage">
-                  Happy Holidays from <a href="#" style="text-decoration: underline;">Prestige Hotel</a>
+                  Happy Holidays from <a href="#" class="endMessageLink">Prestige Hotel</a>
                 </span>
             </foreignObject>
         </svg>
+        {* Hanging ornaments restored *}
+        <div id="ornaments-animation" class="ornament-container" style="position: absolute; top: -20px; left: 20px; width: 200px; height: 200px; z-index: 15; animation: swing 5s ease-in-out infinite;">
+            <dotlottie-player class="allowed-lottie" src="https://assets-v2.lottiefiles.com/a/19defabe-1175-11ee-82ed-f3a7235b8559/8oIBquGoPo.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
+        </div>
     </div>
 
     {* RIGHT SIDE: LUXURY CONTENT *}

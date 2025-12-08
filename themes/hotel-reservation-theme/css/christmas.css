@@ -40,11 +40,13 @@
   letter-spacing: 1px;
 }
 
-#endMessage a {
-  color: white;
-  text-decoration: underline dotted #FFFFFF;
+#endMessage a,
+#endMessage .endMessageLink {
+  color: #C9A96E;
+  text-decoration: underline dotted #C9A96E;
 }
 
-#endMessage a:visited {
-  color: red;
+#endMessage a:visited,
+#endMessage .endMessageLink:visited {
+  color: #C9A96E;
 }
