@@ -17,31 +17,72 @@
 *  @license   https://store.webkul.com/license.html
 */
 
-.homeAmenitiesBlock {
-  position: absolute;
-  z-index: 10;
+/* --- Wrapper & Scroll Fixes --- */
+.home_amenities_wrapper {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+    margin-bottom: 30px; /* Ensure space below */
 }
+
+.homeAmenitiesBlock {
+    position: relative !important; /* Disable absolute positioning */
+    z-index: 1;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Ensure columns have equal height for table-cell centering to work if needed */
+.amenity_content {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.amenity_content > div[class*="col-"] {
+    display: flex;
+    flex-direction: column;
+    float: none; /* Override bootstrap float since we use flex */
+}
+
 .amenity_img_primary {
   width: 100%;
   height: 100%;
+  position: relative;
+  min-height: 300px; /* Ensure minimum height */
 }
+
 .amenity_img_secondary{
   padding-bottom: 75%;
   background-size: cover;
   background-position: center center;
+  width: 100%;
+  height: 100%;
 }
+
 .amenity_desc_primary {
   width: 100%;
   height: 100%;
-  display: table;
+  display: flex; /* Changed from table to flex for better responsiveness */
+  align-items: center;
+  justify-content: center;
   background-color: #FFFFFF;
+  padding: 20px;
 }
+
 .amenity_desc_secondary {
-  display: table-cell;
+  display: block; /* Changed from table-cell */
   text-align: center;
-  vertical-align: middle;
+  width: 100%;
+  /* vertical-align: middle; removed */
   padding: 0px 25px;
 }
+
 .amenity_heading {
   font-size: 24px;
   color: #333333;
@@ -59,4 +100,5 @@
 .amenity_desc_hr {
   border-top: 1px solid #333333;
   width: 60px;
+  margin: 15px auto 0;
 }
