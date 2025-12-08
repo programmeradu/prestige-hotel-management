@@ -52,15 +52,19 @@ document.addEventListener("DOMContentLoaded", function() {
             .to(".treeStar, .treeStarOutline", {duration:0.8, scale:1.02, filter:"drop-shadow(0 0 6px rgba(201,169,110,0.45))", ease:"sine.inOut"})
             .to(".treeStar, .treeStarOutline", {duration:0.8, scale:1, filter:"drop-shadow(0 0 2px rgba(201,169,110,0.25))", ease:"sine.inOut"});
 
-        // Replay the whole animation every ~3-5 seconds
-        const replayDelay = gsap.utils.random(3, 5) * 1000;
-        setTimeout(() => {
-            // reset particles
-            l.forEach(el => gsap.set(el, {x:-100,y:-100,opacity:1,scale:1}));
-            // restart timelines
-            c.restart(true);
-            k.restart(true);
-        }, replayDelay);
+        // Replay the whole animation every ~3-5 seconds (looping)
+        const scheduleReplay = () => {
+            const replayDelay = gsap.utils.random(3, 5) * 1000;
+            setTimeout(() => {
+                // reset particles
+                l.forEach(el => gsap.set(el, {x:-100,y:-100,opacity:1,scale:1}));
+                // restart timelines
+                c.restart(true);
+                k.restart(true);
+                scheduleReplay();
+            }, replayDelay);
+        };
+        scheduleReplay();
     };
 
     startAnimation();
