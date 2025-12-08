@@ -100,9 +100,13 @@
 
     {* LEFT SIDE: CHRISTMAS TREE ANIMATION WITH HERO BACKDROP & ORNAMENTS *}
     <div class="holiday-visual christmas-tree-container" style="position: relative; min-height: 400px; overflow: hidden; background-color: #151522;">
-        {* Hero image as soft backdrop *}
+        {* Hero image as soft backdrop (with fallback) *}
         {assign var='hotel_header_img' value=$smarty.const._PS_IMG_DIR_|cat:Configuration::get('WK_HOTEL_HEADER_IMAGE')}
-        <div style="position: absolute; inset: 0; background-image: url('{$link->getMediaLink($hotel_header_img)}'); background-size: cover; background-position: center; opacity: 0.35; filter: blur(1px);"></div>
+        {if $hotel_header_img}
+            <div style="position: absolute; inset: 0; background-image: url('{$link->getMediaLink($hotel_header_img)|escape:'htmlall':'UTF-8'}'); background-size: cover; background-position: center; opacity: 0.35; filter: blur(1px);"></div>
+        {else}
+            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #0f172a, #1a2332); opacity: 0.35; filter: blur(1px);"></div>
+        {/if}
         {* Gradient overlays to keep focus on the tree *}
         <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 19, 33, 0.7), rgba(13, 19, 33, 0.85));"></div>
         <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, transparent 0%, rgba(13, 19, 33, 0.75) 70%);"></div>
@@ -209,11 +213,11 @@
         {* Features List (Compact) *}
         <div style="display: flex; gap: 20px; margin-bottom: 35px;">
             <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">âœ“</div>
+                    <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E; font-weight: 700;">✓</div>
                 <span style="color: #cbd5e1; font-size: 13px;">Festive Meals</span>
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
-                <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E;">âœ“</div>
+                    <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.05); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #C9A96E; font-weight: 700;">✓</div>
                 <span style="color: #cbd5e1; font-size: 13px;">Live Music</span>
             </div>
         </div>
