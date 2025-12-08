@@ -1,15 +1,17 @@
 <?php
 /**
  * 2024-2025 Prestige Hotel.
+ * 
+ * EventFeedHelper - Core theme class for fetching and displaying events
+ * This is NOT a module - it's a core part of the theme.
  *
  * @author    Prestige Hotel <info@prestigehotel.com>
  * @copyright 2024-2025 Prestige Hotel
  * @license   http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
  */
 
-if (!defined('_PS_VERSION_')) {
-    exit;
-}
+// This class is loaded via AJAX endpoint which initializes PrestaShop first
+// No module dependency required
 
 class EventFeedHelper
 {
@@ -484,7 +486,7 @@ class EventFeedHelper
         $prompt .= "Include style modifiers like 'professional photography', 'high quality', and appropriate lighting. ";
         $prompt .= "Focus on the event's atmosphere and setting. Return ONLY the image generation prompt, nothing else.";
 
-        $url = self::GEMINI_API_BASE . '/models/' . self::GEMINI_MODEL . '?key=' . self::GEMINI_API_KEY;
+        $url = self::GEMINI_API_BASE . '/models/' . self::GEMINI_MODEL . ':generateContent?key=' . self::GEMINI_API_KEY;
 
         $payload = array(
             'contents' => array(
