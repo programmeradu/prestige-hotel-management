@@ -394,11 +394,11 @@
 
 <!-- GSAP Animation Dependencies -->
 <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js"></script>
-<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin3.min.js"></script>
-<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MotionPathPlugin.min.js"></script>
-<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/Physics2DPlugin3.min.js"></script>
-<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/EasePack3.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/MorphSVGPlugin.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/MotionPathPlugin.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/Physics2DPlugin.min.js"></script>
+<script src="https://unpkg.com/gsap@3/dist/EasePack.min.js"></script>
 
 <!-- Custom Animation Script -->
 <script src="{$js_dir}christmas.js"></script>
