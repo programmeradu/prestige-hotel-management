@@ -101,7 +101,7 @@
     {* LEFT SIDE: CHRISTMAS TREE ANIMATION WITH HERO BACKDROP & ORNAMENTS *}
     <div class="holiday-visual christmas-tree-container" style="position: relative; min-height: 400px; overflow: hidden; background-color: #151522;">
         {* Hero image as soft backdrop (with fallback) *}
-        {assign var='hotel_header_img' value=$smarty.const._PS_IMG_DIR_|cat:Configuration::get('WK_HOTEL_HEADER_IMAGE')}
+        {assign var='hotel_header_img' value=$smarty.const._PS_IMG_|cat:Configuration::get('WK_HOTEL_HEADER_IMAGE')}
         {if $hotel_header_img}
             <div style="position: absolute; inset: 0; background-image: url('{$link->getMediaLink($hotel_header_img)|escape:'htmlall':'UTF-8'}'); background-size: cover; background-position: center; opacity: 0.35; filter: blur(1px);"></div>
         {else}
