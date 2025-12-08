@@ -429,37 +429,42 @@ class EventFeedHelper
             'default' => 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=450&fit=crop',
         );
 
-        foreach ($events as &$event) {
+        // Process each event using index-based loop to avoid reference issues
+        for ($i = 0; $i < count($events); $i++) {
             // Skip if event already has an image
-            if (!empty($event['image'])) {
+            if (!empty($events[$i]['image'])) {
                 continue;
             }
 
+            $eventId = $events[$i]['id'] ?? 'unknown';
+            $category = strtolower($events[$i]['category'] ?? 'default');
+            
+            // First, set placeholder as default (guaranteed to work)
+            $events[$i]['image'] = isset($placeholders[$category]) ? $placeholders[$category] : $placeholders['default'];
+            $events[$i]['placeholder_image'] = true;
+
+            // Now try AI generation (if it works, it overrides placeholder)
             try {
                 // Check if we have a cached AI image
-                $cachedImage = $this->getCachedImage($event['id']);
+                $cachedImage = $this->getCachedImage($eventId);
                 if ($cachedImage) {
-                    $event['image'] = $cachedImage;
-                    $event['needs_ai_image'] = true;
+                    $events[$i]['image'] = $cachedImage;
+                    $events[$i]['needs_ai_image'] = true;
+                    $events[$i]['placeholder_image'] = false;
                     continue;
                 }
 
-                // Try to generate AI image
-                $aiImage = $this->generateAIImage($event);
+                // Try to generate AI image (skip if taking too long)
+                $aiImage = $this->generateAIImage($events[$i]);
                 if ($aiImage) {
-                    $event['image'] = $aiImage;
-                    $event['needs_ai_image'] = true;
-                    continue;
+                    $events[$i]['image'] = $aiImage;
+                    $events[$i]['needs_ai_image'] = true;
+                    $events[$i]['placeholder_image'] = false;
                 }
             } catch (Exception $e) {
-                // Log error but continue
-                error_log('AI image generation failed: ' . $e->getMessage());
+                // Log error - placeholder already set
+                error_log('AI image generation failed for event ' . $eventId . ': ' . $e->getMessage());
             }
-
-            // Fallback to themed placeholder
-            $category = strtolower($event['category'] ?? 'default');
-            $event['image'] = isset($placeholders[$category]) ? $placeholders[$category] : $placeholders['default'];
-            $event['placeholder_image'] = true;
         }
 
         return $events;
