@@ -108,8 +108,8 @@
             <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #0f172a, #1a2332); opacity: 0.35; filter: blur(1px);"></div>
         {/if}
         {* Gradient overlays to keep focus on the tree *}
-        <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 19, 33, 0.7), rgba(13, 19, 33, 0.85));"></div>
-        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, transparent 0%, rgba(13, 19, 33, 0.75) 70%);"></div>
+        <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(13, 19, 33, 0.45), rgba(13, 19, 33, 0.6));"></div>
+        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 30% 50%, transparent 0%, rgba(13, 19, 33, 0.55) 70%);"></div>
 
         <svg class="mainSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 600" style="width: 100%; height: 100%;">
             <defs>

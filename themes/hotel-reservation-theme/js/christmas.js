@@ -47,19 +47,20 @@ document.addEventListener("DOMContentLoaded", function() {
         gsap.globalTimeline.timeScale(1.5); 
         k.vars.onComplete = function() { gsap.to('#endMessage', { opacity: 1 }) } 
 
-        // Glow effect pattern on the star and outline
+        // Glow effect pattern on the star and outline (subtle)
         gsap.timeline({repeat:-1, yoyo:true})
-            .to(".treeStar, .treeStarOutline", {duration:1.2, scale:1.05, filter:"drop-shadow(0 0 12px rgba(201,169,110,0.7))", ease:"sine.inOut"})
-            .to(".treeStar, .treeStarOutline", {duration:1.2, scale:1, filter:"drop-shadow(0 0 4px rgba(201,169,110,0.4))", ease:"sine.inOut"});
+            .to(".treeStar, .treeStarOutline", {duration:0.8, scale:1.02, filter:"drop-shadow(0 0 6px rgba(201,169,110,0.45))", ease:"sine.inOut"})
+            .to(".treeStar, .treeStarOutline", {duration:0.8, scale:1, filter:"drop-shadow(0 0 2px rgba(201,169,110,0.25))", ease:"sine.inOut"});
 
-        // Replay the whole animation every 15 seconds
+        // Replay the whole animation every ~3-5 seconds
+        const replayDelay = gsap.utils.random(3, 5) * 1000;
         setTimeout(() => {
             // reset particles
             l.forEach(el => gsap.set(el, {x:-100,y:-100,opacity:1,scale:1}));
             // restart timelines
             c.restart(true);
             k.restart(true);
-        }, 15000);
+        }, replayDelay);
     };
 
     startAnimation();
