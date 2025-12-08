@@ -156,6 +156,8 @@ class EventFeedHelper
 
     /**
      * Fetch events from Eventbrite API
+     * Note: The /v3/events/search/ endpoint was deprecated in Sep 2023
+     * Now using /v3/destination/search/ for public event discovery
      */
     protected function fetchEventbrite()
     {
@@ -171,29 +173,80 @@ class EventFeedHelper
         if (!$token && self::DEFAULT_EVENTBRITE_TOKEN) {
             $token = self::DEFAULT_EVENTBRITE_TOKEN;
         }
-        
-        // NOTE: Eventbrite API requires a Personal OAuth Token (not OAuth Client Secret)
-        // Generate from: https://www.eventbrite.com/platform/api-keys/
-        // Or set via: Configuration::updateValue('EVENTSFEED_EVENTBRITE_TOKEN', 'YOUR_TOKEN')
 
         if (!$token) {
+            error_log('Eventbrite: No API token configured');
             return array();
         }
 
+        // Try the destination search endpoint (newer API)
         $params = array(
+            'place' => 'Cape Coast, Ghana',
+            'dates' => 'current_future',
+            'page_size' => 10,
+        );
+
+        $url = 'https://www.eventbriteapi.com/v3/destination/search/?'.http_build_query($params);
+        $headers = array('Authorization: Bearer '.$token);
+
+        error_log('Eventbrite: Trying destination search API');
+        $response = $this->httpGetWithDebug($url, $headers);
+        
+        // Check for events in destination search response
+        if ($response && isset($response['events']) && !empty($response['events']['results'])) {
+            error_log('Eventbrite: Found events via destination search');
+            $this->lastSource = 'eventbrite';
+            $normalized = array();
+            
+            foreach ($response['events']['results'] as $ev) {
+                $normalized[] = array(
+                    'id' => 'eb_'.(string)$ev['id'],
+                    'title' => isset($ev['name']) ? $ev['name'] : 'Event',
+                    'description' => isset($ev['summary']) ? $ev['summary'] : 'Eventbrite event in Cape Coast',
+                    'start' => isset($ev['start_date']) ? $ev['start_date'].'T'.($ev['start_time'] ?? '00:00:00').'Z' : gmdate('c'),
+                    'end' => isset($ev['end_date']) ? $ev['end_date'].'T'.($ev['end_time'] ?? '23:59:59').'Z' : null,
+                    'url' => isset($ev['url']) ? $ev['url'] : null,
+                    'image' => isset($ev['image']['url']) ? $ev['image']['url'] : null,
+                    'venue' => array(
+                        'name' => isset($ev['primary_venue']['name']) ? $ev['primary_venue']['name'] : '',
+                        'address' => isset($ev['primary_venue']['address']['localized_address_display']) 
+                            ? $ev['primary_venue']['address']['localized_address_display'] 
+                            : 'Cape Coast, Ghana',
+                    ),
+                    'category' => $this->mapEventbriteCategory(isset($ev['tags']) ? $ev['tags'] : array()),
+                    'source' => 'eventbrite',
+                );
+            }
+            
+            return $normalized;
+        }
+
+        // Fallback: Try the legacy events search endpoint
+        error_log('Eventbrite: Trying legacy search API');
+        $legacyParams = array(
             'location.address' => 'Cape Coast, Ghana',
-            'location.within' => '50km',
+            'location.within' => '100km',
             'start_date.range_start' => gmdate('Y-m-d\TH:i:s\Z'),
-            'start_date.range_end' => gmdate('Y-m-d\TH:i:s\Z', strtotime('+30 days')),
+            'start_date.range_end' => gmdate('Y-m-d\TH:i:s\Z', strtotime('+60 days')),
             'expand' => 'venue,logo',
             'sort_by' => 'date',
         );
 
-        $url = 'https://www.eventbriteapi.com/v3/events/search/?'.http_build_query($params);
-        $headers = array('Authorization: Bearer '.$token);
-
-        $response = $this->httpGet($url, $headers);
-        if (!$response || !isset($response['events'])) {
+        $legacyUrl = 'https://www.eventbriteapi.com/v3/events/search/?'.http_build_query($legacyParams);
+        $response = $this->httpGetWithDebug($legacyUrl, $headers);
+        
+        if (!$response) {
+            error_log('Eventbrite: No response from API');
+            return array();
+        }
+        
+        if (isset($response['error'])) {
+            error_log('Eventbrite API Error: ' . json_encode($response['error']));
+            return array();
+        }
+        
+        if (!isset($response['events']) || empty($response['events'])) {
+            error_log('Eventbrite: No events found in response');
             return array();
         }
 
@@ -394,6 +447,49 @@ class EventFeedHelper
     }
 
     /**
+     * HTTP GET with debug logging
+     */
+    protected function httpGetWithDebug($url, array $headers = array())
+    {
+        $allHeaders = array_merge($headers, array('Accept: application/json'));
+
+        $opts = array(
+            'http' => array(
+                'method' => 'GET',
+                'header' => implode("\r\n", $allHeaders),
+                'timeout' => 15,
+                'ignore_errors' => true,
+            ),
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ),
+        );
+
+        $context = stream_context_create($opts);
+        $body = @file_get_contents($url, false, $context);
+
+        // Get response headers for debugging
+        if (isset($http_response_header)) {
+            $statusLine = $http_response_header[0] ?? 'Unknown';
+            error_log('API Response Status: ' . $statusLine);
+        }
+
+        if ($body === false) {
+            error_log('API Request failed: No response body');
+            return null;
+        }
+
+        $decoded = json_decode($body, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            error_log('API Response not valid JSON: ' . substr($body, 0, 200));
+            return null;
+        }
+
+        return $decoded;
+    }
+
+    /**
      * Truncate text to specified length
      */
     protected function truncate($text, $length)
@@ -403,6 +499,41 @@ class EventFeedHelper
             $text = Tools::substr($text, 0, $length - 3).'...';
         }
         return $text;
+    }
+
+    /**
+     * Map Eventbrite tags to our category system
+     */
+    protected function mapEventbriteCategory($tags)
+    {
+        if (empty($tags) || !is_array($tags)) {
+            return 'event';
+        }
+
+        $tagString = strtolower(implode(' ', array_map(function($t) {
+            return isset($t['display_name']) ? $t['display_name'] : (is_string($t) ? $t : '');
+        }, $tags)));
+
+        if (strpos($tagString, 'music') !== false || strpos($tagString, 'concert') !== false) {
+            return 'concert';
+        }
+        if (strpos($tagString, 'festival') !== false || strpos($tagString, 'cultural') !== false) {
+            return 'festival';
+        }
+        if (strpos($tagString, 'conference') !== false || strpos($tagString, 'business') !== false) {
+            return 'conferences';
+        }
+        if (strpos($tagString, 'community') !== false || strpos($tagString, 'charity') !== false) {
+            return 'community';
+        }
+        if (strpos($tagString, 'market') !== false || strpos($tagString, 'food') !== false) {
+            return 'market';
+        }
+        if (strpos($tagString, 'sport') !== false || strpos($tagString, 'fitness') !== false) {
+            return 'sports';
+        }
+
+        return 'event';
     }
 
     /**
@@ -691,18 +822,52 @@ class EventFeedHelper
      */
     protected function saveGeneratedImage($eventId, $base64Data)
     {
+        error_log('Saving AI image for event: ' . $eventId);
+        
+        // Ensure image directory exists
+        if (!is_dir($this->imageDir)) {
+            if (!@mkdir($this->imageDir, 0775, true)) {
+                error_log('Failed to create image directory: ' . $this->imageDir);
+                return null;
+            }
+        }
+        
+        // Check if directory is writable
+        if (!is_writable($this->imageDir)) {
+            error_log('Image directory not writable: ' . $this->imageDir);
+            return null;
+        }
+
+        // Decode base64 data
         $imageData = base64_decode($base64Data);
         if (!$imageData) {
+            error_log('Failed to decode base64 image data');
             return null;
         }
 
-        $filename = 'event_' . preg_replace('/[^a-zA-Z0-9_-]/', '_', $eventId) . '_' . time() . '.jpg';
+        // Detect image type from data
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->buffer($imageData);
+        
+        // Determine file extension
+        $extension = 'jpg';
+        if ($mimeType === 'image/png') {
+            $extension = 'png';
+        } elseif ($mimeType === 'image/webp') {
+            $extension = 'webp';
+        }
+
+        $filename = 'event_' . preg_replace('/[^a-zA-Z0-9_-]/', '_', $eventId) . '_' . time() . '.' . $extension;
         $filepath = $this->imageDir . $filename;
 
-        if (@file_put_contents($filepath, $imageData) === false) {
+        $bytesWritten = @file_put_contents($filepath, $imageData);
+        if ($bytesWritten === false) {
+            error_log('Failed to save image to: ' . $filepath);
             return null;
         }
 
+        error_log('Successfully saved AI image: ' . $filename . ' (' . $bytesWritten . ' bytes)');
+        
         // Return public URL
         return _PS_IMG_ . 'events/' . $filename;
     }
