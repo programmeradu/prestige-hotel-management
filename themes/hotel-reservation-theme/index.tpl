@@ -276,7 +276,7 @@
                         <p class="home-section-subtitle">Real upcoming events near Prestige Hotel, powered by Eventbrite &amp; PredictHQ.</p>
                 </div>
 
-                <div id="events-showcase" class="events-grid" data-endpoint="{$link->getModuleLink('eventsfeed', 'feed')}" aria-live="polite">
+                <div id="events-showcase" class="events-grid" data-endpoint="{$base_dir}themes/hotel-reservation-theme/ajax/events.php" aria-live="polite">
                         {for $i=1 to 4}
                         <div class="event-card skeleton">
                                 <div class="event-media"></div>
