@@ -44,6 +44,13 @@
     margin: 0 !important;
 }
 
+/* Fix for JS interfering with height calculation on load */
+.amenity_desc_cont {
+    height: auto !important;
+    display: flex;
+    flex-direction: column;
+}
+
 .amenity_content > div[class*="col-"] {
     display: flex;
     flex-direction: column;
