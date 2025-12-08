@@ -1403,6 +1403,19 @@ pre code {
   .container {
     max-width: 1170px;
   }
+}
+
+/* Large screens - increase container width */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1800px;
+  }
 
   .col-lg-1,
   .col-lg-2,

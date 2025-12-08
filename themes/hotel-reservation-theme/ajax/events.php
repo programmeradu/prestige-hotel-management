@@ -7,9 +7,10 @@
  * @license   http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
  */
 
-// Enable error reporting for debugging (remove in production)
+// Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
+ini_set('log_errors', 1);
 
 try {
     require_once(dirname(__FILE__).'/../../config/config.inc.php');
@@ -61,17 +62,27 @@ try {
     // Output JSON
     die(Tools::jsonEncode($response));
 
-} catch (Exception $e) {
-    // Log error
-    error_log('Events Feed Error: '.$e->getMessage());
-    error_log('Stack trace: '.$e->getTraceAsString());
+} catch (Throwable $e) {
+    // Log error with full details
+    $errorMsg = $e->getMessage();
+    $errorFile = $e->getFile();
+    $errorLine = $e->getLine();
+    $errorTrace = $e->getTraceAsString();
+    
+    error_log('Events Feed Error: '.$errorMsg);
+    error_log('File: '.$errorFile.' Line: '.$errorLine);
+    error_log('Stack trace: '.$errorTrace);
     
     // Return error response
     header('Content-Type: application/json; charset=utf-8');
+    http_response_code(200); // Return 200 with error in JSON to avoid CORS issues
+    
     die(json_encode(array(
         'success' => false,
         'error' => 'Failed to load events',
-        'message' => $e->getMessage(),
+        'message' => $errorMsg,
+        'file' => basename($errorFile),
+        'line' => $errorLine,
         'events' => array()
     )));
 }

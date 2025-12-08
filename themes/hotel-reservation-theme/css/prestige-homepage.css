@@ -172,7 +172,8 @@ header,
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     padding: 15px 30px;
     margin: 0 auto;
-    max-width: 900px;
+    max-width: 1400px; /* Increased from 900px for larger screens */
+    width: 100%;
 }
 
 #search_hotel_block_form {
@@ -180,6 +181,20 @@ header,
     flex-wrap: wrap;
     align-items: center;
     gap: 15px;
+    justify-content: center; /* Center items on larger screens */
+    max-width: 100%;
+}
+
+/* Large screens - better spacing */
+@media (min-width: 1400px) {
+    #search_hotel_block_form {
+        gap: 20px;
+        justify-content: space-between; /* Spread items on very large screens */
+    }
+    
+    .header-rmsearch-wrapper {
+        padding: 20px 40px;
+    }
 }
 
 #search_hotel_block_form .grid {
@@ -817,9 +832,10 @@ header,
 }
 
 .rooms-section .container {
-    max-width: 1200px;
+    max-width: 1600px; /* Increased from 1200px for larger screens */
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
+    width: 100%;
 }
 
 /* Experiences Section */
@@ -1118,9 +1134,24 @@ header,
 /* Room Cards Grid - Premium Overlay Design */
 .room-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
     margin-top: 40px;
+    width: 100%;
+}
+
+/* Large screens - allow more cards per row */
+@media (min-width: 1400px) {
+    .room-cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 35px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .room-cards-grid {
+        gap: 40px;
+    }
 }
 .room-card {
     background: #ffffff;
@@ -1264,6 +1295,24 @@ header,
     }
 }
 
+/* Large screens - better room cards layout */
+@media (min-width: 1400px) {
+    .rooms-section .container {
+        padding: 0 30px;
+    }
+    
+    .room-cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 35px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .room-cards-grid {
+        gap: 40px;
+    }
+}
+
 /* ============================================
    PREMIUM HOLIDAY SHOWCASE SECTION
    ============================================ */
@@ -1351,11 +1400,32 @@ header,
     color: #000 !important;
 }
 
+/* Holiday Showcase - Ensure proper width and responsiveness */
+.holiday-showcase-compact {
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Large screens - better spacing */
+@media (min-width: 1400px) {
+    .holiday-showcase-compact {
+        margin: 50px auto !important;
+    }
+}
+
+@media (min-width: 1600px) {
+    .holiday-showcase-compact {
+        margin: 60px auto !important;
+    }
+}
+
 /* Holiday Showcase Responsive */
 @media (max-width: 768px) {
     .holiday-showcase-compact {
         margin: 30px 0 !important;
         border-radius: 16px !important;
+        grid-template-columns: 1fr !important; /* Stack on mobile */
     }
     
     .holiday-visual {

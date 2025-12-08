@@ -67,10 +67,18 @@
 }
 
 .search-section-wrapper .container {
-    max-width: 1400px !important;
+    max-width: 1600px !important; /* Increased from 1400px */
     width: 100% !important;
-    padding: 0 15px !important;
+    padding: 0 20px !important;
     overflow: visible !important; /* CRITICAL */
+}
+
+/* Very large screens */
+@media (min-width: 1600px) {
+    .search-section-wrapper .container {
+        max-width: 1800px !important;
+        padding: 0 30px !important;
+    }
 }
 
 /* Cart badge color override */
@@ -128,12 +136,42 @@
     margin: 0 !important;
 }
 
+/* Large screens - spread out form elements */
+@media (min-width: 1400px) {
+    #search_hotel_block_form {
+        justify-content: space-between !important; /* Spread items on very large screens */
+        gap: 20px !important;
+    }
+}
+
 /* Remove Grid System Interference */
 #search_hotel_block_form .grid {
     display: contents !important; /* Allows children to participate in parent flex */
 }
 
 /* FORM ELEMENTS SIZING & STYLING */
+
+/* Large screens - better form element sizing */
+@media (min-width: 1400px) {
+    #search_hotel_block_form .grid-item {
+        flex: 1 1 auto !important; /* Allow growth on large screens */
+        min-width: 200px !important;
+    }
+    
+    .header-rmsearch-input,
+    #search_hotel_block_form .form-control,
+    #search_hotel_block_form input.form-control,
+    #guest_occupancy,
+    #daterange_value {
+        width: 280px !important; /* Slightly larger on big screens */
+    }
+    
+    #search_room_submit,
+    .header-rmsearch-container .btn-primary,
+    #search_hotel_block_form button[type="submit"] {
+        width: 200px !important; /* Larger button on big screens */
+    }
+}
 
 /* Common Wrapper for Inputs */
 #search_hotel_block_form .grid-item {

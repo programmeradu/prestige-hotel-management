@@ -21,7 +21,7 @@
 .header-rmsearch-container {
   position: relative;
   width: 100%;
-  max-width: 900px;
+  max-width: 1400px; /* Increased from 900px for larger screens */
   margin: 0 auto;
   padding: 30px 20px;
   z-index: 10;

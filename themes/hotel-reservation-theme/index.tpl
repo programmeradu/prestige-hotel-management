@@ -96,7 +96,8 @@
 
 {* 2. PREMIUM COMPACT CHRISTMAS BANNER *}
 <link rel="stylesheet" href="{$css_dir}christmas.css" type="text/css" media="all" />
-<div class="holiday-showcase-compact" style="position: relative; margin: 40px auto; max-width: 1100px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); background: #0f172a; display: grid; grid-template-columns: 1.2fr 1fr;">
+<div class="container" style="max-width: 1600px; width: 100%; margin: 0 auto; padding: 0 20px;">
+<div class="holiday-showcase-compact" style="position: relative; margin: 40px auto; max-width: 100%; width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); background: #0f172a; display: grid; grid-template-columns: 1.2fr 1fr;">
 
     {* LEFT SIDE: CHRISTMAS TREE ANIMATION WITH HERO BACKDROP & ORNAMENTS *}
     <div class="holiday-visual christmas-tree-container" style="position: relative; min-height: 400px; overflow: hidden; background-color: #151522;">
@@ -255,6 +256,7 @@
         }
     </style>
 </div>
+</div> {* Close container wrapper *}
 
 <!-- GSAP Animation Dependencies -->
 <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
@@ -378,10 +380,31 @@
         events.slice(0,4).forEach(function(e){ grid.appendChild(card(e)); });
     }
 
+    // Ensure HTTPS for endpoint (fix mixed content issue)
+    if (endpoint && endpoint.indexOf('http://') === 0 && window.location.protocol === 'https:') {
+        endpoint = endpoint.replace('http://', 'https://');
+    }
+    // If relative URL, make it absolute
+    if (endpoint && endpoint.indexOf('http') !== 0) {
+        endpoint = window.location.protocol + '//' + window.location.host + (endpoint.indexOf('/') === 0 ? '' : '/') + endpoint;
+    }
+
     fetch(endpoint + '?limit=4', {credentials:'same-origin'})
-        .then(function(r){ return r.json(); })
-        .then(function(data){ render(data.events || []); })
-        .catch(function(){ 
+        .then(function(r){ 
+            if (!r.ok) {
+                throw new Error('HTTP ' + r.status);
+            }
+            return r.json(); 
+        })
+        .then(function(data){ 
+            if (data.success !== false && data.events) {
+                render(data.events || []); 
+            } else {
+                throw new Error(data.error || 'Failed to load events');
+            }
+        })
+        .catch(function(err){ 
+            console.error('Events feed error:', err);
             grid.innerHTML = '<p class="event-empty">Could not load events.</p>';
             if (fallback) fallback.style.display = 'block';
         });
