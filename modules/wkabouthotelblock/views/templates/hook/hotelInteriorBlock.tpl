@@ -116,25 +116,27 @@
                                 {foreach from=$InteriorMedia item=media name=gridLoop}
                                     {if !$smarty.foreach.gridLoop.first} {* Skip first as it's featured *}
                                         {if isset($media['media_type']) && $media['media_type'] == 'video'}
-                                            {* Video in grid - use thumbnail from name field if available *}
-                                            {assign var='has_thumb' value=false}
-                                            {if isset($media['name']) && $media['name']}
-                                                {assign var='thumb_path' value=$link->getMediaLink("`$module_dir`views/img/hotel_interior/`$media['name']`.jpg")}
-                                                {assign var='has_thumb' value=true}
-                                            {/if}
+                                            {* Video in grid - use video element to show first frame as thumbnail *}
+                                            {assign var='video_url' value=$link->getMediaLink("`$module_dir`views/video/hotel_interior/`$media['video_file']`")}
                                             <div class="gallery-item gallery-video-item" 
-                                                 data-video-src="{$link->getMediaLink("`$module_dir`views/video/hotel_interior/`$media['video_file']`")}"
+                                                 data-video-src="{$video_url}"
                                                  data-title="{$media['display_name']|escape:'htmlall':'UTF-8'}"
-                                                 style="{if $has_thumb}background-image: url('{$thumb_path}'); background-size: cover; background-position: center;{else}background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);{/if}">
-                                                <div class="video-play-icon">
+                                                 style="position:relative;overflow:hidden;background:#1a1a2e;">
+                                                {* Video thumbnail using actual video element *}
+                                                <video class="video-thumb-preview" 
+                                                       muted preload="metadata" 
+                                                       style="width:100%;height:100%;object-fit:cover;pointer-events:none;">
+                                                    <source src="{$video_url}#t=0.5" type="video/mp4">
+                                                </video>
+                                                <div class="video-play-icon" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;">
                                                     <svg viewBox="0 0 68 48" width="40" height="30">
                                                         <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#C9A96E"></path>
                                                         <path d="M45,24L27,14v20L45,24z" fill="#fff"></path>
                                                     </svg>
                                                 </div>
-                                                <div class="image-overlay"></div>
+                                                <div class="image-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.2);z-index:1;"></div>
                                                 {if $media['display_name']}
-                                                    <span class="media-title">{$media['display_name']|escape:'htmlall':'UTF-8'}</span>
+                                                    <span class="media-title" style="position:absolute;bottom:8px;left:8px;color:#fff;font-size:11px;z-index:2;">{$media['display_name']|escape:'htmlall':'UTF-8'}</span>
                                                 {/if}
                                             </div>
                                         {else}
