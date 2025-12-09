@@ -28,8 +28,19 @@ function upgrade_module_1_1_5($module)
 
 function updateTableData()
 {
-    $interiorImages = $htlBookings = Db::getInstance()->executes(
-        'SELECT `id_interior_image` FROM `'._DB_PREFIX_.'htl_interior_image`'
+    $prefix = defined('_DB_PREFIX_') ? _DB_PREFIX_ : '';
+    if ($prefix !== 'qlooo_') {
+        $exists = Db::getInstance()->getValue("SHOW TABLES LIKE 'qlooo_htl_interior_image'");
+        if ($exists) {
+            $prefix = 'qlooo_';
+        }
+    }
+    if (!$prefix) {
+        $prefix = 'qlooo_';
+    }
+    
+    $interiorImages = Db::getInstance()->executes(
+        'SELECT `id_interior_image` FROM `'.$prefix.'htl_interior_image`'
     );
 
     foreach ($interiorImages as $img) {

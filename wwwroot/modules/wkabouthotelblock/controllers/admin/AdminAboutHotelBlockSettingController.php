@@ -60,9 +60,44 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                     'type' => 'submit',
                 )
             ),
+            'video' => array(
+                'title' =>  $this->l('Featured Video'),
+                'icon' =>   'icon-film',
+                'fields' => array(
+                    'HOTEL_INTERIOR_VIDEO_ENABLED' => array(
+                        'title' => $this->l('Enable Video'),
+                        'type' => 'bool',
+                        'required' => false,
+                        'hint' => $this->l('Show a featured video in the interiors section.')
+                    ),
+                    'HOTEL_INTERIOR_VIDEO_URL' => array(
+                        'title' => $this->l('Video URL'),
+                        'type' => 'text',
+                        'required' => false,
+                        'hint' => $this->l('YouTube or Vimeo URL (e.g., https://www.youtube.com/watch?v=XXXXX or https://vimeo.com/XXXXX)')
+                    ),
+                    'HOTEL_INTERIOR_VIDEO_TITLE' => array(
+                        'title' => $this->l('Video Title'),
+                        'type' => 'textLang',
+                        'lang' => true,
+                        'required' => false,
+                        'hint' => $this->l('Title displayed above the video.')
+                    ),
+                    'HOTEL_INTERIOR_VIDEO_THUMBNAIL' => array(
+                        'title' => $this->l('Custom Thumbnail URL'),
+                        'type' => 'text',
+                        'required' => false,
+                        'hint' => $this->l('Optional: Custom thumbnail image URL. Leave empty to use video thumbnail.')
+                    ),
+                ),
+                'submit' => array(
+                    'title' => $this->l('Save'),
+                    'type' => 'submit',
+                )
+            ),
         );
 
-        $this->informations[] = $this->l('Keep interior images in a multiple of 3 for the best view.');
+        $this->informations[] = $this->l('You can upload both images and videos. They will display together in the Interiors section.');
         $this->addRowAction('edit');
         $this->addRowAction('delete');
 
@@ -72,14 +107,20 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                 'align' => 'text-center',
                 'class' => 'fixed-width-xs'
             ),
+            'media_type' => array(
+                'title' => $this->l('Type'),
+                'align' => 'center',
+                'class' => 'fixed-width-xs',
+                'callback' => 'getMediaTypeBadge',
+            ),
             'name' => array(
-                'title' => $this->l('Interior Image'),
+                'title' => $this->l('Preview'),
                 'align' => 'center',
                 'orderby' => false,
                 'filter' => false,
                 'search' => false,
-                'callback' => 'getInteriorImage',
-                'class' => 'fixed-width-xs',
+                'callback' => 'getMediaPreview',
+                'class' => 'fixed-width-lg',
             ),
             'display_name' => array(
                 'title' => $this->l('Display Name'),
@@ -140,8 +181,46 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
         parent::initToolbar();
         $this->page_header_toolbar_btn['new'] = array(
             'href' => self::$currentIndex.'&add'.$this->table.'&token='.$this->token,
-            'desc' => $this->l('Add New Hotel Image'),
+            'desc' => $this->l('Add New Image/Video'),
         );
+    }
+    
+    /**
+     * Get media type badge for list display
+     */
+    public function getMediaTypeBadge($mediaType, $row)
+    {
+        if ($mediaType === 'video') {
+            return '<span class="badge badge-info" style="background:#17a2b8;padding:5px 10px;"><i class="icon-film"></i> Video</span>';
+        }
+        return '<span class="badge badge-success" style="background:#28a745;padding:5px 10px;"><i class="icon-picture"></i> Image</span>';
+    }
+
+    /**
+     * Get media preview (image or video thumbnail)
+     */
+    public function getMediaPreview($name, $row)
+    {
+        $mediaType = isset($row['media_type']) ? $row['media_type'] : 'image';
+        
+        if ($mediaType === 'video') {
+            // Video - show video icon or thumbnail
+            $videoFile = isset($row['video_file']) ? $row['video_file'] : '';
+            if ($videoFile) {
+                $videoUrl = $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/video/hotel_interior/'.$videoFile);
+                return '<div style="position:relative;width:80px;height:60px;background:#000;border-radius:4px;display:flex;align-items:center;justify-content:center;">
+                    <i class="icon-play-circle" style="color:#fff;font-size:24px;"></i>
+                </div>';
+            }
+            return '<i class="icon-film" style="font-size:32px;color:#17a2b8;"></i>';
+        }
+        
+        // Image
+        $imgUrl = $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$name.'.jpg');
+        if (Tools::file_get_contents($imgUrl)) {
+            return '<img src="'.$imgUrl.'" class="img-thumbnail htlInteriorImg" style="max-width:80px;max-height:60px;">';
+        }
+        return '--';
     }
 
     public function getInteriorImage($imgName)
@@ -158,57 +237,82 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
     public function renderForm()
     {
         $imgUrl = $imageSize = $imgExist = $image = false;
+        $videoExist = false;
+        $videoPreview = false;
+        $currentMediaType = 'image';
 
         if ($this->display == 'edit') {
             $idHtlInterior = Tools::getValue('id_interior_image');
             $objHtlInteriorImg = new WkHotelInteriorImage($idHtlInterior);
             $imgName = $objHtlInteriorImg->name;
+            $currentMediaType = $objHtlInteriorImg->media_type ?: 'image';
 
-            // by webkul to get media link.
-            // $image = _PS_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$imgName.'.jpg';
-            // $imageUrl = ImageManager::thumbnail(
-            //     $image,
-            //     $this->table.'_'.(int)$idHtlInterior.'.'.$this->imageType,
-            //     350,
-            //     $this->imageType,
-            //     true,
-            //     true
-            // );
-            // $imageSize = file_exists($image) ? filesize($image) / 1000 : false;
-
-            $imgUrl = $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$imgName.'.jpg');
-            if ($imgExist = (bool)Tools::file_get_contents($imgUrl)) {
-                $image = "<img class='img-thumbnail img-responsive' style='max-width:250px' src='".$imgUrl."'>";
+            if ($currentMediaType === 'video' && $objHtlInteriorImg->video_file) {
+                $videoUrl = $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/video/hotel_interior/'.$objHtlInteriorImg->video_file);
+                $videoExist = true;
+                $videoPreview = '<video controls style="max-width:400px;max-height:250px;border-radius:8px;">
+                    <source src="'.$videoUrl.'" type="video/mp4">
+                    Your browser does not support video.
+                </video>';
+            } else {
+                $imgUrl = $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$imgName.'.jpg');
+                if ($imgExist = (bool)Tools::file_get_contents($imgUrl)) {
+                    $image = "<img class='img-thumbnail img-responsive' style='max-width:250px' src='".$imgUrl."'>";
+                }
             }
-
         }
 
         $this->fields_form = array(
             'legend' => array(
-                'title' => $this->l('Add New Hotel Interior Image'),
-                'icon' => 'icon-list-ul'
+                'title' => $this->l('Add Hotel Interior Media'),
+                'icon' => 'icon-picture'
             ),
             'input' => array(
                 array(
                     'type' => 'text',
-                    'label' => $this->l('Image Display name'),
+                    'label' => $this->l('Display Name'),
                     'name' => 'display_name',
-                    'hint' => $this->l('Invalid characters:').' &lt;&gt;;=#{}'
+                    'hint' => $this->l('Name shown on hover or for accessibility')
+                ),
+                array(
+                    'type' => 'select',
+                    'label' => $this->l('Media Type'),
+                    'name' => 'media_type',
+                    'required' => true,
+                    'options' => array(
+                        'query' => array(
+                            array('id' => 'image', 'name' => $this->l('Image')),
+                            array('id' => 'video', 'name' => $this->l('Video')),
+                        ),
+                        'id' => 'id',
+                        'name' => 'name'
+                    ),
+                    'desc' => $this->l('Choose whether to upload an image or video.'),
                 ),
                 array(
                     'type' => 'file',
-                    'label' => $this->l('Hotel Interior Image'),
+                    'label' => $this->l('Image File'),
                     'name' => 'interior_img',
-                    'required' => true,
+                    'required' => false,
                     'display_image' => true,
-                    'image' => $imgExist ? $image : false, // to get media link
-                    // 'size' => $imageSize,
-                    // 'col' => 6,
+                    'image' => $imgExist ? $image : false,
                     'hint' => sprintf(
-                        $this->l('Maximum image size: %1s'),
+                        $this->l('Maximum file size: %1s'),
                         Tools::formatBytes(Tools::getMaxUploadSize())
                     ),
-                    'desc' => $this->l('Recommended resolution: 720 x 360 pixels.'),
+                    'desc' => $this->l('Upload an image (JPG, PNG). Recommended: 720 x 360 pixels.'),
+                    'form_group_class' => 'image-upload-group',
+                ),
+                array(
+                    'type' => 'file',
+                    'label' => $this->l('Video File'),
+                    'name' => 'interior_video',
+                    'required' => false,
+                    'hint' => $this->l('Upload MP4, WebM, or OGG video files.'),
+                    'desc' => $videoExist 
+                        ? $this->l('Current video:').'<br>'.$videoPreview 
+                        : $this->l('Upload a video file (MP4 recommended). Max size depends on server config.'),
+                    'form_group_class' => 'video-upload-group',
                 ),
                 array(
                     'type' => 'switch',
@@ -234,12 +338,19 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                 'title' => $this->l('Save'),
             ),
         );
+        
+        // Set default media type for edit
+        $this->fields_value['media_type'] = $currentMediaType;
+        
         return parent::renderForm();
     }
 
     public function processSave()
     {
-        $file = $_FILES['interior_img'];
+        $mediaType = Tools::getValue('media_type', 'image');
+        $imageFile = isset($_FILES['interior_img']) ? $_FILES['interior_img'] : null;
+        $videoFile = isset($_FILES['interior_video']) ? $_FILES['interior_video'] : null;
+        $isEdit = (bool)Tools::getValue("id_interior_image");
 
         /*==== Validations ====*/
         if (Tools::getValue('display_name')) {
@@ -247,53 +358,122 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                 $this->errors[] = $this->l('Please enter valid name.');
             }
         }
-        if (!(Tools::getValue("id_interior_image") && !$file['size'])) {
-            if (!$file['size']) {
-                $this->errors[] = $this->l('Hotel Interior Image Required.');
-            } elseif ($error = ImageManager::validateUpload($file, Tools::getMaxUploadSize())) {
-                $this->errors[] = $error;
+        
+        // Validate based on media type
+        if ($mediaType === 'video') {
+            // Video validation
+            if (!$isEdit || ($videoFile && $videoFile['size'])) {
+                if (!$videoFile || !$videoFile['size']) {
+                    if (!$isEdit) {
+                        $this->errors[] = $this->l('Please upload a video file.');
+                    }
+                } else {
+                    // Validate video file
+                    $allowedVideoTypes = array('video/mp4', 'video/webm', 'video/ogg', 'video/quicktime');
+                    $allowedExtensions = array('mp4', 'webm', 'ogg', 'mov');
+                    $ext = strtolower(pathinfo($videoFile['name'], PATHINFO_EXTENSION));
+                    
+                    if (!in_array($videoFile['type'], $allowedVideoTypes) && !in_array($ext, $allowedExtensions)) {
+                        $this->errors[] = $this->l('Invalid video format. Allowed: MP4, WebM, OGG, MOV.');
+                    }
+                    // Check file size (100MB max for videos)
+                    if ($videoFile['size'] > 104857600) {
+                        $this->errors[] = $this->l('Video file too large. Maximum 100MB allowed.');
+                    }
+                }
+            }
+        } else {
+            // Image validation
+            if (!$isEdit || ($imageFile && $imageFile['size'])) {
+                if (!$imageFile || !$imageFile['size']) {
+                    if (!$isEdit) {
+                        $this->errors[] = $this->l('Please upload an image file.');
+                    }
+                } elseif ($error = ImageManager::validateUpload($imageFile, Tools::getMaxUploadSize())) {
+                    $this->errors[] = $error;
+                }
             }
         }
 
-        /*==== Validations ====*/
+        /*==== Process Save ====*/
         if (!count($this->errors)) {
-            if (Tools::getValue("id_interior_image")) {
+            if ($isEdit) {
                 $objHtlInteriorImg = new WkHotelInteriorImage(Tools::getValue("id_interior_image"));
             } else {
                 $objHtlInteriorImg = new WkHotelInteriorImage();
                 $objHtlInteriorImg->position = $objHtlInteriorImg->getHigherPosition();
             }
+            
+            // Set media type
+            $objHtlInteriorImg->media_type = $mediaType;
 
-            if (Tools::getValue("id_interior_image") && $file['size'] && !$file['error']) {
-                $objHtlInteriorImg->deleteImage();
-            }
-            if ($file['size']) {
-                do {
-                    $tmp_name = uniqid();
-                } while ((bool)Tools::file_get_contents(
-                    $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg')
-                ));
-                ImageManager::resize(
-                    $file['tmp_name'],
-                    _PS_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg',
-                    720,
-                    360
-                );
-
-                $objHtlInteriorImg->name = $tmp_name;
+            if ($mediaType === 'video') {
+                // Process video upload
+                if ($videoFile && $videoFile['size'] && !$videoFile['error']) {
+                    // Delete old video if exists
+                    if ($isEdit && $objHtlInteriorImg->video_file) {
+                        $objHtlInteriorImg->deleteVideo();
+                    }
+                    
+                    // Create video directory if not exists
+                    $videoDir = _PS_MODULE_DIR_.$this->module->name.'/views/video/hotel_interior/';
+                    if (!is_dir($videoDir)) {
+                        mkdir($videoDir, 0755, true);
+                    }
+                    
+                    // Generate unique filename
+                    $ext = strtolower(pathinfo($videoFile['name'], PATHINFO_EXTENSION));
+                    do {
+                        $videoName = uniqid('video_').'.'.$ext;
+                    } while (file_exists($videoDir.$videoName));
+                    
+                    // Move uploaded file
+                    if (move_uploaded_file($videoFile['tmp_name'], $videoDir.$videoName)) {
+                        $objHtlInteriorImg->video_file = $videoName;
+                        $objHtlInteriorImg->name = pathinfo($videoName, PATHINFO_FILENAME);
+                    } else {
+                        $this->errors[] = $this->l('Failed to upload video file.');
+                    }
+                }
+            } else {
+                // Process image upload (original logic)
+                if ($isEdit && $imageFile && $imageFile['size'] && !$imageFile['error']) {
+                    $objHtlInteriorImg->deleteImage();
+                }
+                if ($imageFile && $imageFile['size']) {
+                    do {
+                        $tmp_name = uniqid();
+                    } while ((bool)Tools::file_get_contents(
+                        $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg')
+                    ));
+                    ImageManager::resize(
+                        $imageFile['tmp_name'],
+                        _PS_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg',
+                        720,
+                        360
+                    );
+                    $objHtlInteriorImg->name = $tmp_name;
+                }
+                // Clear video file if switching from video to image
+                $objHtlInteriorImg->video_file = null;
             }
 
             $objHtlInteriorImg->display_name = Tools::getValue('display_name');
             $objHtlInteriorImg->active = Tools::getValue('active');
-            $objHtlInteriorImg->save();
-
-            if (Tools::getValue("id_interior_image")) {
-                Tools::redirectAdmin(self::$currentIndex.'&conf=4&token='.$this->token);
-            } else {
-                Tools::redirectAdmin(self::$currentIndex.'&conf=3&token='.$this->token);
+            
+            if (!count($this->errors)) {
+                $objHtlInteriorImg->save();
+                
+                if ($isEdit) {
+                    Tools::redirectAdmin(self::$currentIndex.'&conf=4&token='.$this->token);
+                } else {
+                    Tools::redirectAdmin(self::$currentIndex.'&conf=3&token='.$this->token);
+                }
             }
-        } else {
-            if (Tools::getValue("id_interior_image")) {
+        }
+        
+        if (count($this->errors)) {
+            if ($isEdit) {
                 $this->display = 'edit';
             } else {
                 $this->display = 'add';
@@ -395,5 +575,8 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
         );
         $this->addJS(_MODULE_DIR_.$this->module->name.'/views/js/WkAboutHotelBlockAdmin.js');
         $this->addCSS(_MODULE_DIR_.'wkabouthotelblock/views/css/WkAboutHotelBlockAdmin.css');
+        
+        // Add inline script to toggle image/video fields
+        $this->context->controller->addJS(_MODULE_DIR_.$this->module->name.'/views/js/media-type-toggle.js');
     }
 }

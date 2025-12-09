@@ -30,7 +30,7 @@ class WkAboutHotelBlock extends Module
     {
         $this->name = 'wkabouthotelblock';
         $this->tab = 'front_office_features';
-        $this->version = '1.1.9';
+        $this->version = '1.2.0';
         $this->author = 'Webkul';
         $this->need_instance = 0;
 
@@ -54,17 +54,110 @@ class WkAboutHotelBlock extends Module
         $HOTEL_INTERIOR_DESCRIPTION = Configuration::get('HOTEL_INTERIOR_DESCRIPTION', $this->context->language->id);
 
         $objHtlInteriorImg = new WkHotelInteriorImage();
-        $InteriorImg = $objHtlInteriorImg->getHotelInteriorImg(1);
+        // Get ALL interior media (images AND videos) - sorted by position
+        $InteriorMedia = $objHtlInteriorImg->getHotelInteriorImg(1);
+        
+        // Separate images and videos for template flexibility
+        $InteriorImg = array();
+        $InteriorVideos = array();
+        
+        if ($InteriorMedia) {
+            foreach ($InteriorMedia as $media) {
+                $mediaType = isset($media['media_type']) ? $media['media_type'] : 'image';
+                if ($mediaType === 'video') {
+                    $InteriorVideos[] = $media;
+                } else {
+                    $InteriorImg[] = $media;
+                }
+            }
+        }
+
+        // Video URL configuration (for external YouTube/Vimeo - legacy support)
+        $videoEnabled = (bool)Configuration::get('HOTEL_INTERIOR_VIDEO_ENABLED');
+        $videoUrl = Configuration::get('HOTEL_INTERIOR_VIDEO_URL');
+        $videoTitle = Configuration::get('HOTEL_INTERIOR_VIDEO_TITLE', $this->context->language->id);
+        $videoThumbnail = Configuration::get('HOTEL_INTERIOR_VIDEO_THUMBNAIL');
+        
+        // Parse video URL to get embed URL and thumbnail
+        $videoEmbed = null;
+        $videoType = null;
+        if ($videoEnabled && $videoUrl) {
+            $parsedVideo = $this->parseVideoUrl($videoUrl);
+            $videoEmbed = $parsedVideo['embed'];
+            $videoType = $parsedVideo['type'];
+            if (!$videoThumbnail && $parsedVideo['thumbnail']) {
+                $videoThumbnail = $parsedVideo['thumbnail'];
+            }
+        }
 
         $this->context->smarty->assign(
             array(
                 'HOTEL_INTERIOR_HEADING' => $HOTEL_INTERIOR_HEADING,
                 'HOTEL_INTERIOR_DESCRIPTION' => $HOTEL_INTERIOR_DESCRIPTION,
+                // All media combined (for mixed display)
+                'InteriorMedia' => $InteriorMedia,
+                // Separated for flexibility
                 'InteriorImg' => $InteriorImg,
+                'InteriorVideos' => $InteriorVideos,
+                'has_videos' => !empty($InteriorVideos),
+                // Video directory path
+                'video_dir' => $this->_path.'views/video/hotel_interior/',
+                // Legacy external video URL support
+                'video_enabled' => $videoEnabled,
+                'video_embed' => $videoEmbed,
+                'video_type' => $videoType,
+                'video_title' => $videoTitle,
+                'video_thumbnail' => $videoThumbnail,
+                'video_url' => $videoUrl,
             )
         );
 
         return $this->display(__FILE__, 'hotelInteriorBlock.tpl');
+    }
+    
+    /**
+     * Parse YouTube or Vimeo URL to get embed URL and thumbnail
+     */
+    protected function parseVideoUrl($url)
+    {
+        $result = array('embed' => null, 'thumbnail' => null, 'type' => null);
+        
+        // YouTube patterns
+        $youtubePatterns = array(
+            '/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/',
+            '/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/',
+            '/youtu\.be\/([a-zA-Z0-9_-]+)/',
+            '/youtube\.com\/v\/([a-zA-Z0-9_-]+)/',
+        );
+        
+        foreach ($youtubePatterns as $pattern) {
+            if (preg_match($pattern, $url, $matches)) {
+                $videoId = $matches[1];
+                $result['embed'] = 'https://www.youtube.com/embed/'.$videoId.'?autoplay=1&rel=0';
+                $result['thumbnail'] = 'https://img.youtube.com/vi/'.$videoId.'/maxresdefault.jpg';
+                $result['type'] = 'youtube';
+                return $result;
+            }
+        }
+        
+        // Vimeo patterns
+        if (preg_match('/vimeo\.com\/(\d+)/', $url, $matches)) {
+            $videoId = $matches[1];
+            $result['embed'] = 'https://player.vimeo.com/video/'.$videoId.'?autoplay=1';
+            $result['type'] = 'vimeo';
+            // Vimeo thumbnail requires API call, use placeholder
+            $result['thumbnail'] = null;
+            return $result;
+        }
+        
+        // Direct video URL (mp4, webm, etc.)
+        if (preg_match('/\.(mp4|webm|ogg)$/i', $url)) {
+            $result['embed'] = $url;
+            $result['type'] = 'direct';
+            return $result;
+        }
+        
+        return $result;
     }
 
     /**
@@ -87,8 +180,10 @@ class WkAboutHotelBlock extends Module
         $objAboutHotelBlockDb = new WkAboutHotelBlockDb();
         if (!parent::install()
             || !$objAboutHotelBlockDb->createTables()
+            || !$objAboutHotelBlockDb->addVideoColumns()
             || !$this->registerModuleHooks()
             || !$this->callInstallTab()
+            || !$this->createVideoDirectory()
         ) {
             return false;
         }
@@ -103,6 +198,18 @@ class WkAboutHotelBlock extends Module
             Tools::deleteDirectory($this->local_path.'views/img/dummy_img');
         }
 
+        return true;
+    }
+    
+    /**
+     * Create video directory for uploaded videos
+     */
+    protected function createVideoDirectory()
+    {
+        $videoDir = _PS_MODULE_DIR_.$this->name.'/views/video/hotel_interior/';
+        if (!is_dir($videoDir)) {
+            return mkdir($videoDir, 0755, true);
+        }
         return true;
     }
 

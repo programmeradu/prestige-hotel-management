@@ -21,6 +21,8 @@
 class WkHotelInteriorImage extends ObjectModel
 {
     public $name;
+    public $media_type = 'image'; // 'image' or 'video'
+    public $video_file;
     public $display_name;
     public $active;
     public $position;
@@ -32,6 +34,8 @@ class WkHotelInteriorImage extends ObjectModel
         'primary' => 'id_interior_image',
         'fields' => array(
             'name' => array('type' => self::TYPE_STRING),
+            'media_type' => array('type' => self::TYPE_STRING, 'validate' => 'isGenericName'),
+            'video_file' => array('type' => self::TYPE_STRING, 'validate' => 'isGenericName'),
             'display_name' => array('type' => self::TYPE_STRING, 'validate' => 'isCatalogName'),
             'active' => array('type' => self::TYPE_BOOL, 'validate' => 'isBool'),
             'position' => array('type' => self::TYPE_INT, 'validate' => 'isUnsignedInt'),
@@ -45,7 +49,62 @@ class WkHotelInteriorImage extends ObjectModel
         parent::__construct($id, $id_lang, $id_shop);
 
         $this->image_dir = _PS_MODULE_DIR_.'wkabouthotelblock/views/img/hotel_interior/';
+        $this->video_dir = _PS_MODULE_DIR_.'wkabouthotelblock/views/video/hotel_interior/';
         $this->image_name = $this->name;
+    }
+    
+    /**
+     * Resolve DB prefix, with fallback to qlooo_ if needed
+     */
+    public static function getDbPrefix()
+    {
+        $prefix = defined('_DB_PREFIX_') ? _DB_PREFIX_ : '';
+        // If prefix is ps_ but qlooo_ table exists, prefer qlooo_
+        if ($prefix !== 'qlooo_') {
+            $exists = Db::getInstance()->getValue("SHOW TABLES LIKE 'qlooo_htl_interior_image'");
+            if ($exists) {
+                return 'qlooo_';
+            }
+        }
+        return $prefix ?: 'qlooo_';
+    }
+    
+    /**
+     * Get fully prefixed table name
+     */
+    public static function getPrefixedTable()
+    {
+        return self::getDbPrefix().'htl_interior_image';
+    }
+    
+    /**
+     * Get video directory path
+     */
+    public static function getVideoDir()
+    {
+        return _PS_MODULE_DIR_.'wkabouthotelblock/views/video/hotel_interior/';
+    }
+    
+    /**
+     * Check if this media is a video
+     */
+    public function isVideo()
+    {
+        return $this->media_type === 'video';
+    }
+    
+    /**
+     * Delete video file
+     */
+    public function deleteVideo()
+    {
+        if ($this->video_file) {
+            $videoPath = self::getVideoDir() . $this->video_file;
+            if (file_exists($videoPath)) {
+                @unlink($videoPath);
+            }
+        }
+        return true;
     }
 
     /**
@@ -53,8 +112,9 @@ class WkHotelInteriorImage extends ObjectModel
      */
     public function getHotelInteriorImg($active = 2)
     {
-        $sql = 'SELECT `id_interior_image`, `name`, `display_name`, `position`
-                FROM `'._DB_PREFIX_.'htl_interior_image` WHERE 1';
+        $table = self::getPrefixedTable();
+        $sql = 'SELECT `id_interior_image`, `name`, `media_type`, `video_file`, `display_name`, `position`
+                FROM `'.$table.'` WHERE 1';
 
         if ($active != 2) {
             $sql .= ' AND `active` = '.(int) $active;
@@ -67,13 +127,54 @@ class WkHotelInteriorImage extends ObjectModel
         }
         return false;
     }
+    
+    /**
+     * Get only images (no videos)
+     */
+    public function getHotelInteriorImages($active = 1)
+    {
+        $table = self::getPrefixedTable();
+        $sql = 'SELECT `id_interior_image`, `name`, `display_name`, `position`
+                FROM `'.$table.'` 
+                WHERE (`media_type` = "image" OR `media_type` IS NULL OR `media_type` = "")';
+
+        if ($active != 2) {
+            $sql .= ' AND `active` = '.(int) $active;
+        }
+        $sql .= ' ORDER BY position';
+
+        return Db::getInstance()->executeS($sql);
+    }
+    
+    /**
+     * Get only videos
+     */
+    public function getHotelInteriorVideos($active = 1)
+    {
+        $table = self::getPrefixedTable();
+        $sql = 'SELECT `id_interior_image`, `name`, `media_type`, `video_file`, `display_name`, `position`
+                FROM `'.$table.'` 
+                WHERE `media_type` = "video"';
+
+        if ($active != 2) {
+            $sql .= ' AND `active` = '.(int) $active;
+        }
+        $sql .= ' ORDER BY position';
+
+        return Db::getInstance()->executeS($sql);
+    }
 
     /**
-     * Deletes current interior image block from the database
+     * Deletes current interior image/video from the database
      * @return bool `true` if delete was successful
      */
     public function delete()
     {
+        // Delete video if this is a video entry
+        if ($this->media_type === 'video') {
+            $this->deleteVideo();
+        }
+        
         if (!parent::delete()
             || !$this->deleteImage(true)
             || !$this->cleanPositions()
@@ -85,8 +186,9 @@ class WkHotelInteriorImage extends ObjectModel
 
     public function getHigherPosition()
     {
+        $table = self::getPrefixedTable();
         $position = DB::getInstance()->getValue(
-            'SELECT MAX(`position`) FROM `'._DB_PREFIX_.'htl_interior_image`'
+            'SELECT MAX(`position`) FROM `'.$table.'`'
         );
         $result = (is_numeric($position)) ? $position : -1;
         return $result + 1;
@@ -94,8 +196,9 @@ class WkHotelInteriorImage extends ObjectModel
 
     public function updatePosition($way, $position)
     {
+        $table = self::getPrefixedTable();
         if (!$result = Db::getInstance()->executeS(
-            'SELECT hib.`id_interior_image`, hib.`position` FROM `'._DB_PREFIX_.'htl_interior_image` hib
+            'SELECT hib.`id_interior_image`, hib.`position` FROM `'.$table.'` hib
             WHERE hib.`id_interior_image` = '.(int) $this->id.' ORDER BY `position` ASC'
         )
         ) {
@@ -113,12 +216,12 @@ class WkHotelInteriorImage extends ObjectModel
             return false;
         }
         return (Db::getInstance()->execute(
-            'UPDATE `'._DB_PREFIX_.'htl_interior_image` SET `position`= `position` '.($way ? '- 1' : '+ 1').
+            'UPDATE `'.$table.'` SET `position`= `position` '.($way ? '- 1' : '+ 1').
             ' WHERE `position`'.($way ? '> '.
             (int)$movedBlock['position'].' AND `position` <= '.(int)$position : '< '
             .(int)$movedBlock['position'].' AND `position` >= '.(int)$position)
         ) && Db::getInstance()->execute(
-            'UPDATE `'._DB_PREFIX_.'htl_interior_image`
+            'UPDATE `'.$table.'`
             SET `position` = '.(int)$position.'
             WHERE `id_interior_image`='.(int)$movedBlock['id_interior_image']
         ));
@@ -132,7 +235,8 @@ class WkHotelInteriorImage extends ObjectModel
     public function cleanPositions()
     {
         Db::getInstance()->execute('SET @i = -1', false);
-        $sql = 'UPDATE `'._DB_PREFIX_.'htl_interior_image` SET `position` = @i:=@i+1 ORDER BY `position` ASC';
+        $table = self::getPrefixedTable();
+        $sql = 'UPDATE `'.$table.'` SET `position` = @i:=@i+1 ORDER BY `position` ASC';
         return (bool) Db::getInstance()->execute($sql);
     }
 
