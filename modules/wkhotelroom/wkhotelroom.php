@@ -42,6 +42,11 @@ class WkHotelRoom extends Module
 
     public function hookDisplayHome()
     {
+        // Skip rendering if theme has custom room section (to avoid duplicate)
+        if (Configuration::get('DISABLE_WKHOTELROOM_HOME_BLOCK')) {
+            return '';
+        }
+        
         $objRoomBlock = new WkHotelRoomDisplay();
         if ($hotelRoomDisplay = $objRoomBlock->getHotelRoomDisplayData()) {
             $idLang = $this->context->language->id;
@@ -99,7 +104,7 @@ class WkHotelRoom extends Module
                 );
                 $htlRoom['feature_price'] = $featurePrice;
                 $htlRoom['feature_price_diff'] = (float)($priceWithoutReduction - $featurePrice);
-                // Add product link directly to room data for template use (with fallback)
+                // Add product link directly to room data for template use
                 try {
                     $htlRoom['product_link'] = $this->context->link->getProductLink($idProduct);
                 } catch (Exception $e) {

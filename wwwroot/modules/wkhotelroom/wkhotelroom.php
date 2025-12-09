@@ -42,6 +42,11 @@ class WkHotelRoom extends Module
 
     public function hookDisplayHome()
     {
+        // Skip rendering if theme has custom room section (to avoid duplicate)
+        if (Configuration::get('DISABLE_WKHOTELROOM_HOME_BLOCK')) {
+            return '';
+        }
+        
         $objRoomBlock = new WkHotelRoomDisplay();
         if ($hotelRoomDisplay = $objRoomBlock->getHotelRoomDisplayData()) {
             $idLang = $this->context->language->id;

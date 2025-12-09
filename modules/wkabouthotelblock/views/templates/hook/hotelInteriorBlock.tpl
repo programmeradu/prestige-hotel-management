@@ -116,11 +116,16 @@
                                 {foreach from=$InteriorMedia item=media name=gridLoop}
                                     {if !$smarty.foreach.gridLoop.first} {* Skip first as it's featured *}
                                         {if isset($media['media_type']) && $media['media_type'] == 'video'}
-                                            {* Video in grid - with gradient placeholder background *}
+                                            {* Video in grid - use thumbnail from name field if available *}
+                                            {assign var='has_thumb' value=false}
+                                            {if isset($media['name']) && $media['name']}
+                                                {assign var='thumb_path' value=$link->getMediaLink("`$module_dir`views/img/hotel_interior/`$media['name']`.jpg")}
+                                                {assign var='has_thumb' value=true}
+                                            {/if}
                                             <div class="gallery-item gallery-video-item" 
                                                  data-video-src="{$link->getMediaLink("`$module_dir`views/video/hotel_interior/`$media['video_file']`")}"
                                                  data-title="{$media['display_name']|escape:'htmlall':'UTF-8'}"
-                                                 style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+                                                 style="{if $has_thumb}background-image: url('{$thumb_path}'); background-size: cover; background-position: center;{else}background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);{/if}">
                                                 <div class="video-play-icon">
                                                     <svg viewBox="0 0 68 48" width="40" height="30">
                                                         <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#C9A96E"></path>

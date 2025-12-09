@@ -291,7 +291,7 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                 ),
                 array(
                     'type' => 'file',
-                    'label' => $this->l('Image File'),
+                    'label' => $this->l('Image / Thumbnail'),
                     'name' => 'interior_img',
                     'required' => false,
                     'display_image' => true,
@@ -300,7 +300,7 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                         $this->l('Maximum file size: %1s'),
                         Tools::formatBytes(Tools::getMaxUploadSize())
                     ),
-                    'desc' => $this->l('Upload an image (JPG, PNG). Recommended: 720 x 360 pixels.'),
+                    'desc' => $this->l('For images: the main image. For videos: the thumbnail shown in gallery grid. Recommended: 720 x 360 pixels.'),
                     'form_group_class' => 'image-upload-group',
                 ),
                 array(
@@ -430,10 +430,60 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                     // Move uploaded file
                     if (move_uploaded_file($videoFile['tmp_name'], $videoDir.$videoName)) {
                         $objHtlInteriorImg->video_file = $videoName;
-                        $objHtlInteriorImg->name = pathinfo($videoName, PATHINFO_FILENAME);
                     } else {
                         $this->errors[] = $this->l('Failed to upload video file.');
                     }
+                }
+                
+                // Auto-generated thumbnail from JavaScript (base64)
+                $autoThumbnail = Tools::getValue('auto_thumbnail');
+                if ($autoThumbnail && strpos($autoThumbnail, 'data:image') === 0) {
+                    // Delete old thumbnail if exists
+                    if ($isEdit && $objHtlInteriorImg->name) {
+                        $objHtlInteriorImg->deleteImage();
+                    }
+                    
+                    // Parse base64 data
+                    $thumbData = explode(',', $autoThumbnail);
+                    if (count($thumbData) === 2) {
+                        $thumbBinary = base64_decode($thumbData[1]);
+                        
+                        // Generate unique filename
+                        do {
+                            $tmp_name = uniqid('autothumb_');
+                        } while (file_exists(_PS_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg'));
+                        
+                        $thumbPath = _PS_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg';
+                        
+                        // Save thumbnail
+                        if (file_put_contents($thumbPath, $thumbBinary)) {
+                            $objHtlInteriorImg->name = $tmp_name;
+                        }
+                    }
+                }
+                // Fallback: manual thumbnail upload
+                elseif ($imageFile && $imageFile['size'] && !$imageFile['error']) {
+                    // Delete old thumbnail if exists
+                    if ($isEdit && $objHtlInteriorImg->name) {
+                        $objHtlInteriorImg->deleteImage();
+                    }
+                    
+                    do {
+                        $tmp_name = uniqid('thumb_');
+                    } while ((bool)Tools::file_get_contents(
+                        $this->context->link->getMediaLink(_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg')
+                    ));
+                    ImageManager::resize(
+                        $imageFile['tmp_name'],
+                        _PS_MODULE_DIR_.$this->module->name.'/views/img/hotel_interior/'.$tmp_name.'.jpg',
+                        720,
+                        360
+                    );
+                    $objHtlInteriorImg->name = $tmp_name;
+                }
+                // No thumbnail available - name stays empty for gradient fallback
+                elseif (!$isEdit || !$objHtlInteriorImg->name) {
+                    $objHtlInteriorImg->name = '';
                 }
             } else {
                 // Process image upload (original logic)
