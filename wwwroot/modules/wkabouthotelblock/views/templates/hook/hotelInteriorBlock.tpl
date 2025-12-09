@@ -116,8 +116,11 @@
                                 {foreach from=$InteriorMedia item=media name=gridLoop}
                                     {if !$smarty.foreach.gridLoop.first} {* Skip first as it's featured *}
                                         {if isset($media['media_type']) && $media['media_type'] == 'video'}
-                                            {* Video in grid *}
-                                            <div class="gallery-item gallery-video-item" data-video-src="{$link->getMediaLink("`$module_dir`views/video/hotel_interior/`$media['video_file']`")}">
+                                            {* Video in grid - with gradient placeholder background *}
+                                            <div class="gallery-item gallery-video-item" 
+                                                 data-video-src="{$link->getMediaLink("`$module_dir`views/video/hotel_interior/`$media['video_file']`")}"
+                                                 data-title="{$media['display_name']|escape:'htmlall':'UTF-8'}"
+                                                 style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
                                                 <div class="video-play-icon">
                                                     <svg viewBox="0 0 68 48" width="40" height="30">
                                                         <path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#C9A96E"></path>
@@ -156,21 +159,18 @@
             <hr class="home_block_seperator"/>
         </div>
         
-        {* Video Modal for grid videos *}
-        <div id="video-modal" class="video-modal" style="display:none;">
-            <div class="video-modal-overlay"></div>
-            <div class="video-modal-content">
-                <button class="video-modal-close">&times;</button>
-                <video id="modal-video" controls>
-                    <source src="" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        
         {* Scripts *}
         {literal}
         <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var featuredContainer = document.querySelector('.gallery-featured');
+            var videoItems = document.querySelectorAll('.gallery-video-item');
+            var imageItems = document.querySelectorAll('.gallery-item:not(.gallery-video-item)');
+            
+            // Store original featured content for restoration
+            var originalFeaturedHTML = featuredContainer ? featuredContainer.innerHTML : '';
+            var currentVideoPlayer = null;
+            
             // Legacy external video play button
             var playBtn = document.getElementById('play-video-btn');
             var thumbnail = document.getElementById('video-thumbnail');
@@ -194,38 +194,110 @@
                 thumbnail.addEventListener('click', playExternalVideo);
             }
             
-            // Video modal for grid videos
-            var videoModal = document.getElementById('video-modal');
-            var modalVideo = document.getElementById('modal-video');
-            var videoItems = document.querySelectorAll('.gallery-video-item');
-            var modalClose = document.querySelector('.video-modal-close');
-            var modalOverlay = document.querySelector('.video-modal-overlay');
-            
+            // Play video in featured area when grid video is clicked
             videoItems.forEach(function(item) {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
                     var videoSrc = this.getAttribute('data-video-src');
-                    if (videoSrc && modalVideo && videoModal) {
-                        modalVideo.querySelector('source').src = videoSrc;
-                        modalVideo.load();
-                        videoModal.style.display = 'flex';
-                        modalVideo.play();
+                    var title = this.getAttribute('data-title') || '';
+                    
+                    if (videoSrc && featuredContainer) {
+                        // Stop any existing video
+                        if (currentVideoPlayer) {
+                            currentVideoPlayer.pause();
+                        }
+                        
+                        // Create video player HTML for featured area
+                        var videoHTML = '<div class="featured-video-container uploaded-video active-video">' +
+                            '<video class="featured-uploaded-video" controls autoplay style="width:100%;height:100%;object-fit:cover;border-radius:16px;">' +
+                            '<source src="' + videoSrc + '" type="video/mp4">' +
+                            'Your browser does not support video.' +
+                            '</video>' +
+                            (title ? '<div class="video-title-overlay">' + title + '</div>' : '') +
+                            '<button class="video-close-btn" style="position:absolute;top:15px;right:15px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;z-index:10;">&times;</button>' +
+                            '</div>';
+                        
+                        featuredContainer.innerHTML = videoHTML;
+                        
+                        // Get references to new elements
+                        currentVideoPlayer = featuredContainer.querySelector('video');
+                        var closeBtn = featuredContainer.querySelector('.video-close-btn');
+                        
+                        // Auto-play
+                        if (currentVideoPlayer) {
+                            currentVideoPlayer.play().catch(function(e) {
+                                console.log('Autoplay blocked, user must click play');
+                            });
+                        }
+                        
+                        // Close button to restore original featured
+                        if (closeBtn) {
+                            closeBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                if (currentVideoPlayer) {
+                                    currentVideoPlayer.pause();
+                                }
+                                featuredContainer.innerHTML = originalFeaturedHTML;
+                                currentVideoPlayer = null;
+                            });
+                        }
+                        
+                        // Highlight active thumbnail
+                        videoItems.forEach(function(v) { v.classList.remove('active-thumb'); });
+                        imageItems.forEach(function(v) { v.classList.remove('active-thumb'); });
+                        this.classList.add('active-thumb');
+                        
+                        // Scroll to featured area smoothly
+                        featuredContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 });
             });
             
-            function closeVideoModal() {
-                if (videoModal && modalVideo) {
-                    modalVideo.pause();
-                    videoModal.style.display = 'none';
-                }
-            }
-            
-            if (modalClose) modalClose.addEventListener('click', closeVideoModal);
-            if (modalOverlay) modalOverlay.addEventListener('click', closeVideoModal);
-            
-            // Close on escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeVideoModal();
+            // Click on image thumbnail to show in featured
+            imageItems.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    // If there's a fancybox link, let it handle the click for lightbox
+                    // But also update the featured area
+                    var bgImage = this.style.backgroundImage;
+                    var link = this.querySelector('a');
+                    var imgSrc = link ? link.getAttribute('href') : '';
+                    var title = link ? link.getAttribute('title') : '';
+                    
+                    if (imgSrc && featuredContainer) {
+                        // Stop any playing video
+                        if (currentVideoPlayer) {
+                            currentVideoPlayer.pause();
+                            currentVideoPlayer = null;
+                        }
+                        
+                        // Create image HTML for featured area
+                        var imageHTML = '<div class="featured-image active" style="background-image: url(\'' + imgSrc + '\')">' +
+                            '<div class="image-overlay">' +
+                            '<span class="view-btn"><i class="icon-search-plus"></i></span>' +
+                            '</div>' +
+                            '<a class="fancybox-trigger" href="' + imgSrc + '" title="' + title + '"></a>' +
+                            '</div>';
+                        
+                        featuredContainer.innerHTML = imageHTML;
+                        
+                        // Re-initialize fancybox for the new element
+                        if (typeof $.fn.fancybox !== 'undefined') {
+                            $(featuredContainer).find('.fancybox-trigger').fancybox({
+                                padding: 0,
+                                margin: 20,
+                                openEffect: 'elastic',
+                                closeEffect: 'elastic'
+                            });
+                        }
+                        
+                        // Highlight active thumbnail
+                        videoItems.forEach(function(v) { v.classList.remove('active-thumb'); });
+                        imageItems.forEach(function(v) { v.classList.remove('active-thumb'); });
+                        this.classList.add('active-thumb');
+                    }
+                });
             });
         });
         </script>
