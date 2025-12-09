@@ -17,11 +17,28 @@ header('Access-Control-Allow-Origin: *');
 
 // Demo events fallback function with placeholder images
 function getDemoEventsFallback() {
+    // Get next Sunday
+    $nextSunday = date('Y-m-d', strtotime('next sunday'));
+    
     return array(
+        // HOTEL RECURRING EVENT - Always show first
+        array(
+            'id' => 'hotel_sunday_special',
+            'title' => 'Sunday Special: Fufu & Tilapia',
+            'description' => 'Join us every Sunday for our famous Fufu with fresh Tilapia in light soup. A true taste of Ghanaian tradition.',
+            'start' => $nextSunday.'T12:00:00',
+            'end' => $nextSunday.'T16:00:00',
+            'url' => '/contact-us',
+            'image' => 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=450&fit=crop',
+            'venue' => array('name' => 'Prestige Hotel Restaurant', 'address' => 'Cape Coast, Ghana'),
+            'category' => 'dining',
+            'source' => 'hotel',
+            'recurring' => true,
+        ),
         array(
             'id' => 'demo_1',
             'title' => 'Cape Coast Cultural Festival',
-            'description' => 'Experience the rich heritage of Cape Coast with traditional music, dance, and local cuisine. A celebration of Ghanaian culture.',
+            'description' => 'Experience the rich heritage of Cape Coast with traditional music, dance, and local cuisine.',
             'start' => date('Y-m-d', strtotime('+7 days')).'T10:00:00',
             'end' => date('Y-m-d', strtotime('+7 days')).'T18:00:00',
             'url' => 'https://www.google.com/search?q=Cape+Coast+Cultural+Festival+Ghana',
@@ -29,42 +46,6 @@ function getDemoEventsFallback() {
             'venue' => array('name' => 'Cape Coast Castle', 'address' => 'Cape Coast, Ghana'),
             'category' => 'festivals',
             'source' => 'cape-coast',
-        ),
-        array(
-            'id' => 'demo_2',
-            'title' => 'Prestige Wine & Dine Experience',
-            'description' => 'An exclusive evening of fine dining with curated wines from around the world. Limited seats available.',
-            'start' => date('Y-m-d', strtotime('+10 days')).'T19:00:00',
-            'end' => date('Y-m-d', strtotime('+10 days')).'T23:00:00',
-            'url' => '/contact-us',
-            'image' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=450&fit=crop',
-            'venue' => array('name' => 'Prestige Hotel Restaurant', 'address' => 'Cape Coast, Ghana'),
-            'category' => 'dining',
-            'source' => 'hotel',
-        ),
-        array(
-            'id' => 'demo_3',
-            'title' => 'Historical Cape Coast Tour',
-            'description' => 'Guided tour of Cape Coast Castle and Elmina. Explore the rich history of Ghana\'s coastal heritage.',
-            'start' => date('Y-m-d', strtotime('+5 days')).'T09:00:00',
-            'end' => date('Y-m-d', strtotime('+5 days')).'T15:00:00',
-            'url' => '/contact-us',
-            'image' => 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=450&fit=crop',
-            'venue' => array('name' => 'Cape Coast Castle', 'address' => 'Cape Coast, Ghana'),
-            'category' => 'tours',
-            'source' => 'hotel',
-        ),
-        array(
-            'id' => 'demo_4',
-            'title' => 'Sunset Jazz Evening',
-            'description' => 'Enjoy smooth jazz performances as the sun sets over the Atlantic. Live music and cocktails at the terrace.',
-            'start' => date('Y-m-d', strtotime('+28 days')).'T17:00:00',
-            'end' => date('Y-m-d', strtotime('+28 days')).'T21:00:00',
-            'url' => '/contact-us',
-            'image' => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=450&fit=crop',
-            'venue' => array('name' => 'Prestige Hotel Terrace', 'address' => 'Cape Coast, Ghana'),
-            'category' => 'concert',
-            'source' => 'hotel',
         ),
     );
 }

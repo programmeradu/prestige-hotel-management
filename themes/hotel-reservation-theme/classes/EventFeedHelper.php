@@ -124,6 +124,9 @@ class EventFeedHelper
             $this->lastSource = 'demo';
         }
         
+        // Ensure at least one hotel event is always shown
+        $events = $this->ensureHotelEvent($events);
+        
         // Fill with demo events if fewer than 4 (ensure always 4 cards)
         if (count($events) < 4) {
             $events = $this->fillWithDemoEvents($events, 4);
@@ -429,6 +432,24 @@ class EventFeedHelper
         $hotelUrl = '/contact-us';
         
         return array(
+            // HOTEL RECURRING EVENTS (always available)
+            array(
+                'id' => 'hotel_sunday_special',
+                'title' => 'Sunday Special: Fufu & Tilapia',
+                'description' => 'Join us every Sunday for our famous Fufu with fresh Tilapia in light soup. A true taste of Ghanaian tradition at Prestige Hotel.',
+                'start' => $this->getNextSunday().'T12:00:00',
+                'end' => $this->getNextSunday().'T16:00:00',
+                'url' => $hotelUrl,
+                'image' => null,
+                'venue' => array(
+                    'name' => 'Prestige Hotel Restaurant',
+                    'address' => 'Cape Coast, Ghana',
+                ),
+                'category' => 'dining',
+                'source' => 'hotel',
+                'recurring' => true,
+            ),
+            // LOCAL CAPE COAST EVENTS
             array(
                 'id' => 'demo_1',
                 'title' => 'Cape Coast Cultural Festival',
@@ -442,21 +463,6 @@ class EventFeedHelper
                     'address' => 'Cape Coast, Ghana',
                 ),
                 'category' => 'festivals',
-                'source' => 'cape-coast',
-            ),
-            array(
-                'id' => 'demo_2',
-                'title' => 'Beach Cleanup & Conservation',
-                'description' => 'Join the community effort to keep our beautiful beaches pristine. All volunteers welcome.',
-                'start' => date('Y-m-d', strtotime('+14 days')).'T08:00:00',
-                'end' => date('Y-m-d', strtotime('+14 days')).'T12:00:00',
-                'url' => 'https://www.google.com/search?q=Elmina+Beach+Ghana+events',
-                'image' => null,
-                'venue' => array(
-                    'name' => 'Elmina Beach',
-                    'address' => 'Elmina, Ghana',
-                ),
-                'category' => 'community',
                 'source' => 'cape-coast',
             ),
             array(
@@ -475,36 +481,6 @@ class EventFeedHelper
                 'source' => 'cape-coast',
             ),
             array(
-                'id' => 'demo_4',
-                'title' => 'Sunset Jazz Evening',
-                'description' => 'Enjoy smooth jazz performances as the sun sets over the Atlantic. Live music and cocktails at our terrace.',
-                'start' => date('Y-m-d', strtotime('+28 days')).'T17:00:00',
-                'end' => date('Y-m-d', strtotime('+28 days')).'T21:00:00',
-                'url' => $hotelUrl,
-                'image' => null,
-                'venue' => array(
-                    'name' => 'Prestige Hotel Terrace',
-                    'address' => 'Cape Coast, Ghana',
-                ),
-                'category' => 'concert',
-                'source' => 'hotel',
-            ),
-            array(
-                'id' => 'demo_5',
-                'title' => 'Prestige Wine & Dine Experience',
-                'description' => 'An exclusive evening of fine dining with curated wines from around the world. Limited seats available.',
-                'start' => date('Y-m-d', strtotime('+10 days')).'T19:00:00',
-                'end' => date('Y-m-d', strtotime('+10 days')).'T23:00:00',
-                'url' => $hotelUrl,
-                'image' => null,
-                'venue' => array(
-                    'name' => 'Prestige Hotel Restaurant',
-                    'address' => 'Cape Coast, Ghana',
-                ),
-                'category' => 'dining',
-                'source' => 'hotel',
-            ),
-            array(
                 'id' => 'demo_6',
                 'title' => 'Historical Cape Coast Tour',
                 'description' => 'Guided tour of Cape Coast Castle and Elmina. Explore the rich history of Ghana\'s coastal heritage.',
@@ -520,6 +496,38 @@ class EventFeedHelper
                 'source' => 'hotel',
             ),
         );
+    }
+    
+    /**
+     * Get next occurrence of a day of the week
+     */
+    protected function getNextSunday()
+    {
+        return date('Y-m-d', strtotime('next sunday'));
+    }
+    
+    /**
+     * Ensure at least one hotel event is in the results
+     */
+    protected function ensureHotelEvent(array $events)
+    {
+        // Check if there's already a hotel event
+        foreach ($events as $event) {
+            if (isset($event['source']) && $event['source'] === 'hotel') {
+                return $events;
+            }
+        }
+        
+        // No hotel event found, add the Sunday Special
+        $hotelEvents = $this->getDemoEvents();
+        foreach ($hotelEvents as $event) {
+            if (isset($event['source']) && $event['source'] === 'hotel') {
+                array_unshift($events, $event); // Add at the beginning
+                break;
+            }
+        }
+        
+        return $events;
     }
 
     /**

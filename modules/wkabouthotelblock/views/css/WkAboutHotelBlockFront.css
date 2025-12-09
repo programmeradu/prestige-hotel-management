@@ -181,3 +181,130 @@
         grid-auto-rows: 200px;
     }
 }
+
+/* ========================================
+   VIDEO PLAYER STYLES
+   ======================================== */
+
+.featured-video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0d1321;
+}
+
+.video-thumbnail {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.video-thumbnail:hover {
+    transform: scale(1.02);
+}
+
+.video-play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(13, 19, 33, 0.4);
+    transition: background 0.3s ease;
+}
+
+.video-thumbnail:hover .video-play-overlay {
+    background: rgba(13, 19, 33, 0.3);
+}
+
+.play-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+.play-btn-bg {
+    transition: fill 0.3s ease;
+}
+
+.play-btn:hover .play-btn-bg {
+    fill: #d4b87a;
+}
+
+.video-title {
+    margin-top: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    text-align: center;
+    padding: 0 20px;
+}
+
+.video-iframe-wrapper {
+    position: absolute;
+    inset: 0;
+    background: #000;
+}
+
+.video-iframe-wrapper iframe,
+.video-iframe-wrapper video {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#hotel-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsive Video Styles */
+@media (max-width: 991px) {
+    .video-title {
+        font-size: 20px;
+    }
+    
+    .play-btn svg {
+        width: 58px;
+        height: 41px;
+    }
+}
+
+@media (max-width: 767px) {
+    .video-title {
+        font-size: 18px;
+        margin-top: 15px;
+    }
+    
+    .play-btn svg {
+        width: 50px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-title {
+        font-size: 16px;
+    }
+    
+    .play-btn svg {
+        width: 45px;
+        height: 32px;
+    }
+}

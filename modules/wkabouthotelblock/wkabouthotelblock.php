@@ -56,15 +56,86 @@ class WkAboutHotelBlock extends Module
         $objHtlInteriorImg = new WkHotelInteriorImage();
         $InteriorImg = $objHtlInteriorImg->getHotelInteriorImg(1);
 
+        // Video configuration
+        $videoEnabled = (bool)Configuration::get('HOTEL_INTERIOR_VIDEO_ENABLED');
+        $videoUrl = Configuration::get('HOTEL_INTERIOR_VIDEO_URL');
+        $videoTitle = Configuration::get('HOTEL_INTERIOR_VIDEO_TITLE', $this->context->language->id);
+        $videoThumbnail = Configuration::get('HOTEL_INTERIOR_VIDEO_THUMBNAIL');
+        
+        // Parse video URL to get embed URL and thumbnail
+        $videoEmbed = null;
+        $videoType = null;
+        if ($videoEnabled && $videoUrl) {
+            $parsedVideo = $this->parseVideoUrl($videoUrl);
+            $videoEmbed = $parsedVideo['embed'];
+            $videoType = $parsedVideo['type'];
+            // Use auto thumbnail if custom not provided
+            if (!$videoThumbnail && $parsedVideo['thumbnail']) {
+                $videoThumbnail = $parsedVideo['thumbnail'];
+            }
+        }
+
         $this->context->smarty->assign(
             array(
                 'HOTEL_INTERIOR_HEADING' => $HOTEL_INTERIOR_HEADING,
                 'HOTEL_INTERIOR_DESCRIPTION' => $HOTEL_INTERIOR_DESCRIPTION,
                 'InteriorImg' => $InteriorImg,
+                // Video data
+                'video_enabled' => $videoEnabled,
+                'video_embed' => $videoEmbed,
+                'video_type' => $videoType,
+                'video_title' => $videoTitle,
+                'video_thumbnail' => $videoThumbnail,
+                'video_url' => $videoUrl,
             )
         );
 
         return $this->display(__FILE__, 'hotelInteriorBlock.tpl');
+    }
+    
+    /**
+     * Parse YouTube or Vimeo URL to get embed URL and thumbnail
+     */
+    protected function parseVideoUrl($url)
+    {
+        $result = array('embed' => null, 'thumbnail' => null, 'type' => null);
+        
+        // YouTube patterns
+        $youtubePatterns = array(
+            '/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/',
+            '/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/',
+            '/youtu\.be\/([a-zA-Z0-9_-]+)/',
+            '/youtube\.com\/v\/([a-zA-Z0-9_-]+)/',
+        );
+        
+        foreach ($youtubePatterns as $pattern) {
+            if (preg_match($pattern, $url, $matches)) {
+                $videoId = $matches[1];
+                $result['embed'] = 'https://www.youtube.com/embed/'.$videoId.'?autoplay=1&rel=0';
+                $result['thumbnail'] = 'https://img.youtube.com/vi/'.$videoId.'/maxresdefault.jpg';
+                $result['type'] = 'youtube';
+                return $result;
+            }
+        }
+        
+        // Vimeo patterns
+        if (preg_match('/vimeo\.com\/(\d+)/', $url, $matches)) {
+            $videoId = $matches[1];
+            $result['embed'] = 'https://player.vimeo.com/video/'.$videoId.'?autoplay=1';
+            $result['type'] = 'vimeo';
+            // Vimeo thumbnail requires API call, use placeholder
+            $result['thumbnail'] = null;
+            return $result;
+        }
+        
+        // Direct video URL (mp4, webm, etc.)
+        if (preg_match('/\.(mp4|webm|ogg)$/i', $url)) {
+            $result['embed'] = $url;
+            $result['type'] = 'direct';
+            return $result;
+        }
+        
+        return $result;
     }
 
     /**

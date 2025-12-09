@@ -60,6 +60,41 @@ class AdminAboutHotelBlockSettingController extends ModuleAdminController
                     'type' => 'submit',
                 )
             ),
+            'video' => array(
+                'title' =>  $this->l('Featured Video'),
+                'icon' =>   'icon-film',
+                'fields' => array(
+                    'HOTEL_INTERIOR_VIDEO_ENABLED' => array(
+                        'title' => $this->l('Enable Video'),
+                        'type' => 'bool',
+                        'required' => false,
+                        'hint' => $this->l('Show a featured video in the interiors section.')
+                    ),
+                    'HOTEL_INTERIOR_VIDEO_URL' => array(
+                        'title' => $this->l('Video URL'),
+                        'type' => 'text',
+                        'required' => false,
+                        'hint' => $this->l('YouTube or Vimeo URL (e.g., https://www.youtube.com/watch?v=XXXXX or https://vimeo.com/XXXXX)')
+                    ),
+                    'HOTEL_INTERIOR_VIDEO_TITLE' => array(
+                        'title' => $this->l('Video Title'),
+                        'type' => 'textLang',
+                        'lang' => true,
+                        'required' => false,
+                        'hint' => $this->l('Title displayed above the video.')
+                    ),
+                    'HOTEL_INTERIOR_VIDEO_THUMBNAIL' => array(
+                        'title' => $this->l('Custom Thumbnail URL'),
+                        'type' => 'text',
+                        'required' => false,
+                        'hint' => $this->l('Optional: Custom thumbnail image URL. Leave empty to use video thumbnail.')
+                    ),
+                ),
+                'submit' => array(
+                    'title' => $this->l('Save'),
+                    'type' => 'submit',
+                )
+            ),
         );
 
         $this->informations[] = $this->l('Keep interior images in a multiple of 3 for the best view.');
