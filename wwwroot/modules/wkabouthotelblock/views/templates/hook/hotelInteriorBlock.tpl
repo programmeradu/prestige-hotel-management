@@ -209,14 +209,15 @@
                             currentVideoPlayer.pause();
                         }
                         
-                        // Create video player HTML for featured area
-                        var videoHTML = '<div class="featured-video-container uploaded-video active-video">' +
-                            '<video class="featured-uploaded-video" controls autoplay style="width:100%;height:100%;object-fit:cover;border-radius:16px;">' +
+                        // Create video player HTML for featured area - constrained to frame
+                        var videoHTML = '<div class="featured-video-container uploaded-video active-video" style="position:absolute;inset:0;overflow:hidden;">' +
+                            '<video class="featured-uploaded-video" controls autoplay playsinline style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;background:#000;border-radius:12px;">' +
                             '<source src="' + videoSrc + '" type="video/mp4">' +
                             'Your browser does not support video.' +
                             '</video>' +
                             (title ? '<div class="video-title-overlay">' + title + '</div>' : '') +
-                            '<button class="video-close-btn" style="position:absolute;top:15px;right:15px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;z-index:10;">&times;</button>' +
+                            '<button class="video-fullscreen-btn" title="Fullscreen" style="position:absolute;top:15px;right:55px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;z-index:10;">⛶</button>' +
+                            '<button class="video-close-btn" title="Close" style="position:absolute;top:15px;right:15px;background:rgba(0,0,0,0.7);color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;z-index:10;">&times;</button>' +
                             '</div>';
                         
                         featuredContainer.innerHTML = videoHTML;
@@ -241,6 +242,24 @@
                                 }
                                 featuredContainer.innerHTML = originalFeaturedHTML;
                                 currentVideoPlayer = null;
+                            });
+                        }
+                        
+                        // Fullscreen button
+                        var fullscreenBtn = featuredContainer.querySelector('.video-fullscreen-btn');
+                        if (fullscreenBtn && currentVideoPlayer) {
+                            fullscreenBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                if (currentVideoPlayer.requestFullscreen) {
+                                    currentVideoPlayer.requestFullscreen();
+                                } else if (currentVideoPlayer.webkitRequestFullscreen) {
+                                    currentVideoPlayer.webkitRequestFullscreen();
+                                } else if (currentVideoPlayer.msRequestFullscreen) {
+                                    currentVideoPlayer.msRequestFullscreen();
+                                } else if (currentVideoPlayer.webkitEnterFullscreen) {
+                                    // iOS Safari
+                                    currentVideoPlayer.webkitEnterFullscreen();
+                                }
                             });
                         }
                         
