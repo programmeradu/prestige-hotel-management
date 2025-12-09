@@ -352,10 +352,18 @@
         var cta = document.createElement('a');
         cta.className = 'event-cta';
         cta.href = e.url || '#';
-        cta.target = '_blank';
-        cta.rel = 'noopener';
-        cta.textContent = 'View Details';
-        if (!e.url) cta.className += ' disabled';
+        
+        // Different behavior for hotel events vs external events
+        if (e.source === 'hotel') {
+            cta.textContent = 'Contact Us';
+            cta.target = '_self'; // Stay on site for hotel events
+        } else {
+            cta.textContent = 'Learn More';
+            cta.target = '_blank';
+            cta.rel = 'noopener';
+        }
+        
+        if (!e.url || e.url === '#') cta.className += ' disabled';
         b.appendChild(cta);
         c.appendChild(m);
         c.appendChild(b);

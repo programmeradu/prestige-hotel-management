@@ -93,19 +93,40 @@ class EventFeedHelper
         $cached = $this->readCache();
         if ($cached !== null) {
             $this->fromCache = true;
-            return array_slice($cached, 0, $limit);
+            // Still ensure minimum of 4 events from cache
+            $cachedEvents = array_slice($cached, 0, $limit);
+            if (count($cachedEvents) < 4) {
+                $cachedEvents = $this->fillWithDemoEvents($cachedEvents, 4);
+            }
+            return $cachedEvents;
         }
 
-        // Fetch from APIs
-        $events = $this->fetchEventbrite();
-        if (empty($events)) {
-            $events = $this->fetchPredictHQ();
+        // Fetch from BOTH APIs and combine results
+        $events = array();
+        
+        // Try Eventbrite
+        $eventbriteEvents = $this->fetchEventbrite();
+        if (!empty($eventbriteEvents)) {
+            $events = array_merge($events, $eventbriteEvents);
+            $this->lastSource = 'eventbrite';
+        }
+        
+        // Also try PredictHQ
+        $predictHqEvents = $this->fetchPredictHQ();
+        if (!empty($predictHqEvents)) {
+            $events = array_merge($events, $predictHqEvents);
+            $this->lastSource = empty($eventbriteEvents) ? 'predicthq' : 'combined';
         }
 
-        // If still empty, return demo data
+        // If still empty, use demo data
         if (empty($events)) {
             $events = $this->getDemoEvents();
             $this->lastSource = 'demo';
+        }
+        
+        // Fill with demo events if fewer than 4 (ensure always 4 cards)
+        if (count($events) < 4) {
+            $events = $this->fillWithDemoEvents($events, 4);
         }
 
         // Generate AI images for events without images
@@ -117,6 +138,27 @@ class EventFeedHelper
         }
 
         return array_slice($events, 0, $limit);
+    }
+    
+    /**
+     * Fill events array with demo events to reach minimum count
+     */
+    protected function fillWithDemoEvents(array $events, $minCount = 4)
+    {
+        $demoEvents = $this->getDemoEvents();
+        $existingIds = array_column($events, 'id');
+        
+        foreach ($demoEvents as $demo) {
+            if (count($events) >= $minCount) {
+                break;
+            }
+            // Don't add duplicates
+            if (!in_array($demo['id'], $existingIds)) {
+                $events[] = $demo;
+            }
+        }
+        
+        return $events;
     }
 
     /**
@@ -345,22 +387,29 @@ class EventFeedHelper
         $normalized = array();
 
         foreach ($response['results'] as $ev) {
+            // Clean description - remove "Sourced from..." prefix
+            $description = isset($ev['description']) ? $ev['description'] : '';
+            $description = $this->cleanDescription($description);
+            
+            // Build a useful URL - Google search for the event (PredictHQ URLs don't work)
+            $eventTitle = isset($ev['title']) ? $ev['title'] : 'Event';
+            $eventVenue = isset($ev['geo']['address']['formatted_address']) 
+                ? $ev['geo']['address']['formatted_address'] 
+                : 'Cape Coast Ghana';
+            $searchQuery = urlencode($eventTitle . ' ' . $eventVenue);
+            $eventUrl = 'https://www.google.com/search?q=' . $searchQuery;
+            
             $normalized[] = array(
                 'id' => 'phq_'.(string)$ev['id'],
-                'title' => isset($ev['title']) ? $ev['title'] : 'Upcoming Event',
-                'description' => $this->truncate(
-                    isset($ev['description']) ? $ev['description'] : '',
-                    200
-                ),
+                'title' => $eventTitle,
+                'description' => $this->truncate($description, 200),
                 'start' => isset($ev['start']) ? $ev['start'] : '',
                 'end' => isset($ev['end']) ? $ev['end'] : '',
-                'url' => 'https://predicthq.com/events/'.$ev['id'],
+                'url' => $eventUrl,
                 'image' => null,
                 'venue' => array(
                     'name' => isset($ev['entities'][0]['name']) ? $ev['entities'][0]['name'] : '',
-                    'address' => isset($ev['geo']['address']['formatted_address'])
-                        ? $ev['geo']['address']['formatted_address']
-                        : 'Cape Coast, Ghana',
+                    'address' => $eventVenue,
                 ),
                 'category' => isset($ev['category']) ? $ev['category'] : 'event',
                 'source' => 'predicthq',
@@ -372,9 +421,13 @@ class EventFeedHelper
 
     /**
      * Get demo events when APIs are unavailable
+     * These are a mix of hotel events and local Cape Coast attractions
      */
     protected function getDemoEvents()
     {
+        // Base URL for hotel (contact page for bookings)
+        $hotelUrl = '/contact-us';
+        
         return array(
             array(
                 'id' => 'demo_1',
@@ -382,14 +435,14 @@ class EventFeedHelper
                 'description' => 'Experience the rich heritage of Cape Coast with traditional music, dance, and local cuisine. A celebration of Ghanaian culture.',
                 'start' => date('Y-m-d', strtotime('+7 days')).'T10:00:00',
                 'end' => date('Y-m-d', strtotime('+7 days')).'T18:00:00',
-                'url' => '#',
+                'url' => 'https://www.google.com/search?q=Cape+Coast+Cultural+Festival+Ghana',
                 'image' => null,
                 'venue' => array(
                     'name' => 'Cape Coast Castle',
                     'address' => 'Cape Coast, Ghana',
                 ),
-                'category' => 'festival',
-                'source' => 'demo',
+                'category' => 'festivals',
+                'source' => 'cape-coast',
             ),
             array(
                 'id' => 'demo_2',
@@ -397,14 +450,14 @@ class EventFeedHelper
                 'description' => 'Join the community effort to keep our beautiful beaches pristine. All volunteers welcome.',
                 'start' => date('Y-m-d', strtotime('+14 days')).'T08:00:00',
                 'end' => date('Y-m-d', strtotime('+14 days')).'T12:00:00',
-                'url' => '#',
+                'url' => 'https://www.google.com/search?q=Elmina+Beach+Ghana+events',
                 'image' => null,
                 'venue' => array(
                     'name' => 'Elmina Beach',
                     'address' => 'Elmina, Ghana',
                 ),
                 'category' => 'community',
-                'source' => 'demo',
+                'source' => 'cape-coast',
             ),
             array(
                 'id' => 'demo_3',
@@ -412,29 +465,59 @@ class EventFeedHelper
                 'description' => 'Discover handcrafted treasures from local artisans. Jewelry, textiles, woodwork and more.',
                 'start' => date('Y-m-d', strtotime('+21 days')).'T09:00:00',
                 'end' => date('Y-m-d', strtotime('+22 days')).'T17:00:00',
-                'url' => '#',
+                'url' => 'https://www.google.com/search?q=Cape+Coast+Market+Ghana+artisan',
                 'image' => null,
                 'venue' => array(
                     'name' => 'Cape Coast Market',
                     'address' => 'Cape Coast, Ghana',
                 ),
                 'category' => 'market',
-                'source' => 'demo',
+                'source' => 'cape-coast',
             ),
             array(
                 'id' => 'demo_4',
                 'title' => 'Sunset Jazz Evening',
-                'description' => 'Enjoy smooth jazz performances as the sun sets over the Atlantic. Live music and cocktails.',
+                'description' => 'Enjoy smooth jazz performances as the sun sets over the Atlantic. Live music and cocktails at our terrace.',
                 'start' => date('Y-m-d', strtotime('+28 days')).'T17:00:00',
                 'end' => date('Y-m-d', strtotime('+28 days')).'T21:00:00',
-                'url' => '#',
+                'url' => $hotelUrl,
                 'image' => null,
                 'venue' => array(
                     'name' => 'Prestige Hotel Terrace',
                     'address' => 'Cape Coast, Ghana',
                 ),
                 'category' => 'concert',
-                'source' => 'demo',
+                'source' => 'hotel',
+            ),
+            array(
+                'id' => 'demo_5',
+                'title' => 'Prestige Wine & Dine Experience',
+                'description' => 'An exclusive evening of fine dining with curated wines from around the world. Limited seats available.',
+                'start' => date('Y-m-d', strtotime('+10 days')).'T19:00:00',
+                'end' => date('Y-m-d', strtotime('+10 days')).'T23:00:00',
+                'url' => $hotelUrl,
+                'image' => null,
+                'venue' => array(
+                    'name' => 'Prestige Hotel Restaurant',
+                    'address' => 'Cape Coast, Ghana',
+                ),
+                'category' => 'dining',
+                'source' => 'hotel',
+            ),
+            array(
+                'id' => 'demo_6',
+                'title' => 'Historical Cape Coast Tour',
+                'description' => 'Guided tour of Cape Coast Castle and Elmina. Explore the rich history of Ghana\'s coastal heritage.',
+                'start' => date('Y-m-d', strtotime('+5 days')).'T09:00:00',
+                'end' => date('Y-m-d', strtotime('+5 days')).'T15:00:00',
+                'url' => $hotelUrl,
+                'image' => null,
+                'venue' => array(
+                    'name' => 'Cape Coast Castle',
+                    'address' => 'Cape Coast, Ghana',
+                ),
+                'category' => 'tours',
+                'source' => 'hotel',
             ),
         );
     }
@@ -513,6 +596,30 @@ class EventFeedHelper
     }
 
     /**
+     * Clean description text - remove source attributions and clean up
+     */
+    protected function cleanDescription($text)
+    {
+        if (empty($text)) {
+            return '';
+        }
+        
+        // Remove common source prefixes
+        $patterns = array(
+            '/^Sourced from [a-zA-Z0-9\.\-]+\s*[-–—]\s*/i',
+            '/^From [a-zA-Z0-9\.\-]+:\s*/i',
+            '/^Via [a-zA-Z0-9\.\-]+\s*[-–—]\s*/i',
+            '/^\[[a-zA-Z0-9\.\-]+\]\s*/i',
+        );
+        
+        foreach ($patterns as $pattern) {
+            $text = preg_replace($pattern, '', $text);
+        }
+        
+        return trim($text);
+    }
+
+    /**
      * Truncate text to specified length
      */
     protected function truncate($text, $length)
@@ -580,6 +687,9 @@ class EventFeedHelper
             'conferences' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
             'expos' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
             'sports' => 'https://images.unsplash.com/photo-1461896836934-1e0cd4e86e4e?w=800&h=450&fit=crop',
+            'dining' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=450&fit=crop',
+            'tours' => 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=450&fit=crop',
+            'hotel' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=450&fit=crop',
             'default' => 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=450&fit=crop',
         );
 
