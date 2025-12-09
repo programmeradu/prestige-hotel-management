@@ -683,22 +683,32 @@ class EventFeedHelper
      */
     protected function generateMissingImages(array $events)
     {
-        // Themed placeholder images by category
+        // Themed placeholder images by category - Using African/Ghanaian themed images
         $placeholders = array(
-            'festival' => 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=450&fit=crop',
-            'festivals' => 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&h=450&fit=crop',
-            'concert' => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=450&fit=crop',
-            'concerts' => 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=450&fit=crop',
-            'performing-arts' => 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&h=450&fit=crop',
-            'community' => 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=450&fit=crop',
+            // African festival celebration
+            'festival' => 'https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?w=800&h=450&fit=crop',
+            'festivals' => 'https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?w=800&h=450&fit=crop',
+            // African music/performance
+            'concert' => 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=450&fit=crop',
+            'concerts' => 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=450&fit=crop',
+            'performing-arts' => 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=450&fit=crop',
+            // African community gathering
+            'community' => 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=800&h=450&fit=crop',
+            // African market
             'market' => 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=450&fit=crop',
-            'conferences' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
-            'expos' => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=450&fit=crop',
-            'sports' => 'https://images.unsplash.com/photo-1461896836934-1e0cd4e86e4e?w=800&h=450&fit=crop',
-            'dining' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=450&fit=crop',
-            'tours' => 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=450&fit=crop',
+            // African business/conference
+            'conferences' => 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=450&fit=crop',
+            'expos' => 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=800&h=450&fit=crop',
+            // Sports
+            'sports' => 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=450&fit=crop',
+            // African food/dining - Use jollof/African cuisine image
+            'dining' => 'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=800&h=450&fit=crop',
+            // Ghana Cape Coast Castle tours
+            'tours' => 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&h=450&fit=crop',
+            // Hotel hospitality
             'hotel' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=450&fit=crop',
-            'default' => 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&h=450&fit=crop',
+            // Default - African themed event
+            'default' => 'https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?w=800&h=450&fit=crop',
         );
 
         // Process each event using index-based loop to avoid reference issues
@@ -709,11 +719,20 @@ class EventFeedHelper
             }
 
             $eventId = $events[$i]['id'] ?? 'unknown';
+            $eventTitle = strtolower($events[$i]['title'] ?? '');
             $category = strtolower($events[$i]['category'] ?? 'default');
             
-            // First, set placeholder as default (guaranteed to work)
-            $events[$i]['image'] = isset($placeholders[$category]) ? $placeholders[$category] : $placeholders['default'];
-            $events[$i]['placeholder_image'] = true;
+            // Special handling for Fufu & Tilapia - use African food image
+            // (Unsplash doesn't have fufu, so use African food general image)
+            if (strpos($eventTitle, 'fufu') !== false || strpos($eventTitle, 'tilapia') !== false) {
+                // West African food image
+                $events[$i]['image'] = 'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?w=800&h=450&fit=crop';
+                $events[$i]['placeholder_image'] = true;
+            } else {
+                // First, set placeholder as default (guaranteed to work)
+                $events[$i]['image'] = isset($placeholders[$category]) ? $placeholders[$category] : $placeholders['default'];
+                $events[$i]['placeholder_image'] = true;
+            }
 
             // Now try AI generation (if it works, it overrides placeholder)
             try {
@@ -775,14 +794,52 @@ class EventFeedHelper
      */
     protected function enhancePromptWithGemini(array $event)
     {
-        $prompt = "Create a detailed, photorealistic image generation prompt (max 400 tokens) for an event in Cape Coast, Ghana. ";
-        $prompt .= "Event Title: {$event['title']}. ";
+        $category = $event['category'] ?? 'event';
+        $title = $event['title'] ?? '';
+        $venue = isset($event['venue']['name']) ? $event['venue']['name'] : 'Cape Coast';
+        
+        // Build a culturally-aware prompt
+        $prompt = "Create a detailed image generation prompt (max 400 tokens) for an event in Cape Coast, GHANA, WEST AFRICA. ";
+        $prompt .= "\n\nCRITICAL CULTURAL CONTEXT: ";
+        $prompt .= "- This is in GHANA, West Africa. The people should be BLACK AFRICAN/GHANAIAN. ";
+        $prompt .= "- Do NOT show white/Caucasian people as the main subjects. ";
+        $prompt .= "- Show authentic Ghanaian/West African setting, culture, and atmosphere. ";
+        
+        // Add specific context for food/dining events
+        if ($category === 'dining' || stripos($title, 'fufu') !== false || stripos($title, 'food') !== false) {
+            $prompt .= "\n\nFOOD CONTEXT: ";
+            if (stripos($title, 'fufu') !== false) {
+                $prompt .= "- Fufu is a traditional Ghanaian staple - smooth white dough-like balls made from cassava/plantain. ";
+                $prompt .= "- It is served in a bowl with SOUP (light soup, palm nut soup, groundnut soup) - NOT wine or Western food. ";
+                $prompt .= "- Tilapia is fresh fish served in the soup. ";
+                $prompt .= "- Show authentic Ghanaian restaurant or home setting, NOT a Western fine-dining establishment. ";
+                $prompt .= "- The food should look like REAL Ghanaian fufu - white/off-white pounded dough in soup with fish. ";
+            }
+            $prompt .= "- Show African diners enjoying traditional Ghanaian cuisine in a warm, welcoming atmosphere. ";
+        }
+        
+        // Add context for conferences
+        if ($category === 'conferences' || $category === 'conference') {
+            $prompt .= "\n\nCONFERENCE CONTEXT: ";
+            $prompt .= "- Show African/Ghanaian professionals and attendees. ";
+            $prompt .= "- Modern conference setting in Ghana. ";
+        }
+        
+        // Add context for festivals
+        if ($category === 'festivals' || $category === 'festival') {
+            $prompt .= "\n\nFESTIVAL CONTEXT: ";
+            $prompt .= "- Show authentic Ghanaian/African cultural festival. ";
+            $prompt .= "- Traditional Ghanaian clothing (kente, African prints), music, dance. ";
+            $prompt .= "- Vibrant African celebration atmosphere. ";
+        }
+        
+        $prompt .= "\n\nEvent Details: ";
+        $prompt .= "Title: {$title}. ";
         $prompt .= "Description: {$event['description']}. ";
-        $prompt .= "Category: {$event['category']}. ";
-        $prompt .= "Venue: " . (isset($event['venue']['name']) ? $event['venue']['name'] : 'Cape Coast') . ". ";
-        $prompt .= "The prompt should be descriptive, professional, and suitable for a luxury hotel's event showcase. ";
-        $prompt .= "Include style modifiers like 'professional photography', 'high quality', and appropriate lighting. ";
-        $prompt .= "Focus on the event's atmosphere and setting. Return ONLY the image generation prompt, nothing else.";
+        $prompt .= "Category: {$category}. ";
+        $prompt .= "Venue: {$venue}, Ghana. ";
+        $prompt .= "\n\nThe image should be professional, high quality, suitable for a hotel website. ";
+        $prompt .= "Return ONLY the image generation prompt, nothing else.";
 
         $url = self::GEMINI_API_BASE . '/models/' . self::GEMINI_MODEL . ':generateContent?key=' . self::getApiKey();
 
@@ -817,6 +874,7 @@ class EventFeedHelper
 
     /**
      * Create a basic prompt if Gemini enhancement fails
+     * Includes strong cultural context for Ghana, West Africa
      *
      * @param array $event
      * @return string
@@ -825,30 +883,68 @@ class EventFeedHelper
     {
         $venue = isset($event['venue']['name']) ? $event['venue']['name'] : 'Cape Coast';
         $category = $event['category'] ?? 'event';
+        $title = strtolower($event['title'] ?? '');
         
-        $prompt = "Professional high-quality photograph of ";
-        $prompt .= strtolower($event['title']) . " event in {$venue}, Cape Coast, Ghana. ";
-        $prompt .= "Luxury hotel event showcase style, ";
+        // Base cultural context - ALWAYS include
+        $prompt = "Professional photograph in Ghana, West Africa. Black African Ghanaian people. ";
         
-        // Add category-specific details
-        switch ($category) {
-            case 'festival':
-                $prompt .= "vibrant cultural celebration with traditional elements, golden hour lighting";
-                break;
-            case 'concert':
-                $prompt .= "live music performance, atmospheric stage lighting, elegant venue";
-                break;
-            case 'community':
-                $prompt .= "community gathering, warm and welcoming atmosphere, natural lighting";
-                break;
-            case 'market':
-                $prompt .= "artisan market with handcrafted items, bright natural lighting, bustling atmosphere";
-                break;
-            default:
-                $prompt .= "elegant event setting, professional photography, premium quality";
+        // Special handling for Fufu & Tilapia
+        if (strpos($title, 'fufu') !== false || strpos($title, 'tilapia') !== false) {
+            $prompt .= "Traditional Ghanaian restaurant setting. ";
+            $prompt .= "Authentic fufu dish - smooth white pounded cassava/plantain dough balls served in a clay or ceramic bowl ";
+            $prompt .= "with light soup and fresh tilapia fish. ";
+            $prompt .= "African family or diners enjoying traditional Ghanaian meal. ";
+            $prompt .= "Warm, welcoming local restaurant atmosphere. Natural lighting. ";
+            $prompt .= "NOT Western fine dining, NOT wine, NOT white tablecloths. ";
+            $prompt .= "Authentic African food photography, 4K quality.";
+            return $prompt;
         }
         
-        $prompt .= ", 4K HDR, taken by a professional photographer";
+        $prompt .= "Event: {$title} at {$venue}, Cape Coast, Ghana. ";
+        
+        // Add category-specific details with African context
+        switch ($category) {
+            case 'festivals':
+            case 'festival':
+                $prompt .= "Vibrant Ghanaian cultural festival celebration. ";
+                $prompt .= "Traditional kente cloth, African prints, Ghanaian dancers and musicians. ";
+                $prompt .= "Colorful African celebration, golden hour lighting.";
+                break;
+            case 'concert':
+                $prompt .= "Live African music performance in Ghana. ";
+                $prompt .= "Highlife or Afrobeats band, African musicians on stage. ";
+                $prompt .= "Atmospheric stage lighting, elegant venue.";
+                break;
+            case 'conferences':
+            case 'conference':
+                $prompt .= "Professional conference in Ghana with African attendees. ";
+                $prompt .= "Black African professionals, modern conference room. ";
+                $prompt .= "Business attire, presentation setting.";
+                break;
+            case 'community':
+                $prompt .= "Ghanaian community gathering. ";
+                $prompt .= "African people in community event, warm welcoming atmosphere.";
+                break;
+            case 'market':
+                $prompt .= "Ghanaian artisan market. ";
+                $prompt .= "African vendors with handcrafted goods, kente cloth, beads, wood carvings. ";
+                $prompt .= "Bustling market atmosphere, bright natural lighting.";
+                break;
+            case 'dining':
+                $prompt .= "Ghanaian restaurant with African diners. ";
+                $prompt .= "Traditional Ghanaian cuisine, warm atmosphere. ";
+                $prompt .= "NOT Western fine dining.";
+                break;
+            case 'tours':
+                $prompt .= "Cape Coast Castle tour in Ghana. ";
+                $prompt .= "Historical site, African tour guide with visitors.";
+                break;
+            default:
+                $prompt .= "Event in Ghana with African attendees. ";
+                $prompt .= "Professional photography, warm atmosphere.";
+        }
+        
+        $prompt .= " 4K HDR, professional photographer.";
         
         return $prompt;
     }

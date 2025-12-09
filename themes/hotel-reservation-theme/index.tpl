@@ -359,8 +359,8 @@
             cta.target = '_self'; // Stay on site for hotel events
         } else {
             cta.textContent = 'Learn More';
-            cta.target = '_blank';
-            cta.rel = 'noopener';
+        cta.target = '_blank';
+        cta.rel = 'noopener';
         }
         
         if (!e.url || e.url === '#') cta.className += ' disabled';

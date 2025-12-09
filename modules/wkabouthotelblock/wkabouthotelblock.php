@@ -30,7 +30,7 @@ class WkAboutHotelBlock extends Module
     {
         $this->name = 'wkabouthotelblock';
         $this->tab = 'front_office_features';
-        $this->version = '1.1.9';
+        $this->version = '1.2.0';
         $this->author = 'Webkul';
         $this->need_instance = 0;
 
@@ -54,9 +54,25 @@ class WkAboutHotelBlock extends Module
         $HOTEL_INTERIOR_DESCRIPTION = Configuration::get('HOTEL_INTERIOR_DESCRIPTION', $this->context->language->id);
 
         $objHtlInteriorImg = new WkHotelInteriorImage();
-        $InteriorImg = $objHtlInteriorImg->getHotelInteriorImg(1);
+        // Get ALL interior media (images AND videos) - sorted by position
+        $InteriorMedia = $objHtlInteriorImg->getHotelInteriorImg(1);
+        
+        // Separate images and videos for template flexibility
+        $InteriorImg = array();
+        $InteriorVideos = array();
+        
+        if ($InteriorMedia) {
+            foreach ($InteriorMedia as $media) {
+                $mediaType = isset($media['media_type']) ? $media['media_type'] : 'image';
+                if ($mediaType === 'video') {
+                    $InteriorVideos[] = $media;
+                } else {
+                    $InteriorImg[] = $media;
+                }
+            }
+        }
 
-        // Video configuration
+        // Video URL configuration (for external YouTube/Vimeo - legacy support)
         $videoEnabled = (bool)Configuration::get('HOTEL_INTERIOR_VIDEO_ENABLED');
         $videoUrl = Configuration::get('HOTEL_INTERIOR_VIDEO_URL');
         $videoTitle = Configuration::get('HOTEL_INTERIOR_VIDEO_TITLE', $this->context->language->id);
@@ -69,7 +85,6 @@ class WkAboutHotelBlock extends Module
             $parsedVideo = $this->parseVideoUrl($videoUrl);
             $videoEmbed = $parsedVideo['embed'];
             $videoType = $parsedVideo['type'];
-            // Use auto thumbnail if custom not provided
             if (!$videoThumbnail && $parsedVideo['thumbnail']) {
                 $videoThumbnail = $parsedVideo['thumbnail'];
             }
@@ -79,8 +94,15 @@ class WkAboutHotelBlock extends Module
             array(
                 'HOTEL_INTERIOR_HEADING' => $HOTEL_INTERIOR_HEADING,
                 'HOTEL_INTERIOR_DESCRIPTION' => $HOTEL_INTERIOR_DESCRIPTION,
+                // All media combined (for mixed display)
+                'InteriorMedia' => $InteriorMedia,
+                // Separated for flexibility
                 'InteriorImg' => $InteriorImg,
-                // Video data
+                'InteriorVideos' => $InteriorVideos,
+                'has_videos' => !empty($InteriorVideos),
+                // Video directory path
+                'video_dir' => $this->_path.'views/video/hotel_interior/',
+                // Legacy external video URL support
                 'video_enabled' => $videoEnabled,
                 'video_embed' => $videoEmbed,
                 'video_type' => $videoType,
@@ -158,8 +180,10 @@ class WkAboutHotelBlock extends Module
         $objAboutHotelBlockDb = new WkAboutHotelBlockDb();
         if (!parent::install()
             || !$objAboutHotelBlockDb->createTables()
+            || !$objAboutHotelBlockDb->addVideoColumns()
             || !$this->registerModuleHooks()
             || !$this->callInstallTab()
+            || !$this->createVideoDirectory()
         ) {
             return false;
         }
@@ -174,6 +198,18 @@ class WkAboutHotelBlock extends Module
             Tools::deleteDirectory($this->local_path.'views/img/dummy_img');
         }
 
+        return true;
+    }
+    
+    /**
+     * Create video directory for uploaded videos
+     */
+    protected function createVideoDirectory()
+    {
+        $videoDir = _PS_MODULE_DIR_.$this->name.'/views/video/hotel_interior/';
+        if (!is_dir($videoDir)) {
+            return mkdir($videoDir, 0755, true);
+        }
         return true;
     }
 
