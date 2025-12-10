@@ -272,11 +272,23 @@ class Abandonedcartalerts extends Module
                 cgd.lastname as guest_lastname,
                 cgd.email as guest_email,
                 cgd.phone as guest_phone,
-                /* Use COALESCE to get whichever is available: Guest Detail Phone -> Address Mobile -> Address Phone */
+                
+                /* Subquery to find ANY phone number for this customer if they are registered */
+                (SELECT phone_mobile FROM `' . bqSQL($prefix) . 'address` WHERE id_customer = c.id_customer AND phone_mobile != "" ORDER BY date_upd DESC LIMIT 1) as cust_mobile,
+                (SELECT phone FROM `' . bqSQL($prefix) . 'address` WHERE id_customer = c.id_customer AND phone != "" ORDER BY date_upd DESC LIMIT 1) as cust_phone,
+                
+                /* Use COALESCE to get whichever is available: Guest Detail Phone -> Address Mobile -> Address Phone -> Customer Saved Mobile -> Customer Saved Phone */
                 COALESCE(NULLIF(cu.firstname, ""), cgd.firstname) as firstname,
                 COALESCE(NULLIF(cu.lastname, ""), cgd.lastname) as lastname,
                 COALESCE(NULLIF(cu.email, ""), cgd.email) as email,
-                COALESCE(NULLIF(cgd.phone, ""), NULLIF(ad.phone_mobile, ""), NULLIF(ad.phone, "")) as phone
+                COALESCE(
+                    NULLIF(cgd.phone, ""), 
+                    NULLIF(ad.phone_mobile, ""), 
+                    NULLIF(ad.phone, ""),
+                    /* Fallback to customer saved addresses if cart has no address */
+                    (SELECT phone_mobile FROM `' . bqSQL($prefix) . 'address` WHERE id_customer = c.id_customer AND phone_mobile != "" ORDER BY date_upd DESC LIMIT 1),
+                    (SELECT phone FROM `' . bqSQL($prefix) . 'address` WHERE id_customer = c.id_customer AND phone != "" ORDER BY date_upd DESC LIMIT 1)
+                ) as phone
             FROM `' . bqSQL($prefix) . 'cart` c
             LEFT JOIN `' . bqSQL($prefix) . 'customer` cu ON c.id_customer = cu.id_customer
             LEFT JOIN `' . bqSQL($prefix) . 'cart_customer_guest_detail` cgd ON c.id_cart = cgd.id_cart
