@@ -272,14 +272,15 @@ class Abandonedcartalerts extends Module
                 cgd.lastname as guest_lastname,
                 cgd.email as guest_email,
                 cgd.phone as guest_phone,
-                /* Use COALESCE to get whichever is available */
+                /* Use COALESCE to get whichever is available: Guest Detail Phone -> Address Mobile -> Address Phone */
                 COALESCE(NULLIF(cu.firstname, ""), cgd.firstname) as firstname,
                 COALESCE(NULLIF(cu.lastname, ""), cgd.lastname) as lastname,
                 COALESCE(NULLIF(cu.email, ""), cgd.email) as email,
-                cgd.phone as phone
+                COALESCE(NULLIF(cgd.phone, ""), NULLIF(ad.phone_mobile, ""), NULLIF(ad.phone, "")) as phone
             FROM `' . bqSQL($prefix) . 'cart` c
             LEFT JOIN `' . bqSQL($prefix) . 'customer` cu ON c.id_customer = cu.id_customer
             LEFT JOIN `' . bqSQL($prefix) . 'cart_customer_guest_detail` cgd ON c.id_cart = cgd.id_cart
+            LEFT JOIN `' . bqSQL($prefix) . 'address` ad ON c.id_address_delivery = ad.id_address
             LEFT JOIN `' . bqSQL($prefix) . 'guest` g ON c.id_guest = g.id_guest
             WHERE c.date_upd BETWEEN 
                 DATE_SUB(NOW(), INTERVAL ' . (int)$maxHours . ' HOUR) 
