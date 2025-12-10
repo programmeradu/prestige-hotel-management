@@ -251,12 +251,9 @@ class Abandonedcartalerts extends Module
         $minMinutes = (int)Configuration::get('ABANDONEDCARTALERTS_MIN_MINUTES');
         $maxHours = (int)Configuration::get('ABANDONEDCARTALERTS_MAX_HOURS');
         
-        // Determine correct table prefix
-        $prefix = _DB_PREFIX_;
-        $tableCheck = Db::getInstance()->getValue("SHOW TABLES LIKE 'qlooo_cart'");
-        if ($tableCheck) {
-            $prefix = 'qlooo_';
-        }
+        // Determine correct table prefix - use the constant directly
+        // The database uses qlooo_ prefix based on the debug output
+        $prefix = 'qlooo_';
         
         $sql = 'SELECT 
                 c.id_cart,
