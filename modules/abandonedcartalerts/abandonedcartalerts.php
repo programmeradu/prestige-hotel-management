@@ -317,15 +317,25 @@ class Abandonedcartalerts extends Module
     }
     
     /**
-     * Get cart total
+     * Get cart total - using simple database query to avoid pricing errors
      */
     protected function getCartTotal($idCart)
     {
-        $cart = new Cart((int)$idCart);
-        if (Validate::isLoadedObject($cart)) {
-            return Tools::displayPrice($cart->getOrderTotal(true, Cart::BOTH));
+        $prefix = 'qlooo_';
+        
+        // Get total from htl_cart_booking_data (simpler and more reliable)
+        $sql = 'SELECT SUM(hcbd.total_price_tax_incl) as total
+                FROM `' . bqSQL($prefix) . 'htl_cart_booking_data` hcbd
+                WHERE hcbd.id_cart = ' . (int)$idCart;
+        
+        $result = Db::getInstance()->getValue($sql);
+        
+        if ($result && $result > 0) {
+            return Tools::displayPrice((float)$result);
         }
-        return Tools::displayPrice(0);
+        
+        // Fallback: return "N/A" if no price found
+        return 'N/A';
     }
     
     /**
