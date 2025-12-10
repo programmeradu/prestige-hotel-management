@@ -14,6 +14,6 @@ CUSTOMER DETAILS
 
 Please follow up with these customers to complete their bookings.
 
-View all carts: {shop_url}admin-dev/index.php?controller=AdminCarts
+View all carts: {admin_url}
 
 This is an automated alert from {shop_name}.

@@ -252,6 +252,20 @@ class Abandonedcartalerts extends Module
         $minMinutes = (int)Configuration::get('ABANDONEDCARTALERTS_MIN_MINUTES');
         $maxHours = (int)Configuration::get('ABANDONEDCARTALERTS_MAX_HOURS');
         
+        $lastCheck = Configuration::get('ABANDONEDCARTALERTS_LAST_CHECK');
+        
+        // Safety: If last check is empty or very old, default to maxHours lookback
+        $lookbackLimit = date('Y-m-d H:i:s', strtotime("-$maxHours hours"));
+        
+        if ($lastCheck && $lastCheck > $lookbackLimit) {
+            $startTime = $lastCheck;
+        } else {
+            $startTime = $lookbackLimit;
+        }
+        
+        // End time is NOW - minMinutes (carts must be at least this old to be abandoned)
+        $endTime = date('Y-m-d H:i:s', strtotime("-$minMinutes minutes"));
+
         // IMPORTANT: Database uses qlooo_ prefix, NOT ps_
         $prefix = 'qlooo_';
         
@@ -294,9 +308,8 @@ class Abandonedcartalerts extends Module
             LEFT JOIN `' . bqSQL($prefix) . 'cart_customer_guest_detail` cgd ON c.id_cart = cgd.id_cart
             LEFT JOIN `' . bqSQL($prefix) . 'address` ad ON c.id_address_delivery = ad.id_address
             LEFT JOIN `' . bqSQL($prefix) . 'guest` g ON c.id_guest = g.id_guest
-            WHERE c.date_upd BETWEEN 
-                DATE_SUB(NOW(), INTERVAL ' . (int)$maxHours . ' HOUR) 
-                AND DATE_SUB(NOW(), INTERVAL ' . (int)$minMinutes . ' MINUTE)
+            WHERE c.date_upd > "' . pSQL($startTime) . '" 
+            AND c.date_upd <= "' . pSQL($endTime) . '"
             AND NOT EXISTS (
                 SELECT 1 FROM `' . bqSQL($prefix) . 'orders` o WHERE o.id_cart = c.id_cart
             )
@@ -372,6 +385,13 @@ class Abandonedcartalerts extends Module
         // Build email content
         $emailContent = $this->buildEmailContent($abandonedCarts);
         
+        // Calculate Admin URL
+        $adminFolder = 'admin033aqbbsn'; // specific fallback for this site
+        if (defined('_PS_ADMIN_DIR_')) {
+            $adminFolder = basename(_PS_ADMIN_DIR_);
+        }
+        $adminUrl = Tools::getShopDomainSsl(true) . __PS_BASE_URI__ . $adminFolder . '/index.php?controller=AdminCarts';
+
         // Send email to each recipient
         $sent = false;
         foreach ($emails as $email) {
@@ -384,6 +404,7 @@ class Abandonedcartalerts extends Module
                         '{alert_content}' => $emailContent,
                         '{shop_name}' => Configuration::get('PS_SHOP_NAME'),
                         '{shop_url}' => Tools::getShopDomainSsl(true),
+                        '{admin_url}' => $adminUrl,
                         '{date}' => date('F j, Y g:i A'),
                         '{cart_count}' => count($abandonedCarts),
                     ),
