@@ -255,19 +255,31 @@ class Abandonedcartalerts extends Module
         // IMPORTANT: Database uses qlooo_ prefix, NOT ps_
         $prefix = 'qlooo_';
         
-        // Simple query - just get customer info from customer table
+        // Query to get customer info OR guest info (from cart_customer_guest_detail table)
+        // IMPORTANT: qlooo_ prefix for all tables
         $sql = 'SELECT 
                 c.id_cart,
                 c.id_customer,
                 c.id_guest,
                 c.date_add,
                 c.date_upd,
-                cu.firstname,
-                cu.lastname,
-                cu.email,
-                cu.phone_mobile as phone
+                /* For logged-in customers, use customer table */
+                cu.firstname as customer_firstname,
+                cu.lastname as customer_lastname,
+                cu.email as customer_email,
+                /* For guests, use cart_customer_guest_detail table - THIS HAS THE PHONE! */
+                cgd.firstname as guest_firstname,
+                cgd.lastname as guest_lastname,
+                cgd.email as guest_email,
+                cgd.phone as guest_phone,
+                /* Use COALESCE to get whichever is available */
+                COALESCE(NULLIF(cu.firstname, ""), cgd.firstname) as firstname,
+                COALESCE(NULLIF(cu.lastname, ""), cgd.lastname) as lastname,
+                COALESCE(NULLIF(cu.email, ""), cgd.email) as email,
+                cgd.phone as phone
             FROM `' . bqSQL($prefix) . 'cart` c
             LEFT JOIN `' . bqSQL($prefix) . 'customer` cu ON c.id_customer = cu.id_customer
+            LEFT JOIN `' . bqSQL($prefix) . 'cart_customer_guest_detail` cgd ON c.id_cart = cgd.id_cart
             LEFT JOIN `' . bqSQL($prefix) . 'guest` g ON c.id_guest = g.id_guest
             WHERE c.date_upd BETWEEN 
                 DATE_SUB(NOW(), INTERVAL ' . (int)$maxHours . ' HOUR) 
