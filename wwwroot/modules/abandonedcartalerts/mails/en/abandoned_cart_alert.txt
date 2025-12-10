@@ -1,0 +1,19 @@
+🚨 ABANDONED CART ALERT - {shop_name}
+========================================
+
+{cart_count} abandoned booking cart(s) detected!
+Alert generated: {date}
+
+----------------------------------------
+CUSTOMER DETAILS
+----------------------------------------
+
+{alert_content}
+
+----------------------------------------
+
+Please follow up with these customers to complete their bookings.
+
+View all carts: {shop_url}admin-dev/index.php?controller=AdminCarts
+
+This is an automated alert from {shop_name}.

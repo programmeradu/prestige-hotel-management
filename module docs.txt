@@ -1,0 +1,1161 @@
+able of Contents
+The constant test
+The main class
+The constructor method
+Building the install() and uninstall() methods
+The install() method
+The uninstall() method
+The Configuration object
+The Shop object
+The icon file
+Installing the module
+Install module from the back office interface
+Install module from CLI using the Symfony Console component
+The config.xml file
+Keeping things secure
+Next article
+Tutorial: Creating your first module
+Before you start writing code for your PrestaShop module, we recommend reading PrestaShop’s Coding standards. Configuring your IDE hints or using automated tools can help you make sure you follow the project’s standards properly.
+Let’s create a first simple module, this will allow us to better describe its structure. We will name it “My module”.
+
+First, create the module’s folder, in PrestaShop’s /modules folder. Let’s call it mymodule. This will be the module’s “technical” name.
+
+Technical names can only accept lower case alphanumeric characters ([a-z0-9]). Although accepted, we strongly discourage using underscores because they don’t work with translation domains.
+This folder must contain the main file, a PHP file of the same name as the folder, which will handle most of the processing: mymodule.php.
+
+That is enough for a very basic module. Obviously, more files and folders can be added later, if needed.
+
+The constant test
+The main mymodule.php file must start with the following test:
+
+<?php
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+This checks for the presence of an always-existing PrestaShop constant (its version number), and if it does not exist, it stops the module from loading. The sole purpose of this is to prevent malicious visitors to load this file directly.
+
+Note that, as required by PrestaShop’s Coding Standards (see above), we do not use a closing PHP tag.
+
+The main class
+The main file must contain the module’s main class.
+
+If you need to add more classes later, we suggest writing one single class per file.
+That main class must bear the same name as the module and its folder, in PascalCase. In our example: MyModule. Furthermore, that class must extend the Module class, in order to inherit all its methods and attributes.
+
+<?php
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
+class MyModule extends Module
+{
+}
+It can just as well extend any class derived from Module, for specific needs: PaymentModule, ModuleGridEngine, ModuleGraph, etc.
+
+At this stage, if you place the module’s folder on the /modules folder, the module can already be seen in the “Module Catalog” page in the back office, in the “Other modules” section – albeit with no real name nor thumbnail.
+
+The constructor method
+Now, let’s create the constructor method of the module. Since the constructor is the first method to be called when the module is loaded by PrestaShop, this is the best place to set its details.
+
+<?php
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
+
+class MyModule extends Module
+{
+    public function __construct()
+    {
+        $this->name = 'mymodule';
+        $this->tab = 'front_office_features';
+        $this->version = '1.0.0';
+        $this->author = 'Firstname Lastname';
+        $this->need_instance = 0;
+        $this->ps_versions_compliancy = [
+            'min' => '8.0.0',
+            'max' => '9.99.99,
+        ];
+        $this->bootstrap = true;
+
+        parent::__construct();
+
+        $this->displayName = $this->trans('My module', [], 'Modules.Mymodule.Admin');
+        $this->description = $this->trans('Description of my module.', [], 'Modules.Mymodule.Admin');
+
+        $this->confirmUninstall = $this->trans('Are you sure you want to uninstall?', [], 'Modules.Mymodule.Admin');
+
+        if (!Configuration::get('MYMODULE_NAME')) {
+            $this->warning = $this->trans('No name provided', [], 'Modules.Mymodule.Admin');
+        }
+    }
+}
+Let’s examine each line:
+
+$this->name = 'mymodule';
+$this->tab = 'front_office_features';
+$this->version = '1.0';
+$this->author = 'Firstname Lastname';
+This section assigns a handful of attributes to the class instance ($this):
+
+The name attribute serves as an internal identifier (technical name). The value MUST be the same as the module’s folder and main class file. Only lower case letters and numbers are accepted.
+The tab attribute contains the section that shall contain this module in the Module Manager section in the Back office (see list of available sections). We choose front_office_features because our module will mostly have an impact on the front-end.
+The version attribute contains the version number for the module, displayed in the modules list. We recommend following the Semantic Versioning specification.
+The author attribute, as you can imagine contains the author’s name. It is displayed as-is in the PrestaShop modules list.
+Let’s continue with the next line in this block of code:
+
+$this->need_instance = 0;
+$this->ps_versions_compliancy = [
+    'min' => '8.0.0',
+    'max' => '9.99.99',
+];
+$this->bootstrap = true;
+This section handles the relationship with the module and its environment (namely, PrestaShop):
+
+The need_instance attribute Indicates whether to load the module’s class when displaying the “Modules” page in the back office. If set at 0, the module will not be loaded, and therefore will spend less resources to generate the “Modules” page. If your module needs to display a warning message in the “Modules” page, then you must set this attribute to 1.
+The ps_versions_compliancy attribute indicates which version of PrestaShop this module is compatible with. In the example above, we are defining the compatibility range between 8.0.0 and 9.99.99`.
+The bootstrap attribute indicates that the module’s template files have been built with PrestaShop’s bootstrap tools in mind.
+Next, we call the constructor method from the parent PHP class:
+
+parent::__construct();
+This will trigger a lot of actions from PrestaShop that you do not need to know about at this point.
+
+This method call must be placed after the definition of $this->name variable and before any use of translation.
+
+The next section deals with text strings, which are encapsulated in PrestaShop’s translation method, trans():
+
+$this->displayName = $this->trans('My module', [], 'Modules.Mymodule.Admin');
+$this->description = $this->trans('Description of my module.', [], 'Modules.Mymodule.Admin');
+
+$this->confirmUninstall = $this->trans('Are you sure you want to uninstall?', [], 'Modules.Mymodule.Admin');
+
+if (!Configuration::get('MYMODULE_NAME')) {
+    $this->warning = $this->trans('No name provided.', [], 'Modules.Mymodule.Admin');
+}
+These lines respectively assign:
+
+A name for the module, which will be displayed in the back office’s modules list.
+A description for the module, which will be displayed in the back office’s modules list.
+A message, asking the administrator if they really wants to uninstall the module. This is used in the uninstallation process.
+A warning that the module doesn’t have its MYMODULE_NAME database value set yet (this last point being specific to our example, as we will see later).
+The constructor method is now complete. You are free to add more to it later if necessary, but this the bare minimum for a working module.
+
+Now go to your back office’s Module Catalog page (found at “Modules” > “Module Catalog”) and search “mymodule”. The module is visible in the list, with its information displayed – and no icon for now.
+
+You can install the module, but it does not do anything yet.
+
+Building the install() and uninstall() methods
+Some modules have more needs than just using PrestaShop’s features in special ways. Your module might need to perform actions on installation, such as checking PrestaShop’s settings or to registering its own settings in the database. Likewise, if you changed things in the database on installation, it is highly recommended to change them back (or remove them) when uninstalling the module.
+
+The install() and uninstall() methods make it possible to control what happens when the store administrator installs or uninstalls the module. They must be included in the main class’ block of code (in our example, the MyModule class) – at the same level as the constructor method.
+
+The install() method
+Here is the bare minimum for the install() method:
+
+public function install()
+{
+    return parent::install();
+}
+In this first and extremely simplistic incarnation, this method does the minimum needed: return what’s returned by the Module class’ install() method, which returns either true if the module is correctly installed, or false otherwise. As it is, if we had not created that method, the superclass’ method would have been called instead anyway, making the end result identical. Nevertheless, we must mention this method, because it will be very useful once we have to perform checks and actions during the module’s installation process: creating SQL tables, copying files, creating configuration variables, etc.
+
+There are many things you can do to expand the install() method to perform installation checks. In the following example, we perform the following tasks during installation:
+
+Check that the Multistore feature is enabled, and if so, set the current context to all shops on this installation of PrestaShop.
+Ensure that the base install process is successful.
+Ensure the value of the MYMODULE_NAME configuration setting can be set to “my module”.
+public function install()
+{
+    if (Shop::isFeatureActive()) {
+        Shop::setContext(Shop::CONTEXT_ALL);
+    }
+
+   return (
+        parent::install() 
+        && Configuration::updateValue('MYMODULE_NAME', 'my module')
+    ); 
+}
+If any of the lines in the testing block fails, the method returns false and the installation is aborted.
+
+The uninstall() method
+The uninstall() method follow the same logic as install(). Here is the bare minimum implementation:
+
+public function uninstall()
+{
+    return parent::uninstall();
+}
+Building on this foundation, we want an uninstall() method that would delete the data added to the database during the installation (MYMODULE_NAME configuration setting). This method would look like this:
+
+public function uninstall()
+{
+    return (
+        parent::uninstall() 
+        && Configuration::deleteByName('MYMODULE_NAME')
+    );
+}
+The Configuration object
+As you can see, our three blocks of code (__construct(), install() and uninstall()) all make use of a new object, Configuration.
+
+This PrestaShop-specific object allows you to easily manage all the shop’s settings. It stores its data on the PREFIX_configuration database table.
+
+This is a very useful and easy-to-use object, and you will certainly use it in many situations. Most native modules use it too for their own settings.
+
+You can read more about this component in Legacy Configuration object and Configuration storage.
+The Shop object
+The install() method also references this:
+
+if (Shop::isFeatureActive()) {
+    Shop::setContext(Shop::CONTEXT_ALL);
+}
+As said earlier, here we check if the Multistore feature is enabled, and if so, set the current execution context to “all shops”.
+
+The Shop object helps you work with multistore. We will not dive in the specifics here, but will simply present the two methods that are used in this sample code:
+
+Shop::isFeatureActive(): This simply checks whether the multistore feature is active or not, and if at least two stores are presently activated.
+Shop::setContext(Shop::CONTEXT_ALL): This changes the context in order to apply coming changes to all existing stores instead of only the current store.
+The Shop Context is explained in more details in the Multistore documentation.
+
+The icon file
+To put the finishing touch to this basic module, you should add an icon, which will be displayed next to the module’s name in the back office modules list. In case your module has been built for a prominent service, having that service’s logo visible brings trust. Make sure you do not use an icon already in use by one of the native modules, or without authorization from the owner of the logo/service.
+
+The icon file must respect these requirements:
+
+It must be placed on the module’s main folder.
+PNG format, 32 by 32 pixels in size.
+Named logo.png.
+There are many free icon libraries available on the web. Here are a few:
+
+Facow’s Farm Fresh Web Icons
+Danish Royalty Free
+Installing the module
+You have two options to install a module: from the back office interface or using the Symfony Console component (CLI-base installation)
+
+Install module from the back office interface
+Now that all basics are in place, reload the back office’s “Module Catalog” page, in the “Front office features” section, you should find your module. Install it (or reset it if it is already installed).
+
+Install module from CLI using the Symfony Console component
+Access your project’s directory with a CLI, and run:
+
+php bin/console prestashop:module install mymodule
+Where mymodule is your module’s name.
+
+To uninstall the module, run the following:
+
+php bin/console prestashop:module uninstall mymodule
+For more informations, please read the reference of the ModuleCommand
+
+The config.xml file
+During the module’s installation, PrestaShop automatically creates a small config.xml file in the module’s folder, which stores the module’s information. You should be very careful when editing this file by hand.
+
+Keeping things secure
+Once your module is online, its files could be accessed by anyone from the Internet. Even if they cannot trigger anything but PHP errors, you might want to prevent this from happening.
+
+You can achieve this by adding an index.php file at the root of any module folder you create. Here is a suggestion for what to put in the file.
+
+<?php
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+header('Location: ../');
+exit;
+
+ble of Contents
+Main files and directories
+config/ folder
+controllers/ folder
+override/ folder
+src/ folder
+translations/ folder
+upgrade/ folder
+vendor/ folder
+views/ folder
+config.xml file
+logo.png file
+mymodule.php file (main file)
+External libraries
+Next article
+Module file structure
+A module is made of a lot of files, all stored in a folder that bears the same name as the module, that folder being in turn stored in the /modules folder at the root of the main PrestaShop folder: /modules/<modulename>/.
+
+Your module can be called anything, as long as it only contains lowercase letters and numbers (/[a-z0-9]/). Although accepted, we strongly discourage using underscores (_) because they don’t work with translation domains.
+A module distributed in a zip archive file must also be placed in a subfolder within the zip file.
+
+Main files and directories
+Here are an example of files and folders for a PrestaShop 1.7 module:
+
+mymodule
+├── config
+│   ├── admin
+│   │    └── services.yml
+│   ├── front
+│   │   └── services.yml
+│   └── services.yml
+├── controllers
+├── override
+├── src
+│   ├── Controller
+│   └── Entity
+├── translations
+├── upgrade
+├── vendor
+├── views
+│   ├── css
+│   ├── img
+│   ├── js
+│   └── templates
+├── config.xml
+├── logo.png
+└── mymodule.php
+Let’s go through each one of the above.
+
+config/ folder
+The config folder is the place where configuration files are stored. In particular, Routes and Services.
+
+controllers/ folder
+The controllers folder contains the legacy-style Controller files.
+
+Depending on where the controller belongs to, it is located in a different subfolder:
+
+/controllers/admin: module’s back office controllers.
+/controllers/front: module’s front office controllers.
+Symfony-based controllers go in the "src" folder, described below.
+Read more about Controllers →
+
+override/ folder
+PHP files placed in the override folder will replace the ones from the Core.
+
+Overrides is a powerful, yet risky feature. Avoid using it if you can.
+Read more about Overrides →
+
+src/ folder
+The src folder is the recommended folder to place all of your module’s PHP classes–like Grids, Entities, Forms, and so on.
+
+Symfony-based controllers go in the src/Controller folder.
+
+translations/ folder
+The translations folder contains translation files allowing to display the module’s wording in different languages.
+
+Read more about Translation →
+
+upgrade/ folder
+The upgrade folder contains upgrade scripts to be executed when updating the module from a previous version.
+
+Read more about the Upgrade feature →
+
+vendor/ folder
+The vendor folder usually contains libraries imported through Composer as well as its autoloader. This folder is optional.
+
+views/ folder
+The views folder contains your module’s template files (.tpl for Smarty or .html.twig for Twig) as well as static assets used by the module (css, js or image files). Each type must be located in their own folders: /views/{js, css, img, fonts}.
+
+Depending on your needs, template files are located in different subfolders:
+
+/views/templates/admin: Smarty or Twig template files used by the module’s back office controllers.
+/views/templates/front: Smarty template files used by the module’s front office controllers.
+/views/templates/hook: Smarty template files used by the module’s hooks.
+Since  you can redefine back office views by placing files in this folder. This is covered in Overriding back office views.
+
+Read more about Templating →
+
+config.xml file
+The config.xml file contains a cached copy of properties from main module class in order to optimize performance of module listings.
+
+This file is automatically generated by PrestaShop when the module is installed, if it doesn’t exist yet.
+
+It can be useful to provide it in your release, as it will allow your upgrade scripts (in upgrade/) to be executed immediately after the zip is downloaded.
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>mymodule</name>
+    <displayName><![CDATA[My module]]></displayName>
+    <version><![CDATA[1.0]]></version>
+    <description><![CDATA[Description of my module.]]></description>
+    <author><![CDATA[Author name]]></author>
+    <tab><![CDATA[front_office_features]]></tab>
+    <confirmUninstall>Are you sure you want to uninstall?</confirmUninstall>
+    <is_configurable>0</is_configurable>
+    <need_instance>0</need_instance>
+    <limited_countries></limited_countries>
+</module>
+A few details:
+
+is_configurable indicates whether the module has a configuration page or not.
+need_instance indicates whether an instance of the module must be created when it is displayed in the module list. This can be useful if the module has to perform checks on the PrestaShop configuration, and display warning message accordingly.
+limited_countries is used to indicate the countries to which the module is limited. For instance, if the module must be limited to France and Spain, use <limited_countries>fr,es</limited_countries>.
+logo.png file
+This icon file will be displayed in module listings if present. It needs to be a 32x32 pixel PNG file.
+
+mymodule.php file (main file)
+The module’s main PHP file should be named the same as the module’s root folder.
+
+Example for the BlockCMS module:
+
+Folder name: /modules/blockcms
+Main file name: /modules/blockcms/blockcms.php
+External libraries
+All external libraries should be put in a dedicated folder.
+
+That folder can use one of these names: lib, libs, libraries, sdk, vendor, vendors.
+
+Choose the most appropriate one for your library (indeed, libraries doesn’t have the same meaning as sdk). You can have more than one such folder, for instance /sdk and /vendor.
+
+Table of Contents
+Create the base module
+Create the configuration form type
+Register your newly created form type
+Create the Data configuration
+Register the Data configuration
+Create the form data provider
+Register the form data provider
+Create and register the form handler
+Create the form templates
+Create the configuration controller
+Create a route for the configuration controller
+Add this route to the getContent() method of the module
+Install and enable your module
+Navigate / test your configuration form
+Complete example module
+Other form types
+Required Javascript for some types
+Next article
+Adding a configuration page with Symfony forms
+With the new Symfony architecture, there is a much modern way of integrating settings forms (Configure action) for your modules.
+
+In the first part of this guide, we will explain how to implement such a mechanism in a module. We will create a module with a dedicated configuration page consisting of a simple configuration field.
+
+Summary:
+
+Create the base module
+Create the configuration form type
+Register your newly created form type
+Create the Data configuration
+Register the Data configuration
+Create the form data provider
+Register the form data provider
+Create and register the form handler
+Create the form templates
+Create the configuration controller
+Create a route for the configuration controller
+Add this route to the getContent() method of the module
+Install and enable your module
+Navigate / test your configuration form
+Complete example module
+Other form types
+Required Javascript for some types
+Create the base module
+Following this guide, create a base module. For our example, the base module is:
+
+<?php
+
+declare(strict_types=1);
+
+use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
+
+class DemoSymfonyFormSimple extends Module
+{
+    public function __construct()
+    {
+        $this->name = 'demosymfonyformsimple';
+        $this->author = 'PrestaShop';
+        $this->version = '1.0.0';
+        $this->need_instance = 0;
+
+        $this->bootstrap = true;
+        parent::__construct();
+
+        $this->displayName = $this->trans('Demo of the Symfony-based configuration form', [], 'Modules.Demosymfonyformsimple.Admin');
+        $this->description = $this->trans(
+            'Module demonstrates a simple module\'s configuration page made with Symfony.',
+            [],
+            'Modules.Demosymfonyformsimple.Admin'
+        );
+
+        $this->ps_versions_compliancy = ['min' => '8.0.0', 'max' => '8.99.99'];
+    }
+}
+Then, create a composer.json file in your module, and register your namespace:
+
+{
+  "name": "prestashop/demosymfonyformsimple",
+  "description": "PrestaShop - Settings Form Examples",
+  "license": "AFL-3.0",
+  "authors": [
+    {
+      "name": "PrestaShop Core Team"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "PrestaShop\\Module\\DemoSymfonyFormSimple\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.1.0"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "prepend-autoloader": false
+  },
+  "type": "prestashop-module"
+}
+Then, run composer dump-autoload from the module’s directory to generate the autoload.php file. See Setup composer in a module for more informations.
+
+Create the configuration form type
+First thing to create is the form type for our configuration form.
+
+Create a DemoConfigurationFormType.php file in src/Form.
+
+<?php
+
+declare(strict_types=1);
+
+namespace PrestaShop\Module\DemoSymfonyFormSimple\Form;
+
+use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class DemoConfigurationFormType extends TranslatorAwareType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('config_text', TextType::class, [
+                'label' => $this->trans('Configuration text', 'Modules.Demosymfonyformsimple.Admin'),
+                'help' => $this->trans('Maximum 32 characters', 'Modules.Demosymfonyformsimple.Admin'),
+            ]);
+    }
+}
+This form has only one setting : config_text, of type Symfony\Component\Form\Extension\Core\Type\TextType.
+
+Register your newly created form type
+Create a services.yml file in config/.
+
+services:
+  _defaults:
+    public: true
+
+  # Demo configuration text form
+  prestashop.module.demosymfonyformsimple.form.type.demo_configuration_text:
+    class: 'PrestaShop\Module\DemoSymfonyFormSimple\Form\DemoConfigurationFormType'
+    parent: 'form.type.translatable.aware'
+    public: true
+    tags:
+      - { name: form.type }
+This services.yml file is registering your PrestaShop\Module\DemoSymfonyFormSimple\Form\DemoConfigurationFormType class as prestashop.module.demosymfonyformsimple.form.type.demo_configuration_text. It also add a tag name: form.type, and declares it as public.
+
+You can read more about services in the official Symfony official documentation
+Create the Data configuration
+Create a DemoConfigurationTextDataConfiguration.php file in src/Form.
+
+<?php
+declare(strict_types=1);
+
+namespace PrestaShop\Module\DemoSymfonyFormSimple\Form;
+
+use PrestaShop\PrestaShop\Core\Configuration\DataConfigurationInterface;
+use PrestaShop\PrestaShop\Core\ConfigurationInterface;
+
+/**
+ * Configuration is used to save data to configuration table and retrieve from it.
+ */
+final class DemoConfigurationTextDataConfiguration implements DataConfigurationInterface
+{
+    public const DEMO_SYMFONY_FORM_SIMPLE_TEXT_TYPE = 'DEMO_SYMFONY_FORM_SIMPLE_TEXT_TYPE';
+    public const CONFIG_MAXLENGTH = 32;
+
+    /**
+     * @var ConfigurationInterface
+     */
+    private $configuration;
+
+    public function __construct(ConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    public function getConfiguration(): array
+    {
+        $return = [];
+
+        $return['config_text'] = $this->configuration->get(static::DEMO_SYMFONY_FORM_SIMPLE_TEXT_TYPE);
+
+        return $return;
+    }
+
+    public function updateConfiguration(array $configuration): array
+    {
+        $errors = [];
+
+        if ($this->validateConfiguration($configuration)) {
+            if (strlen($configuration['config_text']) <= static::CONFIG_MAXLENGTH) {
+                $this->configuration->set(static::DEMO_SYMFONY_FORM_SIMPLE_TEXT_TYPE, $configuration['config_text']);
+            } else {
+                $errors[] = 'DEMO_SYMFONY_FORM_SIMPLE_TEXT_TYPE value is too long';
+            }
+        }
+
+        /* Errors are returned here. */
+        return $errors;
+    }
+
+    /**
+     * Ensure the parameters passed are valid.
+     *
+     * @return bool Returns true if no exception are thrown
+     */
+    public function validateConfiguration(array $configuration): bool
+    {
+        return isset($configuration['config_text']);
+    }
+}
+DemoConfigurationTextDataConfiguration maps the config_text from the Form Type to the DEMO_SYMFONY_FORM_SIMPLE_TEXT_TYPE configuration data key.
+
+Register the Data configuration
+In config/services.yml, register your newly created DemoConfigurationTextDataConfiguration:
+
+  prestashop.module.demosymfonyformsimple.form.demo_configuration_text_data_configuration:
+    class: PrestaShop\Module\DemoSymfonyFormSimple\Form\DemoConfigurationTextDataConfiguration
+    arguments: ['@prestashop.adapter.legacy.configuration']
+Create the form data provider
+Create a DemoConfigurationTextFormDataProvider.php file in src/Form.
+
+<?php
+
+declare(strict_types=1);
+
+namespace PrestaShop\Module\DemoSymfonyFormSimple\Form;
+
+use PrestaShop\PrestaShop\Core\Configuration\DataConfigurationInterface;
+use PrestaShop\PrestaShop\Core\Form\FormDataProviderInterface;
+
+/**
+ * Provider is responsible for providing form data, in this case, it is returned from the configuration component.
+ *
+ * Class DemoConfigurationTextFormDataProvider
+ */
+class DemoConfigurationTextFormDataProvider implements FormDataProviderInterface
+{
+    /**
+     * @var DataConfigurationInterface
+     */
+    private $demoConfigurationTextDataConfiguration;
+
+    public function __construct(DataConfigurationInterface $demoConfigurationTextDataConfiguration)
+    {
+        $this->demoConfigurationTextDataConfiguration = $demoConfigurationTextDataConfiguration;
+    }
+
+    public function getData(): array
+    {
+        return $this->demoConfigurationTextDataConfiguration->getConfiguration();
+    }
+
+    public function setData(array $data): array
+    {
+        return $this->demoConfigurationTextDataConfiguration->updateConfiguration($data);
+    }
+}
+Register the form data provider
+In config/services.yml, register your newly created DemoConfigurationTextFormDataProvider:
+
+  prestashop.module.demosymfonyformsimple.form.demo_configuration_text_form_data_provider:
+    class: 'PrestaShop\Module\DemoSymfonyFormSimple\Form\DemoConfigurationTextFormDataProvider'
+    arguments:
+      - '@prestashop.module.demosymfonyformsimple.form.demo_configuration_text_data_configuration'
+Create and register the form handler
+For this form handler, we don’t need to create a new class, we can use PrestaShop native’s one.
+
+By receiving an instance of DemoConfigurationTextFormDataProvider and DemoConfigurationFormType, the PrestaShop native Form Handler is able to process the data it receives.
+
+Simply register it in config/services.yml:
+
+  prestashop.module.demosymfonyformsimple.form.demo_configuration_text_form_data_handler:
+    class: 'PrestaShop\PrestaShop\Core\Form\Handler'
+    arguments:
+      - '@form.factory'
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.module.demosymfonyformsimple.form.demo_configuration_text_form_data_provider'
+      - 'PrestaShop\Module\DemoSymfonyFormSimple\Form\DemoConfigurationFormType'
+      - 'DemoConfiguration'
+Create the form templates
+Create a form.html.twig file in views/templates/admin.
+
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block content %}
+  {{ form_start(demoConfigurationForm) }}
+  <div class="card">
+    <h3 class="card-header">
+      <i class="material-icons">settings</i> {{ 'Text form types'|trans({}, 'Modules.Demosymfonyformsimple.Admin') }}
+    </h3>
+    <div class="card-body">
+      <div class="form-wrapper">
+        {{ form_widget(demoConfigurationForm) }}
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary float-right" id="save-button">
+          {{ 'Save'|trans({}, 'Admin.Actions') }}
+        </button>
+      </div>
+    </div>
+  </div>
+  {{ form_end(demoConfigurationForm) }}
+{% endblock %}
+Create the configuration controller
+You will create a Controller to handle your requests on the configuration form.
+
+Create a DemoConfigurationController.php file in src/Controller.
+
+<?php
+
+declare(strict_types=1);
+
+namespace PrestaShop\Module\DemoSymfonyFormSimple\Controller;
+
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class DemoConfigurationController extends FrameworkBundleAdminController
+{
+    public function index(Request $request): Response
+    {
+        $textFormDataHandler = $this->get('prestashop.module.demosymfonyformsimple.form.demo_configuration_text_form_data_handler');
+
+        $textForm = $textFormDataHandler->getForm();
+        $textForm->handleRequest($request);
+
+        if ($textForm->isSubmitted() && $textForm->isValid()) {
+            /** You can return array of errors in form handler and they can be displayed to user with flashErrors */
+            $errors = $textFormDataHandler->save($textForm->getData());
+
+            if (empty($errors)) {
+                $this->addFlash('success', $this->trans('Successful update.', 'Admin.Notifications.Success'));
+
+                return $this->redirectToRoute('demo_configuration_form_simple');
+            }
+
+            $this->flashErrors($errors);
+        }
+
+        return $this->render('@Modules/demosymfonyformsimple/views/templates/admin/form.html.twig', [
+            'demoConfigurationForm' => $textForm->createView()
+        ]);
+    }
+}
+You can read more about controllers in controller & routing section and in the official Symfony documentation
+Create a route for the configuration controller
+Create a routes.yml file in config/.
+
+demo_configuration_form_simple:
+  path: /demosymfonyformsimple/configuration
+  methods: [GET, POST]
+  defaults:
+    _controller: 'PrestaShop\Module\DemoSymfonyFormSimple\Controller\DemoConfigurationController::index'
+    # Needed to work with tab system
+    _legacy_controller: AdminDemoSymfonyFormSimple
+    _legacy_link: AdminDemoSymfonyFormSimple
+Add this route to the getContent() method of the module
+The getContent() method of a module is the method called when accessing the configuration page of the module.
+
+Add this method to your module, with a redirection to the route previously registered.
+
+  public function getContent()
+  {
+      $route = $this->get('router')->generate('demo_configuration_form_simple');
+      Tools::redirectAdmin($route);
+  }
+Install and enable your module
+Go to the Back Office, and in Modules Manager, find your module and install it.
+
+You can also install it via CLI:
+
+php bin/console prestashop:module install demosymfonyformsimple
+php bin/console prestashop:module enable demosymfonyformsimple
+Navigate / test your configuration form
+Open your browser, and navigate to Back Office > Modules.
+
+Then, find your module (Demo symfony form configuration), and click on the Configure button.
+
+Complete example module
+The module created in this guide is available here.
+
+Other form types
+You can use all native Symfony Form Types, and the PrestaShop specific ones: see Form Types reference.
+
+Please refer to this example module for a complete implementation of those fields: DemoSymfonyForm
+Required Javascript for some types
+Some types require JavaScript component initialization to work correctly.
+
+Add a JS file to your form’s twig template:
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/demosymfonyform/views/js/form.js') }}"></script>
+{% endblock %}
+And add the following JavaScript code to this file:
+
+$(document).ready(function () {
+    // Learn more about components in documentation
+    // https://devdocs.prestashop.com/9/development/components/global-components/
+    window.prestashop.component.initComponents(
+        [
+            'TranslatableField',
+            'TinyMCEEditor',
+            'TranslatableInput',
+            'GeneratableInput',
+            'TextWithLengthCounter',
+        ],
+    );
+
+    window.prestashop.instance.generatableInput.attachOn('.js-generator-btn');
+    new window.prestashop.component.ChoiceTree('#form_category_choice_tree_type');
+});
+The JavaScript dependencies of specific types are described in the form types reference
+You can check this module to see an example of using JavaScript components: DemoSymfonyForm
+
+Table of Contents
+Displaying content
+Disabling the cache
+Embedding a template in the theme
+List of Smarty variables
+Next article
+Displaying content on the front office
+As it is, the module does not do much. In order to display something on the front office, we have to add support for a few hooks. This is done by implementing the hooks’ methods, and that was actually done in the install() method we wrote earlier, using the registerHook() method:
+
+<?php
+public function install()
+{
+    if (Shop::isFeatureActive()) {
+        Shop::setContext(Shop::CONTEXT_ALL);
+    }
+
+    return parent::install() &&
+        $this->registerHook('displayLeftColumn') &&
+        $this->registerHook('actionFrontControllerSetMedia') &&
+        $this->registerHook('displayRightColumn') &&
+        Configuration::updateValue('MYMODULE_NAME', 'my module');
+}
+As you can see, we make it so that the module is hooked to the displayLeftColumn and actionFrontControllerSetMedia hooks. In addition to this, we will add code for the displayRightColumn hook.
+
+Those hooks will be displayed if your theme uses a three-column layout.
+
+To enable a three-column layout, you need to:
+
+go to back office > Design > Theme & logo > Configure your page layouts > Choose layouts
+enable “Three Columns” layout on selected pages
+Attaching code to a hook requires a specific method for each:
+
+hookDisplayLeftColumn(): will hook code into the left column – in our case, it will fetch the MYMODULE_NAME module setting and display the module’s template file, mymodule.tpl, which must be located in the /views/templates/hook/ folder.
+hookDisplayRightColumn(): will simply do the same as hookDisplayLeftColumn(), but for the right column.
+hookActionFrontControllerSetMedia(): will add a link to the module’s CSS file, /views/css/mymodule.css and module’s JS file, /views/js/mymodule.js.
+Add the following to your mymodule.php file:
+
+<?php
+    public function hookDisplayLeftColumn($params)
+    {
+        $this->context->smarty->assign([
+            'my_module_name' => Configuration::get('MYMODULE_NAME'),
+            'my_module_link' => $this->context->link->getModuleLink('mymodule', 'display')
+        ]);
+
+        return $this->display(__FILE__, 'mymodule.tpl');
+    }
+
+    public function hookDisplayRightColumn($params)
+    {
+        return $this->hookDisplayLeftColumn($params);
+    }
+
+    public function hookActionFrontControllerSetMedia()
+    {
+        $this->context->controller->registerStylesheet(
+            'mymodule-style',
+            'modules/' . $this->name . '/views/css/mymodule.css',
+            [
+                'media' => 'all',
+                'priority' => 1000,
+            ]
+        );
+
+        $this->context->controller->registerJavascript(
+            'mymodule-javascript',
+            'modules/' . $this->name . '/views/js/mymodule.js',
+            [
+                'position' => 'bottom',
+                'priority' => 1000,
+            ]
+        );
+    }
+We are using the Context ($this->context) to change a Smarty variable: Smarty’s assign() method makes it possible for us to set the template’s name variable with the value of the MYMODULE_NAME setting stored in the configuration database table.
+
+The actionFrontControllerSetMedia hook is not part of the visual header, but enables us to put assets after code in the <head> tag of the generated HTML file. This is very useful for JavaScript or CSS files. To add a link to our CSS file in the page’s <head> tag, we use the registerStylesheet() method, which generates the correct <link> tag to the CSS file indicated in parameters. To add our JS script in the page, we use the registerJavascript() method, which generates the correct <script> tag.
+
+Save your file, and already you can hook your module’s template into the theme, move it around and transplant it (even though there is not template file for the moment): go to the “Positions” page from the “Design” menu in the back office, then click on the “Transplant a module” button (top right of the page).
+
+In the transplantation form:
+
+Find “My module” in the “Module” drop-down list.
+Choose “displayLeftColumn (This hook displays new elements in the left-hand column)” in the “Transplant into” drop-down list.
+Click “Save”.
+It is useless to try to attach a module to a hook for which it has no implemented method.
+
+The “Positions” page should reload, with the following message: “Module transplanted successfully to the hook” (or maybe “This module has already been transplanted to this hook. “). Congratulations! Scroll down the “Positions” page, and you should indeed see your module among the other modules in the “displayLeftColumn” block. Move it to the top of the list by drag’n’dropping the module’s row.
+
+The module is now attached to the left column, but without any template to display, it falls short of doing anything useful: if you reload the homepage, the left column simply displays a message where the module should be, saying “No template found for module mymodule”.
+
+Displaying content
+Now that we have access to the left column, we should display something there for the customer to see.
+
+The visible part of the module is defined in .tpl files placed in specific View folders:
+
+/views/templates/front/: front office features.
+/views/templates/admin/: back office features.
+/views/templates/hook/: features hooked to a PrestaShop (so can be displayed either on the front office or the back office).
+Template files can have just about any name. It there is only one such file, it is good practice to give it the same name as the folder and main file: mymodule.tpl.
+
+In the case of this tutorial, the module will be hooked to the left column. Therefore, the TPL files that are called from the column’s hook should be placed in /views/templates/hook/ in order to work properly.
+
+As said earlier, the content to be displayed in the theme should be stored in .tpl template files placed in a specific folder: /views/templates/front/. Template files can have just about any name. It there is only one such file, it is good practice to give it the same name as the folder and main file: mymodule.tpl.
+
+We will create the mymodule.tpl file, which was passed as a parameter of the display() method in our module’s code, in the hookDisplayHome() method. When calling a template from within a hook, PrestaShop looks for that template file in the /views/templates/hook/ folder (in the module’s folder), which you must create yourself.
+
+In PrestaShop 1.4, the module’s template files were to be placed at the root of the module’s folder.
+
+For compatibility reasons, template files can still reside in the root folder in PrestaShop 1.5 and 1.6, although the sub-folders of /views/templates/ are now the recommended locations. If you intend your module to also work in PrestaShop 1.4, you should keep your files at the root.
+
+Here is our template file, located at /views/templates/hook/mymodule.tpl:
+
+<!-- Block mymodule -->
+<div id="mymodule_block_home" class="block">
+  <h4>{l s='Welcome!' mod='mymodule'}</h4>
+  <div class="block_content">
+    <p>Hello,
+           {if isset($my_module_name) && $my_module_name}
+               {$my_module_name}
+           {else}
+               World
+           {/if}
+           !
+    </p>
+    <ul>
+      <li><a href="{$my_module_link}" title="Click this link">Click me!</a></li>
+    </ul>
+  </div>
+</div>
+<!-- /Block mymodule -->
+This is just regular HTML code… except for a few Smarty calls:
+
+The {l s='xxx' mod='yyy'} call is PrestaShop-specific method that enables you to register the string in the module’s translation panel. The s parameter is the string, while the mod parameter must contain the module’s identifier (in the present case, “mymodule”). We only use this method once here for readability reasons, but in practice it should be used on all of the template’s strings.
+The {if}, {else} and {/if} statements are Smarty conditionals. In our example, we check that the $my_module_name Smarty variable exists (using PHP’s isset() function, which considered as trusted by Smarty) and that it is not empty. If it goes well, we display the content of that variable; if not, we display “World”, in order to have “Hello World”.
+The {$my_module_link} variable in the link’s href attribute: this is a Smarty variable that we will create later on, which will point to PrestaShop’s root directory.
+In addition to that, we are going to create a CSS file, and save it as /views/css/mymodule.css in the module’s folder (or any sub-folder you like to keep you CSS in):
+
+div#mymodule_block_home p {
+    font-size: 150%;
+    font-style:italic;
+}
+Save the template file in the module’s /views/templates/hook/ folder and the CSS file in the module’s /views/css/ folder, reload your shop’s homepage: the content of the template should appear on top of the left column, right below the shop’s logo (if you have indeed moved it at the top of the “Left Column” hook during the transplanting part).
+
+As you can see, the theme applies its own CSS to the template we added:
+
+Our <h4> title becomes the block’s header, styled the same way as the other block titles.
+Our <div class="block_content"> block has the same style as the other blocks on the page.
+It is not pretty, but it works the way we want it to.
+
+Disabling the cache
+If you’ve followed this tutorial to the letter and still do not see anything appearing in the theme’s left column, it might be because PrestaShop has cached the previous templates, and is still serving these to you. Hence, you see the original version of the theme, without your changes.
+
+Smarty caches a compiled version of the homepage, for performance reasons. This is immensely helpful for production sites, but is useless for tests sites, where you may load the front-page very regularly in order to see the impact of your changes.
+
+When editing or debugging a theme on a test site, you should always disable the cache, in order to force Smarty to recompile templates on every page load. To that end, go to the “Advanced Parameters” menu, select the “Performance” page, then, in the “Smarty” section:
+
+Template cache. Choose “Disable the cache”.
+Cache. Disable it.
+Debug console. You can also open the console if you want to learn more about Smarty’s internals.
+Do NOT disable the cache or enable the debug console on a production site, as it severely slows everything down! You should always perform all your tests in a test site, ideally on your own computer rather than online.
+
+If you still can’t see the changes you made, you might have forgotten to register actionFrontControllerSetMedia hook.
+
+Embedding a template in the theme
+The link that the module displays does not lead anywhere for now. Let’s create the display.php file that it targets, with a minimal content, and put it in: modules/yourmodule/controllers/front/.
+
+    Welcome to this page!
+Click the “Click me!” link: the resulting page is just that raw text, without anything from the theme. We would like to have this text embedded in the theme, so let’s see how to do just that.
+
+As you would expect, we have to create a template file in order to use the theme’s style. Let’s create the display.tpl file, which will contain the basic “Welcome to my shop!” line, and will be called by display.php. That display.php file will be rewritten into a front-end controller in order to properly embed our basic template within the theme’s header, footer, columns, etc.
+
+NOTE: You should strive to use explicit and recognizable names for your template files, so that you can find them quickly in the back office – which is a must when using the translation tool.
+
+Here are our two files:
+
+display.php
+<?php
+class mymoduledisplayModuleFrontController extends ModuleFrontController
+{
+    public function initContent()
+    {
+        parent::initContent();
+        $this->setTemplate('module:mymodule/views/templates/front/display.tpl');
+    }
+}
+display.tpl
+{extends file='page.tpl'}
+{block name='page_content'}
+   Welcome to my shop!
+{/block}
+Let’s explore display.php, our first PrestaShop front-end controller, stored in the /controllers/front folder of the module’s main folder.
+
+A front-end controller must be a class that extends the ModuleFrontController class. That controller must have one method: initContent(), which calls the parent class’ initContent() method… …which then calls the setTemplate() method with our display.tpl file.
+
+setTemplate() is the method that will take care of embedding our one-line template into a full-blown page, with proper header, footer and sidebars.
+
+Until PrestaShop 1.4, developers who wanted to embed a template file into the site’s theme had to use PHP’s include() calls to include each portion of the page. Here is the equivalent code for display.php:
+
+// This file must be placed at the root of the module's folder.
+global $smarty;
+include('../../config/config.inc.php');
+include('../../header.php');
+
+$smarty->display(dirname(__FILE__).'/display.tpl');
+
+include('../../footer.php');
+As you can see, this is not necessary anymore since PrestaShop 1.5: you can and should use a front-end controller, and both the controller (Controller) and its template (View) should share the same name: display.php is tied to display.tpl.
+
+Save both files in their respective folders, and reload your shop’s homepage, then click on the “Click me!”, and voilà ! You have your link. With just a few lines, the end result is already much better, with the “Welcome” line neatly placed between header, footer and columns!
+
+It is only a first step, but this gives you an idea of what is possible if you follow the templating rules. Using Smarty
+
+Smarty is a PHP template engine, and is used by PrestaShop’s theming system. It is a free and open-source projet, hosted at https://www.smarty.net/.
+
+It parses template .tpl files, looking for dynamic elements to replace with their contextual equivalents, then send the generated result to the browser. Those dynamic elements are indicated with curly brackets: { ... }. Programmers can create new variables and use them in TPL files; PrestaShop adds its own set of variables.
+
+For instance, we can create the $my_module_message variable in PHP right in the hookDisplayLeftColumn() method, and have it displayed by our template file:
+
+mymodule.php
+<?php
+public function hookDisplayLeftColumn($params)
+{
+    $this->context->smarty->assign(
+        [
+            'my_module_name' => Configuration::get('MYMODULE_NAME'),
+            'my_module_link' => $this->context->link->getModuleLink('mymodule', 'display'),
+            'my_module_message' => $this->l('This is a simple text message') // Do not forget to enclose your strings in the l() translation method
+        ]
+    );
+
+    return $this->display(__FILE__, 'mymodule.tpl');
+}
+From there on, we can ask Smarty to display the content of this variable in our TPL file.
+
+mymodule.tpl
+{extends file='page.tpl'}
+{block name='page_content'}
+    {$my_module_message}
+{/block}
+PrestaShop adds its own set of variables. For instance, {$hook_left_column} will be replaced with the content for the left column, meaning the content from all the modules that have been attached to the left column’s hook.
+
+All Smarty variables are global. You should therefore pay attention not to name your own variable with the name of an existing Smarty variable, in order to avoid overwriting it. It is good practice to avoid overly simple names, such as {$products}, and to prefix it with your module’s name, or even your own name or initials, such as: {$henryb_mymodule_products}.
+
+List of Smarty variables
+You can find a complete list of variables available in Smarty Templates on this page.
+
+There are many other contextual hooks. If you need to display all of the current page’s Smarty variables, add the following call:
+
+{debug}
+If you need to display a variable, add the following call:
+
+{dump($variableName)}
+Comments are based on asterisk:
+
+{* This string is commented out *}
+
+{*
+This string is too!
+*}
+Unlike with HTML comments, commented-out Smarty code is not present in the final output file.
+
+Interacting with APIs
+There are different options to transfer data between your shop and any external service. The method you choose will depend on the usecase:
+
+if data must be pulled or pushed to the shop,
+if one specific application (the shop or an external service) must initiate the calls,
+if there are constraints on the implementation (i.e a cron job scheduler is required).
+Requests to a shop
+You may retrieve and update data from a shop using different methods:
+
+The native webservice
+The webservice is a REST API allowing you to interact with most of the database tables used by the core. It uses Basic access authentication to allow requests.
+
+Resources:
+
+About the webservice
+Enable & add users to the webservice
+Adding a module ObjectModel to the list of resources available
+
+The hook addWebserviceResources must be registered by your module.
+
+Then an array containing all the ressources (= Object Model subclasses) you want to add should be returned. For instance, in the module blockreassurance we have an ObjectModel class, called reassuranceClass. If we wanted to make it available in the webservice, it would look like this:
+
+<?php
+/**
+ * Add an entity in the Webservice
+ *
+ * @param array $params All existing resources from the core
+ * @return array New resources
+ */
+public function hookAddWebserviceResources($params)
+{
+    return array(
+        'reassurance' => array(
+            'description' => 'Module Reassurance example',
+            'class' => 'reassuranceClass',
+            'forbidden_method' => array('PUT', 'POST', 'DELETE')),
+    );
+}
+This will add the resource reassurance available into the permissions list, based on the key.
+
+Module controllers
+As the webservice is only an interface to get and update objects on the database, it does not allow to run complex actions. Module controller may be implemented to allow any external service to reach your shop, then trigger specific actions or retrieve content.
+
+You should implement a method that filters non-authenticated calls. This prevents guests accessing private content, or trigger actions on your behalf. This can be done by generating your own token and checking it everytime the controller is called. Tools::encrypt($token) may be useful.
+
+Resources:
+
+About the controllers
+Example with Faceted Search module (Outside a controller)
+Requests from a shop
+HTTP requests can be triggered from a shop to an external service.
+
+Several methods allow requests to be sent (in order of preference):
+
+Symfony HTTP Client
+In legacy code you can create one manually $client = HttpClient::create();
+In Symfony environment (in the BO) you should rely on dependency injection as the Symfony documentation suggests
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+class SymfonyDocs
+{
+    public function __construct(
+        private HttpClientInterface $client,
+    ) {
+    }
+
+    public function fetchGitHubInformation(): array
+    {
+        $response = $this->client->request(
+            'GET',
+            'https://api.github.com/repos/symfony/symfony-docs'
+        );
+        
+        return $response->getContent();
+    }
+}
+\Tools::file_get_contents(…)
+Will rely on cURL or fopen(), depending on what is available on the shop.
+Exists from PrestaShop 
+cURL
+cURL is mandatory for PrestaShop  . For older versions, the extension must be checked first to avoid fatal errors.
