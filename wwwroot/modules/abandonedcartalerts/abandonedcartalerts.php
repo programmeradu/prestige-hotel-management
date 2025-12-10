@@ -44,8 +44,8 @@ class Abandonedcartalerts extends Module
         return parent::install()
             && $this->registerHook('actionCronJob')
             && Configuration::updateValue('ABANDONEDCARTALERTS_EMAIL', Configuration::get('PS_SHOP_EMAIL'))
-            && Configuration::updateValue('ABANDONEDCARTALERTS_MIN_HOURS', 1)
-            && Configuration::updateValue('ABANDONEDCARTALERTS_MAX_HOURS', 48)
+            && Configuration::updateValue('ABANDONEDCARTALERTS_MIN_MINUTES', 30)
+            && Configuration::updateValue('ABANDONEDCARTALERTS_MAX_HOURS', 4)
             && Configuration::updateValue('ABANDONEDCARTALERTS_ENABLED', 1)
             && Configuration::updateValue('ABANDONEDCARTALERTS_LAST_CHECK', date('Y-m-d H:i:s'));
     }
@@ -54,7 +54,7 @@ class Abandonedcartalerts extends Module
     {
         return parent::uninstall()
             && Configuration::deleteByName('ABANDONEDCARTALERTS_EMAIL')
-            && Configuration::deleteByName('ABANDONEDCARTALERTS_MIN_HOURS')
+            && Configuration::deleteByName('ABANDONEDCARTALERTS_MIN_MINUTES')
             && Configuration::deleteByName('ABANDONEDCARTALERTS_MAX_HOURS')
             && Configuration::deleteByName('ABANDONEDCARTALERTS_ENABLED')
             && Configuration::deleteByName('ABANDONEDCARTALERTS_LAST_CHECK');
@@ -91,7 +91,7 @@ class Abandonedcartalerts extends Module
         // Process form submission
         if (Tools::isSubmit('submitAbandonedCartAlertsSettings')) {
             $email = Tools::getValue('ABANDONEDCARTALERTS_EMAIL');
-            $minHours = (int)Tools::getValue('ABANDONEDCARTALERTS_MIN_HOURS');
+            $minMinutes = (int)Tools::getValue('ABANDONEDCARTALERTS_MIN_MINUTES');
             $maxHours = (int)Tools::getValue('ABANDONEDCARTALERTS_MAX_HOURS');
             $enabled = (int)Tools::getValue('ABANDONEDCARTALERTS_ENABLED');
             
@@ -105,19 +105,19 @@ class Abandonedcartalerts extends Module
                 }
             }
             
-            if ($minHours < 0 || $minHours > 168) {
+            if ($minMinutes < 0 || $minMinutes > 1440) {
                 $valid = false;
-                $output .= $this->displayError($this->l('Minimum hours must be between 0 and 168.'));
+                $output .= $this->displayError($this->l('Minimum minutes must be between 0 and 1440 (24 hours).'));
             }
             
-            if ($maxHours < $minHours || $maxHours > 336) {
+            if ($maxHours < 1 || $maxHours > 168) {
                 $valid = false;
-                $output .= $this->displayError($this->l('Maximum hours must be greater than minimum and less than 336.'));
+                $output .= $this->displayError($this->l('Maximum hours must be between 1 and 168 (7 days).'));
             }
             
             if ($valid) {
                 Configuration::updateValue('ABANDONEDCARTALERTS_EMAIL', pSQL($email));
-                Configuration::updateValue('ABANDONEDCARTALERTS_MIN_HOURS', $minHours);
+                Configuration::updateValue('ABANDONEDCARTALERTS_MIN_MINUTES', $minMinutes);
                 Configuration::updateValue('ABANDONEDCARTALERTS_MAX_HOURS', $maxHours);
                 Configuration::updateValue('ABANDONEDCARTALERTS_ENABLED', $enabled);
                 $output .= $this->displayConfirmation($this->l('Settings updated successfully.'));
@@ -174,11 +174,11 @@ class Abandonedcartalerts extends Module
                     ),
                     array(
                         'type' => 'text',
-                        'label' => $this->l('Minimum Hours'),
-                        'name' => 'ABANDONEDCARTALERTS_MIN_HOURS',
-                        'suffix' => $this->l('hours'),
+                        'label' => $this->l('Minimum Minutes'),
+                        'name' => 'ABANDONEDCARTALERTS_MIN_MINUTES',
+                        'suffix' => $this->l('minutes'),
                         'class' => 'fixed-width-sm',
-                        'desc' => $this->l('Consider cart abandoned after this many hours of inactivity. Default: 1 hour.')
+                        'desc' => $this->l('Consider cart abandoned after this many MINUTES of inactivity. Default: 30 minutes for quick follow-up.')
                     ),
                     array(
                         'type' => 'text',
@@ -186,7 +186,7 @@ class Abandonedcartalerts extends Module
                         'name' => 'ABANDONEDCARTALERTS_MAX_HOURS',
                         'suffix' => $this->l('hours'),
                         'class' => 'fixed-width-sm',
-                        'desc' => $this->l('Stop considering cart abandoned after this many hours. Default: 48 hours.')
+                        'desc' => $this->l('Stop considering cart abandoned after this many hours. Default: 4 hours.')
                     ),
                 ),
                 'submit' => array(
@@ -221,7 +221,7 @@ class Abandonedcartalerts extends Module
             'fields_value' => array(
                 'ABANDONEDCARTALERTS_ENABLED' => Configuration::get('ABANDONEDCARTALERTS_ENABLED'),
                 'ABANDONEDCARTALERTS_EMAIL' => Configuration::get('ABANDONEDCARTALERTS_EMAIL'),
-                'ABANDONEDCARTALERTS_MIN_HOURS' => Configuration::get('ABANDONEDCARTALERTS_MIN_HOURS'),
+                'ABANDONEDCARTALERTS_MIN_MINUTES' => Configuration::get('ABANDONEDCARTALERTS_MIN_MINUTES'),
                 'ABANDONEDCARTALERTS_MAX_HOURS' => Configuration::get('ABANDONEDCARTALERTS_MAX_HOURS'),
             ),
             'languages' => $this->context->controller->getLanguages(),
@@ -248,7 +248,7 @@ class Abandonedcartalerts extends Module
      */
     public function getAbandonedCarts()
     {
-        $minHours = (int)Configuration::get('ABANDONEDCARTALERTS_MIN_HOURS');
+        $minMinutes = (int)Configuration::get('ABANDONEDCARTALERTS_MIN_MINUTES');
         $maxHours = (int)Configuration::get('ABANDONEDCARTALERTS_MAX_HOURS');
         
         // Determine correct table prefix
@@ -275,7 +275,7 @@ class Abandonedcartalerts extends Module
             LEFT JOIN `' . bqSQL($prefix) . 'guest` g ON c.id_guest = g.id_guest
             WHERE c.date_upd BETWEEN 
                 DATE_SUB(NOW(), INTERVAL ' . (int)$maxHours . ' HOUR) 
-                AND DATE_SUB(NOW(), INTERVAL ' . (int)$minHours . ' HOUR)
+                AND DATE_SUB(NOW(), INTERVAL ' . (int)$minMinutes . ' MINUTE)
             AND NOT EXISTS (
                 SELECT 1 FROM `' . bqSQL($prefix) . 'orders` o WHERE o.id_cart = c.id_cart
             )
