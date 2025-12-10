@@ -13,7 +13,7 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-class AbandonedCartAlerts extends Module
+class Abandonedcartalerts extends Module
 {
     public function __construct()
     {
