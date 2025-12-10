@@ -245,16 +245,17 @@ class Abandonedcartalerts extends Module
     
     /**
      * Get abandoned carts with customer details
+     * Database uses qlooo_ prefix
      */
     public function getAbandonedCarts()
     {
         $minMinutes = (int)Configuration::get('ABANDONEDCARTALERTS_MIN_MINUTES');
         $maxHours = (int)Configuration::get('ABANDONEDCARTALERTS_MAX_HOURS');
         
-        // Determine correct table prefix - use the constant directly
-        // The database uses qlooo_ prefix based on the debug output
+        // IMPORTANT: Database uses qlooo_ prefix, NOT ps_
         $prefix = 'qlooo_';
         
+        // Simple query - just get customer info from customer table
         $sql = 'SELECT 
                 c.id_cart,
                 c.id_customer,
@@ -264,11 +265,9 @@ class Abandonedcartalerts extends Module
                 cu.firstname,
                 cu.lastname,
                 cu.email,
-                COALESCE(ad.phone, ad.phone_mobile, "") as phone,
-                g.id_guest as guest_id
+                cu.phone_mobile as phone
             FROM `' . bqSQL($prefix) . 'cart` c
             LEFT JOIN `' . bqSQL($prefix) . 'customer` cu ON c.id_customer = cu.id_customer
-            LEFT JOIN `' . bqSQL($prefix) . 'address` ad ON c.id_address_delivery = ad.id_address
             LEFT JOIN `' . bqSQL($prefix) . 'guest` g ON c.id_guest = g.id_guest
             WHERE c.date_upd BETWEEN 
                 DATE_SUB(NOW(), INTERVAL ' . (int)$maxHours . ' HOUR) 
@@ -384,7 +383,7 @@ class Abandonedcartalerts extends Module
     }
     
     /**
-     * Build email content HTML
+     * Build email content HTML - simple and readable
      */
     protected function buildEmailContent($carts)
     {
@@ -392,38 +391,57 @@ class Abandonedcartalerts extends Module
         
         foreach ($carts as $cart) {
             $customerName = trim($cart['firstname'] . ' ' . $cart['lastname']);
-            if (empty($customerName)) {
-                $customerName = $this->l('Guest') . ' #' . $cart['id_guest'];
+            
+            // Card container
+            $html .= '<tr><td style="padding:10px 0;">';
+            $html .= '<table style="width:100%;border:1px solid #ddd;border-radius:8px;border-collapse:collapse;">';
+            
+            // Header
+            $html .= '<tr style="background:#1C2331;">';
+            $html .= '<td style="padding:12px 15px;color:#fff;font-weight:bold;">Cart #' . (int)$cart['id_cart'] . '</td>';
+            $html .= '</tr>';
+            
+            // Customer Details
+            $html .= '<tr><td style="padding:15px;background:#fff;">';
+            
+            // Name
+            if (!empty($customerName)) {
+                $html .= '<p style="margin:0 0 8px 0;font-size:16px;font-weight:bold;color:#333;">' . htmlspecialchars($customerName) . '</p>';
+            } else {
+                $html .= '<p style="margin:0 0 8px 0;font-size:16px;color:#666;">' . $this->l('Guest Visitor') . '</p>';
             }
             
-            $html .= '<tr style="background:#f8f9fa;border-bottom:2px solid #C9A96E;">';
-            $html .= '<td colspan="2" style="padding:15px;">';
-            $html .= '<h3 style="margin:0 0 10px 0;color:#333;">' . $this->l('Cart') . ' #' . (int)$cart['id_cart'] . '</h3>';
-            
-            // Customer info
-            $html .= '<p style="margin:5px 0;"><strong>' . $this->l('Customer:') . '</strong> ' . htmlspecialchars($customerName) . '</p>';
-            if (!empty($cart['email'])) {
-                $html .= '<p style="margin:5px 0;"><strong>' . $this->l('Email:') . '</strong> <a href="mailto:' . htmlspecialchars($cart['email']) . '">' . htmlspecialchars($cart['email']) . '</a></p>';
-            }
+            // Phone - prominent
             if (!empty($cart['phone'])) {
-                $html .= '<p style="margin:5px 0;"><strong>' . $this->l('Phone:') . '</strong> <a href="tel:' . htmlspecialchars($cart['phone']) . '">' . htmlspecialchars($cart['phone']) . '</a></p>';
+                $html .= '<p style="margin:0 0 5px 0;font-size:15px;"><strong>' . $this->l('Phone:') . '</strong> ' . htmlspecialchars($cart['phone']) . '</p>';
             }
-            $html .= '<p style="margin:5px 0;"><strong>' . $this->l('Cart Total:') . '</strong> ' . $cart['total'] . '</p>';
-            $html .= '<p style="margin:5px 0;"><strong>' . $this->l('Last Activity:') . '</strong> ' . date('M j, Y g:i A', strtotime($cart['date_upd'])) . '</p>';
+            
+            // Email
+            if (!empty($cart['email'])) {
+                $html .= '<p style="margin:0 0 5px 0;font-size:14px;"><strong>' . $this->l('Email:') . '</strong> ' . htmlspecialchars($cart['email']) . '</p>';
+            }
+            
+            // No contact warning
+            if (empty($cart['phone']) && empty($cart['email'])) {
+                $html .= '<p style="margin:0 0 5px 0;color:#856404;font-style:italic;">' . $this->l('No contact info - guest visitor') . '</p>';
+            }
+            
+            // Last Activity
+            $html .= '<p style="margin:8px 0 0 0;font-size:13px;color:#666;">' . $this->l('Last Activity:') . ' ' . date('M j, Y g:i A', strtotime($cart['date_upd'])) . '</p>';
+            
+            $html .= '</td></tr>';
             
             // Booking details
             if (!empty($cart['booking_details'])) {
-                $html .= '<p style="margin:10px 0 5px 0;"><strong>' . $this->l('Rooms in Cart:') . '</strong></p>';
-                $html .= '<ul style="margin:5px 0;padding-left:20px;">';
+                $html .= '<tr><td style="padding:12px 15px;background:#f9f9f9;border-top:1px solid #eee;">';
+                $html .= '<strong style="color:#333;">' . $this->l('Rooms:') . '</strong><br>';
                 foreach ($cart['booking_details'] as $booking) {
-                    $html .= '<li>' . htmlspecialchars($booking['room_type']) . ' - ' 
-                        . date('M j', strtotime($booking['date_from'])) . ' to ' 
-                        . date('M j, Y', strtotime($booking['date_to'])) . '</li>';
+                    $html .= '• ' . htmlspecialchars($booking['room_type']) . ' (' . date('M j', strtotime($booking['date_from'])) . ' - ' . date('M j', strtotime($booking['date_to'])) . ')<br>';
                 }
-                $html .= '</ul>';
+                $html .= '</td></tr>';
             }
             
-            $html .= '</td></tr>';
+            $html .= '</table></td></tr>';
         }
         
         $html .= '</table>';
