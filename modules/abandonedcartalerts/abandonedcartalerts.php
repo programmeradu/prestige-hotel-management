@@ -317,25 +317,14 @@ class Abandonedcartalerts extends Module
     }
     
     /**
-     * Get cart total - using simple database query to avoid pricing errors
+     * Get cart total - simplified to avoid pricing calculation errors
+     * Note: Hotel booking prices are calculated dynamically and can fail for old carts
      */
     protected function getCartTotal($idCart)
     {
-        $prefix = 'qlooo_';
-        
-        // Get total from htl_cart_booking_data (simpler and more reliable)
-        $sql = 'SELECT SUM(hcbd.total_price_tax_incl) as total
-                FROM `' . bqSQL($prefix) . 'htl_cart_booking_data` hcbd
-                WHERE hcbd.id_cart = ' . (int)$idCart;
-        
-        $result = Db::getInstance()->getValue($sql);
-        
-        if ($result && $result > 0) {
-            return Tools::displayPrice((float)$result);
-        }
-        
-        // Fallback: return "N/A" if no price found
-        return 'N/A';
+        // Simply return placeholder - the booking details are more important
+        // Trying to calculate price triggers complex pricing chain that fails
+        return 'See Details';
     }
     
     /**

@@ -94,48 +94,95 @@
 }
 
 /* ============================================
-   USER ACCOUNT DROPDOWN FIX
+   USER ACCOUNT DROPDOWN FIX - HIGH SPECIFICITY
    ============================================ */
-/* Ensure header allows dropdown to overflow */
+/* Force all ancestor elements to allow overflow */
 #header,
+#header *,
+header,
+header *,
 .header-container,
+.header-container *,
 .header-top,
+.header-top *,
+.header-top-menu,
+.header-top-menu *,
 .header-top-item,
-.header_user_info {
+.header_user_info,
+.header_user_info * {
     overflow: visible !important;
 }
 
-/* User dropdown container needs relative positioning */
-.header_user_info .dropdown,
-.header_user_info .navbar-nav>li.dropdown {
+/* The dropdown parent container */
+#header .header_user_info,
+header .header_user_info,
+.header-top .header_user_info {
     position: relative !important;
+    z-index: 99999 !important;
 }
 
-/* The dropdown menu itself */
-.header_user_info .dropdown-menu,
-.header_user_info ul.dropdown-menu {
+/* The navbar dropdown list */
+#header .header_user_info .navbar-nav,
+header .header_user_info .navbar-nav,
+.header_user_info ul.navbar-nav {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* The dropdown parent li */
+#header .header_user_info .navbar-nav>li.dropdown,
+header .header_user_info .navbar-nav>li.dropdown,
+.header_user_info .navbar-nav>li.dropdown,
+.header_user_info .dropdown {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* The dropdown menu itself - VERY HIGH SPECIFICITY */
+#header .header_user_info .navbar-nav>li.dropdown>.dropdown-menu,
+#header .header_user_info .dropdown-menu,
+header .header_user_info .dropdown-menu,
+.header_user_info ul.dropdown-menu,
+.header_user_info .dropdown-menu {
     position: absolute !important;
     top: 100% !important;
     right: 0 !important;
     left: auto !important;
-    z-index: 99999 !important;
+    z-index: 999999 !important;
     min-width: 180px !important;
+    max-height: none !important;
     background: #ffffff !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     border-radius: 8px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
     padding: 10px 0 !important;
     margin-top: 5px !important;
+    overflow: visible !important;
+    display: none;
 }
 
-.header_user_info .dropdown-menu>li>a {
+/* Show when open */
+#header .header_user_info .navbar-nav>li.dropdown.open>.dropdown-menu,
+#header .header_user_info .dropdown.open>.dropdown-menu,
+.header_user_info .dropdown.open .dropdown-menu,
+.header_user_info .open>.dropdown-menu {
+    display: block !important;
+}
+
+/* Dropdown menu links */
+#header .header_user_info .dropdown-menu>li>a,
+.header_user_info .dropdown-menu>li>a,
+.header_user_info .dropdown-menu li a {
     padding: 10px 20px !important;
     color: #333 !important;
     font-size: 14px !important;
+    display: block !important;
     transition: all 0.2s ease !important;
 }
 
-.header_user_info .dropdown-menu>li>a:hover {
+#header .header_user_info .dropdown-menu>li>a:hover,
+.header_user_info .dropdown-menu>li>a:hover,
+.header_user_info .dropdown-menu li a:hover {
     background: #f5f5f5 !important;
     color: #C0A062 !important;
 }
