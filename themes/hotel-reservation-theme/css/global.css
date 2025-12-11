@@ -1436,6 +1436,7 @@ pre code {
 }
 
 @media (min-width: 1600px) {
+
   .col-lg-1,
   .col-lg-2,
   .col-lg-3,
@@ -11418,87 +11419,106 @@ a.iframe:hover {
 }
 
 p.p.payment_module {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 p.payment_module a {
-  display: block;
-  border: 1px solid #d6d4d4;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
+  display: flex !important;
+  align-items: center !important;
+  background-color: #fff !important;
+  border: 1px solid #d6d4d4 !important;
   border-radius: 4px;
-  font-size: 14px;
-  line-height: 23px;
+  font-size: 15px;
+  line-height: 1.4;
   color: #333;
-  font-weight: bold;
-  padding: 30px 25px 27px 100px;
-  letter-spacing: -1px;
+  font-weight: 600;
+  padding: 25px 20px 25px 100px !important;
+  /* Space for background icon */
+  letter-spacing: 0.5px;
   position: relative;
-}
-
-p.payment_module a:after {
-  display: block;
-  content: "\f054";
-  position: absolute;
-  right: 12px;
-  margin-top: -11px;
-  top: 50%;
-  font-family: "FontAwesome";
-  font-size: 20px;
-  height: 22px;
-  width: 14px;
-  color: #777;
+  min-height: 90px;
+  transition: all 0.3s ease;
+  background-position: 25px center !important;
+  /* Center icon vertically */
+  background-repeat: no-repeat !important;
+  background-size: 50px auto !important;
+  /* Constrain icon size */
+  text-decoration: none !important;
 }
 
 p.payment_module a:hover {
-  background-color: #f6f6f6;
+  background-color: #fff !important;
+  border-color: #C5A059 !important;
+  /* Prestige Gold Border */
+  box-shadow: 0 5px 15px rgba(197, 160, 89, 0.15);
 }
 
 p.payment_module a span {
-  font-weight: bold;
+  font-weight: 400;
   color: #777;
+  display: block;
+  font-size: 13px;
+  margin-top: 5px;
 }
 
+/* Chevron/Arrow styling */
+p.payment_module a:after {
+  display: block;
+  content: "\f054";
+  /* FontAwesome chevron-right */
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  /* Vertical Center */
+  font-family: "FontAwesome";
+  font-size: 18px;
+  height: auto;
+  width: auto;
+  color: #C5A059;
+  /* Prestige Gold */
+  margin-top: 0;
+}
+
+/* Specific Payment Module Overrides to Ensure Consistency */
+
+/* Bankwire */
 p.payment_module a.bankwire {
-  background: url(../img/bankwire.png) 15px 8px no-repeat #fbfbfb;
+  background-image: url(../img/bankwire.png) !important;
 }
 
+/* Cheque */
 p.payment_module a.cheque {
-  background: url(../img/cheque.png) 15px 8px no-repeat #fbfbfb;
+  background-image: url(../img/cheque.png) !important;
 }
 
+/* Cash */
 p.payment_module a.cash {
-  background: url(../img/cash.png) 15px 8px no-repeat #fbfbfb;
+  background-image: url(../img/cash.png) !important;
+}
+
+/* Paystack/GhanaPayments overrides */
+.payment_module a.paystack,
+.payment_module a.ghanapayments-paystack,
+.payment_module a.ghanapayments-momo,
+.payment_module a.ghanapayments-paycash {
+  background-color: #fff !important;
+  /* Override any green backgrounds */
+  color: #333 !important;
+  text-shadow: none !important;
+  background-position: 25px center !important;
+}
+
+.payment_module a.paystack:hover,
+.payment_module a.ghanapayments-paystack:hover {
+  background-color: #fff !important;
 }
 
 .payment_module.box {
   margin-top: 20px;
 }
 
-p.cheque-indent {
-  margin-bottom: 9px;
-}
-
-@media (max-width: 480px) {
-  p.payment_module a {
-    background-position: 12px 8px !important;
-    padding: 17px 25px 17px 90px;
-  }
-}
-
-@media (max-width: 355px) {
-  p.payment_module a {
-    background-position: 8px 8px !important;
-    padding: 7px 25px 7px 90px;
-  }
-}
-
-.order-confirmation.box {
-  line-height: 29px;
-}
-
-.order-confirmation.box a {
-  text-decoration: underline;
+text-decoration: underline;
 }
 
 .order-confirmation.box a:hover {
@@ -13034,184 +13054,199 @@ button[name="search_room_submit"]:active {
   /* A slightly darker shade for hover state */
   border-color: #0b204d;
 }
+
 /* Modern Hero Section */
 #header {
-    height: 100vh !important;
-    background-size: cover !important;
-    background-position: center !important;
-    position: relative;
+  height: 100vh !important;
+  background-size: cover !important;
+  background-position: center !important;
+  position: relative;
 }
 
 #header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Dark overlay */
-    z-index: 1;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  /* Dark overlay */
+  z-index: 1;
 }
 
 .header-container {
-    position: relative;
-    z-index: 2;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .header-top {
-    background: transparent !important;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    padding-top: 20px;
+  background: transparent !important;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding-top: 20px;
 }
 
 #header_logo {
-    float: none !important;
-    display: inline-block;
+  float: none !important;
+  display: inline-block;
 }
 
 /* Centered Welcome Text (injected via hook or hardcoded later) */
 .hero-content {
-    color: #fff;
-    margin-top: 100px;
+  color: #fff;
+  margin-top: 100px;
 }
 
 .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 6vw, 5rem); /* Responsive instead of fixed 4em */
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  /* Responsive instead of fixed 4em */
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Large screens - bigger hero title */
 @media (min-width: 1400px) {
-    .hero-title {
-        font-size: clamp(3.5rem, 7vw, 6rem) !important;
-    }
+  .hero-title {
+    font-size: clamp(3.5rem, 7vw, 6rem) !important;
+  }
 }
 
 @media (min-width: 1600px) {
-    .hero-title {
-        font-size: clamp(4rem, 8vw, 7rem) !important;
-    }
+  .hero-title {
+    font-size: clamp(4rem, 8vw, 7rem) !important;
+  }
 }
 
 .hero-subtitle {
-    font-size: clamp(1.25rem, 2.5vw, 2rem); /* Responsive instead of fixed 1.5em */
-    margin-bottom: 40px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+  font-size: clamp(1.25rem, 2.5vw, 2rem);
+  /* Responsive instead of fixed 1.5em */
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Large screens - bigger subtitle */
 @media (min-width: 1400px) {
-    .hero-subtitle {
-        font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
-        max-width: 900px;
-    }
+  .hero-subtitle {
+    font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
+    max-width: 900px;
+  }
 }
 
 @media (min-width: 1600px) {
-    .hero-subtitle {
-        font-size: clamp(1.75rem, 3.5vw, 2.5rem) !important;
-        max-width: 1000px;
-    }
+  .hero-subtitle {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem) !important;
+    max-width: 1000px;
+  }
 }
 
 
 /* Typography Override */
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Playfair Display', serif !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: 'Playfair Display', serif !important;
 }
 
 /* Modern Room Cards */
 .hotelRoomDescContainer {
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    border-radius: 0 0 8px 8px;
-    margin-top: -5px; /* Connect with image */
-    position: relative;
-    z-index: 2;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 8px 8px;
+  margin-top: -5px;
+  /* Connect with image */
+  position: relative;
+  z-index: 2;
 }
 
 .home_block_container img {
-    border-radius: 8px 8px 0 0;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .htlRoomTypeNameText {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8em;
-    color: #1C2331;
-    font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8em;
+  color: #1C2331;
+  font-weight: 700;
 }
 
 .htlRoomTypePriceText {
-    font-family: 'Lato', sans-serif;
-    color: #C0A062;
-    font-size: 1.4em;
-    font-weight: bold;
+  font-family: 'Lato', sans-serif;
+  color: #C0A062;
+  font-size: 1.4em;
+  font-weight: bold;
 }
 
 .htlRoomTypeBookNow {
-    background-color: #1C2331 !important;
-    color: #fff !important;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: background 0.3s ease;
-    width: 100%;
-    text-align: center;
-    display: block;
-    margin-top: 15px;
+  background-color: #1C2331 !important;
+  color: #fff !important;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: background 0.3s ease;
+  width: 100%;
+  text-align: center;
+  display: block;
+  margin-top: 15px;
 }
 
 .htlRoomTypeBookNow:hover {
-    background-color: #C0A062 !important;
-    color: #fff !important;
+  background-color: #C0A062 !important;
+  color: #fff !important;
 }
 
 
 /* Modern Footer */
 .footer-container {
-    background-color: #1C2331 !important;
-    color: #fff !important;
-    padding: 50px 0;
+  background-color: #1C2331 !important;
+  color: #fff !important;
+  padding: 50px 0;
 }
 
-.footer-container h4, .footer-container .h4 {
-    color: #C0A062 !important;
-    font-family: 'Playfair Display', serif;
-    border-bottom: 1px solid #C0A062;
-    padding-bottom: 10px;
-    display: inline-block;
+.footer-container h4,
+.footer-container .h4 {
+  color: #C0A062 !important;
+  font-family: 'Playfair Display', serif;
+  border-bottom: 1px solid #C0A062;
+  padding-bottom: 10px;
+  display: inline-block;
 }
 
 .footer-container a {
-    color: #e0e0e0 !important;
-    transition: color 0.3s ease;
+  color: #e0e0e0 !important;
+  transition: color 0.3s ease;
 }
 
 .footer-container a:hover {
-    color: #C0A062 !important;
-    text-decoration: none;
+  color: #C0A062 !important;
+  text-decoration: none;
 }
 
 .footer-container ul li {
-    padding: 5px 0;
+  padding: 5px 0;
 }
-
-
