@@ -18,11 +18,18 @@
 */
 
 .nav_toggle {
-  background-color: #379BF0;
+  background-color: #C5A059;
+  /* Prestige Gold (was light blue) */
   border: none;
   position: relative;
   padding: 11px 10px;
   margin: 4px 0;
+  transition: background-color 0.3s ease;
+}
+
+.nav_toggle:hover {
+  background-color: #b08d4a;
+  /* Darker gold on hover */
 }
 
 .nav_toggle .icon-bar {
@@ -33,21 +40,46 @@
   background-color: #FFFFFF
 }
 
-.nav_toggle .icon-bar + .icon-bar {
+.nav_toggle .icon-bar+.icon-bar {
   margin-top: 4px
 }
 
 .navigation-link {
   color: #ffffff;
   font-size: 17px;
-  font-weight: 400
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: block;
+  padding: 10px 0;
+}
+
+.navigation-link:hover,
+.navigation-link:focus {
+  color: #C5A059;
+  /* Gold on hover */
+  text-decoration: none;
+  background-color: transparent;
 }
 
 .wk-nav-style {
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #C5A059;
+  /* Gold separator */
   padding: 0 15px 20px;
   margin-top: 20px;
 }
+
+/* Specific styling for nav pills in sidebar to remove default bootstrap styles if needed */
+.wk-nav-style>li>a {
+  border-radius: 0;
+}
+
+.wk-nav-style>li>a:hover,
+.wk-nav-style>li>a:focus {
+  background-color: rgba(197, 160, 89, 0.1);
+  /* Subtle gold bg on hover */
+}
+
 
 #menu_cont {
   width: 285px;
@@ -56,19 +88,31 @@
   bottom: 0px;
   right: 0px;
   z-index: 2000;
-  background-color: #FFFFFF;
-  padding-top: 10px
+  background-color: #001f3f;
+  /* Navy Blue Background */
+  padding-top: 10px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+  /* Add shadow for depth */
 }
 
 .close_navbar {
   font-size: 20px;
-  color: #ffffff;
+  color: #001f3f;
+  /* Navy icon styling */
   cursor: pointer;
-  background-color: #379bf0;
+  background-color: #C5A059;
+  /* Gold button */
   height: 50px;
   padding: 15px;
   text-align: center;
-  width: 50px
+  width: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.close_navbar:hover {
+  background-color: #b08d4a;
+  /* Darker gold hover */
+  color: #fff;
 }
 
 .menu_cont_left {
