@@ -11543,6 +11543,62 @@ p.payment_module a.paystack {
   margin-right: 10px;
 }
 
+/* =========================================================================
+   GLOBAL OVERFLOW & Z-INDEX FIXES (PRESTIGE THEME)
+   Forces datepickers, dropdowns, and modals to appear ON TOP of all layouts.
+   ========================================================================= */
+
+/* 1. Un-restrict Layout Columns */
+.columns-container,
+#columns,
+.container,
+.row,
+.pb-left-column,
+.pb-center-column,
+.pb-right-column,
+#left_column,
+#center_column,
+#right_column,
+.block .block_content {
+  overflow: visible !important;
+}
+
+/* 2. Boost Dropdown & Datepicker Layers */
+.daterangepicker,
+.ui-datepicker,
+.dropdown-menu,
+.booking_occupancy_wrapper,
+.ui-autocomplete {
+  z-index: 99999 !important;
+  /* Force top layer */
+  position: absolute !important;
+}
+
+/* 3. Guest/Occupancy Selector Specifics */
+.booking_room_fields,
+.booking_guest_occupancy,
+.guest_occupancy_wrapper,
+.qty_input_cont {
+  z-index: auto;
+  /* Allow children to stack comfortably */
+  position: relative;
+}
+
+/* 4. Fix Sidebar Filters & Search Blocks */
+#layered_block_left,
+.block_content,
+.layered_filter_cont {
+  overflow: visible !important;
+}
+
+/* 5. Ensure Inputs don't trap floaters */
+.form-group,
+.selector,
+.input-group,
+.select {
+  overflow: visible !important;
+}
+
 .payment_module a.paystack,
 .payment_module a.ghanapayments-paystack,
 .payment_module a.ghanapayments-momo,
