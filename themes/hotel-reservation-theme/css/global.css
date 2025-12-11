@@ -11422,38 +11422,47 @@ p.p.payment_module {
   margin-bottom: 15px;
 }
 
-p.payment_module a {
+/* UNIVERSAL PAYMENT MODULE STYLES */
+p.payment_module a,
+.ghanapayments-momo,
+.ghanapayments-paystack,
+.ghanapayments-paycash {
   display: flex !important;
   align-items: center !important;
+  justify-content: flex-start !important;
+  /* Start aligned, let badge push right */
   background-color: #fff !important;
   border: 1px solid #d6d4d4 !important;
   border-radius: 4px;
   font-size: 15px;
   line-height: 1.4;
-  color: #333;
+  color: #333 !important;
+  /* Force dark text */
   font-weight: 600;
-  padding: 25px 20px 25px 100px !important;
-  /* Space for background icon */
+  padding: 20px !important;
+  /* Unified base padding */
   letter-spacing: 0.5px;
   position: relative;
   min-height: 90px;
   transition: all 0.3s ease;
-  background-position: 25px center !important;
-  /* Center icon vertically */
-  background-repeat: no-repeat !important;
-  background-size: 50px auto !important;
-  /* Constrain icon size */
   text-decoration: none !important;
+  margin-bottom: 15px !important;
 }
 
-p.payment_module a:hover {
+/* Hover Effects */
+p.payment_module a:hover,
+.ghanapayments-momo:hover,
+.ghanapayments-paystack:hover,
+.ghanapayments-paycash:hover {
   background-color: #fff !important;
   border-color: #C5A059 !important;
-  /* Prestige Gold Border */
   box-shadow: 0 5px 15px rgba(197, 160, 89, 0.15);
 }
 
-p.payment_module a span {
+/* SUBTEXT Styling */
+p.payment_module a span,
+.ghanapayments-momo span,
+.ghanapayments-paystack span {
   font-weight: 400;
   color: #777;
   display: block;
@@ -11461,43 +11470,79 @@ p.payment_module a span {
   margin-top: 5px;
 }
 
-/* Chevron/Arrow styling */
-p.payment_module a:after {
+/* CHEVRON/ARROW Styling */
+p.payment_module a:after,
+.ghanapayments-momo:after,
+.ghanapayments-paystack:after,
+.ghanapayments-paycash:after {
   display: block;
   content: "\f054";
   /* FontAwesome chevron-right */
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  /* Vertical Center */
   font-family: "FontAwesome";
   font-size: 18px;
-  height: auto;
-  width: auto;
   color: #C5A059;
-  /* Prestige Gold */
-  margin-top: 0;
+  margin-left: auto;
+  /* Push to far right */
+  padding-left: 15px;
 }
 
-/* Specific Payment Module Overrides to Ensure Consistency */
+/* --- TYPE A: BACKGROUND IMAGE MODULES (Bankwire, Cheque, Cash) --- */
+p.payment_module a.bankwire,
+p.payment_module a.cheque,
+p.payment_module a.cash {
+  padding-left: 90px !important;
+  /* Space for background icon */
+  background-repeat: no-repeat !important;
+  background-position: 25px center !important;
+  /* Center icon vertically */
+  background-size: 40px auto !important;
+  /* Constrain icon size */
+}
 
-/* Bankwire */
 p.payment_module a.bankwire {
   background-image: url(../img/bankwire.png) !important;
 }
 
-/* Cheque */
 p.payment_module a.cheque {
   background-image: url(../img/cheque.png) !important;
 }
 
-/* Cash */
 p.payment_module a.cash {
   background-image: url(../img/cash.png) !important;
 }
 
-/* Paystack/GhanaPayments overrides */
+
+/* --- TYPE B: INLINE IMAGE MODULES (Ghanapayments, Paystack) --- */
+.ghanapayments-momo img,
+.ghanapayments-paystack img,
+.ghanapayments-paycash img,
+p.payment_module a.paystack img {
+  width: 50px !important;
+  height: auto !important;
+  object-fit: contain;
+  margin-right: 20px !important;
+  display: block !important;
+  order: -1;
+  /* Ensure image is first */
+}
+
+/* Ensure these don't get the huge padding */
+.ghanapayments-momo,
+.ghanapayments-paystack,
+.ghanapayments-paycash,
+p.payment_module a.paystack {
+  padding-left: 20px !important;
+  background-image: none !important;
+  /* No double icons */
+}
+
+/* Badge Styling */
+.payment_module .badge,
+.ghanapayments-paystack .badge {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
 .payment_module a.paystack,
 .payment_module a.ghanapayments-paystack,
 .payment_module a.ghanapayments-momo,

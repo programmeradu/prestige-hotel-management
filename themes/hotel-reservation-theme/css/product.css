@@ -6,6 +6,14 @@
 
 .primary_block {
   margin-bottom: 40px;
+  overflow: visible !important;
+  /* Allow datepicker to overflow */
+}
+
+/* Fix for Image Shift */
+.pb-left-column #image-block {
+  margin-top: 0 !important;
+  top: 0 !important;
 }
 
 .top-hr {
