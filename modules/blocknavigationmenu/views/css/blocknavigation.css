@@ -18,13 +18,14 @@
 */
 
 .nav_toggle {
-  background-color: #C5A059;
-  /* Prestige Gold (was light blue) */
+  background-color: #C9A96E;
+  /* Prestige Gold (matches footer gold) */
   border: none;
   position: relative;
   padding: 11px 10px;
   margin: 4px 0;
   transition: background-color 0.3s ease;
+  border-radius: 2px;
 }
 
 .nav_toggle:hover {
@@ -37,7 +38,8 @@
   width: 22px;
   height: 2px;
   border-radius: 1px;
-  background-color: #FFFFFF
+  background-color: #1a2332;
+  /* Navy icon bars for contrast on gold */
 }
 
 .nav_toggle .icon-bar+.icon-bar {
@@ -46,86 +48,130 @@
 
 .navigation-link {
   color: #ffffff;
-  font-size: 17px;
-  font-weight: 400;
+  font-size: 16px;
+  /* Slightly refined size */
+  font-weight: 600;
+  /* Bold for better visibility */
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   display: block;
-  padding: 10px 0;
+  padding: 12px 10px;
+  /* More clickable area */
+  letter-spacing: 0.5px;
+  /* Slight spacing for clean look */
 }
 
 .navigation-link:hover,
 .navigation-link:focus {
-  color: #C5A059;
+  color: #C9A96E;
   /* Gold on hover */
   text-decoration: none;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.05);
+  /* Subtle hover bg */
+  padding-left: 15px;
+  /* Slight movement on hover aka "active" feel */
 }
 
 .wk-nav-style {
-  border-bottom: 1px solid #C5A059;
-  /* Gold separator */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Subtle separator matching footer */
   padding: 0 15px 20px;
   margin-top: 20px;
 }
 
-/* Specific styling for nav pills in sidebar to remove default bootstrap styles if needed */
+/* List Item transitions */
+.wk-nav-style>li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  /* Very subtle internal separators */
+  transition: all 0.3s ease;
+}
+
+.wk-nav-style>li:last-child {
+  border-bottom: none;
+}
+
+/* Specific styling for nav pills in sidebar to remove default bootstrap styles */
 .wk-nav-style>li>a {
   border-radius: 0;
+  margin: 0;
 }
 
 .wk-nav-style>li>a:hover,
 .wk-nav-style>li>a:focus {
-  background-color: rgba(197, 160, 89, 0.1);
-  /* Subtle gold bg on hover */
+  background-color: transparent;
+  /* Handled by .navigation-link */
 }
 
 
 #menu_cont {
-  width: 285px;
+  width: 300px;
+  /* Slightly wider for better breathing room */
   position: fixed;
   top: 0px;
   bottom: 0px;
   right: 0px;
-  z-index: 2000;
-  background-color: #001f3f;
-  /* Navy Blue Background */
-  padding-top: 10px;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
-  /* Add shadow for depth */
+  z-index: 9999;
+  /* Ensure top visibility */
+  background-color: #1a2332;
+  /* EXACT Footer Dark Navy */
+  padding-top: 0px;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+  /* Deep shadow */
 }
 
 .close_navbar {
-  font-size: 20px;
-  color: #001f3f;
-  /* Navy icon styling */
+  font-size: 24px;
+  color: #1a2332;
+  /* Navy text on Gold */
   cursor: pointer;
-  background-color: #C5A059;
+  background-color: #C9A96E;
   /* Gold button */
   height: 50px;
-  padding: 15px;
-  text-align: center;
   width: 50px;
-  transition: background-color 0.3s ease;
+  line-height: 50px;
+  /* Center vert */
+  padding: 0;
+  text-align: center;
+  transition: all 0.3s ease;
+  float: right;
+  /* Ensure it stays right */
+  border-bottom-left-radius: 4px;
 }
 
 .close_navbar:hover {
-  background-color: #b08d4a;
-  /* Darker gold hover */
-  color: #fff;
+  background-color: #fff;
+  /* White on hover for clear "close" action */
+  color: #1a2332;
 }
 
 .menu_cont_left {
-  overflow-y: scroll;
+  overflow-y: auto;
+  /* Use auto instead of scroll */
   transform: translate(0px);
-  transition: all 0.3s ease-out 0s
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /* Smooth bezel curve */
 }
 
 .menu_cont_right {
-  transform: translate(295px);
-  transition: all 0.3s ease-out 0s
+  transform: translate(320px);
+  /* Move fully out of view */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 a.navigation-link:focus {
   outline: none;
+}
+
+/* Scrollbar styling for Webkit */
+#menu_cont::-webkit-scrollbar {
+  width: 6px;
+}
+
+#menu_cont::-webkit-scrollbar-track {
+  background: #1a2332;
+}
+
+#menu_cont::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 3px;
 }
