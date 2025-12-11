@@ -1,133 +1,106 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-		<title>Message from {shop_name}</title>
 
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<title>Message from {shop_name}</title>
+	<style>
+		/* Client-specific Styles */
+		#outlook a { padding: 0; }
+		body { width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; margin: 0; padding: 0; font-family: 'Open Sans', Arial, sans-serif; background-color: #f9f9f9; }
+		.ExternalClass { width: 100%; }
+		.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+		#backgroundTable { margin: 0; padding: 0; width: 100% !important; line-height: 100% !important; }
+		img { outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+		a img { border: none; }
+		.image_fix { display: block; }
 
-		<style>	@media only screen and (max-width: 300px){
-				body {
-					width:218px !important;
-					margin:auto !important;
-				}
-				.table {width:195px !important;margin:auto !important;}
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto !important;display: block !important;}
-				span.title{font-size:20px !important;line-height: 23px !important}
-				span.subtitle{font-size: 14px !important;line-height: 18px !important;padding-top:10px !important;display:block !important;}
-				td.box p{font-size: 12px !important;font-weight: bold !important;}
-				.table-recap table, .table-recap thead, .table-recap tbody, .table-recap th, .table-recap td, .table-recap tr {
-					display: block !important;
-				}
-				.table-recap{width: 200px!important;}
-				.table-recap tr td, .conf_body td{text-align:center !important;}
-				.address{display: block !important;margin-bottom: 10px !important;}
-				.space_address{display: none !important;}
-			}
-	@media only screen and (min-width: 301px) and (max-width: 500px) {
-				body {width:308px!important;margin:auto!important;}
-				.table {width:285px!important;margin:auto!important;}
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}
-				.table-recap table, .table-recap thead, .table-recap tbody, .table-recap th, .table-recap td, .table-recap tr {
-					display: block !important;
-				}
-				.table-recap{width: 295px !important;}
-				.table-recap tr td, .conf_body td{text-align:center !important;}
+		/* Prestige Gold Theme */
+		.gold-text { color: #C5A059 !important; }
+		.bg-dark { background-color: #001f3f !important; }
+		.bg-gold { background-color: #C5A059 !important; }
+		.border-bottom-gold { border-bottom: 3px solid #C5A059; }
+		.btn-gold { background-color: #C5A059; color: #ffffff; display: inline-block; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 14px; }
 
-			}
-	@media only screen and (min-width: 501px) and (max-width: 768px) {
-				body {width:478px!important;margin:auto!important;}
-				.table {width:450px!important;margin:auto!important;}
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}
-			}
-	@media only screen and (max-device-width: 480px) {
-				body {width:308px!important;margin:auto!important;}
-				.table {width:285px;margin:auto!important;}
-				.logo, .titleblock, .linkbelow, .box, .footer, .space_footer{width:auto!important;display: block!important;}
+		/* Responsive */
+		@media only screen and (max-width: 600px) {
+			table.container { width: 100% !important; }
+			td.content-padding { padding: 15px !important; }
+            
+            /* Force tables to be full width on mobile */
+            table { width: 100% !important; min-width: 100% !important; }
+            
+            /* Prevent text overlap */
+            td { word-break: break-word; hyphens: auto; }
+            
+            /* Image resizing */
+            img { max-width: 100% !important; height: auto !important; }
+            
+            /* Mobile blocks */
+			.mobile-block { display: block !important; width: 100% !important; }
+		}
+	</style>
+</head>
 
-				.table-recap{width: 295px!important;}
-				.table-recap tr td, .conf_body td{text-align:center!important;}
-				.address{display: block !important;margin-bottom: 10px !important;}
-				.space_address{display: none !important;}
-			}
-</style>
+<body style="-webkit-text-size-adjust:none;background-color:#f9f9f9;font-family:'Open Sans', Arial, sans-serif;color:#333333;font-size:14px;line-height:1.5;margin:0;padding:0;">
+	<table id="backgroundTable" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f4f4; padding: 40px 0;">
+		<tr>
+			<td align="center">
+				<table class="container" width="600" cellpadding="0" cellspacing="0" border="0"
+					style="background-color: #ffffff; border: 1px solid #e9e9e9; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+					<tr>
+						<td align="center"
+							style="padding: 40px 0; background-color: #ffffff; border-bottom: 3px solid #C5A059;">
+							<a href="{shop_url}"
+								style="text-decoration: none; color: #C5A059; font-size: 28px; font-weight: bold; letter-spacing: 2px;">PRESTIGE
+								HOTEL</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="content-padding" style="padding: 40px 50px;">
+							<h1 style="font-size: 24px; color: #333; margin-bottom: 20px; text-align: center;">Hi
+								{firstname} {lastname},</h1>
+							<p
+								style="font-size: 18px; color: #C5A059; text-align: center; margin-bottom: 30px; font-weight: bold; text-transform: uppercase;">
+								Processing Order</p>
 
-	</head>
-	<body style="-webkit-text-size-adjust:none;background-color:#fff;width:650px;font-family:Open-sans, sans-serif;color:#555454;font-size:13px;line-height:18px;margin:auto" >
-		<table class="table table-mail" style="width:100%;margin-top:10px;-moz-box-shadow:0 0 5px #afafaf;-webkit-box-shadow:0 0 5px #afafaf;-o-box-shadow:0 0 5px #afafaf;box-shadow:0 0 5px #afafaf;filter:progid:DXImageTransform.Microsoft.Shadow(color=#afafaf,Direction=134,Strength=5)">
-			<tr>
-				<td class="space" style="width:20px;padding:7px 0">&nbsp;</td>
-				<td align="center" style="padding:7px 0">
-					<table class="table" bgcolor="#ffffff" style="width:100%">
-						<tr>
-							<td align="center" class="logo" style="border-bottom:4px solid #333333;padding:7px 0">
-								<a title="{shop_name}" href="{shop_url}" target="_blank" style="color:#337ff1">
-									<img src="{shop_logo}" alt="{shop_name}" />
-								</a>
-							</td>
-						</tr>
+							<div
+								style="background-color: #f9f9f9; padding: 25px; border-radius: 4px; border: 1px solid #eee; text-align: center;">
+								<p style="font-size: 16px; color: #555; margin-bottom: 10px;">
+									We are currently processing your <strong><span
+											style="color:#333">{shop_name}</span></strong> order with the reference
+									<strong><span style="color:#333">{order_name}</span></strong>.
+								</p>
+							</div>
 
-<tr>
-	<td align="center" class="titleblock" style="padding:7px 0">
-		<font size="2" face="Open-sans, sans-serif" color="#555454">
-			<span class="title" style="font-weight:500;font-size:28px;text-transform:uppercase;line-height:33px">Hi {firstname} {lastname},</span>
-		</font>
-	</td>
-</tr>
-<tr>
-	<td class="space_footer" style="padding:0!important">&nbsp;</td>
-</tr>
-<tr>
-	<td class="box" style="border:1px solid #D6D4D4;background-color:#f8f8f8;padding:7px 0">
-		<table class="table" style="width:100%">
-			<tr>
-				<td width="10" style="padding:7px 0">&nbsp;</td>
-				<td style="padding:7px 0">
-					<font size="2" face="Open-sans, sans-serif" color="#555454">
-						<p data-html-only="1" style="border-bottom:1px solid #D6D4D4;margin:3px 0 7px;text-transform:uppercase;font-weight:500;font-size:18px;padding-bottom:10px">
-							Order {order_name}&nbsp;-&nbsp;Processing						</p>
-						<span style="color:#777">
-							We are currently processing your <strong><span style="color:#333">{shop_name}</span></strong> order with the reference <strong><span style="color:#333">{order_name}</span></strong>.						</span>
-					</font>
-				</td>
-				<td width="10" style="padding:7px 0">&nbsp;</td>
-			</tr>
-		</table>
-	</td>
-</tr>
-<tr>
-	<td class="space_footer" style="padding:0!important">&nbsp;</td>
-</tr>
-{extra_mail_content_html}
-<tr>
-	<td class="linkbelow" style="padding:7px 0">
-		<font size="2" face="Open-sans, sans-serif" color="#555454">
-			<span>
-				You can review your order and download your invoice from the <a href="{history_url}" target="_blank" style="color:#337ff1">"Order history"</a> section of your customer account by clicking <a href="{my_account_url}" target="_blank" style="color:#337ff1">"My account"</a> on our website.			</span>
-		</font>
-	</td>
-</tr>
-<tr>
-	<td class="linkbelow" style="padding:7px 0">
-		<font size="2" face="Open-sans, sans-serif" color="#555454">
-			<span>
-				If you have a guest account, you can follow your order via the <a href="{guest_tracking_url}?id_order={order_name}" target="_blank" style="color:#337ff1">"Guest Tracking"</a> section on our website.			</span>
-		</font>
-	</td>
-</tr>
+							{extra_mail_content_html}
 
-						<tr>
-							<td class="space_footer" style="padding:0!important">&nbsp;</td>
-						</tr>
-						<tr>
-							<td class="footer" style="border-top:4px solid #333333;padding:7px 0">
-								<span><a href="{shop_url}" target="_blank" style="color:#337ff1">{shop_name}</a> powered by <a href="https://webkul.com" target="_blank" style="color:#337ff1">Webkul&trade;</a></span>
-							</td>
-						</tr>
-					</table>
-				</td>
-				<td class="space" style="width:20px;padding:7px 0">&nbsp;</td>
-			</tr>
-		</table>
-	</body>
+							<p
+								style="font-size: 14px; line-height: 1.6; color: #777; text-align: center; margin-top: 30px;">
+								You can review your order and download your invoice from the <a href="{history_url}"
+									style="color: #C5A059; text-decoration: none;">"Order history"</a> section of your
+								customer account by clicking <a href="{my_account_url}"
+									style="color: #C5A059; text-decoration: none;">"My account"</a> on our website.
+							</p>
+							<p style="font-size: 14px; line-height: 1.6; color: #777; text-align: center;">
+								If you have a guest account, you can follow your order via the <a
+									href="{guest_tracking_url}?id_order={order_name}"
+									style="color: #C5A059; text-decoration: none;">"Guest Tracking"</a> section.
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<td align="center"
+							style="background-color: #001f3f; padding: 20px; color: #ffffff; font-size: 12px;">
+							&copy; {shop_name} - <a href="{shop_url}"
+								style="color: #C5A059; text-decoration: none;">{shop_url}</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</body>
+
 </html>

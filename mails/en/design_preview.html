@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestige Hotel Email Previews</title>
+    <style>
+        body { font-family: 'Open Sans', Arial, sans-serif; margin: 0; padding: 0; background: #e0e0e0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar */
+        .sidebar { background: #fff; width: 300px; border-right: 1px solid #ccc; display: flex; flex-direction: column; z-index: 10; padding-top: 20px; }
+        .sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid #eee; }
+        .sidebar-header h2 { margin: 0; font-size: 18px; color: #001f3f; }
+        .template-list { list-style: none; padding: 0; margin: 20px 0; overflow-y: auto; flex: 1; }
+        .template-item { padding: 10px 20px; cursor: pointer; color: #555; transition: background 0.2s; border-left: 4px solid transparent; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .template-item:hover { background: #f5f5f5; }
+        .template-item.active { background: #f0f7ff; color: #001f3f; border-left-color: #C5A059; font-weight: bold; }
+
+        /* Main View */
+        .main-view { flex: 1; display: flex; flex-direction: column; background: #e0e0e0; overflow: hidden; }
+        .toolbar { padding: 10px 20px; background: #fff; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .toolbar h3 { margin: 0; font-size: 16px; color: #333; }
+        .device-toggles button { background: none; border: 1px solid #ddd; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-left: 5px; }
+        .device-toggles button.active { background: #001f3f; color: #fff; border-color: #001f3f; }
+
+        .preview-container { flex: 1; overflow: hidden; padding: 40px; display: flex; justify-content: center; align-items: flex-start; background: #dcdcdc; }
+        /* Iframe Styles */
+        iframe { background: #fff; box-shadow: 0 5px 25px rgba(0,0,0,0.15); transition: width 0.3s; width: 650px; height: 100%; border: none; }
+        iframe.mobile { width: 375px; }
+
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Prestige Emails (42)</h2>
+        </div>
+        <ul class="template-list">
+            <li class="template-item active" onclick="loadTemplate('account.html', this)" title="account.html">Account</li>
+<li class="template-item" onclick="loadTemplate('awaiting_payment.html', this)" title="awaiting_payment.html">Awaiting Payment</li>
+<li class="template-item" onclick="loadTemplate('backoffice_order.html', this)" title="backoffice_order.html">Backoffice Order</li>
+<li class="template-item" onclick="loadTemplate('contact.html', this)" title="contact.html">Contact</li>
+<li class="template-item" onclick="loadTemplate('contact_form.html', this)" title="contact_form.html">Contact Form</li>
+<li class="template-item" onclick="loadTemplate('credit_slip.html', this)" title="credit_slip.html">Credit Slip</li>
+<li class="template-item" onclick="loadTemplate('credit_slip_voucher.html', this)" title="credit_slip_voucher.html">Credit Slip Voucher</li>
+<li class="template-item" onclick="loadTemplate('download_product.html', this)" title="download_product.html">Download Product</li>
+<li class="template-item" onclick="loadTemplate('employee_password.html', this)" title="employee_password.html">Employee Password</li>
+<li class="template-item" onclick="loadTemplate('forward_msg.html', this)" title="forward_msg.html">Forward Msg</li>
+<li class="template-item" onclick="loadTemplate('guest_to_customer.html', this)" title="guest_to_customer.html">Guest To Customer</li>
+<li class="template-item" onclick="loadTemplate('in_transit.html', this)" title="in_transit.html">In Transit</li>
+<li class="template-item" onclick="loadTemplate('log_alert.html', this)" title="log_alert.html">Log Alert</li>
+<li class="template-item" onclick="loadTemplate('newsletter.html', this)" title="newsletter.html">Newsletter</li>
+<li class="template-item" onclick="loadTemplate('order_canceled.html', this)" title="order_canceled.html">Order Canceled</li>
+<li class="template-item" onclick="loadTemplate('order_changed.html', this)" title="order_changed.html">Order Changed</li>
+<li class="template-item" onclick="loadTemplate('order_conf.html', this)" title="order_conf.html">Order Conf</li>
+<li class="template-item" onclick="loadTemplate('order_conf_admin.html', this)" title="order_conf_admin.html">Order Conf Admin</li>
+<li class="template-item" onclick="loadTemplate('order_customer_comment.html', this)" title="order_customer_comment.html">Order Customer Comment</li>
+<li class="template-item" onclick="loadTemplate('order_merchant_comment.html', this)" title="order_merchant_comment.html">Order Merchant Comment</li>
+<li class="template-item" onclick="loadTemplate('order_refund_completed_admin.html', this)" title="order_refund_completed_admin.html">Order Refund Completed Admin</li>
+<li class="template-item" onclick="loadTemplate('order_refund_completed_customer.html', this)" title="order_refund_completed_customer.html">Order Refund Completed Customer</li>
+<li class="template-item" onclick="loadTemplate('order_refund_denied_admin.html', this)" title="order_refund_denied_admin.html">Order Refund Denied Admin</li>
+<li class="template-item" onclick="loadTemplate('order_refund_denied_customer.html', this)" title="order_refund_denied_customer.html">Order Refund Denied Customer</li>
+<li class="template-item" onclick="loadTemplate('order_refund_pending_admin.html', this)" title="order_refund_pending_admin.html">Order Refund Pending Admin</li>
+<li class="template-item" onclick="loadTemplate('order_refund_pending_customer.html', this)" title="order_refund_pending_customer.html">Order Refund Pending Customer</li>
+<li class="template-item" onclick="loadTemplate('order_return_state.html', this)" title="order_return_state.html">Order Return State</li>
+<li class="template-item" onclick="loadTemplate('overbooking.html', this)" title="overbooking.html">Overbooking</li>
+<li class="template-item" onclick="loadTemplate('overbooking_admin.html', this)" title="overbooking_admin.html">Overbooking Admin</li>
+<li class="template-item" onclick="loadTemplate('partial_payment_accepted.html', this)" title="partial_payment_accepted.html">Partial Payment Accepted</li>
+<li class="template-item" onclick="loadTemplate('password.html', this)" title="password.html">Password</li>
+<li class="template-item" onclick="loadTemplate('password_query.html', this)" title="password_query.html">Password Query</li>
+<li class="template-item" onclick="loadTemplate('payment_accepted.html', this)" title="payment_accepted.html">Payment Accepted</li>
+<li class="template-item" onclick="loadTemplate('payment_error.html', this)" title="payment_error.html">Payment Error</li>
+<li class="template-item" onclick="loadTemplate('payment_instructions.html', this)" title="payment_instructions.html">Payment Instructions</li>
+<li class="template-item" onclick="loadTemplate('processing.html', this)" title="processing.html">Processing</li>
+<li class="template-item" onclick="loadTemplate('refund.html', this)" title="refund.html">Refund</li>
+<li class="template-item" onclick="loadTemplate('reply_msg.html', this)" title="reply_msg.html">Reply Msg</li>
+<li class="template-item" onclick="loadTemplate('shipped.html', this)" title="shipped.html">Shipped</li>
+<li class="template-item" onclick="loadTemplate('test.html', this)" title="test.html">Test</li>
+<li class="template-item" onclick="loadTemplate('voucher.html', this)" title="voucher.html">Voucher</li>
+<li class="template-item" onclick="loadTemplate('voucher_new.html', this)" title="voucher_new.html">Voucher New</li>
+        </ul>
+    </div>
+
+    <div class="main-view">
+        <div class="toolbar">
+            <h3 id="currentTemplateName">Preview</h3>
+            <div class="device-toggles">
+                <button class="active" onclick="setView('desktop')">Desktop</button>
+                <button onclick="setView('mobile')">Mobile</button>
+            </div>
+        </div>
+        <div class="preview-container">
+            <iframe id="previewFrame" src="account.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function loadTemplate(filename, element) {
+            document.getElementById('previewFrame').src = filename;
+            
+            document.querySelectorAll('.template-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            
+            document.getElementById('currentTemplateName').innerText = element.innerText;
+        }
+
+        function setView(mode) {
+            const frame = document.getElementById('previewFrame');
+            if (mode === 'mobile') { frame.classList.add('mobile'); } 
+            else { frame.classList.remove('mobile'); }
+            
+            document.querySelectorAll('.device-toggles button').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
