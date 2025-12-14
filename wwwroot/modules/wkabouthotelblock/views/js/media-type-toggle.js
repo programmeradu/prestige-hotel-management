@@ -148,3 +148,4 @@ $(document).ready(function () {
     // Add visual indicator for media type in list
     $('.badge-info').parent().css('background', 'rgba(23, 162, 184, 0.1)');
 });
+

@@ -874,3 +874,106 @@ a.ajax_add_to_cart_button:hover span,
 .ajax_cart_no_product.unvisible {
     display: none !important;
 }
+
+
+/* ============================================
+   GLOBAL OVERLAY & DROPDOWN FIX - FINAL SOLUTION
+   This section must be at the VERY END of prestige-modules.css
+   to override ALL other stylesheets including module hooks.
+   ============================================ */
+
+/* 1. Force ALL parent containers to allow overflow */
+#columns,
+.columns-container,
+.container,
+.row,
+#left_column,
+#center_column,
+#right_column,
+.pb-left-column,
+.pb-center-column,
+.pb-right-column,
+.column,
+.room_cont,
+.room_features_cont,
+.booking_room_fields,
+.booking_guest_occupancy_conatiner,
+.form-group,
+.input-group,
+.selector,
+.cat_cont,
+#layered_block_left,
+.block,
+.block_content,
+#search_hotel_block_form,
+.header-rmsearch-wrapper,
+.search-section-wrapper,
+.search-section-wrapper .container {
+    overflow: visible !important;
+}
+
+/* 2. HIGH PRIORITY Z-Index for ALL floating elements */
+.date-picker-wrapper,
+.daterangepicker,
+.ui-datepicker,
+.dropdown-menu,
+.booking_occupancy_wrapper,
+#search_occupancy_wrapper,
+.popover,
+.tooltip,
+.ui-autocomplete {
+    z-index: 2147483647 !important;
+    /* Maximum possible z-index */
+    position: absolute !important;
+}
+
+/* 3. Override occupancy.css overflow:auto that clips content */
+.booking_occupancy_wrapper {
+    overflow: visible !important;
+    max-height: none !important;
+    /* Remove max-height restriction */
+}
+
+/* 3b. Give internal scrolling only to the rooms list, not the wrapper */
+.booking_occupancy_wrapper .occupancy_info_block_wrapper {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* 4. Make sure dropdowns are positioned correctly */
+.booking_guest_occupancy_conatiner {
+    position: relative !important;
+    z-index: 1000 !important;
+}
+
+/* 5. Sidebar filter date picker fix */
+#left_column .date-picker-wrapper,
+#layered_block_left .date-picker-wrapper,
+.block .date-picker-wrapper {
+    z-index: 2147483647 !important;
+    left: auto !important;
+    right: 0 !important;
+    /* Position to the right so it doesn't get cut off */
+}
+
+/* 6. Ensure the booking room fields container doesn't clip */
+.booking_room_fields .form-group {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* 7. Force stacking context for sidebar blocks */
+#left_column,
+#layered_block_left {
+    position: relative !important;
+    z-index: 500 !important;
+    /* Lower than popups, higher than content */
+}
+
+/* 8. Date picker wrapper specific positioning */
+.date-picker-wrapper {
+    transform: none !important;
+    /* Remove any transform that might create stacking context */
+    will-change: auto !important;
+    /* Disable will-change that creates stacking context */
+}

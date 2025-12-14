@@ -17,13 +17,14 @@
 *  @license   https://store.webkul.com/license.html
 */
 
-(function($) {
+(function ($) {
 
     var dateRangePickerOrg = $.fn.dateRangePicker;
-    $.fn.dateRangePicker = function(opt) {
-        if(typeof opt === "object") {
-            let container = $(this).parent();
-            container.css({ position: 'relative' });
+    $.fn.dateRangePicker = function (opt) {
+        if (typeof opt === "object") {
+            // FIX: Use 'body' as container instead of parent element to avoid z-index clipping issues
+            // The datepicker will now float above all other elements regardless of parent overflow settings
+            let container = 'body';
 
             const custom_opt = {
                 format: 'DD-MM-YYYY',
@@ -35,13 +36,13 @@
                 startOfWeek: 'monday',
                 hoveringTooltip: false,
                 container: container,
-                inline: true,
+                inline: false,  // FIX: Changed from true to false for proper floating behavior
                 customArrowPrevSymbol: '<i class="icon icon-angle-left"></i>',
                 customArrowNextSymbol: '<i class="icon icon-angle-right"></i>',
-                getValue: function() {
+                getValue: function () {
                     return $(this).find('span').html();
                 },
-                setValue: function(s) {
+                setValue: function (s) {
                     if (s) {
                         $(this).find('span').html(s.replace('to', '&nbsp;<i class="icon icon-minus"></i>&nbsp;'));
                     } else {
@@ -52,19 +53,19 @@
                 }
             }
 
-            $.each(opt, function(index) {
+            $.each(opt, function (index) {
                 delete custom_opt[index];
             });
 
             $.extend(true, opt, custom_opt);
         }
 
-        var args = Array.prototype.slice.call(arguments,0);
+        var args = Array.prototype.slice.call(arguments, 0);
 
         const dateRangePickerInput = dateRangePickerOrg.apply(this, args);
         const calendarDom = $(dateRangePickerInput).data('dateRangePicker').getDatePicker();
 
-        dateRangePickerInput.on('datepicker-open', function() {
+        dateRangePickerInput.on('datepicker-open', function () {
             const positionClass = getPositionClass(dateRangePickerInput, calendarDom);
             $(calendarDom).removeClass('top bottom').addClass(positionClass);
             setPosition(dateRangePickerInput, calendarDom, positionClass)
