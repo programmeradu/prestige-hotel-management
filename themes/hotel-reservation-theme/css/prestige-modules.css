@@ -985,14 +985,155 @@ a.ajax_add_to_cart_button:hover span,
     overflow: visible !important;
 }
 
-/* 12. Fix occupancy dropdown layout - ensure proper width */
+/* 12. Fix occupancy dropdown layout - COMPREHENSIVE FIX */
 .booking_occupancy_wrapper.dropdown-menu {
-    min-width: 280px !important;
+    min-width: 300px !important;
+    max-width: 350px !important;
     width: auto !important;
-    padding: 15px !important;
+    padding: 20px !important;
     background: #fff !important;
-    border-radius: 8px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Room header */
+.booking_occupancy_wrapper .occupancy_info_head {
+    font-weight: 600 !important;
+    font-size: 15px !important;
+    color: #1C2331 !important;
+    margin-bottom: 15px !important;
+    padding-bottom: 10px !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+/* Occupancy count block - make inline */
+.booking_occupancy_wrapper .occupancy_count_block {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 15px !important;
+}
+
+.booking_occupancy_wrapper .occupancy_count_block .row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.booking_occupancy_wrapper .occupancy_count_block label {
+    flex: 1 !important;
+    margin: 0 !important;
+    font-weight: 500 !important;
+    color: #333 !important;
+    font-size: 14px !important;
+}
+
+/* Number display and buttons container */
+.booking_occupancy_wrapper .col-sm-12 {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+/* The count number box */
+.booking_occupancy_wrapper .occupancy_count {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 50px !important;
+    height: 40px !important;
+    background: #f8f8f8 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #1C2331 !important;
+    float: none !important;
+}
+
+/* Buttons container - make horizontal */
+.booking_occupancy_wrapper .qty_direction {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    float: none !important;
+}
+
+/* +/- buttons */
+.booking_occupancy_wrapper .qty_direction .btn {
+    width: 32px !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    font-size: 12px !important;
+    color: #333 !important;
+    transition: all 0.2s ease !important;
+}
+
+.booking_occupancy_wrapper .qty_direction .btn:hover {
+    background: #C0A062 !important;
+    color: #fff !important;
+    border-color: #C0A062 !important;
+}
+
+.booking_occupancy_wrapper .qty_direction .btn span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Action buttons at bottom */
+.booking_occupancy_wrapper .occupancy_block_actions {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-top: 15px !important;
+    margin-top: 10px !important;
+    border-top: 1px solid #eee !important;
+    background: transparent !important;
+}
+
+/* Add Room link */
+.booking_occupancy_wrapper .add_new_occupancy_btn {
+    color: #C0A062 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+}
+
+.booking_occupancy_wrapper .add_new_occupancy_btn:hover {
+    color: #a88a4e !important;
+}
+
+/* Done button */
+.booking_occupancy_wrapper .submit_occupancy_btn {
+    background: linear-gradient(135deg, #C0A062 0%, #D4B978 100%) !important;
+    color: #1C2331 !important;
+    border: none !important;
+    padding: 10px 30px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+
+.booking_occupancy_wrapper .submit_occupancy_btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3) !important;
+}
+
+/* Hide separator bars on sides */
+.booking_occupancy_wrapper .occupancy-info-separator {
+    display: none !important;
 }
 
 /* 13. HEADER SEARCH FORM - Force datepicker above header stacking context */
@@ -1025,4 +1166,47 @@ a.ajax_add_to_cart_button:hover span,
 #header {
     z-index: 999 !important;
     /* Keep header high but below datepicker */
+}
+
+/* 16. FIX: Room container stacking context - ensure it's BELOW header dropdowns */
+.room_type_img_containter,
+.room_type_img_containter.card,
+.card,
+#center_column .card,
+.pb-left-column,
+#image-block-cont,
+#image-block,
+#views_block,
+.primary_block {
+    z-index: auto !important;
+    /* Remove any z-index to prevent stacking context */
+    position: relative !important;
+}
+
+/* 17. Ensure the product page main content doesn't block header */
+#columns,
+.columns-container,
+#center_column,
+.primary_block,
+.room_data_cont {
+    z-index: 1 !important;
+    /* Very low z-index */
+}
+
+/* 18. Header search section must be above page content */
+.search-section-wrapper,
+.header-rmsearch-container,
+#search_hotel_block_form {
+    position: relative !important;
+    z-index: 1000 !important;
+}
+
+/* 19. The side navigation that shows "1, 2, 2" - keep it low */
+.room_hotel_name_block,
+.hotel_name_block,
+#wrapResetImages,
+.videopopup,
+.popup,
+.momo {
+    z-index: auto !important;
 }
