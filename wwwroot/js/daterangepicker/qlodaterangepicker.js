@@ -22,9 +22,8 @@
     var dateRangePickerOrg = $.fn.dateRangePicker;
     $.fn.dateRangePicker = function (opt) {
         if (typeof opt === "object") {
-            // FIX: Use 'body' as container instead of parent element to avoid z-index clipping issues
-            // The datepicker will now float above all other elements regardless of parent overflow settings
-            let container = 'body';
+            let container = $(this).parent();
+            container.css({ position: 'relative' });
 
             const custom_opt = {
                 format: 'DD-MM-YYYY',
@@ -36,9 +35,10 @@
                 startOfWeek: 'monday',
                 hoveringTooltip: false,
                 container: container,
-                inline: false,  // FIX: Changed from true to false for proper floating behavior
+                inline: true,
                 customArrowPrevSymbol: '<i class="icon icon-angle-left"></i>',
                 customArrowNextSymbol: '<i class="icon icon-angle-right"></i>',
+
                 getValue: function () {
                     return $(this).find('span').html();
                 },
@@ -91,21 +91,14 @@
 
         function setPosition(dateRangePickerInput, calendarDom, positionClass) {
             const inputElementHeight = dateRangePickerInput.outerHeight();
-            // Use offset() for document-relative positioning since datepicker is in body
-            const inputOffset = dateRangePickerInput.offset();
-            const inputWidth = dateRangePickerInput.outerWidth();
 
-            const css = {
-                position: 'absolute',
-                zIndex: 2147483647, // Maximum z-index to ensure visibility
-                left: inputOffset.left
-            };
-
+            const css = {};
             if (positionClass == 'top') {
-                const calendarHeight = $(calendarDom).outerHeight();
-                css.top = inputOffset.top - calendarHeight;
+                css.top = 'unset';
+                css.bottom = inputElementHeight;
             } else {
-                css.top = inputOffset.top + inputElementHeight;
+                css.bottom = 'unset';
+                css.top = $(dateRangePickerInput).position().top + inputElementHeight;
             }
 
             $(calendarDom).css(css);

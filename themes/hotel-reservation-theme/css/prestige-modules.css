@@ -358,28 +358,8 @@ header .header_user_info .dropdown-menu,
     box-shadow: 0 6px 16px rgba(232, 96, 76, 0.3) !important;
 }
 
-/* ICONS RESTORATION */
-#daterange_value::before,
-.input-date::before,
-#guest_occupancy::before,
-.input-occupancy::before {
-    font-family: 'FontAwesome' !important;
-    margin-right: 10px !important;
-    color: #C0A062 !important;
-    font-size: 14px !important;
-    display: inline-block !important;
-    font-weight: normal !important;
-}
-
-#daterange_value::before,
-.input-date::before {
-    content: '\f073' !important;
-}
-
-#guest_occupancy::before,
-.input-occupancy::before {
-    content: '\f007' !important;
-}
+/* NOTE: Icons are now handled by the HTML template, not CSS pseudo-elements
+   to avoid duplicate icons appearing */
 
 
 /* ============================================
@@ -912,7 +892,20 @@ a.ajax_add_to_cart_button:hover span,
     overflow: visible !important;
 }
 
-/* 2. HIGH PRIORITY Z-Index for ALL floating elements */
+/* 2. CRITICAL: Force daterange input parent containers to allow overflow */
+.daterangepicker-input,
+.daterangepicker-input-wrapper,
+.search_room_date_htl,
+.grid-item:has(.daterangepicker-input),
+.form-group:has(.daterangepicker-input),
+.form-group:has([id*="daterange"]),
+[class*="date"]:not(.date-picker-wrapper),
+.booking_room_fields>div {
+    overflow: visible !important;
+    position: relative !important;
+}
+
+/* 3. HIGH PRIORITY Z-Index for ALL floating elements */
 .date-picker-wrapper,
 .daterangepicker,
 .ui-datepicker,
@@ -925,55 +918,83 @@ a.ajax_add_to_cart_button:hover span,
     z-index: 2147483647 !important;
     /* Maximum possible z-index */
     position: absolute !important;
+    overflow: visible !important;
 }
 
-/* 3. Override occupancy.css overflow:auto that clips content */
+/* 4. Ensure date-picker-wrapper is fully visible when open */
+.date-picker-wrapper {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
+    clip: auto !important;
+    clip-path: none !important;
+    max-height: none !important;
+    height: auto !important;
+}
+
+/* 5. Override occupancy.css overflow:auto that clips content */
 .booking_occupancy_wrapper {
     overflow: visible !important;
     max-height: none !important;
-    /* Remove max-height restriction */
 }
 
-/* 3b. Give internal scrolling only to the rooms list, not the wrapper */
+/* 5b. Give internal scrolling only to the rooms list, not the wrapper */
 .booking_occupancy_wrapper .occupancy_info_block_wrapper {
     max-height: 300px;
     overflow-y: auto;
 }
 
-/* 4. Make sure dropdowns are positioned correctly */
+/* 6. Make sure dropdowns are positioned correctly */
 .booking_guest_occupancy_conatiner {
     position: relative !important;
     z-index: 1000 !important;
+    overflow: visible !important;
 }
 
-/* 5. Sidebar filter date picker fix */
+/* 7. Sidebar filter date picker fix */
 #left_column .date-picker-wrapper,
 #layered_block_left .date-picker-wrapper,
 .block .date-picker-wrapper {
     z-index: 2147483647 !important;
     left: auto !important;
     right: 0 !important;
-    /* Position to the right so it doesn't get cut off */
 }
 
-/* 6. Ensure the booking room fields container doesn't clip */
+/* 8. Ensure the booking room fields container doesn't clip */
 .booking_room_fields .form-group {
     position: relative !important;
     overflow: visible !important;
 }
 
-/* 7. Force stacking context for sidebar blocks */
+/* 9. Force stacking context for sidebar blocks */
 #left_column,
 #layered_block_left {
     position: relative !important;
     z-index: 500 !important;
-    /* Lower than popups, higher than content */
 }
 
-/* 8. Date picker wrapper specific positioning */
-.date-picker-wrapper {
-    transform: none !important;
-    /* Remove any transform that might create stacking context */
-    will-change: auto !important;
-    /* Disable will-change that creates stacking context */
+/* 10. Product page specific - ensure booking form allows overflow */
+.primary_block,
+.pb-right-column,
+.room_data_cont,
+.room_booking_form_cont {
+    overflow: visible !important;
+}
+
+/* 11. Remove any clipping masks or scroll containers around date inputs */
+.search_room_date_htl,
+.search_room_date_htl *:not(.date-picker-wrapper):not(.date-picker-wrapper *) {
+    overflow: visible !important;
+}
+
+/* 12. Fix occupancy dropdown layout - ensure proper width */
+.booking_occupancy_wrapper.dropdown-menu {
+    min-width: 280px !important;
+    width: auto !important;
+    padding: 15px !important;
+    background: #fff !important;
+    border-radius: 8px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
 }
