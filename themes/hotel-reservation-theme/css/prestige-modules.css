@@ -921,17 +921,13 @@ a.ajax_add_to_cart_button:hover span,
     overflow: visible !important;
 }
 
-/* 4. Ensure date-picker-wrapper is fully visible when open */
+/* 4. Ensure date-picker-wrapper positioning doesn't cause clipping */
 .date-picker-wrapper {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
     transform: none !important;
     will-change: auto !important;
     clip: auto !important;
     clip-path: none !important;
     max-height: none !important;
-    height: auto !important;
 }
 
 /* 5. Override occupancy.css overflow:auto that clips content */
@@ -997,4 +993,36 @@ a.ajax_add_to_cart_button:hover span,
     background: #fff !important;
     border-radius: 8px !important;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 13. HEADER SEARCH FORM - Force datepicker above header stacking context */
+#header .date-picker-wrapper,
+.header-rmsearch-container .date-picker-wrapper,
+.header-rmsearch-wrapper .date-picker-wrapper,
+#search_hotel_block_form .date-picker-wrapper,
+.search-section-wrapper .date-picker-wrapper {
+    z-index: 2147483647 !important;
+    position: fixed !important;
+    /* Use fixed to escape header stacking context */
+}
+
+/* 14. Header form parent elements must allow overflow */
+#header,
+#header *,
+.header-container,
+.header-rmsearch-container,
+.header-rmsearch-wrapper,
+.header-rmsearch-inner-wrapper,
+.hero-search,
+.search-section-wrapper,
+#xs_room_search_form,
+#search_hotel_block_form .grid-item,
+#search_hotel_block_form .form-group {
+    overflow: visible !important;
+}
+
+/* 15. Header z-index hierarchy fix */
+#header {
+    z-index: 999 !important;
+    /* Keep header high but below datepicker */
 }
