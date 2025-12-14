@@ -91,14 +91,21 @@
 
         function setPosition(dateRangePickerInput, calendarDom, positionClass) {
             const inputElementHeight = dateRangePickerInput.outerHeight();
+            // Use offset() for document-relative positioning since datepicker is in body
+            const inputOffset = dateRangePickerInput.offset();
+            const inputWidth = dateRangePickerInput.outerWidth();
 
-            const css = {};
+            const css = {
+                position: 'absolute',
+                zIndex: 2147483647, // Maximum z-index to ensure visibility
+                left: inputOffset.left
+            };
+
             if (positionClass == 'top') {
-                css.top = 'unset';
-                css.bottom = inputElementHeight;
+                const calendarHeight = $(calendarDom).outerHeight();
+                css.top = inputOffset.top - calendarHeight;
             } else {
-                css.bottom = 'unset';
-                css.top = $(dateRangePickerInput).position().top + inputElementHeight;
+                css.top = inputOffset.top + inputElementHeight;
             }
 
             $(calendarDom).css(css);
