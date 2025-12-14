@@ -985,56 +985,90 @@ a.ajax_add_to_cart_button:hover span,
     overflow: visible !important;
 }
 
-/* 12. Fix occupancy dropdown layout - COMPREHENSIVE FIX */
+/* 12. Fix occupancy dropdown layout - CLEAN CONTAINED LAYOUT */
 .booking_occupancy_wrapper.dropdown-menu {
-    min-width: 300px !important;
-    max-width: 350px !important;
-    width: auto !important;
-    padding: 20px !important;
+    min-width: 280px !important;
+    max-width: 320px !important;
+    width: 300px !important;
+    padding: 15px !important;
     background: #fff !important;
-    border-radius: 12px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #e5e5e5 !important;
+    overflow: hidden !important;
+    /* Prevent any overflow */
+}
+
+/* Inner wrapper - contain everything */
+.booking_occupancy_wrapper .booking_occupancy_inner {
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+/* Room info block */
+.booking_occupancy_wrapper .occupancy_info_block {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 /* Room header */
 .booking_occupancy_wrapper .occupancy_info_head {
     font-weight: 600 !important;
-    font-size: 15px !important;
+    font-size: 14px !important;
     color: #1C2331 !important;
-    margin-bottom: 15px !important;
-    padding-bottom: 10px !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 8px !important;
     border-bottom: 1px solid #eee !important;
 }
 
-/* Occupancy count block - make inline */
-.booking_occupancy_wrapper .occupancy_count_block {
+/* Remove link */
+.booking_occupancy_wrapper .remove-room-link {
+    font-size: 12px !important;
+    color: #999 !important;
+}
+
+/* Row container for adults/children */
+.booking_occupancy_wrapper .occupancy_info_block>.row {
     display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    margin-bottom: 15px !important;
+    flex-wrap: wrap !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/* Each count block (Adults / Children) */
+.booking_occupancy_wrapper .occupancy_count_block {
+    padding: 8px 0 !important;
+    margin: 0 !important;
+    width: 50% !important;
+    float: none !important;
 }
 
 .booking_occupancy_wrapper .occupancy_count_block .row {
     display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    width: 100% !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin: 0 !important;
+    padding: 0 5px !important;
 }
 
+/* Label */
 .booking_occupancy_wrapper .occupancy_count_block label {
-    flex: 1 !important;
-    margin: 0 !important;
     font-weight: 500 !important;
     color: #333 !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
+    margin-bottom: 6px !important;
+    width: 100% !important;
+    padding: 0 !important;
 }
 
-/* Number display and buttons container */
-.booking_occupancy_wrapper .col-sm-12 {
+/* Controls container */
+.booking_occupancy_wrapper .occupancy_count_block .col-sm-12 {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    width: 100% !important;
 }
 
 /* The count number box */
@@ -1042,40 +1076,47 @@ a.ajax_add_to_cart_button:hover span,
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    min-width: 50px !important;
-    height: 40px !important;
-    background: #f8f8f8 !important;
+    width: 45px !important;
+    min-width: 45px !important;
+    height: 36px !important;
+    background: #f5f5f5 !important;
     border: 1px solid #ddd !important;
     border-radius: 6px !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
     font-weight: 600 !important;
     color: #1C2331 !important;
     float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* Buttons container - make horizontal */
+/* Buttons container */
 .booking_occupancy_wrapper .qty_direction {
     display: flex !important;
     flex-direction: column !important;
-    gap: 4px !important;
+    gap: 2px !important;
     float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* +/- buttons */
 .booking_occupancy_wrapper .qty_direction .btn {
-    width: 32px !important;
-    height: 20px !important;
-    min-height: 20px !important;
+    width: 26px !important;
+    height: 17px !important;
+    min-height: 17px !important;
+    min-width: 26px !important;
     padding: 0 !important;
+    margin: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     background: #f0f0f0 !important;
     border: 1px solid #ddd !important;
-    border-radius: 4px !important;
-    font-size: 12px !important;
+    border-radius: 3px !important;
+    font-size: 10px !important;
     color: #333 !important;
-    transition: all 0.2s ease !important;
+    line-height: 1 !important;
 }
 
 .booking_occupancy_wrapper .qty_direction .btn:hover {
@@ -1088,6 +1129,22 @@ a.ajax_add_to_cart_button:hover span,
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    line-height: 1 !important;
+}
+
+/* Hide children age description */
+.booking_occupancy_wrapper .label-desc-txt {
+    display: none !important;
+}
+
+/* Hide children ages block */
+.booking_occupancy_wrapper .children_age_info_block {
+    display: none !important;
+}
+
+/* Hide separator */
+.booking_occupancy_wrapper .occupancy-info-separator {
+    display: none !important;
 }
 
 /* Action buttons at bottom */
@@ -1095,22 +1152,19 @@ a.ajax_add_to_cart_button:hover span,
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding-top: 15px !important;
+    padding: 12px 0 0 0 !important;
     margin-top: 10px !important;
     border-top: 1px solid #eee !important;
     background: transparent !important;
+    width: 100% !important;
 }
 
 /* Add Room link */
 .booking_occupancy_wrapper .add_new_occupancy_btn {
     color: #C0A062 !important;
     font-weight: 600 !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     text-decoration: none !important;
-}
-
-.booking_occupancy_wrapper .add_new_occupancy_btn:hover {
-    color: #a88a4e !important;
 }
 
 /* Done button */
@@ -1118,22 +1172,11 @@ a.ajax_add_to_cart_button:hover span,
     background: linear-gradient(135deg, #C0A062 0%, #D4B978 100%) !important;
     color: #1C2331 !important;
     border: none !important;
-    padding: 10px 30px !important;
-    border-radius: 6px !important;
+    padding: 8px 24px !important;
+    border-radius: 5px !important;
     font-weight: 600 !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     cursor: pointer !important;
-    transition: all 0.3s ease !important;
-}
-
-.booking_occupancy_wrapper .submit_occupancy_btn:hover {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3) !important;
-}
-
-/* Hide separator bars on sides */
-.booking_occupancy_wrapper .occupancy-info-separator {
-    display: none !important;
 }
 
 /* 13. HEADER SEARCH FORM - Force datepicker above header stacking context */
