@@ -11435,7 +11435,7 @@ p.payment_module a,
   border: 1px solid #d6d4d4 !important;
   border-radius: 4px;
   font-size: 15px;
-  line-height: 1.4;
+  line-height: normal;
   color: #333 !important;
   /* Force dark text */
   font-weight: 600;
@@ -11468,6 +11468,9 @@ p.payment_module a span,
   display: block;
   font-size: 13px;
   margin-top: 5px;
+  white-space: normal;
+  /* Allow wrapping */
+  line-height: 1.4;
 }
 
 /* CHEVRON/ARROW Styling */
