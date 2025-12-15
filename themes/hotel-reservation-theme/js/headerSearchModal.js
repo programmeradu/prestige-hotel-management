@@ -114,8 +114,23 @@
         closeModal();
         activeModal = 'datepicker';
 
-        // Store original parent for restoration
+        // Store original parent and styles for restoration
         $datePicker.data('original-parent', $datePicker.parent());
+        $datePicker.data('original-style', $datePicker.attr('style') || '');
+
+        // Clear all inline styles that interfere with modal positioning
+        $datePicker.css({
+            'top': 'auto',
+            'left': 'auto',
+            'right': 'auto',
+            'bottom': 'auto',
+            'position': 'static',
+            'transform': 'none',
+            'display': 'block',
+            'visibility': 'visible',
+            'opacity': '1',
+            'overflow': 'visible'
+        });
 
         // Move datepicker to modal
         $modalContent.empty().append($datePicker);
@@ -357,11 +372,19 @@
     function closeModal() {
         if (!activeModal) return;
 
-        // If datepicker, return it to original parent
+        // If datepicker, return it to original parent with original styles
         if (activeModal === 'datepicker') {
             var $datePicker = $modalContent.find('.date-picker-wrapper');
             var $originalParent = $datePicker.data('original-parent');
+            var originalStyle = $datePicker.data('original-style');
+
             if ($originalParent && $originalParent.length) {
+                // Restore original style attribute
+                if (originalStyle) {
+                    $datePicker.attr('style', originalStyle);
+                } else {
+                    $datePicker.removeAttr('style');
+                }
                 $datePicker.hide().appendTo($originalParent);
             }
         }

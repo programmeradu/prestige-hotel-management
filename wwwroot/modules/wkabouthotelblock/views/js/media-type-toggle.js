@@ -149,3 +149,4 @@ $(document).ready(function () {
     $('.badge-info').parent().css('background', 'rgba(23, 162, 184, 0.1)');
 });
 
+
