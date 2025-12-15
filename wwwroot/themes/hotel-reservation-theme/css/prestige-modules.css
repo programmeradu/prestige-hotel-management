@@ -358,28 +358,8 @@ header .header_user_info .dropdown-menu,
     box-shadow: 0 6px 16px rgba(232, 96, 76, 0.3) !important;
 }
 
-/* ICONS RESTORATION */
-#daterange_value::before,
-.input-date::before,
-#guest_occupancy::before,
-.input-occupancy::before {
-    font-family: 'FontAwesome' !important;
-    margin-right: 10px !important;
-    color: #C0A062 !important;
-    font-size: 14px !important;
-    display: inline-block !important;
-    font-weight: normal !important;
-}
-
-#daterange_value::before,
-.input-date::before {
-    content: '\f073' !important;
-}
-
-#guest_occupancy::before,
-.input-occupancy::before {
-    content: '\f007' !important;
-}
+/* NOTE: Icons are now handled by the HTML template, not CSS pseudo-elements
+   to avoid duplicate icons appearing */
 
 
 /* ============================================
@@ -873,4 +853,793 @@ a.ajax_add_to_cart_button:hover span,
 
 .ajax_cart_no_product.unvisible {
     display: none !important;
+}
+
+
+/* ============================================
+   GLOBAL OVERLAY & DROPDOWN FIX - FINAL SOLUTION
+   This section must be at the VERY END of prestige-modules.css
+   to override ALL other stylesheets including module hooks.
+   ============================================ */
+
+/* 1. Force ALL parent containers to allow overflow */
+#columns,
+.columns-container,
+.container,
+.row,
+#left_column,
+#center_column,
+#right_column,
+.pb-left-column,
+.pb-center-column,
+.pb-right-column,
+.column,
+.room_cont,
+.room_features_cont,
+.booking_room_fields,
+.booking_guest_occupancy_conatiner,
+.form-group,
+.input-group,
+.selector,
+.cat_cont,
+#layered_block_left,
+.block,
+.block_content,
+#search_hotel_block_form,
+.header-rmsearch-wrapper,
+.search-section-wrapper,
+.search-section-wrapper .container {
+    overflow: visible !important;
+}
+
+/* 2. CRITICAL: Force daterange input parent containers to allow overflow */
+.daterangepicker-input,
+.daterangepicker-input-wrapper,
+.search_room_date_htl,
+.grid-item:has(.daterangepicker-input),
+.form-group:has(.daterangepicker-input),
+.form-group:has([id*="daterange"]),
+[class*="date"]:not(.date-picker-wrapper),
+.booking_room_fields>div {
+    overflow: visible !important;
+    position: relative !important;
+}
+
+/* 3. HIGH PRIORITY Z-Index for ALL floating elements */
+.date-picker-wrapper,
+.daterangepicker,
+.ui-datepicker,
+.dropdown-menu,
+.booking_occupancy_wrapper,
+#search_occupancy_wrapper,
+.popover,
+.tooltip,
+.ui-autocomplete {
+    z-index: 2147483647 !important;
+    /* Maximum possible z-index */
+    position: absolute !important;
+    overflow: visible !important;
+}
+
+/* 4. Ensure date-picker-wrapper positioning doesn't cause clipping */
+.date-picker-wrapper {
+    transform: none !important;
+    will-change: auto !important;
+    clip: auto !important;
+    clip-path: none !important;
+    max-height: none !important;
+}
+
+/* 5. Override occupancy.css overflow:auto that clips content */
+.booking_occupancy_wrapper {
+    overflow: visible !important;
+    max-height: none !important;
+}
+
+/* 5b. Give internal scrolling only to the rooms list, not the wrapper */
+.booking_occupancy_wrapper .occupancy_info_block_wrapper {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* 6. Make sure dropdowns are positioned correctly */
+.booking_guest_occupancy_conatiner {
+    position: relative !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+}
+
+/* 7. Sidebar filter date picker fix */
+#left_column .date-picker-wrapper,
+#layered_block_left .date-picker-wrapper,
+.block .date-picker-wrapper {
+    z-index: 2147483647 !important;
+    left: auto !important;
+    right: 0 !important;
+}
+
+/* 8. Ensure the booking room fields container doesn't clip */
+.booking_room_fields .form-group {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+/* 9. Force stacking context for sidebar blocks */
+#left_column,
+#layered_block_left {
+    position: relative !important;
+    z-index: 500 !important;
+}
+
+/* 10. Product page specific - ensure booking form allows overflow */
+.primary_block,
+.pb-right-column,
+.room_data_cont,
+.room_booking_form_cont {
+    overflow: visible !important;
+}
+
+/* 11. Remove any clipping masks or scroll containers around date inputs */
+.search_room_date_htl,
+.search_room_date_htl *:not(.date-picker-wrapper):not(.date-picker-wrapper *) {
+    overflow: visible !important;
+}
+
+/* 12. Fix occupancy dropdown layout - CLEAN CONTAINED LAYOUT */
+.booking_occupancy_wrapper.dropdown-menu {
+    min-width: 280px !important;
+    max-width: 320px !important;
+    width: 300px !important;
+    padding: 15px !important;
+    background: #fff !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #e5e5e5 !important;
+    overflow: hidden !important;
+    /* Prevent any overflow */
+}
+
+/* Inner wrapper - contain everything */
+.booking_occupancy_wrapper .booking_occupancy_inner {
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+/* Room info block */
+.booking_occupancy_wrapper .occupancy_info_block {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Room header */
+.booking_occupancy_wrapper .occupancy_info_head {
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    color: #1C2331 !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 8px !important;
+    border-bottom: 1px solid #eee !important;
+}
+
+/* Remove link */
+.booking_occupancy_wrapper .remove-room-link {
+    font-size: 12px !important;
+    color: #999 !important;
+}
+
+/* Row container for adults/children */
+.booking_occupancy_wrapper .occupancy_info_block>.row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/* Each count block (Adults / Children) */
+.booking_occupancy_wrapper .occupancy_count_block {
+    padding: 8px 0 !important;
+    margin: 0 !important;
+    width: 50% !important;
+    float: none !important;
+}
+
+.booking_occupancy_wrapper .occupancy_count_block .row {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin: 0 !important;
+    padding: 0 5px !important;
+}
+
+/* Label */
+.booking_occupancy_wrapper .occupancy_count_block label {
+    font-weight: 500 !important;
+    color: #333 !important;
+    font-size: 13px !important;
+    margin-bottom: 6px !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+/* Controls container */
+.booking_occupancy_wrapper .occupancy_count_block .col-sm-12 {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+/* The count number box */
+.booking_occupancy_wrapper .occupancy_count {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 45px !important;
+    min-width: 45px !important;
+    height: 36px !important;
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #1C2331 !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Buttons container */
+.booking_occupancy_wrapper .qty_direction {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* +/- buttons */
+.booking_occupancy_wrapper .qty_direction .btn {
+    width: 26px !important;
+    height: 17px !important;
+    min-height: 17px !important;
+    min-width: 26px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 3px !important;
+    font-size: 10px !important;
+    color: #333 !important;
+    line-height: 1 !important;
+}
+
+.booking_occupancy_wrapper .qty_direction .btn:hover {
+    background: #C0A062 !important;
+    color: #fff !important;
+    border-color: #C0A062 !important;
+}
+
+.booking_occupancy_wrapper .qty_direction .btn span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+}
+
+/* Hide children age description */
+.booking_occupancy_wrapper .label-desc-txt {
+    display: none !important;
+}
+
+/* Hide children ages block */
+.booking_occupancy_wrapper .children_age_info_block {
+    display: none !important;
+}
+
+/* Hide separator */
+.booking_occupancy_wrapper .occupancy-info-separator {
+    display: none !important;
+}
+
+/* Action buttons at bottom */
+.booking_occupancy_wrapper .occupancy_block_actions {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 12px 0 0 0 !important;
+    margin-top: 10px !important;
+    border-top: 1px solid #eee !important;
+    background: transparent !important;
+    width: 100% !important;
+}
+
+/* Add Room link */
+.booking_occupancy_wrapper .add_new_occupancy_btn {
+    color: #C0A062 !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+}
+
+/* Done button */
+.booking_occupancy_wrapper .submit_occupancy_btn {
+    background: linear-gradient(135deg, #C0A062 0%, #D4B978 100%) !important;
+    color: #1C2331 !important;
+    border: none !important;
+    padding: 8px 24px !important;
+    border-radius: 5px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+}
+
+/* 13. HEADER SEARCH FORM - Force datepicker above header stacking context */
+#header .date-picker-wrapper,
+.header-rmsearch-container .date-picker-wrapper,
+.header-rmsearch-wrapper .date-picker-wrapper,
+#search_hotel_block_form .date-picker-wrapper,
+.search-section-wrapper .date-picker-wrapper {
+    z-index: 2147483647 !important;
+    position: fixed !important;
+    /* Use fixed to escape header stacking context */
+}
+
+/* 14. Header form parent elements must allow overflow */
+#header,
+#header *,
+.header-container,
+.header-rmsearch-container,
+.header-rmsearch-wrapper,
+.header-rmsearch-inner-wrapper,
+.hero-search,
+.search-section-wrapper,
+#xs_room_search_form,
+#search_hotel_block_form .grid-item,
+#search_hotel_block_form .form-group {
+    overflow: visible !important;
+}
+
+/* 15. Header z-index hierarchy fix */
+#header {
+    z-index: 999 !important;
+    /* Keep header high but below datepicker */
+}
+
+/* 16. FIX: Room container stacking context - ensure it's BELOW header dropdowns */
+.room_type_img_containter,
+.room_type_img_containter.card,
+.card,
+#center_column .card,
+.pb-left-column,
+#image-block-cont,
+#image-block,
+#views_block,
+.primary_block {
+    z-index: auto !important;
+    /* Remove any z-index to prevent stacking context */
+    position: relative !important;
+}
+
+/* 17. Ensure the product page main content doesn't block header */
+#columns,
+.columns-container,
+#center_column,
+.primary_block,
+.room_data_cont {
+    z-index: 1 !important;
+    /* Very low z-index */
+}
+
+/* 18. Header search section must be above page content */
+.search-section-wrapper,
+.header-rmsearch-container,
+#search_hotel_block_form {
+    position: relative !important;
+    z-index: 1000 !important;
+}
+
+/* 19. The side navigation that shows "1, 2, 2" - keep it low */
+.room_hotel_name_block,
+.hotel_name_block,
+#wrapResetImages,
+.videopopup,
+.popup,
+.momo {
+    z-index: auto !important;
+}
+
+/* ============================================
+   20. HEADER SEARCH MODAL v2.0 - COMPACT
+   ============================================ */
+
+/* Overlay */
+.hsm-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2147483647;
+}
+
+.hsm-overlay.hsm-open {
+    display: block;
+}
+
+.hsm-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Container */
+.hsm-container {
+    position: absolute;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    max-height: 80vh;
+    overflow: hidden;
+}
+
+/* Header */
+.hsm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    background: #f8f8f8;
+}
+
+.hsm-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1C2331;
+}
+
+.hsm-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.hsm-close:hover {
+    color: #333;
+}
+
+/* Body */
+.hsm-body {
+    padding: 15px;
+    max-height: calc(80vh - 50px);
+    overflow-y: auto;
+}
+
+/* Calendar */
+.hsm-calendar {
+    margin-bottom: 15px;
+}
+
+.hsm-cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.hsm-cal-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1C2331;
+}
+
+.hsm-cal-nav {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+}
+
+.hsm-cal-nav:hover {
+    background: #f0f0f0;
+}
+
+.hsm-cal-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 13px;
+}
+
+.hsm-cal-table th {
+    padding: 8px 0;
+    font-weight: 500;
+    color: #999;
+    font-size: 11px;
+}
+
+.hsm-cal-table td {
+    padding: 2px;
+}
+
+.hsm-day {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.hsm-day:hover:not(.hsm-day-disabled) {
+    background: #f0f0f0;
+}
+
+.hsm-day-today {
+    font-weight: 600;
+    color: #C0A062;
+}
+
+.hsm-day-disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.hsm-day-selected {
+    background: #C0A062 !important;
+    color: #fff !important;
+}
+
+.hsm-day-range {
+    background: rgba(192, 160, 98, 0.2);
+}
+
+/* Date display */
+.hsm-date-display {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.hsm-date-label {
+    font-weight: 500;
+}
+
+/* Occupancy */
+.hsm-room-block {
+    margin-bottom: 15px;
+}
+
+.hsm-room-header {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1C2331;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.hsm-room-row {
+    display: flex;
+    gap: 20px;
+}
+
+.hsm-room-field {
+    flex: 1;
+}
+
+.hsm-room-field label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.hsm-counter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hsm-counter-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hsm-counter-btn:hover {
+    background: #C0A062;
+    color: #fff;
+    border-color: #C0A062;
+}
+
+.hsm-counter-value {
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 24px;
+    text-align: center;
+    color: #1C2331;
+}
+
+/* Buttons */
+.hsm-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.hsm-btn-primary {
+    background: linear-gradient(135deg, #C0A062 0%, #D4B978 100%);
+    color: #1C2331;
+    width: 100%;
+}
+
+.hsm-btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(192, 160, 98, 0.3);
+}
+
+/* Actions */
+.hsm-date-actions,
+.hsm-occupancy-actions {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+/* Force hide original Bootstrap dropdown in header search */
+#search_hotel_block_form #search_occupancy_wrapper.dropdown-menu,
+#search_hotel_block_form .booking_occupancy_wrapper.dropdown-menu {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Child age selectors */
+.hsm-children-ages {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.hsm-ages-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.hsm-ages-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hsm-age-select {
+    flex: 1 1 calc(50% - 5px);
+    min-width: 100px;
+}
+
+.hsm-age-select label {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.hsm-age-dropdown {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #333;
+    background: #fff;
+    cursor: pointer;
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+}
+
+.hsm-age-dropdown:focus {
+    outline: none;
+    border-color: #C0A062;
+}
+
+/* ============================================
+   21. PAYMENT MODULE INTERIOR STYLES
+   Fix layout of payment options
+   ============================================ */
+
+.payment-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+p.payment_module a .payment-title {
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    color: #333 !important;
+    display: block !important;
+    margin-top: 0 !important;
+    line-height: 1.2;
+}
+
+p.payment_module a .payment-description {
+    font-size: 13px !important;
+    color: #777 !important;
+    display: block !important;
+    margin-top: 4px !important;
+    font-weight: 400 !important;
+}
+
+.payment-icon-container {
+    margin-right: 20px;
+    font-size: 28px;
+    color: #C0A062;
+    min-width: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-icon-container i {
+    width: auto !important;
+}
+
+.payment-badge-container {
+    margin-left: auto;
+    padding-left: 10px;
+}
+
+/* Fix mobile responsiveness for payment badges */
+@media (max-width: 480px) {
+    p.payment_module a {
+        flex-wrap: wrap;
+        padding: 15px !important;
+    }
+
+    .payment-badge-container {
+        width: 100%;
+        margin-left: 50px;
+        /* Align with text */
+        margin-top: 5px;
+        padding-left: 0;
+    }
 }
