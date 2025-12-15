@@ -1520,3 +1520,11 @@ a.ajax_add_to_cart_button:hover span,
     padding-top: 10px;
     border-top: 1px solid #eee;
 }
+
+/* Force hide original Bootstrap dropdown in header search */
+#search_hotel_block_form #search_occupancy_wrapper.dropdown-menu,
+#search_hotel_block_form .booking_occupancy_wrapper.dropdown-menu {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}

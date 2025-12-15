@@ -56,20 +56,44 @@
         $(document).on('click', '#search_hotel_block_form #daterange_value, #search_hotel_block_form .input-date', function (e) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
             openDateModal($(this));
             return false;
         });
 
-        // Occupancy trigger (header form only)
+        // Get the header occupancy button
+        var $occBtn = $('#search_hotel_block_form #guest_occupancy');
+
+        if ($occBtn.length) {
+            // Remove Bootstrap dropdown attributes
+            $occBtn.removeAttr('data-toggle');
+            $occBtn.removeClass('dropdown-toggle');
+
+            // Remove Bootstrap event handlers
+            $occBtn.off('click.bs.dropdown');
+            $occBtn.closest('.dropdown').off('show.bs.dropdown hide.bs.dropdown hidden.bs.dropdown');
+
+            // Hide the original dropdown
+            $occBtn.closest('.dropdown').find('#search_occupancy_wrapper').css('display', 'none !important');
+
+            // Direct click handler with highest priority
+            $occBtn.on('click.hsm', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                openOccupancyModal($(this));
+                return false;
+            });
+        }
+
+        // Also use document-level delegation as backup
         $(document).on('click', '#search_hotel_block_form #guest_occupancy', function (e) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
             openOccupancyModal($(this));
             return false;
         });
-
-        // Disable Bootstrap dropdown on header occupancy
-        $('#search_hotel_block_form #guest_occupancy').removeAttr('data-toggle');
     }
 
     /**
