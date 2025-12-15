@@ -405,5 +405,9 @@
 })();
 </script>
 {/literal}
+
+{* ========== HEADER SEARCH MODAL SYSTEM ========== *}
+<script src="{$js_dir}headerSearchModal.js"></script>
+
 	</body>
 </html>
