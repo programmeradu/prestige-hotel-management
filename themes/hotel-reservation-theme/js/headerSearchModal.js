@@ -78,10 +78,18 @@
      * Bind click handler to the occupancy button
      */
     function bindOccupancyTrigger() {
+        // Remove Bootstrap dropdown behavior from header search occupancy button
+        var $headerOccupancy = $('#search_hotel_block_form #guest_occupancy');
+        if ($headerOccupancy.length) {
+            $headerOccupancy.removeAttr('data-toggle');
+            $headerOccupancy.closest('.dropdown').off('show.bs.dropdown hide.bs.dropdown');
+        }
+
         // Target: #guest_occupancy in header search only
         $(document).on('click', '#search_hotel_block_form #guest_occupancy', function (e) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
 
             var $button = $(this);
             var $dropdown = $button.closest('.dropdown').find('#search_occupancy_wrapper');
@@ -89,6 +97,8 @@
             if ($dropdown.length) {
                 openOccupancyModal($button, $dropdown);
             }
+
+            return false;
         });
     }
 

@@ -1285,14 +1285,76 @@ a.ajax_add_to_cart_button:hover span,
 
 /* Datepicker modal styling */
 .header-search-modal-content.datepicker-modal {
-    padding: 0 !important;
+    padding: 15px !important;
+    min-width: 300px !important;
 }
 
+/* Force datepicker to behave inside modal */
 .header-search-modal-content.datepicker-modal .date-picker-wrapper {
     position: static !important;
     display: block !important;
     box-shadow: none !important;
     border: none !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Month wrapper styling */
+.header-search-modal-content .date-picker-wrapper .month-wrapper {
+    width: auto !important;
+    border: none !important;
+    background: transparent !important;
+    float: none !important;
+    display: block !important;
+}
+
+/* Calendar table */
+.header-search-modal-content .date-picker-wrapper table {
+    width: 100% !important;
+}
+
+.header-search-modal-content .date-picker-wrapper .month-name {
+    text-align: center !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    padding: 10px 0 !important;
+    color: #1C2331 !important;
+}
+
+.header-search-modal-content .date-picker-wrapper th,
+.header-search-modal-content .date-picker-wrapper td {
+    text-align: center !important;
+    padding: 8px !important;
+}
+
+.header-search-modal-content .date-picker-wrapper .day {
+    cursor: pointer !important;
+    border-radius: 4px !important;
+}
+
+.header-search-modal-content .date-picker-wrapper .day:hover {
+    background: #f0f0f0 !important;
+}
+
+.header-search-modal-content .date-picker-wrapper .day.checked,
+.header-search-modal-content .date-picker-wrapper .day.hovering {
+    background: #C0A062 !important;
+    color: #fff !important;
+}
+
+/* Navigation arrows */
+.header-search-modal-content .date-picker-wrapper .prev,
+.header-search-modal-content .date-picker-wrapper .next {
+    cursor: pointer !important;
+    padding: 5px 10px !important;
 }
 
 /* Occupancy modal styling */
