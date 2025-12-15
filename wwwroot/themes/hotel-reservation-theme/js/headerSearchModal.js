@@ -1,404 +1,391 @@
 /**
- * Header Search Modal Handler
+ * Header Search Modal System v2.0
  * 
- * This script creates fixed-position modal overlays for the header search form's
- * datepicker and occupancy selector to ensure they appear above all page content.
+ * A clean, compact modal system for the header search form.
+ * Creates custom modal overlays that are appended to body with proper z-index.
  * 
  * @author Prestige Hotel
- * @version 1.0
  */
 
 (function ($) {
     'use strict';
 
-    // Modal overlay container
-    var $modalOverlay = null;
-    var $modalContent = null;
-    var activeModal = null;
+    var modalId = 'header-search-modal';
+    var $modal = null;
+    var currentType = null;
 
     /**
      * Initialize the modal system
      */
     function init() {
-        // Create the modal overlay container (appended to body)
-        createModalOverlay();
+        createModal();
+        bindTriggers();
+    }
 
-        // Intercept clicks on the header search inputs
-        bindDatePickerTrigger();
-        bindOccupancyTrigger();
+    /**
+     * Create the modal container (appended to body)
+     */
+    function createModal() {
+        var modalHtml =
+            '<div id="' + modalId + '" class="hsm-overlay">' +
+            '<div class="hsm-backdrop"></div>' +
+            '<div class="hsm-container">' +
+            '<div class="hsm-header">' +
+            '<span class="hsm-title"></span>' +
+            '<button type="button" class="hsm-close">&times;</button>' +
+            '</div>' +
+            '<div class="hsm-body"></div>' +
+            '</div>' +
+            '</div>';
 
-        // Close modal when clicking outside
-        $(document).on('click', '.header-search-modal-overlay', function (e) {
-            if ($(e.target).hasClass('header-search-modal-overlay')) {
-                closeModal();
-            }
-        });
+        $modal = $(modalHtml);
+        $('body').append($modal);
 
-        // Close modal on escape key
+        // Close handlers
+        $modal.find('.hsm-backdrop, .hsm-close').on('click', closeModal);
         $(document).on('keydown', function (e) {
-            if (e.keyCode === 27 && activeModal) {
-                closeModal();
-            }
+            if (e.keyCode === 27) closeModal();
         });
     }
 
     /**
-     * Create the modal overlay container
+     * Bind click handlers to triggers
      */
-    function createModalOverlay() {
-        $modalOverlay = $('<div class="header-search-modal-overlay" style="display:none;"></div>');
-        $modalContent = $('<div class="header-search-modal-content"></div>');
-        $modalOverlay.append($modalContent);
-        $('body').append($modalOverlay);
-    }
-
-    /**
-     * Bind click handler to the daterange input
-     */
-    function bindDatePickerTrigger() {
-        // Target: #daterange_value in header search only
-        $(document).on('click', '#search_hotel_block_form #daterange_value', function (e) {
-            var $input = $(this);
-            var datePickerInstance = $input.data('dateRangePicker');
-
-            if (datePickerInstance) {
-                e.stopPropagation();
-
-                // Get the date picker wrapper element
-                var $datePicker = datePickerInstance.getDatePicker();
-
-                if ($datePicker && $datePicker.length) {
-                    openDatePickerModal($input, $datePicker);
-                }
-            }
+    function bindTriggers() {
+        // Date picker trigger (header form only)
+        $(document).on('click', '#search_hotel_block_form #daterange_value, #search_hotel_block_form .input-date', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openDateModal($(this));
+            return false;
         });
-    }
 
-    /**
-     * Bind click handler to the occupancy button
-     */
-    function bindOccupancyTrigger() {
-        // Remove Bootstrap dropdown behavior from header search occupancy button
-        var $headerOccupancy = $('#search_hotel_block_form #guest_occupancy');
-        if ($headerOccupancy.length) {
-            $headerOccupancy.removeAttr('data-toggle');
-            $headerOccupancy.closest('.dropdown').off('show.bs.dropdown hide.bs.dropdown');
-        }
-
-        // Target: #guest_occupancy in header search only
+        // Occupancy trigger (header form only)
         $(document).on('click', '#search_hotel_block_form #guest_occupancy', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            e.stopImmediatePropagation();
-
-            var $button = $(this);
-            var $dropdown = $button.closest('.dropdown').find('#search_occupancy_wrapper');
-
-            if ($dropdown.length) {
-                openOccupancyModal($button, $dropdown);
-            }
-
+            openOccupancyModal($(this));
             return false;
         });
+
+        // Disable Bootstrap dropdown on header occupancy
+        $('#search_hotel_block_form #guest_occupancy').removeAttr('data-toggle');
     }
 
     /**
-     * Open the datepicker in a fixed modal
+     * Open the date picker modal
      */
-    function openDatePickerModal($input, $datePicker) {
-        if (activeModal === 'datepicker') {
-            closeModal();
-            return;
-        }
+    function openDateModal($trigger) {
+        currentType = 'date';
 
-        closeModal();
-        activeModal = 'datepicker';
+        // Get current dates
+        var checkIn = $('#check_in_time').val() || '';
+        var checkOut = $('#check_out_time').val() || '';
 
-        // Store original parent and styles for restoration
-        $datePicker.data('original-parent', $datePicker.parent());
-        $datePicker.data('original-style', $datePicker.attr('style') || '');
+        // Build date picker content
+        var content = buildDatePickerContent(checkIn, checkOut);
 
-        // Clear all inline styles that interfere with modal positioning
-        $datePicker.css({
-            'top': 'auto',
-            'left': 'auto',
-            'right': 'auto',
-            'bottom': 'auto',
-            'position': 'static',
-            'transform': 'none',
-            'display': 'block',
-            'visibility': 'visible',
-            'opacity': '1',
-            'overflow': 'visible'
-        });
-
-        // Move datepicker to modal
-        $modalContent.empty().append($datePicker);
-
-        // Position modal below the input
-        positionModalBelow($input);
-
-        // Show overlay and datepicker
-        $modalOverlay.show();
-        $datePicker.show();
-
-        // Add class for styling
-        $modalContent.addClass('datepicker-modal');
+        showModal('Select Dates', content, $trigger);
+        initDatePickerBehavior();
     }
 
     /**
-     * Open the occupancy dropdown in a fixed modal
+     * Build date picker HTML content
      */
-    function openOccupancyModal($button, $dropdown) {
-        if (activeModal === 'occupancy') {
-            closeModal();
-            return;
-        }
+    function buildDatePickerContent(checkIn, checkOut) {
+        var today = new Date();
+        var currentMonth = today.getMonth();
+        var currentYear = today.getFullYear();
 
-        closeModal();
-        activeModal = 'occupancy';
-
-        // Clone the dropdown content so we don't break the original
-        var $clonedDropdown = $dropdown.clone(true, true);
-        $clonedDropdown.attr('id', 'search_occupancy_wrapper_modal');
-
-        // Store reference to original for syncing values
-        $clonedDropdown.data('original-dropdown', $dropdown);
-
-        // Move to modal
-        $modalContent.empty().append($clonedDropdown);
-
-        // Position modal below the button
-        positionModalBelow($button);
-
-        // Show overlay and dropdown
-        $modalOverlay.show();
-        $clonedDropdown.show().css('display', 'block');
-
-        // Add class for styling
-        $modalContent.addClass('occupancy-modal');
-
-        // Bind Done button to sync and close
-        $clonedDropdown.find('.submit_occupancy_btn').off('click').on('click', function (e) {
-            e.preventDefault();
-            syncOccupancyValues($clonedDropdown, $dropdown, $button);
-            closeModal();
-        });
-
-        // Bind quantity buttons
-        bindQuantityButtons($clonedDropdown, $dropdown, $button);
-
-        // Bind add room
-        bindAddRoom($clonedDropdown, $dropdown);
-
-        // Bind remove room
-        bindRemoveRoom($clonedDropdown, $dropdown);
-    }
-
-    /**
-     * Bind quantity up/down buttons in the modal
-     */
-    function bindQuantityButtons($modal, $original, $button) {
-        $modal.find('.occupancy_quantity_up, .occupancy_quantity_down').off('click').on('click', function (e) {
-            e.preventDefault();
-
-            var $btn = $(this);
-            var isUp = $btn.hasClass('occupancy_quantity_up');
-            var $countBlock = $btn.closest('.occupancy_count_block');
-            var $countInput = $countBlock.find('.num_occupancy');
-            var $countDisplay = $countBlock.find('.occupancy_count span');
-
-            var currentVal = parseInt($countInput.val()) || 0;
-            var newVal = isUp ? currentVal + 1 : Math.max(0, currentVal - 1);
-
-            // For adults, minimum is 1
-            if ($countInput.hasClass('num_adults')) {
-                newVal = Math.max(1, newVal);
-            }
-
-            $countInput.val(newVal);
-            $countDisplay.text(newVal);
-        });
-    }
-
-    /**
-     * Bind add room functionality
-     */
-    function bindAddRoom($modal, $original) {
-        $modal.find('.add_new_occupancy_btn').off('click').on('click', function (e) {
-            e.preventDefault();
-
-            var $innerWrapper = $modal.find('#occupancy_inner_wrapper');
-            var roomCount = $innerWrapper.find('.occupancy-room-block').length;
-            var newIndex = roomCount;
-
-            // Clone the first room block as template
-            var $firstRoom = $innerWrapper.find('.occupancy-room-block').first();
-            var $newRoom = $firstRoom.clone();
-
-            // Update the room number and index
-            $newRoom.find('.room_num_wrapper').text('Room - ' + (roomCount + 1));
-            $newRoom.find('.occupancy_info_block').attr('occ_block_index', newIndex);
-
-            // Reset values
-            $newRoom.find('.num_adults').val(1).attr('name', 'occupancy[' + newIndex + '][adults]');
-            $newRoom.find('.num_children').val(0).attr('name', 'occupancy[' + newIndex + '][children]');
-            $newRoom.find('.occupancy_count span').first().text('1');
-            $newRoom.find('.occupancy_count span').last().text('0');
-
-            // Add remove link if not present
-            if (!$newRoom.find('.remove-room-link').length) {
-                $newRoom.find('.occupancy_info_head').append('<a class="remove-room-link pull-right" href="#">Remove</a>');
-            }
-
-            $innerWrapper.append($newRoom);
-
-            // Rebind buttons for new room
-            bindQuantityButtons($modal, $original, null);
-            bindRemoveRoom($modal, $original);
-        });
-    }
-
-    /**
-     * Bind remove room functionality
-     */
-    function bindRemoveRoom($modal, $original) {
-        $modal.find('.remove-room-link').off('click').on('click', function (e) {
-            e.preventDefault();
-            $(this).closest('.occupancy-room-block').remove();
-
-            // Renumber rooms
-            $modal.find('.occupancy-room-block').each(function (index) {
-                $(this).find('.room_num_wrapper').text('Room - ' + (index + 1));
-                $(this).find('.occupancy_info_block').attr('occ_block_index', index);
-                $(this).find('.num_adults').attr('name', 'occupancy[' + index + '][adults]');
-                $(this).find('.num_children').attr('name', 'occupancy[' + index + '][children]');
-            });
-        });
-    }
-
-    /**
-     * Sync occupancy values from modal back to original form
-     */
-    function syncOccupancyValues($modal, $original, $button) {
-        // Get all room data from modal
-        var rooms = [];
-        var totalAdults = 0;
-        var totalChildren = 0;
-
-        $modal.find('.occupancy-room-block').each(function () {
-            var adults = parseInt($(this).find('.num_adults').val()) || 1;
-            var children = parseInt($(this).find('.num_children').val()) || 0;
-            rooms.push({ adults: adults, children: children });
-            totalAdults += adults;
-            totalChildren += children;
-        });
-
-        // Update button text
-        var buttonText = totalAdults + ' ' + (totalAdults > 1 ? 'Adults' : 'Adult');
-        if (totalChildren > 0) {
-            buttonText += ', ' + totalChildren + ' ' + (totalChildren > 1 ? 'Children' : 'Child');
-        }
-        buttonText += ', ' + rooms.length + ' ' + (rooms.length > 1 ? 'Rooms' : 'Room');
-        $button.find('span').text(buttonText);
-
-        // Rebuild original dropdown to match modal
-        var $originalInner = $original.find('#occupancy_inner_wrapper');
-        $originalInner.empty();
-
-        rooms.forEach(function (room, index) {
-            var roomHtml = createRoomHtml(index, room.adults, room.children, index > 0);
-            $originalInner.append(roomHtml);
-        });
-    }
-
-    /**
-     * Create HTML for a room block
-     */
-    function createRoomHtml(index, adults, children, showRemove) {
-        return '<div class="occupancy-room-block">' +
-            '<div class="occupancy_info_head"><span class="room_num_wrapper">Room - ' + (index + 1) + '</span>' +
-            (showRemove ? '<a class="remove-room-link pull-right" href="#">Remove</a>' : '') +
+        return '<div class="hsm-datepicker" data-check-in="' + checkIn + '" data-check-out="' + checkOut + '">' +
+            buildCalendar(currentMonth, currentYear) +
+            '<div class="hsm-date-actions">' +
+            '<div class="hsm-date-display">' +
+            '<span class="hsm-date-label">Check-in:</span> <span id="hsm-checkin-display">' + (checkIn || 'Select') + '</span>' +
+            ' &nbsp;&rarr;&nbsp; ' +
+            '<span class="hsm-date-label">Check-out:</span> <span id="hsm-checkout-display">' + (checkOut || 'Select') + '</span>' +
             '</div>' +
-            '<div class="occupancy_info_block" occ_block_index="' + index + '">' +
-            '<div class="row">' +
-            '<div class="form-group occupancy_count_block col-sm-5 col-xs-6">' +
-            '<label>Adults</label>' +
-            '<div>' +
-            '<input type="hidden" class="num_occupancy num_adults room_occupancies" name="occupancy[' + index + '][adults]" value="' + adults + '">' +
-            '<div class="occupancy_count pull-left"><span>' + adults + '</span></div>' +
-            '<div class="qty_direction pull-left">' +
-            '<a href="#" class="btn btn-default occupancy_quantity_up"><span><i class="icon-plus"></i></span></a>' +
-            '<a href="#" class="btn btn-default occupancy_quantity_down"><span><i class="icon-minus"></i></span></a>' +
+            '<button type="button" class="hsm-btn hsm-btn-primary hsm-apply-dates">Apply</button>' +
             '</div>' +
-            '</div>' +
-            '</div>' +
-            '<div class="form-group occupancy_count_block col-sm-7 col-xs-6">' +
-            '<label>Children</label>' +
-            '<div class="clearfix">' +
-            '<input type="hidden" class="num_occupancy num_children room_occupancies" name="occupancy[' + index + '][children]" value="' + children + '">' +
-            '<div class="occupancy_count pull-left"><span>' + children + '</span></div>' +
-            '<div class="qty_direction pull-left">' +
-            '<a href="#" class="btn btn-default occupancy_quantity_up"><span><i class="icon-plus"></i></span></a>' +
-            '<a href="#" class="btn btn-default occupancy_quantity_down"><span><i class="icon-minus"></i></span></a>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '</div>' +
-            '<hr class="occupancy-info-separator">' +
             '</div>';
     }
 
     /**
-     * Position the modal below a target element
+     * Build calendar for a given month/year
      */
-    function positionModalBelow($target) {
-        var offset = $target.offset();
-        var targetHeight = $target.outerHeight();
-        var targetWidth = $target.outerWidth();
+    function buildCalendar(month, year) {
+        var months = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
+        var days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
-        $modalContent.css({
-            position: 'absolute',
-            top: offset.top + targetHeight + 10,
-            left: offset.left,
-            minWidth: Math.max(300, targetWidth)
+        var firstDay = new Date(year, month, 1).getDay();
+        firstDay = firstDay === 0 ? 6 : firstDay - 1; // Adjust for Monday start
+        var daysInMonth = new Date(year, month + 1, 0).getDate();
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        var html = '<div class="hsm-calendar" data-month="' + month + '" data-year="' + year + '">';
+        html += '<div class="hsm-cal-header">';
+        html += '<button type="button" class="hsm-cal-nav hsm-cal-prev">&lsaquo;</button>';
+        html += '<span class="hsm-cal-title">' + months[month] + ' ' + year + '</span>';
+        html += '<button type="button" class="hsm-cal-nav hsm-cal-next">&rsaquo;</button>';
+        html += '</div>';
+
+        html += '<table class="hsm-cal-table"><thead><tr>';
+        for (var d = 0; d < 7; d++) {
+            html += '<th>' + days[d] + '</th>';
+        }
+        html += '</tr></thead><tbody><tr>';
+
+        // Empty cells before first day
+        for (var i = 0; i < firstDay; i++) {
+            html += '<td></td>';
+        }
+
+        // Days of month
+        var cellCount = firstDay;
+        for (var day = 1; day <= daysInMonth; day++) {
+            var date = new Date(year, month, day);
+            var dateStr = formatDate(date);
+            var isPast = date < today;
+            var isToday = date.getTime() === today.getTime();
+
+            var classes = 'hsm-day';
+            if (isPast) classes += ' hsm-day-disabled';
+            if (isToday) classes += ' hsm-day-today';
+
+            html += '<td><span class="' + classes + '" data-date="' + dateStr + '">' + day + '</span></td>';
+
+            cellCount++;
+            if (cellCount % 7 === 0 && day < daysInMonth) {
+                html += '</tr><tr>';
+            }
+        }
+
+        // Fill remaining cells
+        while (cellCount % 7 !== 0) {
+            html += '<td></td>';
+            cellCount++;
+        }
+
+        html += '</tr></tbody></table></div>';
+        return html;
+    }
+
+    /**
+     * Initialize date picker behavior
+     */
+    function initDatePickerBehavior() {
+        var $dp = $modal.find('.hsm-datepicker');
+        var checkIn = null;
+        var checkOut = null;
+
+        // Day click
+        $modal.on('click', '.hsm-day:not(.hsm-day-disabled)', function () {
+            var date = $(this).data('date');
+
+            if (!checkIn || (checkIn && checkOut)) {
+                // Start new selection
+                checkIn = date;
+                checkOut = null;
+                $modal.find('.hsm-day').removeClass('hsm-day-selected hsm-day-range');
+                $(this).addClass('hsm-day-selected');
+            } else {
+                // Complete selection
+                if (date > checkIn) {
+                    checkOut = date;
+                } else {
+                    checkOut = checkIn;
+                    checkIn = date;
+                }
+                highlightRange(checkIn, checkOut);
+            }
+
+            $('#hsm-checkin-display').text(checkIn || 'Select');
+            $('#hsm-checkout-display').text(checkOut || 'Select');
         });
+
+        // Navigation
+        $modal.on('click', '.hsm-cal-prev, .hsm-cal-next', function () {
+            var $cal = $(this).closest('.hsm-calendar');
+            var month = parseInt($cal.data('month'));
+            var year = parseInt($cal.data('year'));
+
+            if ($(this).hasClass('hsm-cal-prev')) {
+                month--;
+                if (month < 0) { month = 11; year--; }
+            } else {
+                month++;
+                if (month > 11) { month = 0; year++; }
+            }
+
+            $cal.replaceWith(buildCalendar(month, year));
+            if (checkIn) highlightRange(checkIn, checkOut);
+        });
+
+        // Apply button
+        $modal.on('click', '.hsm-apply-dates', function () {
+            if (checkIn && checkOut) {
+                $('#check_in_time').val(checkIn);
+                $('#check_out_time').val(checkOut);
+
+                // Update display
+                var displayText = checkIn + ' - ' + checkOut;
+                $('#search_hotel_block_form #daterange_value span').text(displayText);
+                $('#search_hotel_block_form .input-date span').first().text(checkIn);
+
+                closeModal();
+            }
+        });
+    }
+
+    /**
+     * Highlight date range
+     */
+    function highlightRange(start, end) {
+        $modal.find('.hsm-day').removeClass('hsm-day-selected hsm-day-range');
+        $modal.find('.hsm-day').each(function () {
+            var date = $(this).data('date');
+            if (date === start || date === end) {
+                $(this).addClass('hsm-day-selected');
+            } else if (date > start && date < end) {
+                $(this).addClass('hsm-day-range');
+            }
+        });
+    }
+
+    /**
+     * Open occupancy modal
+     */
+    function openOccupancyModal($trigger) {
+        currentType = 'occupancy';
+
+        // Clone the dropdown content
+        var $original = $('#search_hotel_block_form #search_occupancy_wrapper');
+        var content = buildOccupancyContent($original);
+
+        showModal('Select Guests', content, $trigger);
+        initOccupancyBehavior();
+    }
+
+    /**
+     * Build occupancy modal content
+     */
+    function buildOccupancyContent($original) {
+        return '<div class="hsm-occupancy">' +
+            '<div class="hsm-room-block">' +
+            '<div class="hsm-room-header">Room 1</div>' +
+            '<div class="hsm-room-row">' +
+            '<div class="hsm-room-field">' +
+            '<label>Adults</label>' +
+            '<div class="hsm-counter">' +
+            '<button type="button" class="hsm-counter-btn hsm-minus" data-target="adults">−</button>' +
+            '<span class="hsm-counter-value" id="hsm-adults">1</span>' +
+            '<button type="button" class="hsm-counter-btn hsm-plus" data-target="adults">+</button>' +
+            '</div>' +
+            '</div>' +
+            '<div class="hsm-room-field">' +
+            '<label>Children</label>' +
+            '<div class="hsm-counter">' +
+            '<button type="button" class="hsm-counter-btn hsm-minus" data-target="children">−</button>' +
+            '<span class="hsm-counter-value" id="hsm-children">0</span>' +
+            '<button type="button" class="hsm-counter-btn hsm-plus" data-target="children">+</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="hsm-occupancy-actions">' +
+            '<button type="button" class="hsm-btn hsm-btn-primary hsm-apply-occupancy">Done</button>' +
+            '</div>' +
+            '</div>';
+    }
+
+    /**
+     * Initialize occupancy behavior
+     */
+    function initOccupancyBehavior() {
+        var adults = 1;
+        var children = 0;
+
+        $modal.on('click', '.hsm-counter-btn', function () {
+            var target = $(this).data('target');
+            var isPlus = $(this).hasClass('hsm-plus');
+
+            if (target === 'adults') {
+                adults = isPlus ? adults + 1 : Math.max(1, adults - 1);
+                $('#hsm-adults').text(adults);
+            } else {
+                children = isPlus ? children + 1 : Math.max(0, children - 1);
+                $('#hsm-children').text(children);
+            }
+        });
+
+        $modal.on('click', '.hsm-apply-occupancy', function () {
+            // Update form
+            var $original = $('#search_hotel_block_form #search_occupancy_wrapper');
+            $original.find('.num_adults').val(adults);
+            $original.find('.num_children').val(children);
+            $original.find('.occupancy_count').first().find('span').text(adults);
+            $original.find('.occupancy_count').last().find('span').text(children);
+
+            // Update button text
+            var text = adults + ' Adult' + (adults > 1 ? 's' : '') + ', 1 Room';
+            if (children > 0) {
+                text = adults + ' Adult' + (adults > 1 ? 's' : '') + ', ' +
+                    children + ' Child' + (children > 1 ? 'ren' : '') + ', 1 Room';
+            }
+            $('#search_hotel_block_form #guest_occupancy span').text(text);
+
+            closeModal();
+        });
+    }
+
+    /**
+     * Show the modal
+     */
+    function showModal(title, content, $trigger) {
+        $modal.find('.hsm-title').text(title);
+        $modal.find('.hsm-body').html(content);
+
+        // Position near trigger
+        var offset = $trigger.offset();
+        var triggerHeight = $trigger.outerHeight();
+
+        $modal.find('.hsm-container').css({
+            top: Math.min(offset.top + triggerHeight + 10, window.innerHeight - 400),
+            left: Math.max(10, Math.min(offset.left, window.innerWidth - 340))
+        });
+
+        $modal.addClass('hsm-open');
     }
 
     /**
      * Close the modal
      */
     function closeModal() {
-        if (!activeModal) return;
-
-        // If datepicker, return it to original parent with original styles
-        if (activeModal === 'datepicker') {
-            var $datePicker = $modalContent.find('.date-picker-wrapper');
-            var $originalParent = $datePicker.data('original-parent');
-            var originalStyle = $datePicker.data('original-style');
-
-            if ($originalParent && $originalParent.length) {
-                // Restore original style attribute
-                if (originalStyle) {
-                    $datePicker.attr('style', originalStyle);
-                } else {
-                    $datePicker.removeAttr('style');
-                }
-                $datePicker.hide().appendTo($originalParent);
-            }
-        }
-
-        // Clear and hide modal
-        $modalOverlay.hide();
-        $modalContent.empty().removeClass('datepicker-modal occupancy-modal');
-        activeModal = null;
+        $modal.removeClass('hsm-open');
+        $modal.find('.hsm-body').empty();
+        $modal.off('click', '.hsm-day');
+        $modal.off('click', '.hsm-cal-prev, .hsm-cal-next');
+        $modal.off('click', '.hsm-apply-dates');
+        $modal.off('click', '.hsm-counter-btn');
+        $modal.off('click', '.hsm-apply-occupancy');
+        currentType = null;
     }
 
-    // Initialize when DOM is ready
+    /**
+     * Format date as DD-MM-YYYY
+     */
+    function formatDate(date) {
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        return (d < 10 ? '0' : '') + d + '-' + (m < 10 ? '0' : '') + m + '-' + y;
+    }
+
+    // Initialize when ready
     $(document).ready(function () {
-        // Small delay to ensure other scripts have initialized
-        setTimeout(init, 500);
+        setTimeout(init, 300);
     });
 
 })(jQuery);
