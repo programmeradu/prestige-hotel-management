@@ -1528,3 +1528,54 @@ a.ajax_add_to_cart_button:hover span,
     visibility: hidden !important;
     opacity: 0 !important;
 }
+
+/* Child age selectors */
+.hsm-children-ages {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.hsm-ages-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.hsm-ages-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.hsm-age-select {
+    flex: 1 1 calc(50% - 5px);
+    min-width: 100px;
+}
+
+.hsm-age-select label {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.hsm-age-dropdown {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #333;
+    background: #fff;
+    cursor: pointer;
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+}
+
+.hsm-age-dropdown:focus {
+    outline: none;
+    border-color: #C0A062;
+}

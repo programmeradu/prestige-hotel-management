@@ -317,6 +317,7 @@
             '</div>' +
             '</div>' +
             '</div>' +
+            '<div id="hsm-children-ages" class="hsm-children-ages"></div>' +
             '</div>' +
             '<div class="hsm-occupancy-actions">' +
             '<button type="button" class="hsm-btn hsm-btn-primary hsm-apply-occupancy">Done</button>' +
@@ -325,11 +326,42 @@
     }
 
     /**
+     * Update child age selectors
+     */
+    function updateChildAgeSelectors(count, childAges) {
+        var $agesContainer = $('#hsm-children-ages');
+        $agesContainer.empty();
+
+        if (count === 0) return;
+
+        var html = '<div class="hsm-ages-label">Children\'s Ages</div>';
+        html += '<div class="hsm-ages-row">';
+
+        for (var i = 0; i < count; i++) {
+            var selectedAge = childAges[i] || 0;
+            html += '<div class="hsm-age-select">';
+            html += '<label>Child ' + (i + 1) + '</label>';
+            html += '<select class="hsm-age-dropdown" data-child-index="' + i + '">';
+            for (var age = 0; age <= 17; age++) {
+                var selected = age === selectedAge ? ' selected' : '';
+                var label = age === 0 ? 'Under 1' : age + ' yrs';
+                html += '<option value="' + age + '"' + selected + '>' + label + '</option>';
+            }
+            html += '</select>';
+            html += '</div>';
+        }
+
+        html += '</div>';
+        $agesContainer.html(html);
+    }
+
+    /**
      * Initialize occupancy behavior
      */
     function initOccupancyBehavior() {
         var adults = 1;
         var children = 0;
+        var childAges = [];
 
         $modal.on('click', '.hsm-counter-btn', function () {
             var target = $(this).data('target');
@@ -339,9 +371,31 @@
                 adults = isPlus ? adults + 1 : Math.max(1, adults - 1);
                 $('#hsm-adults').text(adults);
             } else {
-                children = isPlus ? children + 1 : Math.max(0, children - 1);
+                var prevChildren = children;
+                children = isPlus ? Math.min(10, children + 1) : Math.max(0, children - 1);
                 $('#hsm-children').text(children);
+
+                // Update childAges array
+                if (children > prevChildren) {
+                    // Add new children with default age 0
+                    for (var i = prevChildren; i < children; i++) {
+                        childAges.push(0);
+                    }
+                } else if (children < prevChildren) {
+                    // Remove children from end
+                    childAges = childAges.slice(0, children);
+                }
+
+                // Update age selectors
+                updateChildAgeSelectors(children, childAges);
             }
+        });
+
+        // Handle age dropdown changes
+        $modal.on('change', '.hsm-age-dropdown', function () {
+            var index = $(this).data('child-index');
+            var age = parseInt($(this).val());
+            childAges[index] = age;
         });
 
         $modal.on('click', '.hsm-apply-occupancy', function () {
@@ -351,6 +405,14 @@
             $original.find('.num_children').val(children);
             $original.find('.occupancy_count').first().find('span').text(adults);
             $original.find('.occupancy_count').last().find('span').text(children);
+
+            // Store child ages in hidden fields if they exist
+            for (var i = 0; i < childAges.length; i++) {
+                var $ageInput = $original.find('input[name="child_age[' + i + ']"]');
+                if ($ageInput.length) {
+                    $ageInput.val(childAges[i]);
+                }
+            }
 
             // Update button text
             var text = adults + ' Adult' + (adults > 1 ? 's' : '') + ', 1 Room';
