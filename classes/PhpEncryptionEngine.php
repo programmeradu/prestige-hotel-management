@@ -42,7 +42,26 @@ class PhpEncryptionEngineCore
      */
     public function __construct($hexString)
     {
-        $this->key = self::loadFromAsciiSafeString($hexString);
+        try {
+            $this->key = self::loadFromAsciiSafeString($hexString);
+        } catch (\Defuse\Crypto\Exception\BadFormatException $e) {
+            // Fallback: derive a stable Defuse key from existing constants
+            $seed = '';
+            if (defined('_NEW_COOKIE_KEY_')) {
+                $seed .= _NEW_COOKIE_KEY_;
+            }
+            if (defined('_COOKIE_KEY_')) {
+                $seed .= _COOKIE_KEY_;
+            }
+            if (defined('_COOKIE_IV_')) {
+                $seed .= _COOKIE_IV_;
+            }
+
+            // Generate 32-byte key material deterministically
+            $fallbackBytes = hash('sha256', $seed !== '' ? $seed : __FILE__, true);
+            $ascii = Encoding::saveBytesToChecksummedAsciiSafeString(Key::KEY_CURRENT_VERSION, $fallbackBytes);
+            $this->key = self::loadFromAsciiSafeString($ascii);
+        }
     }
 
     /**
