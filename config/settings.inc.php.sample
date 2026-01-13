@@ -1,0 +1,23 @@
+<?php
+/**
+ * Database Configuration Template
+ * 
+ * Copy this file to settings.inc.php and fill in your database credentials.
+ * The settings.inc.php file is excluded from git for security reasons.
+ */
+
+define('_DB_SERVER_', 'your-database-server');
+define('_DB_NAME_', 'your-database-name');
+define('_DB_USER_', 'your-database-username');
+define('_DB_PASSWD_', 'your-database-password');
+define('_DB_PREFIX_', 'qlooo_');
+define('_MYSQL_ENGINE_', 'InnoDB');
+define('_PS_CACHING_SYSTEM_', 'CacheMemcache');
+define('_PS_CACHE_ENABLED_', '0');
+define('_COOKIE_KEY_', 'your-cookie-key-here');
+define('_COOKIE_IV_', 'your-cookie-iv');
+define('_NEW_COOKIE_KEY_', 'your-new-cookie-key-here');
+define('_PS_CREATION_DATE_', '2025-03-07');
+if (!defined('_PS_VERSION_'))
+	define('_PS_VERSION_', '1.6.1.23');
+define('_QLOAPPS_VERSION_', '1.6.1.0');
