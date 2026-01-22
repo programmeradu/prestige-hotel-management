@@ -646,9 +646,9 @@ function exportToPDF() {
     // --- Data Table ---
     currentY += 6;
     
-    const head = [['ID', 'Customer', 'Rooms', 'Stay Period', 'Total Amount', 'Payment Method', 'Order Date']];
+    const head = [['Reference', 'Customer', 'Rooms', 'Stay Period', 'Total Amount', 'Payment Method', 'Order Date']];
     const body = selectedOrders.map((o) => [
-        o.id,
+        o.reference,
         o.customer,
         '1',
         o.checkin ? `${o.checkin} - ${o.checkout || o.checkin}` : 'N/A',
