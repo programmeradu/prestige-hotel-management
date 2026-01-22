@@ -86,6 +86,7 @@ if ($export) {
 
 function h($str) { return htmlspecialchars($str, ENT_QUOTES, 'UTF-8'); }
 function moneyGhs($num) { return 'GHS '.number_format((float)$num, 2); }
+function dateOnly($dt) { return $dt ? substr($dt, 0, 10) : ''; }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -157,7 +158,7 @@ function moneyGhs($num) { return 'GHS '.number_format((float)$num, 2); }
         .stat-title { color: var(--text-muted); font-size: 0.9em; margin-bottom: 4px; }
         .stat-value { color: var(--primary); font-size: 1.4em; font-weight: 700; }
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+        th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
         th { background: var(--primary); color: var(--white); font-weight: 600; }
         tr:hover { background: var(--primary-light); }
         .amount { font-family: 'Courier New', monospace; font-weight: 600; }
@@ -245,8 +246,8 @@ function moneyGhs($num) { return 'GHS '.number_format((float)$num, 2); }
                             <td><?php echo $i + 1; ?></td>
                             <td><?php echo h($b['reference']); ?></td>
                             <td><?php echo h($b['customer']); ?></td>
-                            <td><?php echo h($b['checkin']); ?></td>
-                            <td><?php echo h($b['checkout']); ?></td>
+                            <td><?php echo h(dateOnly($b['checkin'])); ?></td>
+                            <td><?php echo h(dateOnly($b['checkout'])); ?></td>
                             <td><?php echo h($b['payment_method']); ?></td>
                             <td class="amount"><?php echo moneyGhs($b['total']); ?></td>
                         </tr>
