@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Filing Helper - Prestige Hotel</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { text-align: center; color: #f0c14b; margin-bottom: 30px; }
+        .card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .card h2 { margin-top: 0; color: #f0c14b; border-bottom: 2px solid #f0c14b; padding-bottom: 10px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #ddd; }
+        input[type="file"], input[type="text"], input[type="number"] {
+            width: 100%; padding: 12px 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 8px; background: rgba(255,255,255,0.1);
+            color: #fff; font-size: 16px;
+        }
+        input:focus { outline: none; border-color: #f0c14b; }
+        input::placeholder { color: #aaa; }
+        button {
+            background: linear-gradient(135deg, #f0c14b 0%, #e0a800 100%);
+            color: #1a1a2e; border: none; padding: 15px 30px;
+            border-radius: 8px; font-size: 18px; font-weight: 700;
+            cursor: pointer; width: 100%;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(240, 193, 75, 0.4); }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat-box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-box .value { font-size: 28px; font-weight: 700; color: #f0c14b; }
+        .stat-box .label { color: #aaa; font-size: 14px; margin-top: 5px; }
+        .alert { padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; }
+        .alert-success { background: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; color: #2ecc71; }
+        .alert-warning { background: rgba(241, 196, 15, 0.2); border: 1px solid #f1c40f; color: #f1c40f; }
+        .alert-error { background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; color: #e74c3c; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { background: rgba(240, 193, 75, 0.2); color: #f0c14b; font-weight: 600; }
+        tr:hover { background: rgba(255,255,255,0.05); }
+        .amount { font-family: 'Courier New', monospace; font-weight: 600; }
+        .amount.positive { color: #2ecc71; }
+        .total-row { background: rgba(240, 193, 75, 0.1) !important; font-weight: 700; }
+        .total-row td { border-top: 2px solid #f0c14b; }
+        .instructions { background: rgba(52, 152, 219, 0.1); border: 1px solid #3498db; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .instructions h3 { margin-top: 0; color: #3498db; }
+        .instructions ol { margin: 0; padding-left: 20px; }
+        .instructions li { margin-bottom: 8px; }
+        .export-btn { display: inline-block; background: #27ae60; color: #fff; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 15px; border: none; font-size: 16px; }
+        .export-btn:hover { background: #219a52; }
+        #results { display: none; }
+        .scroll-table { overflow-x: auto; max-height: 400px; overflow-y: auto; }
+        @media (max-width: 768px) { .stats { grid-template-columns: 1fr 1fr; } table { font-size: 14px; } th, td { padding: 8px 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏨 Tax Filing Helper</h1>
+        
+        <div class="card">
+            <h2>📤 Upload Bookings & Set Target</h2>
+            <div class="instructions">
+                <h3>How to use:</h3>
+                <ol>
+                    <li>Export your orders/bookings as CSV from QloApps admin</li>
+                    <li>Upload the CSV file below</li>
+                    <li>Enter the target amount you want to file for taxes</li>
+                    <li>Click "Find Matching Bookings" to find orders that sum to your target</li>
+                </ol>
+            </div>
+            <div class="form-group">
+                <label for="csv_file">📁 Orders CSV File</label>
+                <input type="file" id="csv_file" accept=".csv">
+            </div>
+            <div class="form-group">
+                <label for="target_amount">💰 Target Tax Amount (₵)</label>
+                <input type="text" id="target_amount" placeholder="e.g., 15000 or 15,000.00">
+            </div>
+            <button onclick="processCSV()">🔍 Find Matching Bookings</button>
+        </div>
+        
+        <div id="error" class="alert alert-error" style="display:none;"></div>
+        
+        <div id="results">
+            <div class="card">
+                <h2>📊 Results</h2>
+                <div class="stats">
+                    <div class="stat-box"><div class="value" id="stat-total-orders">0</div><div class="label">Total Orders Uploaded</div></div>
+                    <div class="stat-box"><div class="value" id="stat-grand-total">₵0.00</div><div class="label">Grand Total (All Orders)</div></div>
+                    <div class="stat-box"><div class="value" id="stat-target">₵0.00</div><div class="label">Target Amount</div></div>
+                    <div class="stat-box"><div class="value" id="stat-selected">0</div><div class="label">Orders Selected</div></div>
+                </div>
+                <div id="match-status"></div>
+                <h3>📋 Selected Orders for Tax Filing</h3>
+                <div class="scroll-table">
+                    <table>
+                        <thead><tr><th>#</th><th>Reference</th><th>Customer</th><th>Check-in</th><th>Payment</th><th>Amount</th></tr></thead>
+                        <tbody id="selected-orders"></tbody>
+                    </table>
+                </div>
+                <button class="export-btn" onclick="exportCSV()">📥 Export Selected Orders (CSV)</button>
+            </div>
+            
+            <div class="card">
+                <h2>📑 All Uploaded Orders</h2>
+                <p style="color: #aaa;">Complete list of orders from your CSV (sorted by amount)</p>
+                <div class="scroll-table">
+                    <table>
+                        <thead><tr><th>ID</th><th>Reference</th><th>Customer</th><th>Check-in</th><th>Payment</th><th>Status</th><th>Amount</th></tr></thead>
+                        <tbody id="all-orders"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+let allOrders = [];
+let selectedOrders = [];
+let targetAmount = 0;
+
+function parseAmount(str) {
+    return parseFloat(String(str).replace(/[₵,GHS\s]/g, '')) || 0;
+}
+
+function formatAmount(num) {
+    return '₵' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function parseCSV(text) {
+    const lines = text.split('\n').filter(l => l.trim());
+    if (lines.length < 2) return [];
+    
+    const parseRow = (line) => {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"') { inQuotes = !inQuotes; }
+            else if (char === ';' && !inQuotes) { result.push(current.trim()); current = ''; }
+            else { current += char; }
+        }
+        result.push(current.trim());
+        return result;
+    };
+    
+    const header = parseRow(lines[0]);
+    const orders = [];
+    
+    for (let i = 1; i < lines.length; i++) {
+        const fields = parseRow(lines[i]);
+        if (fields.length < header.length) continue;
+        
+        const row = {};
+        header.forEach((h, idx) => row[h] = fields[idx] || '');
+        
+        const total = parseAmount(row['Order Total'] || row['order_total'] || '0');
+        if (total > 0) {
+            orders.push({
+                id: row['id'] || i,
+                reference: row['Reference'] || '',
+                customer: row['Customer'] || '',
+                checkin: (row['Check-in'] || '').substring(0, 10),
+                checkout: (row['Check-out'] || '').substring(0, 10),
+                total: total,
+                payment: row['Payment'] || '',
+                status: row['Status'] || '',
+                date: row['Order date'] || ''
+            });
+        }
+    }
+    return orders.sort((a, b) => b.total - a.total);
+}
+
+function findSubsetSum(orders, target) {
+    const n = orders.length;
+    const targetCents = Math.round(target * 100);
+    const amounts = orders.map(o => Math.round(o.total * 100));
+    
+    // Recursive backtracking with pruning
+    function search(idx, remaining, selected) {
+        if (remaining === 0) return selected.slice();
+        if (idx >= n || remaining < 0) return null;
+        
+        let sum = 0;
+        for (let i = idx; i < n; i++) sum += amounts[i];
+        if (sum < remaining) return null;
+        
+        // Include current
+        selected.push(idx);
+        let result = search(idx + 1, remaining - amounts[idx], selected);
+        if (result) return result;
+        
+        // Exclude current
+        selected.pop();
+        return search(idx + 1, remaining, selected);
+    }
+    
+    const indices = search(0, targetCents, []);
+    return indices ? indices.map(i => orders[i]) : null;
+}
+
+function findClosestSum(orders, target) {
+    const n = Math.min(orders.length, 25);
+    const targetCents = Math.round(target * 100);
+    let best = null, bestDiff = Infinity;
+    
+    for (let mask = 1; mask < (1 << n); mask++) {
+        let sum = 0, subset = [];
+        for (let i = 0; i < n; i++) {
+            if (mask & (1 << i)) {
+                sum += Math.round(orders[i].total * 100);
+                subset.push(orders[i]);
+                if (sum > targetCents + 100) break;
+            }
+        }
+        const diff = Math.abs(sum - targetCents);
+        if (diff < bestDiff && sum <= targetCents) {
+            bestDiff = diff;
+            best = { orders: subset, total: sum / 100 };
+            if (diff === 0) break;
+        }
+    }
+    return best;
+}
+
+function processCSV() {
+    const fileInput = document.getElementById('csv_file');
+    const targetInput = document.getElementById('target_amount');
+    const errorDiv = document.getElementById('error');
+    const resultsDiv = document.getElementById('results');
+    
+    errorDiv.style.display = 'none';
+    resultsDiv.style.display = 'none';
+    
+    if (!fileInput.files.length) {
+        errorDiv.textContent = '❌ Please select a CSV file';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    targetAmount = parseAmount(targetInput.value);
+    if (targetAmount <= 0) {
+        errorDiv.textContent = '❌ Please enter a valid target amount greater than 0';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            allOrders = parseCSV(e.target.result);
+            if (!allOrders.length) throw new Error('No valid orders found in CSV');
+            
+            const grandTotal = allOrders.reduce((s, o) => s + o.total, 0);
+            
+            // Find matching subset
+            selectedOrders = findSubsetSum(allOrders, targetAmount);
+            let matchType = 'exact';
+            
+            if (!selectedOrders) {
+                const closest = findClosestSum(allOrders, targetAmount);
+                if (closest) {
+                    selectedOrders = closest.orders;
+                    matchType = 'closest';
+                } else {
+                    selectedOrders = [];
+                    matchType = 'none';
+                }
+            }
+            
+            const selectedTotal = selectedOrders.reduce((s, o) => s + o.total, 0);
+            
+            // Update stats
+            document.getElementById('stat-total-orders').textContent = allOrders.length;
+            document.getElementById('stat-grand-total').textContent = formatAmount(grandTotal);
+            document.getElementById('stat-target').textContent = formatAmount(targetAmount);
+            document.getElementById('stat-selected').textContent = selectedOrders.length;
+            
+            // Match status
+            const statusDiv = document.getElementById('match-status');
+            if (matchType === 'exact') {
+                statusDiv.innerHTML = `<div class="alert alert-success">✅ <strong>Exact match found!</strong> Selected ${selectedOrders.length} orders totaling exactly ${formatAmount(selectedTotal)}</div>`;
+            } else if (matchType === 'closest') {
+                statusDiv.innerHTML = `<div class="alert alert-warning">⚠️ <strong>Exact match not possible.</strong> Closest: ${selectedOrders.length} orders totaling ${formatAmount(selectedTotal)} (diff: ${formatAmount(targetAmount - selectedTotal)})</div>`;
+            } else {
+                statusDiv.innerHTML = `<div class="alert alert-error">❌ No matching combination found. Try a different target.</div>`;
+            }
+            
+            // Render selected orders
+            const selectedTbody = document.getElementById('selected-orders');
+            selectedTbody.innerHTML = selectedOrders.map((o, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${o.reference}</td>
+                    <td>${o.customer}</td>
+                    <td>${o.checkin}</td>
+                    <td>${o.payment}</td>
+                    <td class="amount positive">${formatAmount(o.total)}</td>
+                </tr>
+            `).join('') + `<tr class="total-row"><td colspan="5" style="text-align:right;"><strong>TOTAL:</strong></td><td class="amount positive"><strong>${formatAmount(selectedTotal)}</strong></td></tr>`;
+            
+            // Render all orders
+            const allTbody = document.getElementById('all-orders');
+            allTbody.innerHTML = allOrders.map(o => `
+                <tr>
+                    <td>${o.id}</td>
+                    <td>${o.reference}</td>
+                    <td>${o.customer}</td>
+                    <td>${o.checkin}</td>
+                    <td>${o.payment}</td>
+                    <td>${o.status}</td>
+                    <td class="amount">${formatAmount(o.total)}</td>
+                </tr>
+            `).join('');
+            
+            resultsDiv.style.display = 'block';
+            
+        } catch (err) {
+            errorDiv.textContent = '❌ ' + err.message;
+            errorDiv.style.display = 'block';
+        }
+    };
+    reader.readAsText(fileInput.files[0]);
+}
+
+function exportCSV() {
+    if (!selectedOrders.length) return;
+    
+    const selectedTotal = selectedOrders.reduce((s, o) => s + o.total, 0);
+    let csv = 'Tax Filing Export - Prestige Hotel\n';
+    csv += 'Generated: ' + new Date().toISOString() + '\n';
+    csv += 'Target Amount: GHS ' + targetAmount.toFixed(2) + '\n';
+    csv += 'Selected Total: GHS ' + selectedTotal.toFixed(2) + '\n';
+    csv += 'Orders Count: ' + selectedOrders.length + '\n\n';
+    csv += 'ID;Reference;Customer;Check-in;Check-out;Payment;Amount (GHS)\n';
+    
+    selectedOrders.forEach(o => {
+        csv += `${o.id};${o.reference};${o.customer};${o.checkin};${o.checkout};${o.payment};${o.total.toFixed(2)}\n`;
+    });
+    csv += `\n;;;;;;TOTAL: ${selectedTotal.toFixed(2)}\n`;
+    
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'tax_filing_orders_' + new Date().toISOString().slice(0,10) + '.csv';
+    link.click();
+}
+</script>
+</body>
+</html>
