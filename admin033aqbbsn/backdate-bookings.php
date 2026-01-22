@@ -653,6 +653,20 @@ function injectBooking($booking, $context) {
                     <button class="btn btn-outline" onclick="clearQueue()">Clear Queue</button>
                 </div>
             </div>
+
+            <div class="card">
+                <h2>Import Bookings from CSV</h2>
+                <p style="color: var(--text-muted);">Upload a CSV with columns like: Customer, Check-in, Check-out, Amount, Payment, Room Type, Phone, Reference.</p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Select CSV File</label>
+                        <input type="file" id="csv_import" accept=".csv">
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="importCSVBookings()">Parse & Add to Queue</button>
+                </div>
+            </div>
         </div>
         
         <!-- Auto Generate Tab -->
@@ -818,6 +832,14 @@ const roomTypes = <?php echo json_encode($roomTypes); ?>;
 
 // Booking queue
 let bookingQueue = [];
+
+// Helper: find room type by name (case-insensitive contains)
+function findRoomTypeId(name) {
+    if (!name) return roomTypes[0]?.id_product || null;
+    const needle = name.toLowerCase();
+    const match = roomTypes.find(r => r.name && r.name.toLowerCase().includes(needle));
+    return match ? match.id_product : (roomTypes[0]?.id_product || null);
+}
 
 // Tab switching
 function showTab(tabName) {
@@ -986,6 +1008,149 @@ function clearQueue() {
         bookingQueue = [];
         renderQueue();
     }
+}
+
+// CSV import
+function importCSVBookings() {
+    const fileInput = document.getElementById('csv_import');
+    if (!fileInput.files.length) {
+        alert('Please select a CSV file to import');
+        return;
+    }
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const rows = parseCSVText(e.target.result);
+            if (!rows.length) {
+                alert('No valid rows found in CSV');
+                return;
+            }
+            bookingQueue = bookingQueue.concat(rows);
+            renderQueue();
+            if (confirm(`Imported ${rows.length} bookings. Inject them now?`)) {
+                injectAllBookings();
+            } else {
+                alert('Bookings added to queue. You can review and inject later.');
+            }
+        } catch (err) {
+            alert('Failed to parse CSV: ' + err.message);
+        }
+    };
+    reader.readAsText(file);
+}
+
+function parseCSVText(text) {
+    const lines = text.split(/\r?\n/).filter(l => l.trim());
+    if (lines.length < 2) return [];
+
+    // Detect delimiter (supports comma or semicolon)
+    const firstLine = lines[0];
+    const commaCount = firstLine.split(',').length;
+    const semicolonCount = firstLine.split(';').length;
+    const delimiter = semicolonCount > commaCount ? ';' : ',';
+
+    const headers = firstLine.split(delimiter).map(h => h.replace(/^"|"$/g, '').trim().toLowerCase());
+    const idx = (nameVariants) => {
+        const lower = headers.map(h => h.toLowerCase());
+        for (const v of nameVariants) {
+            const pos = lower.indexOf(v.toLowerCase());
+            if (pos !== -1) return pos;
+        }
+        return -1;
+    };
+
+    const ciCustomer = idx(['customer','name','guest']);
+    const ciCheckin = idx(['check-in','checkin','check in','date_from','date from','date_from','check-in date','arrival','arrival date']);
+    const ciCheckout = idx(['check-out','checkout','check out','date_to','date to','date_to','check-out date','departure','departure date']);
+    const ciAmount = idx(['amount','total','order total','total amount','price','amount (ghs)']);
+    const ciPayment = idx(['payment','payment method','method']);
+    const ciRoom = idx(['room type','room','room_type','room number','room no']);
+    const ciPhone = idx(['phone','phone number','mobile','mobile phone','contact']);
+    const ciReference = idx(['reference','ref']);
+
+    // Use current year if year is missing; avoid forcing the target selector
+    const fallbackYear = new Date().getFullYear();
+
+    // Normalize dates like 10/11/2025 or 10/11 (assumes dd/mm for Ghana data)
+    const normalizeDate = (raw, fallbackYear) => {
+        if (!raw) return '';
+        const cleaned = raw.replace(/['"]/g, '').trim();
+        if (!cleaned) return '';
+        const parts = cleaned.split(/[\/\-]/).filter(Boolean);
+        if (parts.length < 2) return '';
+        let day, month, year;
+        if (parts.length === 3) {
+            const [a, b, c] = parts.map(p => parseInt(p, 10));
+            // Assume dd/mm/yyyy unless second part > 12
+            if (a > 12 || (a <= 12 && b <= 12 && a >= b)) {
+                day = a; month = b; year = c;
+            } else {
+                month = a; day = b; year = c;
+            }
+        } else {
+            const [a, b] = parts.map(p => parseInt(p, 10));
+            if (a > 12 || (a <= 12 && b <= 12 && a >= b)) {
+                day = a; month = b; year = fallbackYear;
+            } else {
+                month = a; day = b; year = fallbackYear;
+            }
+        }
+        if (!year || year < 100) year = 2000 + (year || 0);
+        if (!day || !month) return '';
+        const iso = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        return isNaN(Date.parse(iso)) ? '' : iso;
+    };
+
+    const rows = [];
+    for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(delimiter);
+        const get = (ix) => ix >= 0 ? (cols[ix] || '').replace(/^"|"$/g, '').trim() : '';
+        const customerName = get(ciCustomer) || 'Guest';
+        const amountStr = get(ciAmount).replace(/[^0-9.]/g, '');
+        const total = parseFloat(amountStr) || 0;
+        if (total <= 0) continue;
+
+        const rawCheckin = get(ciCheckin) || '';
+        const rawCheckout = get(ciCheckout) || '';
+        const checkin = normalizeDate(rawCheckin, fallbackYear);
+        const checkout = normalizeDate(rawCheckout, checkin ? parseInt(checkin.slice(0, 4), 10) : fallbackYear) || checkin;
+        if (!checkin) continue;
+
+        const payment = get(ciPayment) || 'Cash';
+        const roomName = get(ciRoom);
+        let roomId = findRoomTypeId(roomName);
+        if (roomName && /^\d+$/.test(roomName.trim())) {
+            const numericMatch = roomTypes.find(r => parseInt(r.id_product, 10) === parseInt(roomName, 10));
+            if (numericMatch) roomId = numericMatch.id_product;
+        }
+        const phone = get(ciPhone);
+        const reference = get(ciReference);
+        
+        const nameParts = customerName.split(' ');
+        const firstname = nameParts[0] || 'Guest';
+        const lastname = nameParts.slice(1).join(' ') || 'Guest';
+
+        const resolvedRoomName = roomName || (roomTypes.find(r => parseInt(r.id_product, 10) === parseInt(roomId, 10))?.name || '');
+        const orderDate = (checkin || new Date().toISOString().slice(0,10)) + ' 14:00:00';
+        
+        rows.push({
+            customer_id: '',
+            customer_name: customerName,
+            firstname,
+            lastname,
+            phone,
+            room_type_id: roomId,
+            room_type_name: resolvedRoomName,
+            payment_method: payment,
+            checkin_date: checkin,
+            checkout_date: checkout,
+            total_amount: total,
+            order_date: orderDate,
+            reference
+        });
+    }
+    return rows;
 }
 
 // Inject all bookings
