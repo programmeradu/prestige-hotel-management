@@ -240,12 +240,12 @@ function injectBooking($booking, $context) {
         $checkout = pSQL($booking['checkout_date']);
         
         // Find an available room
+        // Db::getRow already applies LIMIT 1; omit it in SQL to avoid double LIMIT
         $room = $db->getRow('
             SELECT hri.id, hri.id_product, hri.room_num 
             FROM '._DB_PREFIX_.'htl_room_information hri
             WHERE hri.id_product = '.$roomTypeId.'
             AND hri.id_status = 1
-            LIMIT 1
         ');
         
         if ($room) {
