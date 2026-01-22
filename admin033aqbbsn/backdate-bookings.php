@@ -21,11 +21,21 @@ $errors = [];
 $success = [];
 $injectedBookings = [];
 
-// Get existing customers for auto-complete
+// Get existing customers for auto-complete (phone stored on address table in PS 1.6)
 $customers = Db::getInstance()->executeS('
-    SELECT c.id_customer, c.firstname, c.lastname, c.email, c.phone 
+    SELECT 
+        c.id_customer, 
+        c.firstname, 
+        c.lastname, 
+        c.email, 
+        MAX(COALESCE(a.phone_mobile, a.phone)) AS phone
     FROM '._DB_PREFIX_.'customer c 
-    WHERE c.active = 1 AND c.deleted = 0 
+    LEFT JOIN '._DB_PREFIX_.'address a 
+        ON a.id_customer = c.id_customer 
+        AND a.deleted = 0
+    WHERE c.active = 1 
+      AND c.deleted = 0 
+    GROUP BY c.id_customer, c.firstname, c.lastname, c.email
     ORDER BY c.lastname, c.firstname 
     LIMIT 500
 ');
