@@ -199,6 +199,7 @@ function moneyGhs($num) { return 'GHS '.number_format((float)$num, 2); }
         </form>
         <div class="actions">
             <a href="?month=<?php echo $month; ?>&year=<?php echo $year; ?>&export=csv" style="text-decoration:none;"><button class="secondary" type="button">Export CSV</button></a>
+            <button type="button" onclick="exportPDF();" class="secondary">Export PDF</button>
             <button type="button" onclick="window.print();" class="secondary">Print</button>
         </div>
     </div>
@@ -264,5 +265,156 @@ function moneyGhs($num) { return 'GHS '.number_format((float)$num, 2); }
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+// Embed server data for PDF export
+const reportData = <?php
+    $payload = [
+        'period' => date('F Y', strtotime($startDate)),
+        'bookings' => array_map(function ($b) {
+            return [
+                'reference' => $b['reference'],
+                'customer' => $b['customer'],
+                'checkin' => $b['checkin'],
+                'checkout' => $b['checkout'],
+                'payment' => $b['payment_method'],
+                'total' => (float)$b['total'],
+            ];
+        }, $bookings),
+        'totals' => [
+            'count' => count($bookings),
+            'revenue' => (float)$totalRevenue,
+            'taxable' => (float)$taxableRevenue,
+            'vat' => (float)$vat,
+            'nhil' => (float)$nhil,
+            'getFund' => (float)$getFund,
+            'covidLevy' => (float)$covidLevy,
+            'taxes' => (float)$totalTaxes,
+        ],
+    ];
+    echo json_encode($payload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+?>;
+
+function formatCurrency(num) {
+    return 'GHS ' + Number(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function exportPDF() {
+    if (!reportData.bookings || !reportData.bookings.length) {
+        alert('No bookings to export.');
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const totals = reportData.totals;
+    const bookings = [...reportData.bookings];
+
+    // Sort by check-in date to keep stays in order
+    bookings.sort((a, b) => new Date(a.checkin || 0) - new Date(b.checkin || 0));
+
+    // Header
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor('#005a9e');
+    doc.text('Prestige Hotel', 105, 20, { align: 'center' });
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor('#333333');
+    doc.text('Monthly Revenue & Tax Report', 105, 28, { align: 'center' });
+    doc.text(`Period: ${reportData.period}`, 105, 34, { align: 'center' });
+
+    // Summary block
+    const kpiY = 44;
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor('#000000');
+    doc.text('Summary', 14, kpiY);
+    doc.setLineWidth(0.5);
+    doc.setDrawColor('#000000');
+    doc.line(14, kpiY + 2, 196, kpiY + 2);
+
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Total Bookings: ${totals.count}`, 14, kpiY + 10);
+    doc.text(`Total Revenue: ${formatCurrency(totals.revenue)}`, 14, kpiY + 17);
+
+    // Tax breakdown
+    const taxY = kpiY + 27;
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Tax & Levy Breakdown', 14, taxY);
+    doc.line(14, taxY + 2, 196, taxY + 2);
+
+    const taxCol1 = 14;
+    const taxCol2 = 120;
+    let currentY = taxY + 10;
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+
+    const addTaxRow = (label, value, isTotal = false) => {
+        if (isTotal) {
+            doc.setFont('helvetica', 'bold');
+        }
+        doc.text(label, taxCol1, currentY);
+        doc.text(value, taxCol2, currentY);
+        if (isTotal) {
+            doc.setFont('helvetica', 'normal');
+        }
+        currentY += 7;
+    };
+
+    addTaxRow('Taxable Revenue:', formatCurrency(totals.taxable));
+    addTaxRow('VAT (15%):', formatCurrency(totals.vat));
+    addTaxRow('NHIL (2.5%):', formatCurrency(totals.nhil));
+    addTaxRow('GetFund (2.5%):', formatCurrency(totals.getFund));
+    addTaxRow('Covid Levy (1%):', formatCurrency(totals.covidLevy));
+    currentY += 2;
+    addTaxRow('Total Taxes & Levies:', formatCurrency(totals.taxes), true);
+
+    // Table
+    currentY += 6;
+    const head = [['Reference', 'Customer', 'Stay Period', 'Payment', 'Amount', 'Check-in']];
+    const body = bookings.map((o) => [
+        o.reference,
+        o.customer,
+        o.checkin ? `${o.checkin} - ${o.checkout || o.checkin}` : 'N/A',
+        o.payment || 'N/A',
+        formatCurrency(o.total),
+        o.checkin ? o.checkin.substring(0, 10) : 'N/A'
+    ]);
+
+    doc.autoTable({
+        startY: currentY,
+        head,
+        body,
+        theme: 'grid',
+        headStyles: {
+            fillColor: [0, 90, 158],
+            textColor: [255, 255, 255],
+            halign: 'center'
+        },
+        styles: {
+            fontSize: 10,
+            cellPadding: 3,
+            textColor: [0, 0, 0]
+        },
+        columnStyles: {
+            0: { cellWidth: 25 },
+            1: { cellWidth: 45 },
+            2: { cellWidth: 40 },
+            3: { cellWidth: 25 },
+            4: { cellWidth: 25 },
+            5: { cellWidth: 25, halign: 'center' }
+        },
+        alternateRowStyles: {
+            fillColor: [255, 255, 255]
+        }
+    });
+
+    doc.save(`Tax_Report_${reportData.period.replace(/\s+/g, '_')}.pdf`);
+}
+</script>
 </body>
 </html>
