@@ -191,7 +191,8 @@ foreach ($rows as $idx => $row) {
     $unit = $totalPaid / $nights;
 
     // Ensure booking detail
-    $roomRow = $db->getRow('SELECT id, id_product, room_num FROM '._DB_PREFIX_.'htl_room_information WHERE id_product='.(int)$defaultProductId.' LIMIT 1');
+    // Db::getRow adds LIMIT 1 automatically; omit explicit LIMIT to avoid double limit syntax
+    $roomRow = $db->getRow('SELECT id, id_product, room_num FROM '._DB_PREFIX_.'htl_room_information WHERE id_product='.(int)$defaultProductId);
     $roomId = $roomRow ? (int)$roomRow['id'] : 0;
 
     $bdExists = (int)$db->getValue('SELECT id FROM '._DB_PREFIX_.'htl_booking_detail WHERE id_order='.(int)$idOrder);
