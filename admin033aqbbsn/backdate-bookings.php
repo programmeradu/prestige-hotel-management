@@ -123,12 +123,13 @@ function injectBooking($booking, $context) {
     $db->execute('START TRANSACTION');
     
     try {
-        // 1. Get or create customer
+        // 1. Get or create customer and ensure address
         $customerId = null;
+        $addressId = null;
         if (!empty($booking['customer_id'])) {
             $customerId = (int)$booking['customer_id'];
+            $addressId = (int)$db->getValue('SELECT id_address FROM '._DB_PREFIX_.'address WHERE id_customer = '.(int)$customerId.' AND deleted = 0 ORDER BY id_address DESC');
         } else {
-            // Create new customer
             $customer = new Customer();
             $customer->firstname = pSQL($booking['firstname']);
             $customer->lastname = pSQL($booking['lastname']);
@@ -144,20 +145,27 @@ function injectBooking($booking, $context) {
                 throw new Exception('Failed to create customer');
             }
             $customerId = $customer->id;
-            
-            // Add phone if provided
+        }
+
+        // Create a default address if none exists (required for id_address_tax)
+        if (!$addressId) {
+            $customerObj = isset($customer) ? $customer : new Customer($customerId);
+            $address = new Address();
+            $address->id_customer = $customerId;
+            $address->id_country = (int)Configuration::get('PS_COUNTRY_DEFAULT');
+            $address->alias = 'Backdated';
+            $address->firstname = $customerObj->firstname ?: 'Guest';
+            $address->lastname = $customerObj->lastname ?: 'Guest';
+            $address->address1 = 'Backdated booking address';
+            $address->city = 'Accra';
             if (!empty($booking['phone'])) {
-                $address = new Address();
-                $address->id_customer = $customerId;
-                $address->id_country = (int)Configuration::get('PS_COUNTRY_DEFAULT');
-                $address->alias = 'Default';
-                $address->firstname = $customer->firstname;
-                $address->lastname = $customer->lastname;
-                $address->address1 = 'Guest Address';
-                $address->city = 'Accra';
                 $address->phone = pSQL($booking['phone']);
-                $address->add();
+                $address->phone_mobile = pSQL($booking['phone']);
             }
+            if (!$address->add()) {
+                throw new Exception('Failed to create address');
+            }
+            $addressId = (int)$address->id;
         }
         
         // 2. Create cart
@@ -165,8 +173,8 @@ function injectBooking($booking, $context) {
         $cart->id_customer = $customerId;
         $cart->id_currency = $context->currency->id;
         $cart->id_lang = $context->language->id;
-        $cart->id_address_delivery = 0;
-        $cart->id_address_invoice = 0;
+        $cart->id_address_delivery = $addressId;
+        $cart->id_address_invoice = $addressId;
         $cart->id_shop = $context->shop->id;
         $cart->id_shop_group = $context->shop->id_shop_group;
         $cart->secure_key = md5(uniqid(rand(), true));
@@ -188,8 +196,9 @@ function injectBooking($booking, $context) {
         $order->id_lang = $context->language->id;
         $order->id_shop = $context->shop->id;
         $order->id_shop_group = $context->shop->id_shop_group;
-        $order->id_address_delivery = 0;
-        $order->id_address_invoice = 0;
+        $order->id_address_delivery = $addressId;
+        $order->id_address_invoice = $addressId;
+        $order->id_address_tax = $addressId;
         $order->id_carrier = 0;
         $order->current_state = 2; // Payment accepted
         $order->payment = pSQL($booking['payment_method']);
