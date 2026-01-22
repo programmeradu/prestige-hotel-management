@@ -133,7 +133,8 @@ function injectBooking($booking, $context) {
             $customer->firstname = pSQL($booking['firstname']);
             $customer->lastname = pSQL($booking['lastname']);
             $customer->email = !empty($booking['email']) ? pSQL($booking['email']) : strtolower(str_replace(' ', '', $booking['firstname'])) . '.' . time() . '@guest.prestigehotel.com';
-            $customer->passwd = Tools::hash(Tools::passwdGen(8));
+            // PrestaShop 1.6 uses Tools::encrypt for customer passwords
+            $customer->passwd = Tools::encrypt(Tools::passwdGen(8));
             $customer->active = 1;
             $customer->is_guest = 1;
             $customer->id_default_group = 1;
