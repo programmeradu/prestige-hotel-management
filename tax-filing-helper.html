@@ -572,6 +572,12 @@ function exportToPDF() {
     const doc = new jsPDF();
     const selectedTotal = selectedOrders.reduce((s, o) => s + o.total, 0);
     const formatCurrency = (num) => `GHS ${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    // Sort by check-in date to keep stays in order
+    const sortedSelected = [...selectedOrders].sort((a, b) => {
+        const aDate = new Date(a.checkin || a.date || 0).getTime();
+        const bDate = new Date(b.checkin || b.date || 0).getTime();
+        return aDate - bDate;
+    });
     
     // --- Header ---
     doc.setFontSize(22);
@@ -646,15 +652,15 @@ function exportToPDF() {
     // --- Data Table ---
     currentY += 6;
     
-    const head = [['Reference', 'Customer', 'Rooms', 'Stay Period', 'Total Amount', 'Payment Method', 'Order Date']];
-    const body = selectedOrders.map((o) => [
+    const head = [['Reference', 'Customer', 'Rooms', 'Stay Period', 'Total Amount', 'Payment Method', 'Check-in Date']];
+    const body = sortedSelected.map((o) => [
         o.reference,
         o.customer,
         '1',
         o.checkin ? `${o.checkin} - ${o.checkout || o.checkin}` : 'N/A',
         formatCurrency(o.total),
         o.payment || 'N/A',
-        o.date ? o.date.substring(0, 10) : 'N/A'
+        o.checkin ? o.checkin.substring(0, 10) : (o.date ? o.date.substring(0, 10) : 'N/A')
     ]);
     
     doc.autoTable({
