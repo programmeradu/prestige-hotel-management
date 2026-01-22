@@ -181,7 +181,8 @@ function injectBooking($booking, $context) {
         $cart->date_add = pSQL($booking['order_date']);
         $cart->date_upd = pSQL($booking['order_date']);
         
-        if (!$cart->add()) {
+        // Use manual dates; disable auto_date in ObjectModel::add
+        if (!$cart->add(false)) {
             throw new Exception('Failed to create cart');
         }
         
@@ -222,7 +223,8 @@ function injectBooking($booking, $context) {
         $order->date_upd = pSQL($booking['order_date']);
         $order->valid = 1;
         
-        if (!$order->add()) {
+        // Preserve supplied date_add/date_upd by disabling auto_date
+        if (!$order->add(false)) {
             throw new Exception('Failed to create order');
         }
         
@@ -232,7 +234,7 @@ function injectBooking($booking, $context) {
         $history->id_employee = $context->employee->id;
         $history->id_order_state = 2;
         $history->date_add = pSQL($booking['order_date']);
-        $history->add();
+        $history->add(false);
         
         // 5. Create hotel booking detail
         $roomTypeId = (int)$booking['room_type_id'];
