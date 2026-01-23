@@ -65,6 +65,7 @@ $getFund = $baseForLevies * 0.025;
 $covidLevy = $baseForLevies * 0.01;
 $totalTaxes = $vat + $nhil + $getFund + $covidLevy;
 $variance = $targetAmount ? ($totalRevenue - $targetAmount) : 0.0;
+$displayRevenue = $targetAmount > 0 ? $targetAmount : $totalRevenue;
 
 if ($export) {
     header('Content-Type: text/csv; charset=utf-8');
@@ -216,9 +217,8 @@ function dateOnly($dt) { return $dt ? substr($dt, 0, 10) : ''; }
         <div class="stats">
             <div class="stat-box"><div class="stat-title">Period</div><div class="stat-value"><?php echo h(date('F Y', strtotime($startDate))); ?></div></div>
             <div class="stat-box"><div class="stat-title">Bookings</div><div class="stat-value"><?php echo count($bookings); ?></div></div>
-            <div class="stat-box"><div class="stat-title">Revenue</div><div class="stat-value"><?php echo moneyGhs($totalRevenue); ?></div></div>
+            <div class="stat-box"><div class="stat-title">Revenue</div><div class="stat-value"><?php echo moneyGhs($displayRevenue); ?></div></div>
             <div class="stat-box"><div class="stat-title">Taxes & Levies</div><div class="stat-value"><?php echo moneyGhs($totalTaxes); ?></div></div>
-            <div class="stat-box"><div class="stat-title">Target Amount</div><div class="stat-value"><?php echo $targetAmount > 0 ? moneyGhs($targetAmount) : 'Not set'; ?></div></div>
             <div class="stat-box"><div class="stat-title">Variance vs Target</div><div class="stat-value"><?php echo $targetAmount > 0 ? moneyGhs($variance) : 'Not set'; ?></div></div>
         </div>
         <div class="stats" style="margin-top:12px;">
@@ -285,8 +285,8 @@ const reportData = <?php
             return [
                 'reference' => $b['reference'],
                 'customer' => $b['customer'],
-                'checkin' => $b['checkin'],
-                'checkout' => $b['checkout'],
+                'checkin' => dateOnly($b['checkin']),
+                'checkout' => dateOnly($b['checkout']),
                 'payment' => $b['payment_method'],
                 'total' => (float)$b['total'],
             ];
@@ -294,6 +294,7 @@ const reportData = <?php
         'totals' => [
             'count' => count($bookings),
             'revenue' => (float)$totalRevenue,
+            'displayRevenue' => (float)$displayRevenue,
             'taxable' => (float)$taxableRevenue,
             'vat' => (float)$vat,
             'nhil' => (float)$nhil,
@@ -349,14 +350,13 @@ function exportPDF() {
     doc.setFontSize(11);
     doc.setFont('helvetica', 'normal');
     doc.text(`Total Bookings: ${totals.count}`, 14, kpiY + 10);
-    doc.text(`Total Revenue: ${formatCurrency(totals.revenue)}`, 14, kpiY + 17);
+    doc.text(`Total Revenue: ${formatCurrency(totals.displayRevenue)}`, 14, kpiY + 17);
     if (totals.target > 0) {
-        doc.text(`Target Amount: ${formatCurrency(totals.target)}`, 14, kpiY + 24);
-        doc.text(`Variance vs Target: ${formatCurrency(totals.variance)}`, 14, kpiY + 31);
+        doc.text(`Variance vs Target: ${formatCurrency(totals.variance)}`, 14, kpiY + 24);
     }
 
     // Tax breakdown
-    const taxY = kpiY + (totals.target > 0 ? 39 : 27);
+    const taxY = kpiY + (totals.target > 0 ? 32 : 27);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
     doc.text('Tax & Levy Breakdown', 14, taxY);
@@ -391,13 +391,14 @@ function exportPDF() {
     // Table
     currentY += 6;
     const head = [['Reference', 'Customer', 'Stay Period', 'Payment', 'Amount', 'Check-in']];
+    const fmtDate = (d) => d ? d.toString().slice(0, 10) : 'N/A';
     const body = bookings.map((o) => [
         o.reference,
         o.customer,
-        o.checkin ? `${o.checkin} - ${o.checkout || o.checkin}` : 'N/A',
+        o.checkin ? `${fmtDate(o.checkin)} - ${fmtDate(o.checkout || o.checkin)}` : 'N/A',
         o.payment || 'N/A',
         formatCurrency(o.total),
-        o.checkin ? o.checkin.substring(0, 10) : 'N/A'
+        fmtDate(o.checkin)
     ]);
 
     doc.autoTable({
@@ -416,12 +417,12 @@ function exportPDF() {
             textColor: [0, 0, 0]
         },
         columnStyles: {
-            0: { cellWidth: 25 },
-            1: { cellWidth: 45 },
-            2: { cellWidth: 40 },
-            3: { cellWidth: 25 },
-            4: { cellWidth: 25 },
-            5: { cellWidth: 25, halign: 'center' }
+            0: { cellWidth: 28 },
+            1: { cellWidth: 50 },
+            2: { cellWidth: 58 },
+            3: { cellWidth: 28 },
+            4: { cellWidth: 28 },
+            5: { cellWidth: 28, halign: 'center' }
         },
         alternateRowStyles: {
             fillColor: [255, 255, 255]
