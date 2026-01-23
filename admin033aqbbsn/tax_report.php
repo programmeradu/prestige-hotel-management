@@ -52,6 +52,30 @@ $sql = '
 $rows = Db::getInstance()->executeS($sql);
 $bookings = $rows ?: [];
 
+// Sort by check-in date, then reference
+usort($bookings, function($a, $b) {
+    $ad = strtotime($a['checkin'] ?? '');
+    $bd = strtotime($b['checkin'] ?? '');
+    if ($ad === $bd) {
+        return strcmp($a['reference'], $b['reference']);
+    }
+    return $ad <=> $bd;
+});
+
+// If a target amount is provided, keep only bookings that build up toward the target
+if ($targetAmount > 0 && !empty($bookings)) {
+    $selected = [];
+    $running = 0.0;
+    foreach ($bookings as $b) {
+        if ($running >= $targetAmount) {
+            break;
+        }
+        $selected[] = $b;
+        $running += (float)$b['total'];
+    }
+    $bookings = $selected;
+}
+
 // Totals
 $totalRevenue = 0.0;
 foreach ($bookings as $row) {
@@ -64,7 +88,7 @@ $nhil = $baseForLevies * 0.025;
 $getFund = $baseForLevies * 0.025;
 $covidLevy = $baseForLevies * 0.01;
 $totalTaxes = $vat + $nhil + $getFund + $covidLevy;
-$variance = $targetAmount ? ($totalRevenue - $targetAmount) : 0.0;
+$variance = 0.0; // Variance no longer shown in report
 $displayRevenue = $targetAmount > 0 ? $targetAmount : $totalRevenue;
 
 if ($export) {
@@ -219,7 +243,6 @@ function dateOnly($dt) { return $dt ? substr($dt, 0, 10) : ''; }
             <div class="stat-box"><div class="stat-title">Bookings</div><div class="stat-value"><?php echo count($bookings); ?></div></div>
             <div class="stat-box"><div class="stat-title">Revenue</div><div class="stat-value"><?php echo moneyGhs($displayRevenue); ?></div></div>
             <div class="stat-box"><div class="stat-title">Taxes & Levies</div><div class="stat-value"><?php echo moneyGhs($totalTaxes); ?></div></div>
-            <div class="stat-box"><div class="stat-title">Variance vs Target</div><div class="stat-value"><?php echo $targetAmount > 0 ? moneyGhs($variance) : 'Not set'; ?></div></div>
         </div>
         <div class="stats" style="margin-top:12px;">
             <div class="stat-box"><div class="stat-title">Taxable Revenue</div><div class="stat-value"><?php echo moneyGhs($taxableRevenue); ?></div></div>
@@ -302,7 +325,6 @@ const reportData = <?php
             'covidLevy' => (float)$covidLevy,
             'taxes' => (float)$totalTaxes,
             'target' => (float)$targetAmount,
-            'variance' => (float)$variance,
         ],
     ];
     echo json_encode($payload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
@@ -351,12 +373,9 @@ function exportPDF() {
     doc.setFont('helvetica', 'normal');
     doc.text(`Total Bookings: ${totals.count}`, 14, kpiY + 10);
     doc.text(`Total Revenue: ${formatCurrency(totals.displayRevenue)}`, 14, kpiY + 17);
-    if (totals.target > 0) {
-        doc.text(`Variance vs Target: ${formatCurrency(totals.variance)}`, 14, kpiY + 24);
-    }
 
     // Tax breakdown
-    const taxY = kpiY + (totals.target > 0 ? 32 : 27);
+    const taxY = kpiY + 27;
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
     doc.text('Tax & Levy Breakdown', 14, taxY);
@@ -417,12 +436,12 @@ function exportPDF() {
             textColor: [0, 0, 0]
         },
         columnStyles: {
-            0: { cellWidth: 28 },
-            1: { cellWidth: 50 },
-            2: { cellWidth: 58 },
-            3: { cellWidth: 28 },
-            4: { cellWidth: 28 },
-            5: { cellWidth: 28, halign: 'center' }
+            0: { cellWidth: 24 },
+            1: { cellWidth: 42 },
+            2: { cellWidth: 60 },
+            3: { cellWidth: 24 },
+            4: { cellWidth: 24 },
+            5: { cellWidth: 24, halign: 'center' }
         },
         alternateRowStyles: {
             fillColor: [255, 255, 255]
