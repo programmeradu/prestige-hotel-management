@@ -23,6 +23,7 @@ $errors = [];
 $month = isset($_REQUEST['month']) ? (int)$_REQUEST['month'] : (int)date('n');
 $year = isset($_REQUEST['year']) ? (int)$_REQUEST['year'] : (int)date('Y');
 $export = isset($_GET['export']) && $_GET['export'] === 'csv';
+$targetAmount = isset($_REQUEST['target_amount']) ? (float)$_REQUEST['target_amount'] : 0.0;
 
 // Date range based on check-in (date_from)
 $startDate = sprintf('%04d-%02d-01', $year, $month);
@@ -63,6 +64,7 @@ $nhil = $baseForLevies * 0.025;
 $getFund = $baseForLevies * 0.025;
 $covidLevy = $baseForLevies * 0.01;
 $totalTaxes = $vat + $nhil + $getFund + $covidLevy;
+$variance = $targetAmount ? ($totalRevenue - $targetAmount) : 0.0;
 
 if ($export) {
     header('Content-Type: text/csv; charset=utf-8');
@@ -195,6 +197,10 @@ function dateOnly($dt) { return $dt ? substr($dt, 0, 10) : ''; }
                 </select>
             </div>
             <div>
+                <label for="target_amount">Target Amount (GHS)</label>
+                <input type="number" step="0.01" name="target_amount" id="target_amount" value="<?php echo h($targetAmount ?: ''); ?>" placeholder="e.g., 25000">
+            </div>
+            <div>
                 <button type="submit">Load Report</button>
             </div>
         </form>
@@ -212,6 +218,8 @@ function dateOnly($dt) { return $dt ? substr($dt, 0, 10) : ''; }
             <div class="stat-box"><div class="stat-title">Bookings</div><div class="stat-value"><?php echo count($bookings); ?></div></div>
             <div class="stat-box"><div class="stat-title">Revenue</div><div class="stat-value"><?php echo moneyGhs($totalRevenue); ?></div></div>
             <div class="stat-box"><div class="stat-title">Taxes & Levies</div><div class="stat-value"><?php echo moneyGhs($totalTaxes); ?></div></div>
+            <div class="stat-box"><div class="stat-title">Target Amount</div><div class="stat-value"><?php echo $targetAmount > 0 ? moneyGhs($targetAmount) : 'Not set'; ?></div></div>
+            <div class="stat-box"><div class="stat-title">Variance vs Target</div><div class="stat-value"><?php echo $targetAmount > 0 ? moneyGhs($variance) : 'Not set'; ?></div></div>
         </div>
         <div class="stats" style="margin-top:12px;">
             <div class="stat-box"><div class="stat-title">Taxable Revenue</div><div class="stat-value"><?php echo moneyGhs($taxableRevenue); ?></div></div>
@@ -292,6 +300,8 @@ const reportData = <?php
             'getFund' => (float)$getFund,
             'covidLevy' => (float)$covidLevy,
             'taxes' => (float)$totalTaxes,
+            'target' => (float)$targetAmount,
+            'variance' => (float)$variance,
         ],
     ];
     echo json_encode($payload, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
@@ -340,9 +350,13 @@ function exportPDF() {
     doc.setFont('helvetica', 'normal');
     doc.text(`Total Bookings: ${totals.count}`, 14, kpiY + 10);
     doc.text(`Total Revenue: ${formatCurrency(totals.revenue)}`, 14, kpiY + 17);
+    if (totals.target > 0) {
+        doc.text(`Target Amount: ${formatCurrency(totals.target)}`, 14, kpiY + 24);
+        doc.text(`Variance vs Target: ${formatCurrency(totals.variance)}`, 14, kpiY + 31);
+    }
 
     // Tax breakdown
-    const taxY = kpiY + 27;
+    const taxY = kpiY + (totals.target > 0 ? 39 : 27);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
     doc.text('Tax & Levy Breakdown', 14, taxY);
