@@ -62,24 +62,31 @@ usort($bookings, function($a, $b) {
     return $ad <=> $bd;
 });
 
-// If a target amount is provided, keep only bookings that get closest to the target (greedy, non-decreasing closeness)
+// If a target amount is provided, accumulate bookings in order and pick the smallest overage (or exact match)
 if ($targetAmount > 0 && !empty($bookings)) {
     $selected = [];
     $running = 0.0;
+    $bestOverSelection = [];
+    $bestOverDiff = null;
     foreach ($bookings as $b) {
-        $next = (float)$b['total'];
-        $newSum = $running + $next;
-        $improves = abs($newSum - $targetAmount) <= abs($running - $targetAmount);
-        if ($running > 0 && !$improves) {
-            break;
-        }
         $selected[] = $b;
-        $running = $newSum;
+        $running += (float)$b['total'];
+
         if ($running >= $targetAmount) {
-            break;
+            $diff = $running - $targetAmount;
+            if ($bestOverDiff === null || $diff < $bestOverDiff) {
+                $bestOverDiff = $diff;
+                $bestOverSelection = $selected;
+            }
+            if ($diff === 0.0) {
+                break; // exact match found
+            }
         }
     }
-    $bookings = $selected;
+    // Prefer the smallest overage if we have one; otherwise keep all (under-target case)
+    if (!empty($bestOverSelection)) {
+        $bookings = $bestOverSelection;
+    }
 }
 
 // Totals
