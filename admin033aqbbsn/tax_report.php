@@ -62,30 +62,61 @@ usort($bookings, function($a, $b) {
     return $ad <=> $bd;
 });
 
-// If a target amount is provided, accumulate bookings in order and pick the smallest overage (or exact match)
+// If a target amount is provided, attempt exact subset-sum (in order) using DP; fallback to closest over, then closest under
 if ($targetAmount > 0 && !empty($bookings)) {
-    $selected = [];
-    $running = 0.0;
-    $bestOverSelection = [];
-    $bestOverDiff = null;
-    foreach ($bookings as $b) {
-        $selected[] = $b;
-        $running += (float)$b['total'];
+    $targetCents = (int)round($targetAmount * 100);
+    $amounts = array_map(function($b) { return (int)round(((float)$b['total']) * 100); }, $bookings);
 
-        if ($running >= $targetAmount) {
-            $diff = $running - $targetAmount;
-            if ($bestOverDiff === null || $diff < $bestOverDiff) {
-                $bestOverDiff = $diff;
-                $bestOverSelection = $selected;
+    // dp[sum] = array of indexes forming that sum
+    $dp = [0 => []];
+    $bestExact = null;
+    $bestOver = null; $bestOverPath = [];
+    $bestUnder = 0;  $bestUnderPath = [];
+
+    foreach ($amounts as $idx => $amt) {
+        $current = $dp; // iterate over a snapshot to avoid double use of same item
+        foreach ($current as $sum => $path) {
+            $newSum = $sum + $amt;
+            if (!isset($dp[$newSum])) {
+                $dp[$newSum] = array_merge($path, [$idx]);
             }
-            if ($diff === 0.0) {
-                break; // exact match found
+            // Track best over/under while we search
+            if ($newSum >= $targetCents) {
+                $overDiff = $newSum - $targetCents;
+                if ($bestOver === null || $overDiff < $bestOver) {
+                    $bestOver = $overDiff;
+                    $bestOverPath = $dp[$newSum];
+                }
+                if ($newSum === $targetCents) {
+                    $bestExact = $dp[$newSum];
+                    break 2; // exact match found
+                }
+            } else { // under target
+                if ($newSum > $bestUnder) {
+                    $bestUnder = $newSum;
+                    $bestUnderPath = $dp[$newSum];
+                }
             }
         }
     }
-    // Prefer the smallest overage if we have one; otherwise keep all (under-target case)
-    if (!empty($bestOverSelection)) {
-        $bookings = $bestOverSelection;
+
+    if ($bestExact !== null) {
+        $selectedIndexes = $bestExact;
+    } elseif ($bestOverPath) {
+        $selectedIndexes = $bestOverPath;
+    } elseif ($bestUnderPath) {
+        $selectedIndexes = $bestUnderPath;
+    } else {
+        $selectedIndexes = []; // fallback to none (unlikely)
+    }
+
+    // Rebuild bookings in original order based on chosen indexes
+    if (!empty($selectedIndexes)) {
+        $selected = [];
+        foreach ($selectedIndexes as $i) {
+            $selected[] = $bookings[$i];
+        }
+        $bookings = $selected;
     }
 }
 
