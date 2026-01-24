@@ -453,12 +453,20 @@ function exportPDF() {
 
     // Table
     currentY += 6;
-    const head = [['Reference', 'Customer', 'Stay Period', 'Payment', 'Amount', 'Check-in']];
+    const head = [['Reference', 'Customer', 'Nights', 'Payment', 'Amount', 'Check-in']];
     const fmtDate = (d) => d ? d.toString().slice(0, 10) : 'N/A';
+    const toDate = (d) => d ? new Date(`${d}T00:00:00`) : null;
+    const calcNights = (ci, co) => {
+        const start = toDate(ci);
+        const end = toDate(co || ci);
+        if (!start || !end) return '1 night';
+        const diffDays = Math.max(1, Math.round((end - start) / 86400000));
+        return `${diffDays} ${diffDays === 1 ? 'night' : 'nights'}`;
+    };
     const body = bookings.map((o) => [
         o.reference,
         o.customer,
-        o.checkin ? `${fmtDate(o.checkin)} - ${fmtDate(o.checkout || o.checkin)}` : 'N/A',
+        calcNights(o.checkin, o.checkout),
         o.payment || 'N/A',
         formatCurrency(o.total),
         fmtDate(o.checkin)
@@ -483,10 +491,10 @@ function exportPDF() {
         columnStyles: {
             0: { cellWidth: 22 },
             1: { cellWidth: 38 },
-            2: { cellWidth: 56 },
-            3: { cellWidth: 20 },
-            4: { cellWidth: 22 },
-            5: { cellWidth: 22, halign: 'center' }
+            2: { cellWidth: 24 },
+            3: { cellWidth: 22 },
+            4: { cellWidth: 24 },
+            5: { cellWidth: 28, halign: 'center' }
         },
         alternateRowStyles: {
             fillColor: [255, 255, 255]
