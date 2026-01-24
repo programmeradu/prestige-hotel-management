@@ -112,8 +112,17 @@ if ($targetAmount > 0 && !empty($bookings)) {
 
     // Rebuild bookings in original order based on chosen indexes
     if (!empty($selectedIndexes)) {
+        // Ensure we don't reuse the same booking index multiple times
+        $uniqueIndexes = [];
+        $seen = [];
+        foreach ($selectedIndexes as $idx) {
+            if (!isset($seen[$idx])) {
+                $uniqueIndexes[] = $idx;
+                $seen[$idx] = true;
+            }
+        }
         $selected = [];
-        foreach ($selectedIndexes as $i) {
+        foreach ($uniqueIndexes as $i) {
             $selected[] = $bookings[$i];
         }
         $bookings = $selected;
