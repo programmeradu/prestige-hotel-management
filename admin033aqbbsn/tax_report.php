@@ -469,6 +469,7 @@ function exportPDF() {
         head,
         body,
         theme: 'grid',
+        margin: { left: 14, right: 14 },
         headStyles: {
             fillColor: [0, 90, 158],
             textColor: [255, 255, 255],
@@ -480,12 +481,12 @@ function exportPDF() {
             textColor: [0, 0, 0]
         },
         columnStyles: {
-            0: { cellWidth: 24 },
-            1: { cellWidth: 42 },
-            2: { cellWidth: 60 },
-            3: { cellWidth: 24 },
-            4: { cellWidth: 24 },
-            5: { cellWidth: 24, halign: 'center' }
+            0: { cellWidth: 22 },
+            1: { cellWidth: 38 },
+            2: { cellWidth: 56 },
+            3: { cellWidth: 20 },
+            4: { cellWidth: 22 },
+            5: { cellWidth: 22, halign: 'center' }
         },
         alternateRowStyles: {
             fillColor: [255, 255, 255]
