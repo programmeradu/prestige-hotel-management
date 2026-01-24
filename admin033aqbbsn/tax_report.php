@@ -489,12 +489,12 @@ function exportPDF() {
             textColor: [0, 0, 0]
         },
         columnStyles: {
-            0: { cellWidth: 22 },
-            1: { cellWidth: 38 },
-            2: { cellWidth: 24 },
-            3: { cellWidth: 22 },
-            4: { cellWidth: 24 },
-            5: { cellWidth: 28, halign: 'center' }
+            0: { cellWidth: 26 },  // Reference
+            1: { cellWidth: 46 },  // Customer
+            2: { cellWidth: 26 },  // Nights
+            3: { cellWidth: 26 },  // Payment
+            4: { cellWidth: 28 },  // Amount
+            5: { cellWidth: 30, halign: 'center' } // Check-in
         },
         alternateRowStyles: {
             fillColor: [255, 255, 255]
