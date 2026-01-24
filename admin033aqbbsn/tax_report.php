@@ -31,23 +31,24 @@ $endDate = date('Y-m-t', strtotime($startDate));
 
 // Fetch bookings using check-in date
 $sql = '
-    SELECT 
-        o.id_order,
-        o.reference,
-        CONCAT(c.firstname, " ", c.lastname) AS customer,
-        o.total_paid AS total,
-        o.payment AS payment_method,
-        o.current_state,
-        hbd.date_from AS checkin,
-        hbd.date_to AS checkout,
-        o.date_add AS order_date
-    FROM '._DB_PREFIX_.'orders o
-    INNER JOIN '._DB_PREFIX_.'customer c ON o.id_customer = c.id_customer
-    INNER JOIN '._DB_PREFIX_.'htl_booking_detail hbd ON o.id_order = hbd.id_order
-    WHERE hbd.date_from >= "'.pSQL($startDate).'" 
-      AND hbd.date_from <= "'.pSQL($endDate).'" 
-      AND o.current_state NOT IN (6,7)
-    ORDER BY hbd.date_from ASC, o.id_order ASC';
+        SELECT 
+                o.id_order,
+                o.reference,
+                CONCAT(c.firstname, " ", c.lastname) AS customer,
+                o.total_paid AS total,
+                o.payment AS payment_method,
+                o.current_state,
+                MIN(hbd.date_from) AS checkin,
+                MAX(hbd.date_to) AS checkout,
+                o.date_add AS order_date
+        FROM '._DB_PREFIX_.'orders o
+        INNER JOIN '._DB_PREFIX_.'customer c ON o.id_customer = c.id_customer
+        INNER JOIN '._DB_PREFIX_.'htl_booking_detail hbd ON o.id_order = hbd.id_order
+        WHERE hbd.date_from >= "'.pSQL($startDate).'" 
+            AND hbd.date_from <= "'.pSQL($endDate).'" 
+            AND o.current_state NOT IN (6,7)
+        GROUP BY o.id_order, o.reference, customer, o.total_paid, o.payment, o.current_state, o.date_add
+        ORDER BY MIN(hbd.date_from) ASC, o.id_order ASC';
 
 $rows = Db::getInstance()->executeS($sql);
 $bookings = $rows ?: [];
