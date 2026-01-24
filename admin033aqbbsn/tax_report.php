@@ -62,16 +62,22 @@ usort($bookings, function($a, $b) {
     return $ad <=> $bd;
 });
 
-// If a target amount is provided, keep only bookings that build up toward the target
+// If a target amount is provided, keep only bookings that get closest to the target (greedy, non-decreasing closeness)
 if ($targetAmount > 0 && !empty($bookings)) {
     $selected = [];
     $running = 0.0;
     foreach ($bookings as $b) {
-        if ($running >= $targetAmount) {
+        $next = (float)$b['total'];
+        $newSum = $running + $next;
+        $improves = abs($newSum - $targetAmount) <= abs($running - $targetAmount);
+        if ($running > 0 && !$improves) {
             break;
         }
         $selected[] = $b;
-        $running += (float)$b['total'];
+        $running = $newSum;
+        if ($running >= $targetAmount) {
+            break;
+        }
     }
     $bookings = $selected;
 }
