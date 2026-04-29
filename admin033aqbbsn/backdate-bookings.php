@@ -465,6 +465,18 @@ function getBackdatedOrdersForDelete($deleteMode, $deleteMonth, $deleteYear, $re
 
     return [$orders ?: [], $label];
 }
+
+function formatStayPeriod($checkin, $checkout)
+{
+    $checkinDate = !empty($checkin) ? date('d/m/Y', strtotime($checkin)) : 'N/A';
+    $checkoutDate = !empty($checkout) ? date('d/m/Y', strtotime($checkout)) : 'N/A';
+
+    if ($checkinDate === 'N/A' && $checkoutDate === 'N/A') {
+        return 'N/A';
+    }
+
+    return $checkinDate . ' - ' . $checkoutDate;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -944,7 +956,7 @@ function getBackdatedOrdersForDelete($deleteMode, $deleteMonth, $deleteYear, $re
                                 <tr>
                                     <th>Reference</th>
                                     <th>Customer</th>
-                                    <th>Check-in</th>
+                                    <th>Stay Period</th>
                                     <th>Payment</th>
                                     <th>Amount</th>
                                 </tr>
@@ -954,7 +966,7 @@ function getBackdatedOrdersForDelete($deleteMode, $deleteMonth, $deleteYear, $re
                                     <tr>
                                         <td><?php echo htmlspecialchars($booking['reference']); ?></td>
                                         <td><?php echo htmlspecialchars($booking['customer']); ?></td>
-                                        <td><?php echo date('d/m/Y', strtotime($booking['checkin'] ?? $booking['order_date'])); ?></td>
+                                        <td><?php echo htmlspecialchars(formatStayPeriod($booking['checkin'] ?? $booking['order_date'], $booking['checkout'] ?? $booking['checkin'] ?? $booking['order_date'])); ?></td>
                                         <td><?php echo htmlspecialchars($booking['payment_method']); ?></td>
                                         <td>GHS <?php echo number_format($booking['total'], 2); ?></td>
                                     </tr>
@@ -1573,7 +1585,7 @@ function downloadReportPDF() {
         b.reference,
         b.customer,
         '1',
-        b.checkin ? b.checkin.substring(0, 10) : 'N/A',
+        formatStayPeriod(b.checkin, b.checkout),
         formatCurrency(b.total),
         b.payment_method || 'N/A',
         b.order_date ? b.order_date.substring(0, 10) : 'N/A'
