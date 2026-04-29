@@ -3,7 +3,7 @@
         'name' => 'webkul/qloapps',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '5677ab2bc74fd89315c2bb26307fdadf87288d81',
+        'reference' => '4970fafa4982c639f149ec02d325073735afffdf',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'webkul/qloapps' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '5677ab2bc74fd89315c2bb26307fdadf87288d81',
+            'reference' => '4970fafa4982c639f149ec02d325073735afffdf',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

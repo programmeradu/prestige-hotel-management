@@ -20,6 +20,9 @@ $context = Context::getContext();
 $errors = [];
 $success = [];
 $injectedBookings = [];
+$deletePreviewOrders = [];
+$deletePreviewLabel = '';
+$activeTab = 'manual';
 
 // Get existing customers for auto-complete (phone stored on address table in PS 1.6)
 $customers = Db::getInstance()->executeS('
@@ -54,6 +57,13 @@ $paymentMethods = ['Cash', 'Ghana Mobile Money', 'Bank Transfer', 'Card Payment'
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    if ($_POST['action'] === 'generate_report') {
+        $activeTab = 'report';
+    } elseif ($_POST['action'] === 'delete_bookings') {
+        $activeTab = 'delete';
+    } elseif ($_POST['action'] === 'preview_delete_bookings') {
+        $activeTab = 'delete';
+    }
     
     if ($_POST['action'] === 'inject_bookings') {
         $bookings = json_decode($_POST['bookings_data'], true);
@@ -83,24 +93,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $startDate = sprintf('%04d-%02d-01', $year, $month);
         $endDate = date('Y-m-t', strtotime($startDate));
         
-        $reportBookings = Db::getInstance()->executeS('
+        $reportBookings = Db::getInstance()->executeS("
             SELECT 
                 o.id_order,
                 o.reference,
-                CONCAT(c.firstname, " ", c.lastname) as customer,
+                CONCAT(c.firstname, ' ', c.lastname) as customer,
                 o.total_paid as total,
                 o.payment as payment_method,
                 o.date_add as order_date,
                 hbd.date_from as checkin,
                 hbd.date_to as checkout
-            FROM '._DB_PREFIX_.'orders o
-            JOIN '._DB_PREFIX_.'customer c ON o.id_customer = c.id_customer
-            LEFT JOIN '._DB_PREFIX_.'htl_booking_detail hbd ON o.id_order = hbd.id_order
-            WHERE o.date_add >= "'.pSQL($startDate).' 00:00:00"
-            AND o.date_add <= "'.pSQL($endDate).' 23:59:59"
+            FROM "._DB_PREFIX_."orders o
+            JOIN "._DB_PREFIX_."customer c ON o.id_customer = c.id_customer
+            LEFT JOIN "._DB_PREFIX_."htl_booking_detail hbd ON o.id_order = hbd.id_order
+            WHERE o.date_add >= '".pSQL($startDate)." 00:00:00'
+            AND o.date_add <= '".pSQL($endDate)." 23:59:59'
             AND o.current_state NOT IN (6, 7)
             ORDER BY o.date_add DESC
-        ');
+        ");
         
         // Store for PDF generation
         $_SESSION['report_data'] = [
@@ -110,6 +120,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             'start_date' => $startDate,
             'end_date' => $endDate
         ];
+    }
+
+    if ($_POST['action'] === 'delete_bookings' || $_POST['action'] === 'preview_delete_bookings') {
+        $deleteMode = $_POST['delete_mode'] ?? 'month';
+        $deleteMonth = (int)($_POST['delete_month'] ?? date('n'));
+        $deleteYear = (int)($_POST['delete_year'] ?? date('Y'));
+        $referenceInput = trim((string)($_POST['delete_references'] ?? ''));
+
+        list($ordersToDelete, $deletePreviewLabel) = getBackdatedOrdersForDelete($deleteMode, $deleteMonth, $deleteYear, $referenceInput);
+
+        if ($_POST['action'] === 'preview_delete_bookings') {
+            if (empty($ordersToDelete)) {
+                $errors[] = 'No bookings matched the selected deletion criteria.';
+            } else {
+                $deletePreviewOrders = $ordersToDelete;
+                $success[] = 'Preview loaded for '.count($deletePreviewOrders).' booking order(s). Review the table before deleting.';
+            }
+        } else {
+            $confirmText = strtoupper(trim((string)($_POST['delete_confirm_text'] ?? '')));
+
+            if ($confirmText !== 'DELETE') {
+                $errors[] = 'Type DELETE in the confirmation box before deleting bookings.';
+            } else {
+                if (empty($ordersToDelete)) {
+                    $errors[] = 'No bookings matched the selected deletion criteria.';
+                } else {
+                    $db = Db::getInstance();
+                    $db->execute('START TRANSACTION');
+                    $deletedCount = 0;
+
+                    try {
+                        foreach ($ordersToDelete as $orderRow) {
+                            $orderId = (int)$orderRow['id_order'];
+                            $reference = (string)$orderRow['reference'];
+                            $cartId = (int)$orderRow['id_cart'];
+
+                            deleteBackdatedOrder($db, $orderId, $reference, $cartId);
+                            $deletedCount++;
+                        }
+
+                        $db->execute('COMMIT');
+                        $success[] = 'Deleted '.$deletedCount.' booking order(s) and related records.';
+                    } catch (Exception $e) {
+                        $db->execute('ROLLBACK');
+                        $errors[] = 'Deletion failed: '.$e->getMessage();
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -325,6 +384,86 @@ function injectBooking($booking, $context) {
             'error' => $e->getMessage()
         ];
     }
+}
+
+function deleteBackdatedOrder($db, $orderId, $reference, $cartId) {
+    $orderDetailRows = $db->executeS('SELECT id_order_detail FROM '._DB_PREFIX_.'order_detail WHERE id_order = '.(int)$orderId);
+    $orderDetailIds = array_map(static function ($row) {
+        return (int)$row['id_order_detail'];
+    }, $orderDetailRows ?: []);
+
+    $bookingRows = $db->executeS('SELECT id FROM '._DB_PREFIX_.'htl_booking_detail WHERE id_order = '.(int)$orderId);
+    $bookingIds = array_map(static function ($row) {
+        return (int)$row['id'];
+    }, $bookingRows ?: []);
+
+    $invoiceRows = $db->executeS('SELECT id_order_invoice FROM '._DB_PREFIX_.'order_invoice WHERE id_order = '.(int)$orderId);
+    $invoiceIds = array_map(static function ($row) {
+        return (int)$row['id_order_invoice'];
+    }, $invoiceRows ?: []);
+
+    if (!empty($bookingIds)) {
+        $db->delete('htl_booking_demands', 'id_htl_booking IN ('.implode(',', $bookingIds).')');
+    }
+
+    if (!empty($orderDetailIds)) {
+        $idList = implode(',', $orderDetailIds);
+        $db->delete('order_detail_tax', 'id_order_detail IN ('.$idList.')');
+        $db->delete('htl_room_type_service_product_order_detail', 'id_order_detail IN ('.$idList.')');
+        $db->delete('order_slip_detail', 'id_order_detail IN ('.$idList.')');
+        $db->delete('order_return_detail', 'id_order_detail IN ('.$idList.')');
+        $db->delete('order_detail', 'id_order = '.(int)$orderId);
+    }
+
+    if (!empty($invoiceIds)) {
+        $idList = implode(',', $invoiceIds);
+        $db->delete('order_invoice_tax', 'id_order_invoice IN ('.$idList.')');
+        $db->delete('order_invoice_payment', 'id_order_invoice IN ('.$idList.')');
+    }
+
+    $db->delete('order_payment', "order_reference = '".pSQL($reference)."'");
+    $db->delete('order_history', 'id_order = '.(int)$orderId);
+    $db->delete('order_carrier', 'id_order = '.(int)$orderId);
+    $db->delete('order_cart_rule', 'id_order = '.(int)$orderId);
+    $db->delete('order_slip', 'id_order = '.(int)$orderId);
+    $db->delete('order_return', 'id_order = '.(int)$orderId);
+    $db->delete('order_invoice', 'id_order = '.(int)$orderId);
+    $db->delete('htl_booking_detail', 'id_order = '.(int)$orderId);
+    $db->delete('htl_cart_booking_data', 'id_order = '.(int)$orderId);
+    $db->delete('cart_product', 'id_cart = '.(int)$cartId);
+    $db->delete('cart', 'id_cart = '.(int)$cartId);
+    $db->delete('orders', 'id_order = '.(int)$orderId);
+}
+
+function getBackdatedOrdersForDelete($deleteMode, $deleteMonth, $deleteYear, $referenceInput) {
+    $db = Db::getInstance();
+
+    if ($deleteMode === 'references' && $referenceInput !== '') {
+        $referenceValues = preg_split('/\r?\n|,/', $referenceInput);
+        $referenceValues = array_values(array_filter(array_map(static function ($value) {
+            return strtoupper(trim($value));
+        }, $referenceValues)));
+
+        if (!empty($referenceValues)) {
+            $referenceList = array_map(static function ($value) {
+                return "'".pSQL($value)."'";
+            }, $referenceValues);
+
+            $orders = $db->executeS("\n                SELECT id_order, reference, id_cart, total_paid, date_add\n                FROM ". _DB_PREFIX_ ."orders\n                WHERE reference IN (".implode(',', $referenceList).")\n                ORDER BY date_add ASC\n            ");
+
+            return [$orders ?: [], 'reference list'];
+        }
+
+        return [[], 'reference list'];
+    }
+
+    $startDate = sprintf('%04d-%02d-01', $deleteYear, $deleteMonth);
+    $endDate = date('Y-m-t', strtotime($startDate));
+    $label = date('F', mktime(0, 0, 0, $deleteMonth, 1)).' '.$deleteYear;
+
+    $orders = $db->executeS("\n        SELECT id_order, reference, id_cart, total_paid, date_add\n        FROM ". _DB_PREFIX_ ."orders\n        WHERE date_add >= '".pSQL($startDate)." 00:00:00'\n          AND date_add <= '".pSQL($endDate)." 23:59:59'\n        ORDER BY date_add ASC\n    ");
+
+    return [$orders ?: [], $label];
 }
 ?>
 <!DOCTYPE html>
@@ -552,13 +691,14 @@ function injectBooking($booking, $context) {
         <?php endif; ?>
         
         <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('manual')">Manual Entry</button>
-            <button class="tab-btn" onclick="showTab('auto')">Auto Generate</button>
-            <button class="tab-btn" onclick="showTab('report')">Generate Report</button>
+            <button class="tab-btn <?php echo $activeTab === 'manual' ? 'active' : ''; ?>" onclick="showTab('manual')">Manual Entry</button>
+            <button class="tab-btn <?php echo $activeTab === 'auto' ? 'active' : ''; ?>" onclick="showTab('auto')">Auto Generate</button>
+            <button class="tab-btn <?php echo $activeTab === 'report' ? 'active' : ''; ?>" onclick="showTab('report')">Generate Report</button>
+            <button class="tab-btn <?php echo $activeTab === 'delete' ? 'active' : ''; ?>" onclick="showTab('delete')">Delete Bookings</button>
         </div>
         
         <!-- Manual Entry Tab -->
-        <div id="tab-manual" class="tab-content active">
+        <div id="tab-manual" class="tab-content <?php echo $activeTab === 'manual' ? 'active' : ''; ?>">
             <div class="card">
                 <h2>Add Offline Booking</h2>
                 
@@ -682,7 +822,7 @@ function injectBooking($booking, $context) {
         </div>
         
         <!-- Auto Generate Tab -->
-        <div id="tab-auto" class="tab-content">
+        <div id="tab-auto" class="tab-content <?php echo $activeTab === 'auto' ? 'active' : ''; ?>">
             <div class="card">
                 <h2>Auto-Generate Backdated Bookings</h2>
                 <p style="color: var(--text-muted);">Generate random bookings for a specific month using existing customer data and room types.</p>
@@ -737,7 +877,7 @@ function injectBooking($booking, $context) {
         </div>
         
         <!-- Generate Report Tab -->
-        <div id="tab-report" class="tab-content">
+        <div id="tab-report" class="tab-content <?php echo $activeTab === 'report' ? 'active' : ''; ?>">
             <div class="card">
                 <h2>Generate Official Tax Report</h2>
                 
@@ -832,6 +972,104 @@ function injectBooking($booking, $context) {
                         const reportMonth = <?php echo $reportData['month']; ?>;
                         const reportYear = <?php echo $reportData['year']; ?>;
                     </script>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- Delete Bookings Tab -->
+        <div id="tab-delete" class="tab-content <?php echo $activeTab === 'delete' ? 'active' : ''; ?>">
+            <div class="card">
+                <h2>Delete Backdated Bookings</h2>
+                <p style="color: var(--text-muted);">Use this tab to remove imported bookings before re-importing corrected data. It deletes the order and the related booking rows, so it should only be used for backdated records.</p>
+
+                <form method="post">
+                    <input type="hidden" name="action" id="delete_action" value="delete_bookings">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Delete Mode</label>
+                            <select name="delete_mode" id="delete_mode">
+                                <option value="month">By Month</option>
+                                <option value="references">By Reference List</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Month</label>
+                            <select name="delete_month" id="delete_month">
+                                <?php for ($m = 1; $m <= 12; $m++): ?>
+                                    <option value="<?php echo $m; ?>" <?php echo $m == date('n') ? 'selected' : ''; ?>>
+                                        <?php echo date('F', mktime(0, 0, 0, $m, 1)); ?>
+                                    </option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Year</label>
+                            <select name="delete_year" id="delete_year">
+                                <?php for ($y = date('Y'); $y >= date('Y') - 3; $y--): ?>
+                                    <option value="<?php echo $y; ?>"><?php echo $y; ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Reference List</label>
+                        <textarea name="delete_references" id="delete_references" rows="5" placeholder="Optional: one order reference per line, or comma-separated"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type DELETE to confirm</label>
+                        <input type="text" name="delete_confirm_text" id="delete_confirm_text" placeholder="DELETE">
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="submit" class="btn btn-outline" onclick="document.getElementById('delete_action').value='preview_delete_bookings';">Preview Matches</button>
+                        <button type="submit" class="btn btn-danger">Delete Matching Bookings</button>
+                    </div>
+                </form>
+
+                <?php if (!empty($deletePreviewOrders)): ?>
+                    <hr style="margin: 25px 0; border: 0; border-top: 1px solid var(--border);">
+                    <h3 style="color: var(--primary);">Preview: <?php echo htmlspecialchars($deletePreviewLabel); ?></h3>
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="value"><?php echo count($deletePreviewOrders); ?></div>
+                            <div class="label">Matching Bookings</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="value">GHS <?php echo number_format(array_sum(array_column($deletePreviewOrders, 'total_paid')), 2); ?></div>
+                            <div class="label">Total Amount</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="value">Ready</div>
+                            <div class="label">Delete Status</div>
+                        </div>
+                    </div>
+
+                    <div style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Order ID</th>
+                                    <th>Cart ID</th>
+                                    <th>Order Date</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($deletePreviewOrders as $order): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($order['reference']); ?></td>
+                                        <td><?php echo (int)$order['id_order']; ?></td>
+                                        <td><?php echo (int)$order['id_cart']; ?></td>
+                                        <td><?php echo htmlspecialchars($order['date_add']); ?></td>
+                                        <td>GHS <?php echo number_format((float)$order['total_paid'], 2); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
