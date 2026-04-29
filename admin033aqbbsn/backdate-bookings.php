@@ -1143,36 +1143,40 @@ function formatStayPeriod($checkin, $checkout, $fallback = null)
     </div>
 
 <script>
-// Tab switching - define first to avoid undefined errors
-function showTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab switching - define first to avoid undefined errors
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        
+        document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
+        document.getElementById(`tab-${tabName}`).classList.add('active');
+    }
     
-    document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
-    document.getElementById(`tab-${tabName}`).classList.add('active');
-}
+    // Make showTab globally available for inline onclick handlers
+    window.showTab = showTab;
 
-// Customer data from PHP
-const customers = <?php echo json_encode($customers); ?>;
-const roomTypes = <?php echo json_encode($roomTypes); ?>;
+    // Customer data from PHP
+    const customers = <?php echo json_encode($customers); ?>;
+    const roomTypes = <?php echo json_encode($roomTypes); ?>;
 
-// Booking queue
-let bookingQueue = [];
+    // Booking queue
+    let bookingQueue = [];
 
-// Helper: find room type by name (case-insensitive contains)
-function findRoomTypeId(name) {
-    if (!name) return roomTypes[0]?.id_product || null;
-    const needle = name.toLowerCase();
-    const match = roomTypes.find(r => r.name && r.name.toLowerCase().includes(needle));
-    return match ? match.id_product : (roomTypes[0]?.id_product || null);
-}
+    // Helper: find room type by name (case-insensitive contains)
+    function findRoomTypeId(name) {
+        if (!name) return roomTypes[0]?.id_product || null;
+        const needle = name.toLowerCase();
+        const match = roomTypes.find(r => r.name && r.name.toLowerCase().includes(needle));
+        return match ? match.id_product : (roomTypes[0]?.id_product || null);
+    }
 
-// Customer autocomplete
-const customerInput = document.getElementById('customer_name');
-const customerList = document.getElementById('customer_list');
-const customerIdInput = document.getElementById('customer_id');
+    // Customer autocomplete
+    const customerInput = document.getElementById('customer_name');
+    const customerList = document.getElementById('customer_list');
+    const customerIdInput = document.getElementById('customer_id');
 
-customerInput.addEventListener('input', function() {
+    customerInput.addEventListener('input', function() {
     const query = this.value.toLowerCase();
     customerIdInput.value = '';
     
@@ -1197,268 +1201,283 @@ customerInput.addEventListener('input', function() {
     } else {
         customerList.style.display = 'none';
     }
-});
+    });
 
-function selectCustomer(id, name, phone) {
-    customerInput.value = name;
-    customerIdInput.value = id;
-    document.getElementById('customer_phone').value = phone;
-    customerList.style.display = 'none';
-}
-
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.customer-autocomplete')) {
+    function selectCustomer(id, name, phone) {
+        customerInput.value = name;
+        customerIdInput.value = id;
+        document.getElementById('customer_phone').value = phone;
         customerList.style.display = 'none';
     }
-});
+    
+    // Make selectCustomer globally available for inline onclick handlers
+    window.selectCustomer = selectCustomer;
 
-// Set default dates based on selected month
-function updateDatesForMonth() {
-    const month = document.getElementById('target_month').value;
-    const year = document.getElementById('target_year').value;
-    const daysInMonth = new Date(year, month, 0).getDate();
-    
-    // Random day in month for check-in
-    const day = Math.floor(Math.random() * (daysInMonth - 3)) + 1;
-    const checkin = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const checkout = `${year}-${String(month).padStart(2, '0')}-${String(Math.min(day + 1 + Math.floor(Math.random() * 3), daysInMonth)).padStart(2, '0')}`;
-    
-    document.getElementById('checkin_date').value = checkin;
-    document.getElementById('checkout_date').value = checkout;
-}
-
-document.getElementById('target_month').addEventListener('change', updateDatesForMonth);
-document.getElementById('target_year').addEventListener('change', updateDatesForMonth);
-
-// Add booking to queue
-function addBookingToQueue() {
-    const customerName = document.getElementById('customer_name').value.trim();
-    const customerId = document.getElementById('customer_id').value;
-    const phone = document.getElementById('customer_phone').value.trim();
-    const roomType = document.getElementById('room_type');
-    const roomTypeName = roomType.options[roomType.selectedIndex].text;
-    const payment = document.getElementById('payment_method').value;
-    const checkin = document.getElementById('checkin_date').value;
-    const checkout = document.getElementById('checkout_date').value;
-    const total = parseFloat(document.getElementById('total_amount').value) || 0;
-    
-    if (!customerName) {
-        alert('Please enter customer name');
-        return;
-    }
-    if (!checkin || !checkout) {
-        alert('Please select check-in and check-out dates');
-        return;
-    }
-    if (total <= 0) {
-        alert('Please enter a valid amount');
-        return;
-    }
-    
-    // Parse name into first/last
-    const nameParts = customerName.split(' ');
-    const firstname = nameParts[0] || 'Guest';
-    const lastname = nameParts.slice(1).join(' ') || 'Guest';
-    
-    const booking = {
-        customer_id: customerId,
-        customer_name: customerName,
-        firstname: firstname,
-        lastname: lastname,
-        phone: phone,
-        room_type_id: roomType.value,
-        room_type_name: roomTypeName,
-        payment_method: payment,
-        checkin_date: checkin,
-        checkout_date: checkout,
-        total_amount: total,
-        order_date: checkin + ' 14:00:00'
-    };
-    
-    bookingQueue.push(booking);
-    renderQueue();
-    
-    // Clear form
-    document.getElementById('customer_name').value = '';
-    document.getElementById('customer_id').value = '';
-    document.getElementById('customer_phone').value = '';
-    document.getElementById('total_amount').value = '';
-    updateDatesForMonth();
-}
-
-function renderQueue() {
-    const container = document.getElementById('booking_queue');
-    
-    if (bookingQueue.length === 0) {
-        container.innerHTML = '<div class="booking-item" style="color: var(--text-muted); justify-content: center;">No bookings in queue. Add bookings above.</div>';
-    } else {
-        container.innerHTML = bookingQueue.map((b, i) => `
-            <div class="booking-item">
-                <div class="booking-info">
-                    <strong>${b.customer_name}</strong> - ${b.room_type_name}<br>
-                    <small>${b.checkin_date} to ${b.checkout_date} | ${b.payment_method} | GHS ${b.total_amount.toFixed(2)}</small>
-                </div>
-                <button class="btn btn-danger" onclick="removeFromQueue(${i})" style="padding: 5px 10px;">×</button>
-            </div>
-        `).join('');
-    }
-    
-    // Update stats
-    const total = bookingQueue.reduce((s, b) => s + b.total_amount, 0);
-    const taxable = total * (100 / 115);
-    const vat = taxable * 0.15;
-    const levyBase = taxable / 1.06;
-    const taxes = vat + (levyBase * 0.06);
-    
-    document.getElementById('queue_count').textContent = bookingQueue.length;
-    document.getElementById('queue_total').textContent = 'GHS ' + total.toFixed(2);
-    document.getElementById('queue_tax').textContent = 'GHS ' + taxes.toFixed(2);
-}
-
-function removeFromQueue(index) {
-    bookingQueue.splice(index, 1);
-    renderQueue();
-}
-
-function clearQueue() {
-    if (confirm('Clear all bookings from queue?')) {
-        bookingQueue = [];
-        renderQueue();
-    }
-}
-
-// CSV import
-function importCSVBookings() {
-    const fileInput = document.getElementById('csv_import');
-    if (!fileInput.files.length) {
-        alert('Please select a CSV file to import');
-        return;
-    }
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const rows = parseCSVText(e.target.result);
-            if (!rows.length) {
-                alert('No valid rows found in CSV');
-                return;
-            }
-            bookingQueue = bookingQueue.concat(rows);
-            renderQueue();
-            if (confirm(`Imported ${rows.length} bookings. Inject them now?`)) {
-                injectAllBookings();
-            } else {
-                alert('Bookings added to queue. You can review and inject later.');
-            }
-        } catch (err) {
-            alert('Failed to parse CSV: ' + err.message);
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.customer-autocomplete')) {
+            customerList.style.display = 'none';
         }
-    };
-    reader.readAsText(file);
-}
+    });
 
-function parseCSVText(text) {
-    const lines = text.split(/\r?\n/).filter(l => l.trim());
-    if (lines.length < 2) return [];
-
-    // Detect delimiter (supports comma or semicolon)
-    const firstLine = lines[0];
-    const commaCount = firstLine.split(',').length;
-    const semicolonCount = firstLine.split(';').length;
-    const delimiter = semicolonCount > commaCount ? ';' : ',';
-
-    const headers = firstLine.split(delimiter).map(h => h.replace(/^"|"$/g, '').trim().toLowerCase());
-    const idx = (nameVariants) => {
-        const lower = headers.map(h => h.toLowerCase());
-        for (const v of nameVariants) {
-            const pos = lower.indexOf(v.toLowerCase());
-            if (pos !== -1) return pos;
-        }
-        return -1;
-    };
-
-    const ciCustomer = idx(['customer','name','guest']);
-    const ciCheckin = idx(['check-in','checkin','check in','date_from','date from','date_from','check-in date','arrival','arrival date']);
-    const ciCheckout = idx(['check-out','checkout','check out','date_to','date to','date_to','check-out date','departure','departure date']);
-    const ciAmount = idx(['amount','total','order total','total amount','price','amount (ghs)']);
-    const ciPayment = idx(['payment','payment method','method']);
-    const ciRoom = idx(['room type','room','room_type','room number','room no']);
-    const ciPhone = idx(['phone','phone number','mobile','mobile phone','contact']);
-    const ciReference = idx(['reference','ref']);
-
-    // Use current year if year is missing; avoid forcing the target selector
-    const fallbackYear = new Date().getFullYear();
-
-    // Normalize dates like 10/11/2025 or 10/11 (assumes dd/mm for Ghana data)
-    const normalizeDate = (raw, fallbackYear) => {
-        if (!raw) return '';
-        const cleaned = raw.replace(/['"]/g, '').trim();
-        if (!cleaned) return '';
-        const parts = cleaned.split(/[\/\-]/).filter(Boolean);
-        if (parts.length < 2) return '';
-        let day, month, year;
+    // Set default dates based on selected month
+    function updateDatesForMonth() {
+        const month = document.getElementById('target_month').value;
+        const year = document.getElementById('target_year').value;
+        const daysInMonth = new Date(year, month, 0).getDate();
         
-        const p1 = parseInt(parts[0], 10);
-        const p2 = parseInt(parts[1], 10);
-        const p3 = parts[2] ? parseInt(parts[2], 10) : null;
+        // Random day in month for check-in
+        const day = Math.floor(Math.random() * (daysInMonth - 3)) + 1;
+        const checkin = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const checkout = `${year}-${String(month).padStart(2, '0')}-${String(Math.min(day + 1 + Math.floor(Math.random() * 3), daysInMonth)).padStart(2, '0')}`;
         
-        if (parts.length === 3) {
-            // If first part > 12, definitely dd/mm. If second part > 12, definitely mm/dd.
-            // Otherwise, assume dd/mm for Ghana data (default)
-            if (p2 > 12) {
-                month = p1; day = p2; year = p3;
-            } else {
-                day = p1; month = p2; year = p3;
-            }
-        } else {
-            if (p2 > 12) {
-                month = p1; day = p2; year = fallbackYear;
-            } else {
-                day = p1; month = p2; year = fallbackYear;
-            }
-        }
-        if (!year || year < 100) year = 2000 + (year || 0);
-        if (!day || !month) return '';
-        const iso = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        return isNaN(Date.parse(iso)) ? '' : iso;
-    };
+        document.getElementById('checkin_date').value = checkin;
+        document.getElementById('checkout_date').value = checkout;
+    }
 
-    const rows = [];
-    for (let i = 1; i < lines.length; i++) {
-        const cols = lines[i].split(delimiter);
-        const get = (ix) => ix >= 0 ? (cols[ix] || '').replace(/^"|"$/g, '').trim() : '';
-        const customerName = get(ciCustomer) || 'Guest';
-        const amountStr = get(ciAmount).replace(/[^0-9.]/g, '');
-        const total = parseFloat(amountStr) || 0;
-        if (total <= 0) continue;
+    document.getElementById('target_month').addEventListener('change', updateDatesForMonth);
+    document.getElementById('target_year').addEventListener('change', updateDatesForMonth);
 
-        const rawCheckin = get(ciCheckin) || '';
-        const rawCheckout = get(ciCheckout) || '';
-        const checkin = normalizeDate(rawCheckin, fallbackYear);
-        const checkout = normalizeDate(rawCheckout, checkin ? parseInt(checkin.slice(0, 4), 10) : fallbackYear) || checkin;
-        if (!checkin) continue;
-
-        const payment = get(ciPayment) || 'Cash';
-        const roomName = get(ciRoom);
-        let roomId = findRoomTypeId(roomName);
-        if (roomName && /^\d+$/.test(roomName.trim())) {
-            const numericMatch = roomTypes.find(r => parseInt(r.id_product, 10) === parseInt(roomName, 10));
-            if (numericMatch) roomId = numericMatch.id_product;
-        }
-        const phone = get(ciPhone);
-        const reference = get(ciReference);
+    // Add booking to queue
+    function addBookingToQueue() {
+        const customerName = document.getElementById('customer_name').value.trim();
+        const customerId = document.getElementById('customer_id').value;
+        const phone = document.getElementById('customer_phone').value.trim();
+        const roomType = document.getElementById('room_type');
+        const roomTypeName = roomType.options[roomType.selectedIndex].text;
+        const payment = document.getElementById('payment_method').value;
+        const checkin = document.getElementById('checkin_date').value;
+        const checkout = document.getElementById('checkout_date').value;
+        const total = parseFloat(document.getElementById('total_amount').value) || 0;
         
+        if (!customerName) {
+            alert('Please enter customer name');
+            return;
+        }
+        if (!checkin || !checkout) {
+            alert('Please select check-in and check-out dates');
+            return;
+        }
+        if (total <= 0) {
+            alert('Please enter a valid amount');
+            return;
+        }
+        
+        // Parse name into first/last
         const nameParts = customerName.split(' ');
         const firstname = nameParts[0] || 'Guest';
         const lastname = nameParts.slice(1).join(' ') || 'Guest';
-
-        const resolvedRoomName = roomName || (roomTypes.find(r => parseInt(r.id_product, 10) === parseInt(roomId, 10))?.name || '');
-        const orderDate = (checkin || new Date().toISOString().slice(0,10)) + ' 14:00:00';
         
-        rows.push({
-            customer_id: '',
+        const booking = {
+            customer_id: customerId,
             customer_name: customerName,
-            firstname,
+            firstname: firstname,
+            lastname: lastname,
+            phone: phone,
+            room_type_id: roomType.value,
+            room_type_name: roomTypeName,
+            payment_method: payment,
+            checkin_date: checkin,
+            checkout_date: checkout,
+            total_amount: total,
+            order_date: checkin + ' 14:00:00'
+        };
+        
+        bookingQueue.push(booking);
+        renderQueue();
+        
+        // Clear form
+        document.getElementById('customer_name').value = '';
+        document.getElementById('customer_id').value = '';
+        document.getElementById('customer_phone').value = '';
+        document.getElementById('total_amount').value = '';
+        updateDatesForMonth();
+    }
+    
+    // Make addBookingToQueue globally available 
+    window.addBookingToQueue = addBookingToQueue;
+
+    function renderQueue() {
+        const container = document.getElementById('booking_queue');
+        
+        if (bookingQueue.length === 0) {
+            container.innerHTML = '<div class="booking-item" style="color: var(--text-muted); justify-content: center;">No bookings in queue. Add bookings above.</div>';
+        } else {
+            container.innerHTML = bookingQueue.map((b, i) => `
+                <div class="booking-item">
+                    <div class="booking-info">
+                        <strong>${b.customer_name}</strong> - ${b.room_type_name}<br>
+                        <small>${b.checkin_date} to ${b.checkout_date} | ${b.payment_method} | GHS ${b.total_amount.toFixed(2)}</small>
+                    </div>
+                    <button class="btn btn-danger" onclick="removeFromQueue(${i})" style="padding: 5px 10px;">×</button>
+                </div>
+            `).join('');
+        }
+        
+        // Update stats
+        const total = bookingQueue.reduce((s, b) => s + b.total_amount, 0);
+        const taxable = total * (100 / 115);
+        const vat = taxable * 0.15;
+        const levyBase = taxable / 1.06;
+        const taxes = vat + (levyBase * 0.06);
+        
+        document.getElementById('queue_count').textContent = bookingQueue.length;
+        document.getElementById('queue_total').textContent = 'GHS ' + total.toFixed(2);
+        document.getElementById('queue_tax').textContent = 'GHS ' + taxes.toFixed(2);
+    }
+
+    function removeFromQueue(index) {
+        bookingQueue.splice(index, 1);
+        renderQueue();
+    }
+    
+    // Make removeFromQueue globally available
+    window.removeFromQueue = removeFromQueue;
+
+    function clearQueue() {
+        if (confirm('Clear all bookings from queue?')) {
+            bookingQueue = [];
+            renderQueue();
+        }
+    }
+    
+    // Make clearQueue globally available
+    window.clearQueue = clearQueue;
+
+    // CSV import
+    function importCSVBookings() {
+        const fileInput = document.getElementById('csv_import');
+        if (!fileInput.files.length) {
+            alert('Please select a CSV file to import');
+            return;
+        }
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const rows = parseCSVText(e.target.result);
+                if (!rows.length) {
+                    alert('No valid rows found in CSV');
+                    return;
+                }
+                bookingQueue = bookingQueue.concat(rows);
+                renderQueue();
+                if (confirm(`Imported ${rows.length} bookings. Inject them now?`)) {
+                    injectAllBookings();
+                } else {
+                    alert('Bookings added to queue. You can review and inject later.');
+                }
+            } catch (err) {
+                alert('Failed to parse CSV: ' + err.message);
+            }
+        };
+        reader.readAsText(file);
+    }
+    
+    // Make importCSVBookings globally available
+    window.importCSVBookings = importCSVBookings;
+
+    function parseCSVText(text) {
+        const lines = text.split(/\r?\n/).filter(l => l.trim());
+        if (lines.length < 2) return [];
+
+        // Detect delimiter (supports comma or semicolon)
+        const firstLine = lines[0];
+        const commaCount = firstLine.split(',').length;
+        const semicolonCount = firstLine.split(';').length;
+        const delimiter = semicolonCount > commaCount ? ';' : ',';
+
+        const headers = firstLine.split(delimiter).map(h => h.replace(/^"|"$/g, '').trim().toLowerCase());
+        const idx = (nameVariants) => {
+            const lower = headers.map(h => h.toLowerCase());
+            for (const v of nameVariants) {
+                const pos = lower.indexOf(v.toLowerCase());
+                if (pos !== -1) return pos;
+            }
+            return -1;
+        };
+
+        const ciCustomer = idx(['customer','name','guest']);
+        const ciCheckin = idx(['check-in','checkin','check in','date_from','date from','date_from','check-in date','arrival','arrival date']);
+        const ciCheckout = idx(['check-out','checkout','check out','date_to','date to','date_to','check-out date','departure','departure date']);
+        const ciAmount = idx(['amount','total','order total','total amount','price','amount (ghs)']);
+        const ciPayment = idx(['payment','payment method','method']);
+        const ciRoom = idx(['room type','room','room_type','room number','room no']);
+        const ciPhone = idx(['phone','phone number','mobile','mobile phone','contact']);
+        const ciReference = idx(['reference','ref']);
+
+        // Use current year if year is missing; avoid forcing the target selector
+        const fallbackYear = new Date().getFullYear();
+
+        // Normalize dates like 10/11/2025 or 10/11 (assumes dd/mm for Ghana data)
+        const normalizeDate = (raw, fallbackYear) => {
+            if (!raw) return '';
+            const cleaned = raw.replace(/['"]/g, '').trim();
+            if (!cleaned) return '';
+            const parts = cleaned.split(/[\/\-]/).filter(Boolean);
+            if (parts.length < 2) return '';
+            let day, month, year;
+            
+            const p1 = parseInt(parts[0], 10);
+            const p2 = parseInt(parts[1], 10);
+            const p3 = parts[2] ? parseInt(parts[2], 10) : null;
+            
+            if (parts.length === 3) {
+                // If first part > 12, definitely dd/mm. If second part > 12, definitely mm/dd.
+                // Otherwise, assume dd/mm for Ghana data (default)
+                if (p2 > 12) {
+                    month = p1; day = p2; year = p3;
+                } else {
+                    day = p1; month = p2; year = p3;
+                }
+            } else {
+                if (p2 > 12) {
+                    month = p1; day = p2; year = fallbackYear;
+                } else {
+                    day = p1; month = p2; year = fallbackYear;
+                }
+            }
+            if (!year || year < 100) year = 2000 + (year || 0);
+            if (!day || !month) return '';
+            const iso = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            return isNaN(Date.parse(iso)) ? '' : iso;
+        };
+
+        const rows = [];
+        for (let i = 1; i < lines.length; i++) {
+            const cols = lines[i].split(delimiter);
+            const get = (ix) => ix >= 0 ? (cols[ix] || '').replace(/^"|"$/g, '').trim() : '';
+            const customerName = get(ciCustomer) || 'Guest';
+            const amountStr = get(ciAmount).replace(/[^0-9.]/g, '');
+            const total = parseFloat(amountStr) || 0;
+            if (total <= 0) continue;
+
+            const rawCheckin = get(ciCheckin) || '';
+            const rawCheckout = get(ciCheckout) || '';
+            const checkin = normalizeDate(rawCheckin, fallbackYear);
+            const checkout = normalizeDate(rawCheckout, checkin ? parseInt(checkin.slice(0, 4), 10) : fallbackYear) || checkin;
+            if (!checkin) continue;
+
+            const payment = get(ciPayment) || 'Cash';
+            const roomName = get(ciRoom);
+            let roomId = findRoomTypeId(roomName);
+            if (roomName && /^\d+$/.test(roomName.trim())) {
+                const numericMatch = roomTypes.find(r => parseInt(r.id_product, 10) === parseInt(roomName, 10));
+                if (numericMatch) roomId = numericMatch.id_product;
+            }
+            const phone = get(ciPhone);
+            const reference = get(ciReference);
+            
+            const nameParts = customerName.split(' ');
+            const firstname = nameParts[0] || 'Guest';
+            const lastname = nameParts.slice(1).join(' ') || 'Guest';
+
+            const resolvedRoomName = roomName || (roomTypes.find(r => parseInt(r.id_product, 10) === parseInt(roomId, 10))?.name || '');
+            const orderDate = (checkin || new Date().toISOString().slice(0,10)) + ' 14:00:00';
+            
+            rows.push({
+                customer_id: '',
+                customer_name: customerName,
+                firstname,
             lastname,
             phone,
             room_type_id: roomId,
@@ -1470,122 +1489,128 @@ function parseCSVText(text) {
             order_date: orderDate,
             reference
         });
+        }
+        return rows;
     }
-    return rows;
-}
 
-// Inject all bookings
-function injectAllBookings() {
-    if (bookingQueue.length === 0) {
-        alert('No bookings in queue');
-        return;
-    }
-    
-    if (!confirm(`Inject ${bookingQueue.length} bookings into the database? This cannot be undone.`)) {
-        return;
-    }
-    
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.innerHTML = `
-        <input type="hidden" name="action" value="inject_bookings">
-        <input type="hidden" name="bookings_data" value='${JSON.stringify(bookingQueue)}'>
-    `;
-    document.body.appendChild(form);
-    form.submit();
-}
-
-// Auto-generate bookings
-function autoGenerateBookings() {
-    const month = parseInt(document.getElementById('auto_month').value);
-    const year = parseInt(document.getElementById('auto_year').value);
-    const count = parseInt(document.getElementById('auto_count').value);
-    const minAmount = parseFloat(document.getElementById('auto_min').value);
-    const maxAmount = parseFloat(document.getElementById('auto_max').value);
-    const payment = document.getElementById('auto_payment').value;
-    
-    const daysInMonth = new Date(year, month, 0).getDate();
-    
-    // Sample Ghanaian names if no customers exist
-    const sampleNames = [
-        'Kwame Asante', 'Ama Mensah', 'Kofi Owusu', 'Akua Boateng', 'Yaw Adjei',
-        'Abena Darko', 'Kwesi Amponsah', 'Adwoa Frimpong', 'Kojo Tetteh', 'Afua Sarpong',
-        'Kwabena Osei', 'Efua Antwi', 'Fiifi Agyeman', 'Esi Quansah', 'Papa Nkrumah'
-    ];
-    
-    for (let i = 0; i < count; i++) {
-        // Random customer
-        let customerName, customerId = '', phone = '';
-        if (customers.length > 0 && Math.random() > 0.3) {
-            const c = customers[Math.floor(Math.random() * customers.length)];
-            customerName = c.firstname + ' ' + c.lastname;
-            customerId = c.id_customer;
-            phone = c.phone || '';
-        } else {
-            customerName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
-            phone = '024' + Math.floor(1000000 + Math.random() * 9000000);
+    // Inject all bookings
+    function injectAllBookings() {
+        if (bookingQueue.length === 0) {
+            alert('No bookings in queue');
+            return;
         }
         
-        // Random dates in month
-        const checkinDay = Math.floor(Math.random() * (daysInMonth - 3)) + 1;
-        const nights = Math.floor(Math.random() * 4) + 1;
-        const checkoutDay = Math.min(checkinDay + nights, daysInMonth);
+        if (!confirm(`Inject ${bookingQueue.length} bookings into the database? This cannot be undone.`)) {
+            return;
+        }
         
-        const checkin = `${year}-${String(month).padStart(2, '0')}-${String(checkinDay).padStart(2, '0')}`;
-        const checkout = `${year}-${String(month).padStart(2, '0')}-${String(checkoutDay).padStart(2, '0')}`;
-        
-        // Random room type
-        const room = roomTypes[Math.floor(Math.random() * roomTypes.length)];
-        
-        // Random amount in range
-        const amount = Math.round((minAmount + Math.random() * (maxAmount - minAmount)) / 50) * 50;
-        
-        // Parse name
-        const nameParts = customerName.split(' ');
-        
-        bookingQueue.push({
-            customer_id: customerId,
-            customer_name: customerName,
-            firstname: nameParts[0],
-            lastname: nameParts.slice(1).join(' ') || 'Guest',
-            phone: phone,
-            room_type_id: room.id_product,
-            room_type_name: room.name,
-            payment_method: payment,
-            checkin_date: checkin,
-            checkout_date: checkout,
-            total_amount: amount,
-            order_date: checkin + ' 14:00:00'
-        });
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.innerHTML = `
+            <input type="hidden" name="action" value="inject_bookings">
+            <input type="hidden" name="bookings_data" value='${JSON.stringify(bookingQueue)}'>
+        `;
+        document.body.appendChild(form);
+        form.submit();
     }
     
-    renderQueue();
-    showTab('manual'); // Switch to manual tab to see queue
-    alert(`Generated ${count} bookings. Review them in the queue before injecting.`);
-}
+    // Make injectAllBookings globally available
+    window.injectAllBookings = injectAllBookings;
 
-// Download PDF Report
-function downloadReportPDF() {
-    if (typeof reportBookings === 'undefined' || reportBookings.length === 0) {
-        alert('No report data available');
-        return;
+    // Auto-generate bookings
+    function autoGenerateBookings() {
+        const month = parseInt(document.getElementById('auto_month').value);
+        const year = parseInt(document.getElementById('auto_year').value);
+        const count = parseInt(document.getElementById('auto_count').value);
+        const minAmount = parseFloat(document.getElementById('auto_min').value);
+        const maxAmount = parseFloat(document.getElementById('auto_max').value);
+        const payment = document.getElementById('auto_payment').value;
+        
+        const daysInMonth = new Date(year, month, 0).getDate();
+        
+        // Sample Ghanaian names if no customers exist
+        const sampleNames = [
+            'Kwame Asante', 'Ama Mensah', 'Kofi Owusu', 'Akua Boateng', 'Yaw Adjei',
+            'Abena Darko', 'Kwesi Amponsah', 'Adwoa Frimpong', 'Kojo Tetteh', 'Afua Sarpong',
+            'Kwabena Osei', 'Efua Antwi', 'Fiifi Agyeman', 'Esi Quansah', 'Papa Nkrumah'
+        ];
+        
+        for (let i = 0; i < count; i++) {
+            // Random customer
+            let customerName, customerId = '', phone = '';
+            if (customers.length > 0 && Math.random() > 0.3) {
+                const c = customers[Math.floor(Math.random() * customers.length)];
+                customerName = c.firstname + ' ' + c.lastname;
+                customerId = c.id_customer;
+                phone = c.phone || '';
+            } else {
+                customerName = sampleNames[Math.floor(Math.random() * sampleNames.length)];
+                phone = '024' + Math.floor(1000000 + Math.random() * 9000000);
+            }
+            
+            // Random dates in month
+            const checkinDay = Math.floor(Math.random() * (daysInMonth - 3)) + 1;
+            const nights = Math.floor(Math.random() * 4) + 1;
+            const checkoutDay = Math.min(checkinDay + nights, daysInMonth);
+            
+            const checkin = `${year}-${String(month).padStart(2, '0')}-${String(checkinDay).padStart(2, '0')}`;
+            const checkout = `${year}-${String(month).padStart(2, '0')}-${String(checkoutDay).padStart(2, '0')}`;
+            
+            // Random room type
+            const room = roomTypes[Math.floor(Math.random() * roomTypes.length)];
+            
+            // Random amount in range
+            const amount = Math.round((minAmount + Math.random() * (maxAmount - minAmount)) / 50) * 50;
+            
+            // Parse name
+            const nameParts = customerName.split(' ');
+            
+            bookingQueue.push({
+                customer_id: customerId,
+                customer_name: customerName,
+                firstname: nameParts[0],
+                lastname: nameParts.slice(1).join(' ') || 'Guest',
+                phone: phone,
+                room_type_id: room.id_product,
+                room_type_name: room.name,
+                payment_method: payment,
+                checkin_date: checkin,
+                checkout_date: checkout,
+                total_amount: amount,
+                order_date: checkin + ' 14:00:00'
+            });
+        }
+        
+        renderQueue();
+        showTab('manual'); // Switch to manual tab to see queue
+        alert(`Generated ${count} bookings. Review them in the queue before injecting.`);
     }
     
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    const totalRevenue = reportBookings.reduce((s, b) => s + parseFloat(b.total), 0);
-    const formatCurrency = (num) => `GHS ${parseFloat(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    const monthName = new Date(reportYear, reportMonth - 1).toLocaleString('en-US', { month: 'long' });
-    
-    // Header
-    doc.setFontSize(22);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor('#005a9e');
-    doc.text("Prestige Hotel", 105, 20, { align: 'center' });
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor('#333333');
+    // Make autoGenerateBookings globally available
+    window.autoGenerateBookings = autoGenerateBookings;
+
+    // Download PDF Report
+    function downloadReportPDF() {
+        if (typeof reportBookings === 'undefined' || reportBookings.length === 0) {
+            alert('No report data available');
+            return;
+        }
+        
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        const totalRevenue = reportBookings.reduce((s, b) => s + parseFloat(b.total), 0);
+        const formatCurrency = (num) => `GHS ${parseFloat(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        const monthName = new Date(reportYear, reportMonth - 1).toLocaleString('en-US', { month: 'long' });
+        
+        // Header
+        doc.setFontSize(22);
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor('#005a9e');
+        doc.text("Prestige Hotel", 105, 20, { align: 'center' });
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor('#333333');
     doc.text("Official Tax & Revenue Report", 105, 28, { align: 'center' });
     
     // Summary
@@ -1612,63 +1637,67 @@ function downloadReportPDF() {
     const covidLevy = baseForLevies * 0.01;
     const totalTaxes = vat + nhil + getFund + covidLevy;
     
-    doc.setFontSize(12);
-    doc.setFont("helvetica", "bold");
-    doc.text("Tax & Levy Breakdown", 14, taxY);
-    doc.line(14, taxY + 2, 196, taxY + 2);
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.text("Tax & Levy Breakdown", 14, taxY);
+        doc.line(14, taxY + 2, 196, taxY + 2);
+        
+        let currentY = taxY + 10;
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
+        
+        const addRow = (label, value, bold = false) => {
+            if (bold) doc.setFont("helvetica", "bold");
+            doc.text(label, 14, currentY);
+            doc.text(value, 120, currentY);
+            if (bold) doc.setFont("helvetica", "normal");
+            currentY += 7;
+        };
+        
+        addRow('Taxable Revenue:', formatCurrency(taxableRevenue));
+        addRow('VAT (15%):', formatCurrency(vat));
+        addRow('NHIL (2.5%):', formatCurrency(nhil));
+        addRow('GetFund (2.5%):', formatCurrency(getFund));
+        addRow('Covid Levy (1%):', formatCurrency(covidLevy));
+        currentY += 2;
+        addRow('Total Taxes & Levies:', formatCurrency(totalTaxes), true);
+        
+        // Table
+        currentY += 8;
+        const head = [['Reference', 'Customer', 'Rooms', 'Stay Period', 'Total Amount', 'Payment Method', 'Order Date']];
+        const body = reportBookings.map(b => [
+            b.reference,
+            b.customer,
+            '1',
+            formatStayPeriod(b.checkin, b.checkout, b.order_date),
+            formatCurrency(b.total),
+            b.payment_method || 'N/A',
+            b.order_date ? b.order_date.substring(0, 10) : 'N/A'
+        ]);
+        
+        doc.autoTable({
+            startY: currentY,
+            head: head,
+            body: body,
+            theme: 'grid',
+            headStyles: {
+                fillColor: [0, 90, 158],
+                textColor: 255,
+                fontStyle: 'bold',
+                fontSize: 8
+            },
+            styles: { fontSize: 8, cellPadding: 3 }
+        });
+        
+        doc.save(`Tax_Report_${monthName}_${reportYear}.pdf`);
+    }
     
-    let currentY = taxY + 10;
-    doc.setFontSize(11);
-    doc.setFont("helvetica", "normal");
-    
-    const addRow = (label, value, bold = false) => {
-        if (bold) doc.setFont("helvetica", "bold");
-        doc.text(label, 14, currentY);
-        doc.text(value, 120, currentY);
-        if (bold) doc.setFont("helvetica", "normal");
-        currentY += 7;
-    };
-    
-    addRow('Taxable Revenue:', formatCurrency(taxableRevenue));
-    addRow('VAT (15%):', formatCurrency(vat));
-    addRow('NHIL (2.5%):', formatCurrency(nhil));
-    addRow('GetFund (2.5%):', formatCurrency(getFund));
-    addRow('Covid Levy (1%):', formatCurrency(covidLevy));
-    currentY += 2;
-    addRow('Total Taxes & Levies:', formatCurrency(totalTaxes), true);
-    
-    // Table
-    currentY += 8;
-    const head = [['Reference', 'Customer', 'Rooms', 'Stay Period', 'Total Amount', 'Payment Method', 'Order Date']];
-    const body = reportBookings.map(b => [, b.order_date
-        b.reference,
-        b.customer,
-        '1',
-        formatStayPeriod(b.checkin, b.checkout, b.order_date),
-        formatCurrency(b.total),
-        b.payment_method || 'N/A',
-        b.order_date ? b.order_date.substring(0, 10) : 'N/A'
-    ]);
-    
-    doc.autoTable({
-        startY: currentY,
-        head: head,
-        body: body,
-        theme: 'grid',
-        headStyles: {
-            fillColor: [0, 90, 158],
-            textColor: 255,
-            fontStyle: 'bold',
-            fontSize: 8
-        },
-        styles: { fontSize: 8, cellPadding: 3 }
-    });
-    
-    doc.save(`Tax_Report_${monthName}_${reportYear}.pdf`);
-}
+    // Make downloadReportPDF globally available
+    window.downloadReportPDF = downloadReportPDF;
 
-// Initialize
-updateDatesForMonth();
+    // Initialize
+    updateDatesForMonth();
+});
 </script>
 </body>
 </html>
