@@ -466,10 +466,12 @@ function getBackdatedOrdersForDelete($deleteMode, $deleteMonth, $deleteYear, $re
     return [$orders ?: [], $label];
 }
 
-function formatStayPeriod($checkin, $checkout)
+function formatStayPeriod($checkin, $checkout, $fallback = null)
 {
-    $checkinDate = !empty($checkin) ? date('d/m/Y', strtotime($checkin)) : 'N/A';
-    $checkoutDate = !empty($checkout) ? date('d/m/Y', strtotime($checkout)) : 'N/A';
+    $checkinValue = !empty($checkin) ? $checkin : $fallback;
+    $checkoutValue = !empty($checkout) ? $checkout : $fallback;
+    $checkinDate = !empty($checkinValue) ? date('d/m/Y', strtotime($checkinValue)) : 'N/A';
+    $checkoutDate = !empty($checkoutValue) ? date('d/m/Y', strtotime($checkoutValue)) : 'N/A';
 
     if ($checkinDate === 'N/A' && $checkoutDate === 'N/A') {
         return 'N/A';
@@ -964,9 +966,9 @@ function formatStayPeriod($checkin, $checkout)
                             <tbody>
                                 <?php foreach ($reportData['bookings'] as $booking): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($booking['reference']); ?></td>
+                                        <td><?php echo htmlspecialchars($booking['reference']); ?></td>null, $booking['checkout'] ?? null, $booking['order_date'] ?? null
                                         <td><?php echo htmlspecialchars($booking['customer']); ?></td>
-                                        <td><?php echo htmlspecialchars(formatStayPeriod($booking['checkin'] ?? $booking['order_date'], $booking['checkout'] ?? $booking['checkin'] ?? $booking['order_date'])); ?></td>
+                                        <td><?php echo htmlspecialchars(formatStayPeriod($booking['checkin'] ?? null, $booking['checkout'] ?? null, $booking['order_date'] ?? null)); ?></td>
                                         <td><?php echo htmlspecialchars($booking['payment_method']); ?></td>
                                         <td>GHS <?php echo number_format($booking['total'], 2); ?></td>
                                     </tr>
@@ -984,21 +986,23 @@ function formatStayPeriod($checkin, $checkout)
                         const reportMonth = <?php echo $reportData['month']; ?>;
                         const reportYear = <?php echo $reportData['year']; ?>;
 
-                        function formatStayPeriod(checkin, checkout) {
+                        function formatStayPeriod(checkin, checkout, fallback) {
                             const formatDate = (value) => {
                                 if (!value) {
-                                    return 'N/A';
+                                    return '';
                                 }
 
                                 const date = new Date(value);
                                 if (Number.isNaN(date.getTime())) {
-                                    return 'N/A';
+                                    return '';
                                 }
 
                                 return date.toLocaleDateString('en-GB');
                             };
 
-                            return `${formatDate(checkin)} - ${formatDate(checkout)}`;
+                            const start = formatDate(checkin) || formatDate(fallback) || 'N/A';
+                            const end = formatDate(checkout) || start;
+                            return `${start} - ${end}`;
                         }
                     </script>
                 <?php endif; ?>
@@ -1361,18 +1365,19 @@ function parseCSVText(text) {
         let day, month, year;
         if (parts.length === 3) {
             const [a, b, c] = parts.map(p => parseInt(p, 10));
-            // Assume dd/mm/yyyy unless second part > 12
-            if (a > 12 || (a <= 12 && b <= 12 && a >= b)) {
-                day = a; month = b; year = c;
-            } else {
+            // If first part > 12, definitely dd/mm. If second part > 12, definitely mm/dd.
+            // Otherwise, assume dd/mm for Ghana data (default)
+            if (b > 12) {
                 month = a; day = b; year = c;
+            } else {
+                day = a; month = b; year = c;
             }
         } else {
             const [a, b] = parts.map(p => parseInt(p, 10));
-            if (a > 12 || (a <= 12 && b <= 12 && a >= b)) {
-                day = a; month = b; year = fallbackYear;
-            } else {
+            if (b > 12) {
                 month = a; day = b; year = fallbackYear;
+            } else {
+                day = a; month = b; year = fallbackYear;
             }
         }
         if (!year || year < 100) year = 2000 + (year || 0);
@@ -1598,11 +1603,11 @@ function downloadReportPDF() {
     // Table
     currentY += 8;
     const head = [['Reference', 'Customer', 'Rooms', 'Stay Period', 'Total Amount', 'Payment Method', 'Order Date']];
-    const body = reportBookings.map(b => [
+    const body = reportBookings.map(b => [, b.order_date
         b.reference,
         b.customer,
         '1',
-        formatStayPeriod(b.checkin, b.checkout),
+        formatStayPeriod(b.checkin, b.checkout, b.order_date),
         formatCurrency(b.total),
         b.payment_method || 'N/A',
         b.order_date ? b.order_date.substring(0, 10) : 'N/A'
