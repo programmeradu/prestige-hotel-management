@@ -5,13 +5,27 @@
  * Generate official tax reports
  */
 
-// Load QloApps configuration
-define('_PS_ADMIN_DIR_', dirname(__FILE__));
-include(_PS_ADMIN_DIR_.'/../config/config.inc.php');
-include(_PS_ADMIN_DIR_.'/init.php');
+// Only load config in web context, not CLI
+if (php_sapi_name() !== 'cli') {
+    // Suppress all errors and exceptions during config loading
+    error_reporting(0);
+    ini_set('display_errors', '0');
+    set_error_handler(function() { return true; });
+    set_exception_handler(function() { return true; });
+    ob_start(); // Buffer any output
+    
+    // Load QloApps configuration
+    define('_PS_ADMIN_DIR_', dirname(__FILE__));
+    @include(_PS_ADMIN_DIR_.'/../config/config.inc.php');
+    @include(_PS_ADMIN_DIR_.'/init.php');
+    
+    ob_end_clean(); // Discard buffered error output
+    restore_error_handler();
+    restore_exception_handler();
+}
 
 // Security check - must be logged in as admin
-if (!Context::getContext()->employee || !Context::getContext()->employee->id) {
+if (!isset($context) || !Context::getContext()->employee || !Context::getContext()->employee->id) {
     header('Location: login.php');
     exit;
 }
@@ -26,48 +40,50 @@ $activeTab = 'manual';
 
 // Get existing customers for auto-complete (phone stored on address table in PS 1.6)
 $customers = [];
-try {
-    $result = Db::getInstance()->executeS('
-        SELECT 
-            c.id_customer, 
-            c.firstname, 
-            c.lastname, 
-            c.email, 
-            MAX(COALESCE(a.phone_mobile, a.phone)) AS phone
-        FROM '._DB_PREFIX_.'customer c 
-        LEFT JOIN '._DB_PREFIX_.'address a 
-            ON a.id_customer = c.id_customer 
-            AND a.deleted = 0
-        WHERE c.active = 1 
-          AND c.deleted = 0 
-        GROUP BY c.id_customer, c.firstname, c.lastname, c.email
-        ORDER BY c.lastname, c.firstname 
-        LIMIT 500
-    ');
-    if ($result !== false) {
-        $customers = $result;
+if (isset($context) && class_exists('Db')) {
+    try {
+        $result = Db::getInstance()->executeS('
+            SELECT 
+                c.id_customer, 
+                c.firstname, 
+                c.lastname, 
+                c.email, 
+                MAX(COALESCE(a.phone_mobile, a.phone)) AS phone
+            FROM '._DB_PREFIX_.'customer c 
+            LEFT JOIN '._DB_PREFIX_.'address a 
+                ON a.id_customer = c.id_customer 
+                AND a.deleted = 0
+            WHERE c.active = 1 
+              AND c.deleted = 0 
+            GROUP BY c.id_customer, c.firstname, c.lastname, c.email
+            ORDER BY c.lastname, c.firstname 
+            LIMIT 500
+        ');
+        if ($result !== false && is_array($result)) {
+            $customers = $result;
+        }
+    } catch (Exception $e) {
+        $customers = [];
     }
-} catch (Exception $e) {
-    // Database error - use empty array
-    $customers = [];
 }
 
 // Get available room types
 $roomTypes = [];
-try {
-    $result = Db::getInstance()->executeS('
-        SELECT p.id_product, pl.name, p.price 
-        FROM '._DB_PREFIX_.'product p 
-        JOIN '._DB_PREFIX_.'product_lang pl ON p.id_product = pl.id_product AND pl.id_lang = '.(int)$context->language->id.'
-        WHERE p.active = 1 
-        ORDER BY pl.name
-    ');
-    if ($result !== false) {
-        $roomTypes = $result;
+if (isset($context) && class_exists('Db')) {
+    try {
+        $result = Db::getInstance()->executeS('
+            SELECT p.id_product, pl.name, p.price 
+            FROM '._DB_PREFIX_.'product p 
+            JOIN '._DB_PREFIX_.'product_lang pl ON p.id_product = pl.id_product AND pl.id_lang = '.(int)$context->language->id.'
+            WHERE p.active = 1 
+            ORDER BY pl.name
+        ');
+        if ($result !== false && is_array($result)) {
+            $roomTypes = $result;
+        }
+    } catch (Exception $e) {
+        $roomTypes = [];
     }
-} catch (Exception $e) {
-    // Database error - use empty array
-    $roomTypes = [];
 }
 
 // Get payment methods
@@ -1127,6 +1143,15 @@ function formatStayPeriod($checkin, $checkout, $fallback = null)
     </div>
 
 <script>
+// Tab switching - define first to avoid undefined errors
+function showTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    
+    document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+}
+
 // Customer data from PHP
 const customers = <?php echo json_encode($customers); ?>;
 const roomTypes = <?php echo json_encode($roomTypes); ?>;
@@ -1140,15 +1165,6 @@ function findRoomTypeId(name) {
     const needle = name.toLowerCase();
     const match = roomTypes.find(r => r.name && r.name.toLowerCase().includes(needle));
     return match ? match.id_product : (roomTypes[0]?.id_product || null);
-}
-
-// Tab switching
-function showTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    
-    document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
-    document.getElementById(`tab-${tabName}`).classList.add('active');
 }
 
 // Customer autocomplete
@@ -1381,21 +1397,24 @@ function parseCSVText(text) {
         const parts = cleaned.split(/[\/\-]/).filter(Boolean);
         if (parts.length < 2) return '';
         let day, month, year;
+        
+        const p1 = parseInt(parts[0], 10);
+        const p2 = parseInt(parts[1], 10);
+        const p3 = parts[2] ? parseInt(parts[2], 10) : null;
+        
         if (parts.length === 3) {
-            const [a, b, c] = parts.map(p => parseInt(p, 10));
             // If first part > 12, definitely dd/mm. If second part > 12, definitely mm/dd.
             // Otherwise, assume dd/mm for Ghana data (default)
-            if (b > 12) {
-                month = a; day = b; year = c;
+            if (p2 > 12) {
+                month = p1; day = p2; year = p3;
             } else {
-                day = a; month = b; year = c;
+                day = p1; month = p2; year = p3;
             }
         } else {
-            const [a, b] = parts.map(p => parseInt(p, 10));
-            if (b > 12) {
-                month = a; day = b; year = fallbackYear;
+            if (p2 > 12) {
+                month = p1; day = p2; year = fallbackYear;
             } else {
-                day = a; month = b; year = fallbackYear;
+                day = p1; month = p2; year = fallbackYear;
             }
         }
         if (!year || year < 100) year = 2000 + (year || 0);
