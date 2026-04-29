@@ -983,6 +983,23 @@ function formatStayPeriod($checkin, $checkout)
                         const reportBookings = <?php echo json_encode($reportData['bookings']); ?>;
                         const reportMonth = <?php echo $reportData['month']; ?>;
                         const reportYear = <?php echo $reportData['year']; ?>;
+
+                        function formatStayPeriod(checkin, checkout) {
+                            const formatDate = (value) => {
+                                if (!value) {
+                                    return 'N/A';
+                                }
+
+                                const date = new Date(value);
+                                if (Number.isNaN(date.getTime())) {
+                                    return 'N/A';
+                                }
+
+                                return date.toLocaleDateString('en-GB');
+                            };
+
+                            return `${formatDate(checkin)} - ${formatDate(checkout)}`;
+                        }
                     </script>
                 <?php endif; ?>
             </div>
