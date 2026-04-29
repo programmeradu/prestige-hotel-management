@@ -25,32 +25,50 @@ $deletePreviewLabel = '';
 $activeTab = 'manual';
 
 // Get existing customers for auto-complete (phone stored on address table in PS 1.6)
-$customers = Db::getInstance()->executeS('
-    SELECT 
-        c.id_customer, 
-        c.firstname, 
-        c.lastname, 
-        c.email, 
-        MAX(COALESCE(a.phone_mobile, a.phone)) AS phone
-    FROM '._DB_PREFIX_.'customer c 
-    LEFT JOIN '._DB_PREFIX_.'address a 
-        ON a.id_customer = c.id_customer 
-        AND a.deleted = 0
-    WHERE c.active = 1 
-      AND c.deleted = 0 
-    GROUP BY c.id_customer, c.firstname, c.lastname, c.email
-    ORDER BY c.lastname, c.firstname 
-    LIMIT 500
-');
+$customers = [];
+try {
+    $result = Db::getInstance()->executeS('
+        SELECT 
+            c.id_customer, 
+            c.firstname, 
+            c.lastname, 
+            c.email, 
+            MAX(COALESCE(a.phone_mobile, a.phone)) AS phone
+        FROM '._DB_PREFIX_.'customer c 
+        LEFT JOIN '._DB_PREFIX_.'address a 
+            ON a.id_customer = c.id_customer 
+            AND a.deleted = 0
+        WHERE c.active = 1 
+          AND c.deleted = 0 
+        GROUP BY c.id_customer, c.firstname, c.lastname, c.email
+        ORDER BY c.lastname, c.firstname 
+        LIMIT 500
+    ');
+    if ($result !== false) {
+        $customers = $result;
+    }
+} catch (Exception $e) {
+    // Database error - use empty array
+    $customers = [];
+}
 
 // Get available room types
-$roomTypes = Db::getInstance()->executeS('
-    SELECT p.id_product, pl.name, p.price 
-    FROM '._DB_PREFIX_.'product p 
-    JOIN '._DB_PREFIX_.'product_lang pl ON p.id_product = pl.id_product AND pl.id_lang = '.(int)$context->language->id.'
-    WHERE p.active = 1 
-    ORDER BY pl.name
-');
+$roomTypes = [];
+try {
+    $result = Db::getInstance()->executeS('
+        SELECT p.id_product, pl.name, p.price 
+        FROM '._DB_PREFIX_.'product p 
+        JOIN '._DB_PREFIX_.'product_lang pl ON p.id_product = pl.id_product AND pl.id_lang = '.(int)$context->language->id.'
+        WHERE p.active = 1 
+        ORDER BY pl.name
+    ');
+    if ($result !== false) {
+        $roomTypes = $result;
+    }
+} catch (Exception $e) {
+    // Database error - use empty array
+    $roomTypes = [];
+}
 
 // Get payment methods
 $paymentMethods = ['Cash', 'Ghana Mobile Money', 'Bank Transfer', 'Card Payment'];
